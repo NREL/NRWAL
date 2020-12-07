@@ -1,0 +1,36 @@
+package:
+    name: nrel-nrwal
+    version: {{ environ.get('GIT_DESCRIBE_TAG','').replace('v', '', 1) }}
+
+source:
+    git_url: ../
+
+build:
+  number: 0
+  noarch: python
+  script: python setup.py install --single-version-externally-managed --record=record.txt
+
+requirements:
+  host:
+    - python
+    - pip
+    - setuptools
+    - click
+    - numpy>=1.16
+    - pandas
+    - psutil
+    - scipy
+  run:
+    - python
+    - pip
+    - click
+    - {{ pin_compatible('numpy') }}
+    - pandas
+    - psutil
+
+about:
+  home: "https://github.com/NREL/NRWAL"
+  license: BSD 3-Clause
+  summary: "National Renewable energy laboratory Wind Analysis Libray"
+  doc_url: "https://nrel.github.io/NRWAL"
+  dev_url: "https://github.com/NREL/NRWAL"
