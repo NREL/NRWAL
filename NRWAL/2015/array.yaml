@@ -1,0 +1,5 @@
+# TODO: Adjustment based on number of turbines
+fixed:
+  -34.80 * depth ** 2 + 207619.80 * depth + 221197699.89
+floating:
+  -36.56 * depth ** 2 + 218147.85 * depth + 241787966.27
