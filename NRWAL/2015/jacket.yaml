@@ -1,11 +1,20 @@
 foundation:
   (8 * (np.exp(3.7136 + 0.00176 * turbine_capacity ** 2.5 +
         0.645 * np.log(depth))) ** 0.5574) * pile_cost
+foundation_gt10MW:
+  (8 * (np.exp(3.7136 + 0.00176 * 10 ** 2.5 +
+        0.645 * np.log(depth))) ** 0.5574) * pile_cost
 lattice:
   (np.exp(3.7136 + 0.00176 * turbine_capacity ** 2.5 +
           0.645 * np.log(depth))) * lattice_cost
+lattice_gt10MW:
+  (np.exp(3.7136 + 0.00176 * 10 ** 2.5 +
+          0.645 * np.log(depth))) * lattice_cost
 transition_piece:
   (1 / (-0.0131 + 0.0381 / np.log(turbine_capacity) -
+        0.00000000227 * depth ** 3)) * jacket_tp_cost
+transition_piece_gt10MW:
+  (1 / (-0.0131 + 0.0381 / np.log(10) -
         0.00000000227 * depth ** 3)) * jacket_tp_cost
 install_3MW:
   (-22750257 + 
