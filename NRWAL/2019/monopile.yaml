@@ -1,0 +1,106 @@
+pslt_3MW:
+  (6419594.8 +
+  31552.59 * data.depth -
+  5364.44 * data.depth ** 2 +
+  188.73 * data.depth ** 3 -
+  2.27 * data.depth ** 4 +
+  0.00909 * data.depth ** 5 +
+  6621.57 * data.dist_p_to_s)
+pslt_6MW:
+  (7136675.4 -
+  21122.213 * data.depth +
+  1335.65 * data.dist_p_to_s +
+  449.09 * data.depth ** 2 +
+  0.0091 * data.dist_p_to_s ** 2 +
+  58.25 * data.depth * data.dist_p_to_s)
+pslt_10MW:
+  (7533930.2 -
+   116296.09 * data.depth +
+   1084.05 * data.depth ** 2 -
+   1.22 * data.depth ** 3 -
+   1425.02 * data.dist_p_to_s) / 
+  (1 -
+   0.0132 * data.depth +
+   0.0000883 * data.depth ** 2 -
+   0.000534 * data.dist_p_to_s +
+   0.000000238 * data.dist_p_to_s ** 2)
+pslt_12MW:
+  (7533930.2 -
+   116296.09 * data.depth +
+   1084.05 * data.depth ** 2 -
+   1.22 * data.depth ** 3 -
+   1425.02 * data.dist_p_to_s) / 
+  (1 -
+   0.0132 * data.depth +
+   0.0000883 * data.depth ** 2 -
+   0.000534 * data.dist_p_to_s +
+   0.000000238 * data.dist_p_to_s ** 2)
+pslt_15MW:
+  (7533930.2 -
+   116296.09 * data.depth +
+   1084.05 * data.depth ** 2 -
+   1.22 * data.depth ** 3 -
+   1425.02 * data.dist_p_to_s) / 
+  (1 -
+   0.0132 * data.depth +
+   0.0000883 * data.depth ** 2 -
+   0.000534 * data.dist_p_to_s +
+   0.000000238 * data.dist_p_to_s ** 2)
+install_3MW:
+  (86671670 -
+   3230771 * data.depth +
+   3918.025 * data.dist_p_to_s +
+   112669.8 * data.depth ** 2 +
+   0.00000002234 * data.dist_p_to_s ** 2 +
+   224.76 * data.depth * data.dist_p_to_s -
+   759.636 * data.depth ** 3 -
+   0.00000000002953 * data.dist_p_to_s ** 3 +
+   0.00000000006428 * data.depth * data.dist_p_to_s ** 2 +
+   22.861 * data.depth ** 2 * data.dist_p_to_s) * 0.01 * 
+  (np.exp(-0.21398756 +
+   0.0575015 * turbine_capacity +
+   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+install_6MW:
+  (88705573 -
+   2965980.2 * data.depth -
+   7813.16 * data.dist_p_to_s +
+   104665.31 * data.depth ** 2 +
+   0.00000149 * data.dist_p_to_s ** 2 +
+   660.84 * data.depth * data.dist_p_to_s -
+   706.95 * data.depth ** 3 -
+   0.00000000171 * data.dist_p_to_s ** 3 -
+   0.0000000000275 * data.depth * data.dist_p_to_s ** 2 +
+   19.44 * data.depth ** 2 * data.dist_p_to_s) * 0.01 * 
+  (np.exp(-0.21398756 +
+   0.0575015 * turbine_capacity +
+   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+install_10MW:
+  (176860000 -
+   2262000000. / data.depth +
+   257702.74 * data.dist_p_to_s +
+   12080700000. / data.depth ** 2 +
+   0.0000000181818 * data.dist_p_to_s ** 2 -
+   2558888.2 * (data.dist_p_to_s / data.depth)) * 0.01 * 
+  (np.exp(-0.21398756 +
+   0.0575015 * turbine_capacity +
+   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+install_12MW:
+  (176860000 -
+   2262000000. / data.depth +
+   257702.74 * data.dist_p_to_s +
+   12080700000. / data.depth ** 2 +
+   0.0000000181818 * data.dist_p_to_s ** 2 -
+   2558888.2 * (data.dist_p_to_s / data.depth)) * 0.01 * 
+  (np.exp(-0.21398756 +
+   0.0575015 * turbine_capacity +
+   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+install_15MW:
+  (176860000 -
+   2262000000. / data.depth +
+   257702.74 * data.dist_p_to_s +
+   12080700000. / data.depth ** 2 +
+   0.0000000181818 * data.dist_p_to_s ** 2 -
+   2558888.2 * (data.dist_p_to_s / data.depth)) * 0.01 * 
+  (np.exp(-0.21398756 +
+   0.0575015 * turbine_capacity +
+   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
