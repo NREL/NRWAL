@@ -11,7 +11,7 @@ transition_piece_gt10MW:
   np.exp(2.7718897 + 1.0367192 * 10 ** 0.5 +
          0.0012651901 * depth ** 1.5) * monopile_tp_cost
 pslt_3MW:
-  (6419594.8 +
+  0.01 * (6419594.8 +
   31552.59 * depth -
   5364.44 * depth ** 2 +
   188.73 * depth ** 3 -
@@ -19,14 +19,14 @@ pslt_3MW:
   0.00909 * depth ** 5 +
   6621.57 * dist_p_to_s)
 pslt_6MW:
-  (7136675.4 -
+  0.01 * (7136675.4 -
   21122.213 * depth +
   1335.65 * dist_p_to_s +
   449.09 * depth ** 2 +
   0.0091 * dist_p_to_s ** 2 +
   58.25 * depth * dist_p_to_s)
 pslt_10MW:
-  (7533930.2 -
+  0.01 * (7533930.2 -
    116296.09 * depth +
    1084.05 * depth ** 2 -
    1.22 * depth ** 3 -

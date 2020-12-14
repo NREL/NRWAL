@@ -1,5 +1,5 @@
 pslt_3MW:
-  (303605.89 +
+  0.01 * (303605.89 +
    743543.05 * log(depth) -
    2244.04 * dist_p_to_s -
    2.92 * dist_p_to_s ** 2) / 
@@ -9,7 +9,7 @@ pslt_3MW:
    0.0269 * log(depth) ** 3 -
    0.0003 * dist_p_to_s)
 pslt_6MW:
-  12285015 +
+  0.01 * (12285015 +
   77253.46 * depth +
   11413.55 * dist_p_to_s -
   739.597 * depth ** 2 -
@@ -18,9 +18,9 @@ pslt_6MW:
   2.776 * depth ** 3 +
   0.0003263 * dist_p_to_s ** 3 -
   0.0000000005601 * depth * dist_p_to_s ** 2 +
-  2.524 * depth ** 2 * dist_p_to_s
+  2.524 * depth ** 2 * dist_p_to_s)
 pslt_10MW:
-  21321746 -
+  0.01 * (21321746 -
   8043690.6 * log(depth) +
   106665.06 * dist_p_to_s +
   2496413.4 * log(depth) ** 2 -
@@ -29,9 +29,9 @@ pslt_10MW:
   219765.57 * log(depth) ** 3 +
   0.00033 * dist_p_to_s ** 3 -
   0.0000000265 * dist_p_to_s ** 2 * log(depth) +
-  7912.15 * dist_p_to_s * log(depth) ** 2
+  7912.15 * dist_p_to_s * log(depth) ** 2)
 pslt_12MW:
-  21321746 -
+  0.01 * (21321746 -
   8043690.6 * log(depth) +
   106665.06 * dist_p_to_s +
   2496413.4 * log(depth) ** 2 -
@@ -40,9 +40,9 @@ pslt_12MW:
   219765.57 * log(depth) ** 3 +
   0.00033 * dist_p_to_s ** 3 -
   0.0000000265 * dist_p_to_s ** 2 * log(depth) +
-  7912.15 * dist_p_to_s * log(depth) ** 2
+  7912.15 * dist_p_to_s * log(depth) ** 2)
 pslt_15MW:
-  21321746 -
+  0.01 * (21321746 -
   8043690.6 * log(depth) +
   106665.06 * dist_p_to_s +
   2496413.4 * log(depth) ** 2 -
@@ -51,7 +51,7 @@ pslt_15MW:
   219765.57 * log(depth) ** 3 +
   0.00033 * dist_p_to_s ** 3 -
   0.0000000265 * dist_p_to_s ** 2 * log(depth) +
-  7912.15 * dist_p_to_s * log(depth) ** 2
+  7912.15 * dist_p_to_s * log(depth) ** 2)
 install_3MW:
   (-22750257 + 
   20167344 * depth - 
