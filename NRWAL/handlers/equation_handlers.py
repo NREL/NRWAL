@@ -11,7 +11,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class CostEquation:
+class Equation:
     """Class to handle and evaluate a single wind cost equation string."""
 
     # illegal substrings that cannot be in cost equations
@@ -71,7 +71,7 @@ class EquationGroup:
         self._eqn_group = self._parse_eqn_group(eqn_group)
 
     def __getitem__(self, key):
-        """Retrieve a nested CostEquation or EquationGroup object from this
+        """Retrieve a nested Equation or EquationGroup object from this
         instance of an EquationGroup.
 
         Parameters
@@ -80,13 +80,13 @@ class EquationGroup:
             A key or set of keys (delimited by "::") to retrieve from this
             EquationGroup instance. For example, if this EquationGroup
             has an equation 'eqn1': 'm*x + b', the the input key could be:
-            'eqn1' to retrieve the CostEquation object that holds 'm*x + b'.
+            'eqn1' to retrieve the Equation object that holds 'm*x + b'.
             The input argument key can also be delimited like 'eqn_set_1::eqn1'
             to retrieve eqn1 nested in a sub EquationGroup object.
 
         Returns
         -------
-        out : CostEquation | EquationGroup
+        out : Equation | EquationGroup
             An object in this instance of EquationGroup keyed by the
             input argument key.
         """
@@ -99,7 +99,7 @@ class EquationGroup:
         keys = [str(k) for k in keys]
 
         eqns = self._eqn_group
-        for i, ikey in enumerate(keys):
+        for ikey in keys:
             if ikey in eqns:
                 eqns = eqns[ikey]
             else:
@@ -110,7 +110,6 @@ class EquationGroup:
                 raise KeyError(msg)
 
         return eqns
-
 
     def __repr__(self):
         return str(self._eqn_group)
@@ -165,7 +164,7 @@ class EquationGroup:
 
         for k, v in eqn_group.items():
             if isinstance(v, (str, int, float)):
-                eqn_group[k] = CostEquation(v)
+                eqn_group[k] = Equation(v)
 
             elif isinstance(v, dict):
                 eqn_group[k] = cls(v)
@@ -202,7 +201,7 @@ class EquationDirectory:
         self._eqns = self._parse_eqn_dir(eqn_dir)
 
     def __getitem__(self, key):
-        """Retrieve a nested CostEquation, EquationGroup, or EquationDirectory
+        """Retrieve a nested Equation, EquationGroup, or EquationDirectory
         object from this instance of an EquationDirectory.
 
         Parameters
@@ -214,11 +213,11 @@ class EquationDirectory:
             be 'eqns' or 'eqns.yaml' to retrieve the EquationGroup that holds
             eqns.yaml.  Alternatively, if eqns.yaml has an equation
             'eqn1': 'm*x + b', the the input key could be: 'eqns::eqn1' to
-            retrieve the CostEquation object that holds 'm*x + b'
+            retrieve the Equation object that holds 'm*x + b'
 
         Returns
         -------
-        out : CostEquation | EquationGroup | EquationDirectory
+        out : Equation | EquationGroup | EquationDirectory
             An object in this instance of EquationDirectory keyed by the
             input argument key.
         """
@@ -233,7 +232,7 @@ class EquationDirectory:
                 for k in keys]
 
         eqns = self._eqns
-        for i, ikey in enumerate(keys):
+        for ikey in keys:
             if ikey in eqns:
                 eqns = eqns[ikey]
             else:
@@ -269,16 +268,23 @@ class EquationDirectory:
         eqns : dict
             Heirarchy of all sub directories and equations in the input
             eqn_dir organized into EquationGroup objects for the equation
-            files and CostEquation objects for the single equations in each
-            equation file.
+            files and Equation objects for the single equations in each
+            equation file. Will also contain nested EquationDirectory objects
+            for nested sub directories
         """
 
         eqns = {}
         for name in os.listdir(eqn_dir):
             path = os.path.join(eqn_dir, name)
-            if os.path.isdir(path):
-                eqns[name] = cls._parse_eqn_dir(path)
-            elif name.endswith(('.json', '.yml', '.yaml')):
+            type_check = name.endswith(('.json', '.yml', '.yaml'))
+            ignore_check = name.startswith(('.', '__'))
+
+            if os.path.isdir(path) and not ignore_check:
+                obj = cls(path)
+                if any(obj.keys()):
+                    eqns[name] = obj
+
+            elif type_check and not ignore_check:
                 key = os.path.splitext(name)[0]
                 try:
                     eqns[key] = EquationGroup(path)
@@ -294,21 +300,3 @@ class EquationDirectory:
     def keys(self):
         """Get the 1st level of equation keys, same as dict.keys()"""
         return self._eqns.keys()
-
-
-if __name__ == '__main__':
-    cwd = os.getcwd()
-#    try:
-#        obj = EquationDirectory(cwd)
-#    except RuntimeError as e:
-#        assert '.pre-commit-config.yaml' in str(e)
-
-    obj = EquationDirectory('./NRWAL/')
-    print(obj)
-    print()
-    x = obj['2019']
-    print(x)
-    print()
-    print(obj['2019::export'])
-    print()
-    print(obj['2019::export::fixed'])

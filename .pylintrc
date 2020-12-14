@@ -55,6 +55,7 @@ confidence=
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
 disable=
+		W0123,
         # Defaults
         print-statement,
         parameter-unpacking,
