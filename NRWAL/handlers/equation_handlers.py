@@ -34,17 +34,17 @@ class Equation:
     def _preflight(self):
         """Run preflight checks on the equation string."""
         for substr in self.ILLEGAL:
-            if substr in self._eqn_str:
+            if substr in str(self._eqn_str):
                 msg = ('Will not evaluate string which contains "{}": {}'
                        .format(substr, self._eqn_str))
                 logger.error(msg)
                 raise ValueError(msg)
 
     def __repr__(self):
-        return self._eqn_str
+        return str(self._eqn_str)
 
     def __str__(self):
-        return self._eqn_str
+        return str(self._eqn_str)
 
     def __contains__(self, arg):
         return arg in self._eqn_str
@@ -68,6 +68,10 @@ class EquationGroup:
             equation strings OR a pre-extracted dictionary from a yaml or
             json file with equation strings as values.
         """
+        self._base_name = None
+        if isinstance(eqn_group, str):
+            self._base_name = os.path.basename(eqn_group)
+
         self._eqn_group = self._parse_eqn_group(eqn_group)
 
     def __getitem__(self, key):
@@ -112,10 +116,23 @@ class EquationGroup:
         return eqns
 
     def __repr__(self):
-        return str(self._eqn_group)
+        return str(self)
 
     def __str__(self):
-        return str(self._eqn_group)
+        s = ['EquationGroup object with heirarchy:']
+        if self._base_name is not None:
+            s = ['EquationGroup object from file "{}" with heirarchy:'
+                 .format(self._base_name)]
+
+        for k, v in self.items():
+            s.append(str(k))
+            if isinstance(v, Equation):
+                str_eq = str(v) if len(str(v)) < 50 else str(v)[:50] + '...'
+                s.append('\t' + str_eq)
+            else:
+                s += ['\t' + x for x in str(v).split('\n')[1:]]
+
+        return '\n'.join(s)
 
     def __contains__(self, arg):
         return arg in self.keys()
@@ -182,6 +199,15 @@ class EquationGroup:
         """Get the 1st level of equation group keys, same as dict.keys()"""
         return self._eqn_group.keys()
 
+    def items(self):
+        """Get the 1st level of equation (keys, values), same as dict.items().
+        """
+        return self._eqn_group.items()
+
+    def values(self):
+        """Get the 1st level of equation values, same as dict.values()"""
+        return self._eqn_group.values()
+
 
 class EquationDirectory:
     """Class to handle a directory with one or more equation files or
@@ -197,7 +223,7 @@ class EquationDirectory:
             a directory containing subdirectories with one or more equation
             files.
         """
-
+        self._base_name = os.path.basename(os.path.abspath(eqn_dir))
         self._eqns = self._parse_eqn_dir(eqn_dir)
 
     def __getitem__(self, key):
@@ -248,7 +274,14 @@ class EquationDirectory:
         return str(self._eqns)
 
     def __str__(self):
-        return str(self._eqns)
+        s = ['EquationDirectory object from base directory "{}" '
+             'with heirarchy:'.format(self._base_name)]
+
+        for v in self.values():
+            s.append(v._base_name)
+            s += ['\t' + x for x in str(v).split('\n')[1:]]
+
+        return '\n'.join(s)
 
     def __contains__(self, arg):
         return arg in self.keys()
@@ -300,3 +333,12 @@ class EquationDirectory:
     def keys(self):
         """Get the 1st level of equation keys, same as dict.keys()"""
         return self._eqns.keys()
+
+    def items(self):
+        """Get the 1st level of equation (keys, values), same as dict.items().
+        """
+        return self._eqns.items()
+
+    def values(self):
+        """Get the 1st level of equation values, same as dict.values()"""
+        return self._eqns.values()

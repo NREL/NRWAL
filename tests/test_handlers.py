@@ -76,3 +76,22 @@ def test_eqn_group():
     assert isinstance(obj['fixed'], Equation)
     with pytest.raises(KeyError):
         obj['bad']  # pylint: disable=W0104
+
+
+def test_print_eqn_group():
+    """Test the pretty printing of the EquationGroup heirarchy"""
+    fp = os.path.join(GOOD_DIR, 'subdir/jacket.yaml')
+    obj = EquationGroup(fp)
+    assert len(str(obj).split('\n')) == 19
+
+
+def test_print_eqn_dir():
+    """Test the pretty printing of the EquationDirectory heirarchy"""
+    obj = EquationDirectory(GOOD_DIR)
+    assert len(str(obj).split('\n')) == 37
+
+
+if __name__ == '__main__':
+    fp = os.path.join(GOOD_DIR, 'subdir/jacket.yaml')
+    obj = EquationGroup(fp)
+    print(obj)

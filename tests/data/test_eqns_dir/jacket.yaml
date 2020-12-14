@@ -1,12 +1,12 @@
 lattice:
   (np.exp(3.7136 + 0.00176 * turbine_capacity ** 2.5 +
-          0.645 * np.log(depth))) * cost_factors["lattice_cost"]
+          0.645 * np.log(depth))) * lattice_cost
 transition_piece:
   (1 / (-0.0131 + 0.0381 / np.log(turbine_capacity) -
-        0.00000000227 * depth ** 3)) * cost_factors["jacket_tp_cost"]
+        0.00000000227 * depth ** 3)) * jacket_tp_cost
 outfitting_4MW:
-  (35 + (0.8 * (18 + depth))) * cost_factors["outfitting_cost"]
+  (35 + (0.8 * (18 + depth))) * outfitting_cost
 outfitting_8MW:
-  (40 + (0.8 * (18 + depth))) * cost_factors["outfitting_cost"]
+  (40 + (0.8 * (18 + depth))) * outfitting_cost
 outfitting_10MW:
-  (50 + (0.8 * (18 + depth))) * cost_factors["outfitting_cost"]
+  (50 + (0.8 * (18 + depth))) * outfitting_cost
