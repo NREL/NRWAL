@@ -32,6 +32,7 @@ class Equation:
             Optional equation name / key for string formatting
         """
 
+        self._str = None
         self._global_variables = {}
         self._base_name = name
         self._eqn = str(eqn)
@@ -54,26 +55,170 @@ class Equation:
             assert isinstance(k, str)
             assert isinstance(v, (int, float, np.ndarray, list, tuple))
 
+    def __eqn_math(self, other, operator):
+        """Perform arithmetic with this instance of Equation (self) and an
+        input "other" Equation and return a new Equation object that evaluates
+        the arithmetic operation of the two equations
+
+        Parameters
+        ----------
+        other : Equation | str | int | float
+            Another Equation object or simple string representation of an
+            equation
+        operator : str
+            An arithmetic operator in a python string such as: + - / * ** %
+
+        Returns
+        -------
+        out : Equation
+            A new Equation instance with this instance of Equation (self)
+            operated on by the input Equation.
+        """
+
+        cls = self.__class__
+        if not isinstance(other, Equation):
+            other = cls(other)
+
+        new_eqn = '({}) {} ({})'.format(self._eqn, operator, other._eqn)
+        new_str = '{} {} {}'.format(self, operator, other)
+        out = cls(new_eqn)
+        out._str = new_str
+        return out
+
+    def __add__(self, other):
+        """Add another equation to this instance of Equation (self) and return
+        a new Equation object that evaluates the sum of the two equations
+
+        Parameters
+        ----------
+        other : Equation | str | int | float
+            Another Equation object or simple string representation of an
+            equation to add to this instance of Equation (self).
+
+        Returns
+        -------
+        out : Equation
+            A new Equation instance with this instance of Equation (self)
+            summed with the input Equation.
+        """
+        return self.__eqn_math(other, '+')
+
+    def __sub__(self, other):
+        """Subtract another equation from this instance of Equation (self) and
+        return a new Equation object that evaluates the difference of the two
+        equations
+
+        Parameters
+        ----------
+        other : Equation | str | int | float
+            Another Equation object or simple string representation of an
+            equation to subtract from this instance of Equation (self).
+
+        Returns
+        -------
+        out : Equation
+            A new Equation instance with this instance of Equation (self)
+            subtracted by the input Equation.
+        """
+        return self.__eqn_math(other, '-')
+
+    def __mul__(self, other):
+        """Multiply another equation by this instance of Equation (self) and
+        return a new Equation object that evaluates the product of the two
+        equations
+
+        Parameters
+        ----------
+        other : Equation | str | int | float
+            Another Equation object or simple string representation of an
+            equation to multiply by this instance of Equation (self).
+
+        Returns
+        -------
+        out : Equation
+            A new Equation instance with this instance of Equation (self)
+            multiplied by the input Equation.
+        """
+        return self.__eqn_math(other, '*')
+
+    def __pow__(self, other):
+        """Raise this instance of Equation (self) by the output of another
+        equation and return a new Equation object that evaluates this power
+        function
+
+        Parameters
+        ----------
+        other : Equation | str | int | float
+            Another Equation object or simple string representation of an
+            equation to raise this instance of Equation (self) to the power of.
+
+        Returns
+        -------
+        out : Equation
+            A new Equation instance with this instance of Equation (self)
+            raise to the power of the output of the input Equation.
+        """
+        return self.__eqn_math(other, '**')
+
+    def __div__(self, other):
+        """Divide this instance of Equation (self) by another Equation and
+        return a new Equation object that evaluates the division of the two
+        equations.
+
+        Parameters
+        ----------
+        other : Equation | str | int | float
+            Another Equation object or simple string representation of an
+            equation to divide this instance of Equation (self) by.
+
+        Returns
+        -------
+        out : Equation
+            A new Equation instance with this instance of Equation (self)
+            divided by the input Equation.
+        """
+        return self.__eqn_math(other, '/')
+
+    def __truediv__(self, other):
+        """Divide this instance of Equation (self) by another Equation and
+        return a new Equation object that evaluates the division of the two
+        equations.
+
+        Parameters
+        ----------
+        other : Equation | str | int | float
+            Another Equation object or simple string representation of an
+            equation to divide this instance of Equation (self) by.
+
+        Returns
+        -------
+        out : Equation
+            A new Equation instance with this instance of Equation (self)
+            divided by the input Equation.
+        """
+        return self.__eqn_math(other, '/')
+
     def __repr__(self):
         return str(self._eqn)
 
     def __str__(self):
-        vars_str = [v for v in self.vars if v not in self.global_variables]
-        vars_str = str(vars_str).replace('[', '').replace(']', '')\
-            .replace("'", '').replace('"', '')
+        if self._str is None:
+            vars_str = [v for v in self.vars if v not in self.global_variables]
+            vars_str = str(vars_str).replace('[', '').replace(']', '')\
+                .replace("'", '').replace('"', '')
 
-        gvars_str = [v for v in self.vars if v in self.global_variables]
-        for gvar in gvars_str:
-            base_str = ', ' if bool(vars_str) else ''
-            kw_str = '{}={}'.format(gvar, self.global_variables[gvar])
-            vars_str += base_str + kw_str
+            gvars_str = [v for v in self.vars if v in self.global_variables]
+            for gvar in gvars_str:
+                base_str = ', ' if bool(vars_str) else ''
+                kw_str = '{}={}'.format(gvar, self.global_variables[gvar])
+                vars_str += base_str + kw_str
 
-        if self._base_name is None:
-            s = 'Equation({})'.format(vars_str)
-        else:
-            s = '{}({})'.format(self._base_name, vars_str)
+            if self._base_name is None:
+                self._str = 'Equation({})'.format(vars_str)
+            else:
+                self._str = '{}({})'.format(self._base_name, vars_str)
 
-        return s
+        return self._str
 
     def __contains__(self, arg):
         return arg in self._eqn
@@ -177,6 +322,10 @@ class Equation:
                      and not self.is_method(sub)]
         var_names = list(set(var_names))
         return var_names
+
+    def eval(self, **kwargs):
+        """Abbreviated alias for evaluate()."""
+        return self.evaluate(**kwargs)
 
     def evaluate(self, **kwargs):
         """Evaluate the equation string and return the result
