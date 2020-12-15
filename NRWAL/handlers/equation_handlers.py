@@ -547,12 +547,17 @@ class EquationDirectory:
         return str(self._eqns)
 
     def __str__(self):
-        s = ['EquationDirectory object from base directory "{}" '
+        s = ['EquationDirectory object from root directory "{}" '
              'with heirarchy:'.format(self._base_name)]
 
-        for v in self.values():
-            s.append(v._base_name)
-            s += ['\t' + x for x in str(v).split('\n')[1:]]
+        var_groups = [v for v in self.values() if isinstance(v, VariableGroup)]
+        eqn_groups = [v for v in self.values() if isinstance(v, EquationGroup)]
+        dirs = [v for v in self.values() if isinstance(v, EquationDirectory)]
+
+        for group in (var_groups, eqn_groups, dirs):
+            for v in group:
+                s.append(v._base_name)
+                s += ['\t' + x for x in str(v).split('\n')[1:]]
 
         return '\n'.join(s)
 
