@@ -1,0 +1,71 @@
+jacket_3MW:
+  (30984338 -
+  38408.91 * depth +
+  65673.58 * dist_p_to_s +
+  12443.63 * depth ** 2 -
+  0.00000004126 * dist_p_to_s ** 2 -
+  1485.1 * depth * dist_p_to_s -
+  93.77 * depth ** 3 +
+  0.0000000000684 * dist_p_to_s ** 3 -
+  0.00000000022 * depth * dist_p_to_s ** 2 +
+  9.34 * depth ** 2 * dist_p_to_s) * 0.01 *
+  (0.071622 * turbine_capacity + 0.77973) / (1 - fixed_downtime)
+jacket_6MW:
+  (-17171241 +
+  18311725 * depth -
+  12467174 * depth * np.log(depth) +
+  5716767.1 * depth ** 1.5 -
+  172158.57 * depth ** 2 +
+  15945.5 * dist_p_to_s) * 0.01 *
+  (0.071622 * turbine_capacity + 0.77973) / (1 - fixed_downtime)
+jacket_10MW:
+  (37087901 +
+  3946015.4 * depth -
+  199518.19 * depth ** 2 +
+  4191.85 * depth ** 3 -
+  37.02 * depth ** 4 +
+  0.116 * depth ** 5 +
+  26874.25 * dist_p_to_s) * 0.01 *
+  (0.071622 * turbine_capacity + 0.77973) / (1 - fixed_downtime)
+monopile_3MW:
+  (31368338 -
+  89168.8 * depth +
+  65673.6 * dist_p_to_s +
+  13556.9 * depth ** 2 -
+  0.00000004126 * dist_p_to_s ** 2 -
+  1485.1 * depth * dist_p_to_s -
+  100.29 * depth ** 3 +
+  0.00000000006838 * dist_p_to_s ** 3 +
+  0.0000000002204 * depth * dist_p_to_s ** 2 +
+  9.343 * depth ** 2 * dist_p_to_s) * 0.01 *
+  (0.071622 * turbine_capacity + 0.77973) / (1 - fixed_downtime)
+monopile_6MW:
+  (15687102 +
+  2685413.7 * depth -
+  149549.47 * depth ** 2 +
+  3473.71 * depth ** 3 -
+  34.12 * depth ** 4 +
+  0.12 * depth ** 5 +
+  3133852.7 * np.log(dist_p_to_s)) * 0.01 *
+  (0.071622 * turbine_capacity + 0.77973) / (1 - fixed_downtime)
+monopile_10MW:
+  (57108119 +
+  1166745.7 * depth -
+  58333.39 * depth ** 2 +
+  1217.1 * depth ** 3 -
+  10.57 * depth ** 4 +
+  0.03233 * depth ** 5 +
+  24986.8 * dist_p_to_s) * 0.01 *
+  (0.071622 * turbine_capacity + 0.77973) / (1 - fixed_downtime)
+semi_3MW:
+  48170500 + 95833.33 * dist_p_to_s_nolimit * 0.01 / (1 - floating_downtime)
+semi_6MW:
+  48170500 + 95833.33 * dist_p_to_s_nolimit * 0.01 / (1 - floating_downtime)
+semi_10MW:
+  59608000 + 120833.33 * dist_p_to_s_nolimit * 0.01 / (1 - floating_downtime)
+spar_3MW:
+  (139900000 + 19972.11 * dist_p_to_a + 270416.97 * dist_a_to_s) * 0.01 / (1 - floating_downtime)
+spar_6MW:
+  (149900000 + 41598.14 * dist_p_to_a + 245416.67 * dist_a_to_s) * 0.01 / (1 - floating_downtime)
+spar_10MW:
+  (174700000 + 73499.18 * dist_p_to_a + 290416.67 * dist_a_to_s) * 0.01 / (1 - floating_downtime)

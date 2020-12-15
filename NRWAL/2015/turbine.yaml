@@ -1,0 +1,18 @@
+rna:
+  (0.0004 * turbine_capacity ** 2 +
+   0.0445 * turbine_capacity + 0.7174) * turbine_capacity * 1000 * 1583 * 0.86
+horiz_spar_rna:
+  (0.0004 * turbine_capacity ** 2 +
+   0.0445 * turbine_capacity + 0.7174) * turbine_capacity * 1000 * 1583 * 0.86 * hz_turbine_factor
+jacket_tower:
+  np.exp(7.2823 - 8.474 / turbine_capacity - 0.00000064718 * (depth ** 3)) *
+  tower_cost
+monopile_tower:
+  (1 / (0.000182 + 0.0179 / turbine_capacity - 0.000003322 * depth *
+   np.log(depth))) * tower_cost
+spar_tower:
+  (259108.395067 * np.exp(0.259159 * turbine_capacity))
+horiz_spar_tower:
+  (259108.395067 * np.exp(0.259159 * turbine_capacity)) * hz_turbine_factor
+semi_tower:
+  (259108.395067 * np.exp(0.259159 * turbine_capacity)
