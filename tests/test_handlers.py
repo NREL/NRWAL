@@ -209,19 +209,19 @@ def test_eqn_math(operator):
 
     if operator == '+':
         eqn3 = eqn1 + eqn2
-        eqn4 = eqn1 + 100
+        eqn4 = eqn1 + 3
     elif operator == '-':
         eqn3 = eqn1 - eqn2
-        eqn4 = eqn1 - 100
+        eqn4 = eqn1 - 3
     elif operator == '*':
         eqn3 = eqn1 * eqn2
-        eqn4 = eqn1 * 100
+        eqn4 = eqn1 * 3
     elif operator == '**':
         eqn3 = eqn1 ** eqn2
-        eqn4 = eqn1 ** 100
+        eqn4 = eqn1 ** 3
     elif operator == '/':
         eqn3 = eqn1 / eqn2
-        eqn4 = eqn1 / 100
+        eqn4 = eqn1 / 3
 
     assert str(eqn1) in str(eqn3)
     assert str(eqn2) in str(eqn3)
@@ -229,11 +229,11 @@ def test_eqn_math(operator):
     assert eqn2.full in eqn3.full
     assert str(eqn1) in str(eqn4)
     assert eqn1.full in eqn4.full
-    assert '{} (100)'.format(operator) in eqn4.full
+    assert '{} (3)'.format(operator) in eqn4.full
 
-    args1 = {k: 10 for k in eqn1.vars}
-    args2 = {k: 10 for k in eqn2.vars}
-    args3 = {k: 10 for k in eqn3.vars}
+    args1 = {k: 2 for k in eqn1.vars}
+    args2 = {k: 2 for k in eqn2.vars}
+    args3 = {k: 2 for k in eqn3.vars}
     assert set(eqn1.vars + eqn2.vars) == set(eqn3.vars)
     assert eqn1.vars == eqn4.vars
 
@@ -246,19 +246,19 @@ def assert_eqn_eval_math(eqn1, eqn2, eqn3, eqn4, args1, args2, args3,
     arithmetic operators"""
     if operator == '+':
         assert eqn1.eval(**args1) + eqn2.eval(**args2) == eqn3.eval(**args3)
-        assert eqn1.eval(**args1) + 100 == eqn4.eval(**args1)
+        assert eqn1.eval(**args1) + 3 == eqn4.eval(**args1)
     elif operator == '-':
         assert eqn1.eval(**args1) - eqn2.eval(**args2) == eqn3.eval(**args3)
-        assert eqn1.eval(**args1) - 100 == eqn4.eval(**args1)
+        assert eqn1.eval(**args1) - 3 == eqn4.eval(**args1)
     elif operator == '*':
         assert eqn1.eval(**args1) * eqn2.eval(**args2) == eqn3.eval(**args3)
-        assert eqn1.eval(**args1) * 100 == eqn4.eval(**args1)
+        assert eqn1.eval(**args1) * 3 == eqn4.eval(**args1)
     elif operator == '**':
         assert eqn1.eval(**args1) ** eqn2.eval(**args2) == eqn3.eval(**args3)
-        assert eqn1.eval(**args1) ** 100 == eqn4.eval(**args1)
+        assert eqn1.eval(**args1) ** 3 == eqn4.eval(**args1)
     elif operator == '/':
         assert eqn1.eval(**args1) / eqn2.eval(**args2) == eqn3.eval(**args3)
-        assert eqn1.eval(**args1) / 100 == eqn4.eval(**args1)
+        assert eqn1.eval(**args1) / 3 == eqn4.eval(**args1)
 
 
 def test_eqn_group_add():
