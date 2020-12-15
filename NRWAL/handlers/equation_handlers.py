@@ -80,7 +80,7 @@ class Equation:
             other = cls(other)
 
         new_eqn = '({}) {} ({})'.format(self._eqn, operator, other._eqn)
-        new_str = '{} {} {}'.format(self, operator, other)
+        new_str = '({} {} {})'.format(self, operator, other)
         out = cls(new_eqn)
         out._str = new_str
         return out
@@ -199,24 +199,30 @@ class Equation:
         return self.__eqn_math(other, '/')
 
     def __repr__(self):
-        return str(self._eqn)
+        return str(self)
 
     def __str__(self):
         if self._str is None:
-            vars_str = [v for v in self.vars if v not in self.global_variables]
-            vars_str = str(vars_str).replace('[', '').replace(']', '')\
-                .replace("'", '').replace('"', '')
+            if self.is_num(self._eqn) and not any(self.vars):
+                self._str = str(self._eqn)
 
-            gvars_str = [v for v in self.vars if v in self.global_variables]
-            for gvar in gvars_str:
-                base_str = ', ' if bool(vars_str) else ''
-                kw_str = '{}={}'.format(gvar, self.global_variables[gvar])
-                vars_str += base_str + kw_str
-
-            if self._base_name is None:
-                self._str = 'Equation({})'.format(vars_str)
             else:
-                self._str = '{}({})'.format(self._base_name, vars_str)
+                vars_str = [v for v in self.vars
+                            if v not in self.global_variables]
+                vars_str = str(vars_str).replace('[', '').replace(']', '')\
+                    .replace("'", '').replace('"', '')
+
+                gvars_str = [v for v in self.vars
+                             if v in self.global_variables]
+                for gvar in gvars_str:
+                    base_str = ', ' if bool(vars_str) else ''
+                    kw_str = '{}={}'.format(gvar, self.global_variables[gvar])
+                    vars_str += base_str + kw_str
+
+                if self._base_name is None:
+                    self._str = 'Equation({})'.format(vars_str)
+                else:
+                    self._str = '{}({})'.format(self._base_name, vars_str)
 
         return self._str
 
@@ -320,7 +326,7 @@ class Equation:
                      if sub
                      and not self.is_num(sub)
                      and not self.is_method(sub)]
-        var_names = list(set(var_names))
+        var_names = sorted(list(set(var_names)))
         return var_names
 
     def eval(self, **kwargs):
@@ -358,7 +364,7 @@ class AbstractGroup(ABC):
     yaml or json file.
     """
 
-    def __init__(self, group):
+    def __init__(self, group, interp_extrap=False, use_nearest=False):
         """
         Parameters
         ----------
@@ -366,13 +372,28 @@ class AbstractGroup(ABC):
             String filepath to a yaml or json file containing one or more
             equation strings OR a pre-extracted dictionary from a yaml or
             json file with equation strings as values.
+        interp_extrap : bool
+            Flag to interpolate and extrapolate power (MW) dependent equations
+            based on the case-insensitive regex pattern: "_[0-9]*MW$"
+            This takes preference over the use_nearest flag.
+            If both interp_extrap & use_nearest are False, a KeyError will
+            be raised if the exact equation name request is not found.
+        use_nearest : bool
+            Flag to use the nearest valid power (MW) dependent equation
+            based on the case-insensitive regex pattern: "_[0-9]*MW$"
+            This is second priority to the interp_extrap flag.
+            If both interp_extrap & use_nearest are False, a KeyError will
+            be raised if the exact equation name request is not found.
         """
+
         self._base_name = None
         if isinstance(group, str):
             self._base_name = os.path.basename(group)
 
-        self._group = self._parse_group(group)
         self._global_variables = {}
+        self._interp_extrap = interp_extrap
+        self._use_nearest = use_nearest
+        self._group = self._parse_group(group)
 
     def __add__(self, other):
         """Add another equation group to this instance of EquationGroup (self)
@@ -398,7 +419,8 @@ class AbstractGroup(ABC):
         """
         cls = self.__class__
         if isinstance(other, (str, dict)):
-            other = cls(other)
+            other = cls(other, interp_extrap=self._interp_extrap,
+                        use_nearest=self._use_nearest)
 
         out = copy.deepcopy(self)
         out._group.update(other._group)
@@ -435,23 +457,116 @@ class AbstractGroup(ABC):
         else:
             keys = [key]
 
+        nearest_eqns = []
+        nearest_powers = []
         keys = [str(k) for k in keys]
 
-        eqns = self._group
-        for ikey in keys:
-            if ikey in eqns:
-                eqns = eqns[ikey]
+        out = self._group
+        for i, ikey in enumerate(keys):
+
+            if self._interp_extrap or self._use_nearest and i == len(keys) - 1:
+                nearest_eqns, nearest_powers = self.find_nearest_eqns(ikey)
+
+            if ikey in out:
+                out = out[ikey]
+            elif len(nearest_eqns) > 1 and self._interp_extrap:
+                x2 = self._parse_power(ikey)[0]
+                x1, x3 = nearest_powers[0:2]
+                y1, y3 = nearest_eqns[0:2]
+                out = (y3 - y1) * (x2 - x1) / (x3 - x1) + y1
+            elif any(nearest_eqns) and self._use_nearest:
+                out = nearest_eqns[0]
             else:
                 msg = ('Could not retrieve equation key "{}", '
                        'could not find "{}" in last available keys: {}'
-                       .format(key, ikey, list(eqns.keys())))
+                       .format(key, ikey, list(out.keys())))
                 logger.error(msg)
                 raise KeyError(msg)
 
-        return eqns
+        return out
 
     def __contains__(self, arg):
         return arg in self.keys()
+
+    @staticmethod
+    def _parse_power(key):
+        """Parse the integer power from an equation key
+
+        Parameters
+        ----------
+        key : str
+            A key to retrieve an equation from this EquationGroup. Should
+            contain the case-insensitive regex pattern "_[0-9]*MW$". Otherwise,
+            None will be returned.
+
+        Returns
+        -------
+        power : float | None
+            The numeric power value in key in the regex pattern "_[0-9]*MW$".
+            If the pattern is not found, None is returned
+        base_str : str
+            Key with the regex pattern stripped out.
+        """
+
+        base_str = key
+        power = re.search('_[0-9]*MW$', key, flags=re.IGNORECASE)
+        if power is not None:
+            base_str = key.replace(power.group(0), '')
+            power = float(power.group(0).upper().replace('MW', '').lstrip('_'))
+
+        return power, base_str
+
+    def find_nearest_eqns(self, request):
+        """Find power-based (MW) equations in this EquationGroup that match
+        the request (by regex pattern "_[0-9]*MW$") and sort them by
+        difference in equation power.
+
+        For example, if the request is "eqn_a_7MW" and there are "eqn_a_4MW",
+        "eqn_a_6MW", and "eqn_a_10MW" in this group, this method will return
+        [eqn_a_6MW, eqn_a_10MW, eqn_a_4MW], [6, 10, 4]
+
+        Parameters
+        ----------
+        request : str
+            A key to retrieve an equation from this EquationGroup. Should
+            contain the case-insensitive regex pattern "_[0-9]*MW$". Otherwise,
+            empty lists will be returned.
+
+        Returns
+        -------
+        eqns : list
+            List of Equation objects that match the request key and are sorted
+            by difference in the _*MW specification to the input request key.
+            If the request key does not have the _*MW specification or if no
+            other keys in this EquationGroup match the request then this will
+            return an empty list.
+        eqn_powers : list
+            List of float power MW values corresponding to eqns and sorted
+            by difference in the _*MW specification to the input request key.
+            If the request key does not have the _*MW specification or if no
+            other keys in this EquationGroup match the request then this will
+            return an empty list.
+        """
+
+        eqn_keys = []
+        eqn_powers = []
+        req_mw, base_str = self._parse_power(request)
+        if req_mw:
+            for key in self.keys():
+                match_mw, match_base = self._parse_power(key)
+                if match_mw and base_str == match_base:
+                    eqn_keys.append(key)
+                    eqn_powers.append(match_mw)
+
+            if any(eqn_keys):
+                eqn_pow_diffs = np.abs(req_mw - np.array(eqn_powers))
+                indices = np.argsort(eqn_pow_diffs)
+                eqn_keys = list(np.array(eqn_keys)[indices])
+                eqn_powers = list(np.array(eqn_powers)[indices])
+
+        eqns = [self._group[k] for k in eqn_keys]
+
+        return eqns, eqn_powers
 
     @classmethod
     def _parse_group(cls, group):
@@ -654,7 +769,7 @@ class EquationDirectory:
     a directory containing subdirectories with one or more equation files.
     """
 
-    def __init__(self, eqn_dir):
+    def __init__(self, eqn_dir, interp_extrap=False, use_nearest=False):
         """
         Parameters
         ----------
@@ -662,10 +777,26 @@ class EquationDirectory:
             Path to a directory with one or more equation files or a path to
             a directory containing subdirectories with one or more equation
             files.
+        interp_extrap : bool
+            Flag to interpolate and extrapolate power (MW) dependent equations
+            based on the case-insensitive regex pattern: "_[0-9]*MW$"
+            This takes preference over the use_nearest flag.
+            If both interp_extrap & use_nearest are False, a KeyError will
+            be raised if the exact equation name request is not found.
+        use_nearest : bool
+            Flag to use the nearest valid power (MW) dependent equation
+            based on the case-insensitive regex pattern: "_[0-9]*MW$"
+            This is second priority to the interp_extrap flag.
+            If both interp_extrap & use_nearest are False, a KeyError will
+            be raised if the exact equation name request is not found.
         """
+
+        self._interp_extrap = interp_extrap
+        self._use_nearest = use_nearest
         self._global_variables = {}
         self._base_name = os.path.basename(os.path.abspath(eqn_dir))
-        self._eqns = self._parse_eqn_dir(eqn_dir)
+        self._eqns = self._parse_eqn_dir(eqn_dir, interp_extrap=interp_extrap,
+                                         use_nearest=use_nearest)
         self._set_variables()
 
     def __add__(self, other):
@@ -693,7 +824,8 @@ class EquationDirectory:
         """
         cls = self.__class__
         if isinstance(other, str):
-            other = cls(other)
+            other = cls(other, interp_extrap=self._interp_extrap,
+                        use_nearest=self._use_nearest)
 
         out = copy.deepcopy(self)
         out._eqns.update(other._eqns)
@@ -746,7 +878,7 @@ class EquationDirectory:
         return eqns
 
     def __repr__(self):
-        return str(self._eqns)
+        return str(self)
 
     def __str__(self):
         s = ['EquationDirectory object from root directory "{}" '
@@ -758,7 +890,8 @@ class EquationDirectory:
 
         for group in (var_groups, eqn_groups, dirs):
             for v in group:
-                s.append(v._base_name)
+                if v._base_name is not None:
+                    s.append(v._base_name)
                 s += ['\t' + x for x in str(v).split('\n')[1:]]
 
         return '\n'.join(s)
@@ -767,7 +900,7 @@ class EquationDirectory:
         return arg in self.keys()
 
     @classmethod
-    def _parse_eqn_dir(cls, eqn_dir):
+    def _parse_eqn_dir(cls, eqn_dir, interp_extrap=False, use_nearest=False):
         """
         Parameters
         ----------
@@ -775,6 +908,18 @@ class EquationDirectory:
             Path to a directory with one or more equation files or a path to
             a directory containing subdirectories with one or more equation
             files.
+        interp_extrap : bool
+            Flag to interpolate and extrapolate power (MW) dependent equations
+            based on the case-insensitive regex pattern: "_[0-9]*MW$"
+            This takes preference over the use_nearest flag.
+            If both interp_extrap & use_nearest are False, a KeyError will
+            be raised if the exact equation name request is not found.
+        use_nearest : bool
+            Flag to use the nearest valid power (MW) dependent equation
+            based on the case-insensitive regex pattern: "_[0-9]*MW$"
+            This is second priority to the interp_extrap flag.
+            If both interp_extrap & use_nearest are False, a KeyError will
+            be raised if the exact equation name request is not found.
 
         Returns
         -------
@@ -797,14 +942,17 @@ class EquationDirectory:
             ignore_check = name.startswith(('.', '__'))
 
             if is_directory and not ignore_check:
-                obj = cls(path)
+                obj = cls(path, interp_extrap=interp_extrap,
+                          use_nearest=use_nearest)
                 if any(obj.keys()):
                     eqns[name] = obj
 
             elif variables_file:
                 key = os.path.splitext(name)[0]
                 try:
-                    eqns[key] = VariableGroup(path)
+                    eqns[key] = VariableGroup(
+                        path, interp_extrap=interp_extrap,
+                        use_nearest=use_nearest)
                 except Exception as e:
                     msg = ('Could not parse an VariableGroup from '
                            'file: "{}". Received the exception: {}'
@@ -815,7 +963,9 @@ class EquationDirectory:
             elif type_check and not ignore_check:
                 key = os.path.splitext(name)[0]
                 try:
-                    eqns[key] = EquationGroup(path)
+                    eqns[key] = EquationGroup(
+                        path, interp_extrap=interp_extrap,
+                        use_nearest=use_nearest)
                 except Exception as e:
                     msg = ('Could not parse an EquationGroup from '
                            'file: "{}". Received the exception: {}'

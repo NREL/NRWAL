@@ -130,7 +130,7 @@ def test_print_eqn():
     eqn = obj['subgroup::eqn1']
     assert isinstance(eqn.vars, list)
     assert not eqn.vars
-    assert str(eqn) == 'eqn1()'
+    assert str(eqn) == '100'
 
     fp = os.path.join(GOOD_DIR, 'subdir/')
     obj = EquationDirectory(fp)
@@ -280,3 +280,60 @@ def test_eqn_dir_add():
     dir3 = dir1 + dir2
     assert 'lattice_cost=50' in str(dir3['jacket::lattice'])
     assert 'outfitting_cost=10' in str(dir3['jacket::outfitting_8MW'])
+
+
+def test_no_interp_extrap_nearest():
+    """Negative test for power based equation without exact match and no
+    interp/extrap/nearest"""
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=False,
+                                use_nearest=False)
+    eqn_group = dir_obj['jacket']
+    eqn = eqn_group['outfitting_8MW']  # pylint: disable=W0612
+    with pytest.raises(KeyError):
+        eqn = eqn_group['outfitting_9MW']
+
+
+def test_nearest():
+    """Test the lookup of power-based equations and the nearest-power
+    calculation"""
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=False,
+                                use_nearest=True)
+    eqn_group = dir_obj['jacket']
+    eqns, powers = eqn_group.find_nearest_eqns('outfitting_9MW')
+    assert powers[0] == 8.0
+    assert powers[1] == 10.0
+    assert 'outfitting_8MW' in str(eqns[0])
+    assert 'outfitting_10MW' in str(eqns[1])
+    eqn = eqn_group['outfitting_11MW']
+    assert str(eqn) == 'outfitting_10MW(depth, outfitting_cost)'
+
+
+def test_interp_extrap():
+    """Test the interpolation and extrapolation of power-based equations."""
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=True, use_nearest=True)
+    eqn_group = dir_obj['jacket']
+    eqn = eqn_group['outfitting_11MW']
+    truth = ('((((outfitting_8MW(depth, outfitting_cost) '
+             '- outfitting_10MW(depth, outfitting_cost)) * 1.0) / -2.0) '
+             '+ outfitting_10MW(depth, outfitting_cost))')
+    assert str(eqn) == truth
+    args = {'depth': 1, 'outfitting_cost': 1}
+    y1 = eqn_group['outfitting_8MW'].eval(**args)
+    y3 = eqn_group['outfitting_10MW'].eval(**args)
+    x1, x2, x3 = 8, 11, 10
+    out = (y3 - y1) * (x2 - x1) / (x3 - x1) + y1
+    assert out == eqn.eval(**args)
+    assert eqn.eval(**args) == 70.2
+
+    eqn = eqn_group['outfitting_9MW']
+    truth = ('((((outfitting_10MW(depth, outfitting_cost) '
+             '- outfitting_8MW(depth, outfitting_cost)) * 1.0) / 2.0) '
+             '+ outfitting_8MW(depth, outfitting_cost))')
+    assert str(eqn) == truth
+    args = {'depth': 1, 'outfitting_cost': 1}
+    y1 = eqn_group['outfitting_8MW'].eval(**args)
+    y3 = eqn_group['outfitting_10MW'].eval(**args)
+    x1, x2, x3 = 8, 9, 10
+    out = (y3 - y1) * (x2 - x1) / (x3 - x1) + y1
+    assert out == eqn.eval(**args)
+    assert eqn.eval(**args) == 60.2
