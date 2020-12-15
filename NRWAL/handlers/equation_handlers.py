@@ -372,6 +372,39 @@ class AbstractGroup(ABC):
             self._base_name = os.path.basename(group)
 
         self._group = self._parse_group(group)
+        self._global_variables = {}
+
+    def __add__(self, other):
+        """Add another equation group to this instance of EquationGroup (self)
+        and return a new EquationGroup object that updates this instance with
+        the new input. Note that overlapping sub EquationGroups in the original
+        EquationGroup may be overwritten by the new input if a duplicate key
+        exists.
+
+        Parameters
+        ----------
+        other : EquationGroup | str | dict
+            Another EquationGroup object or filepath to an EquationGroup
+            to add to this instance of EquationGroup (self).
+
+        Returns
+        -------
+        out : EquationGroup
+            A new EquationGroup instance with this instance of EquationGroup
+            (self) updated with the input EquationGroup.
+            Note that overlapping sub EquationGroups in the original
+            EquationGroup may be overwritten by the new input if a duplicate
+            key exists.
+        """
+        cls = self.__class__
+        if isinstance(other, (str, dict)):
+            other = cls(other)
+
+        out = copy.deepcopy(self)
+        out._group.update(other._group)
+        out._set_variables(other._global_variables)
+
+        return out
 
     def __repr__(self):
         return str(self)
@@ -464,6 +497,26 @@ class AbstractGroup(ABC):
 
         return group
 
+    def _set_variables(self, var_dict):
+        """Pass VariableGroup variable dictionaries defined within equation
+        directories to adjacent and sub-level EquationGroup and Equation
+        objects.
+
+        Parameters
+        ----------
+        var_dict : dict | None
+            Variables group dictionary from a higher level than or adjacent to
+            this instance of EquationGroup. Variables from this input will be
+            passed to all Equation objects in this EquationGroup. These
+            variables can always be overwritten when Equation.evaluate()
+            is called.
+        """
+
+        if var_dict is not None:
+            self._global_variables.update(copy.deepcopy(var_dict))
+            for v in self.values():
+                v._set_variables(var_dict)
+
     def keys(self):
         """Get the 1st level of equation group keys, same as dict.keys()"""
         return self._group.keys()
@@ -482,18 +535,6 @@ class EquationGroup(AbstractGroup):
     """Class to handle a single json or yaml file with multiple wind cost
     equations.
     """
-
-    def __init__(self, group):
-        """
-        Parameters
-        ----------
-        group : str | dict
-            String filepath to a yaml or json file containing one or more
-            equation strings OR a pre-extracted dictionary from a yaml or
-            json file with equation strings as values.
-        """
-        super().__init__(group)
-        self._global_variables = {}
 
     def __str__(self):
         s = ['EquationGroup object with heirarchy:']
@@ -546,26 +587,6 @@ class EquationGroup(AbstractGroup):
 
         return eqn_group
 
-    def _set_variables(self, var_dict):
-        """Pass VariableGroup variable dictionaries defined within equation
-        directories to adjacent and sub-level EquationGroup and Equation
-        objects.
-
-        Parameters
-        ----------
-        var_dict : dict | None
-            Variables group dictionary from a higher level than or adjacent to
-            this instance of EquationGroup. Variables from this input will be
-            passed to all Equation objects in this EquationGroup. These
-            variables can always be overwritten when Equation.evaluate()
-            is called.
-        """
-
-        if var_dict is not None:
-            self._global_variables.update(copy.deepcopy(var_dict))
-            for v in self.values():
-                v._set_variables(var_dict)
-
     @property
     def global_variables(self):
         """Get a dictionary of global variables from a variables.yaml file
@@ -599,8 +620,7 @@ class VariableGroup(AbstractGroup):
         """
         return self._group
 
-    @classmethod
-    def _parse_group(cls, var_group):
+    def _parse_group(self, var_group):
         """Parse a group of numerical variables defined in a yaml or json file
 
         Parameters
@@ -647,6 +667,39 @@ class EquationDirectory:
         self._base_name = os.path.basename(os.path.abspath(eqn_dir))
         self._eqns = self._parse_eqn_dir(eqn_dir)
         self._set_variables()
+
+    def __add__(self, other):
+        """Add another equation dir to this instance of EquationDirectory
+        (self) and return a new EquationDirectory object that updates this
+        instance with the new input. Note that overlapping sub directories or
+        EquationGroups in the original EquationDirectory can be overwritten
+        by the new input if a duplicate key exists.
+
+        Parameters
+        ----------
+        other : EquationDirectory | str
+            Another EquationDirectory object or path to an
+            EquationDirectory to add to this instance of
+            EquationDirectory (self).
+
+        Returns
+        -------
+        out : EquationDirectory
+            A new EquationDirectory instance with this instance of
+            EquationDirectory (self) updated with the input EquationDirectory.
+            Note that overlapping sub directories or EquationGroups in the
+            original EquationDirectory may be overwritten by the new input if
+            a duplicate key exists.
+        """
+        cls = self.__class__
+        if isinstance(other, str):
+            other = cls(other)
+
+        out = copy.deepcopy(self)
+        out._eqns.update(other._eqns)
+        out._set_variables(other._global_variables)
+
+        return out
 
     def __getitem__(self, key):
         """Retrieve a nested Equation, EquationGroup, or EquationDirectory

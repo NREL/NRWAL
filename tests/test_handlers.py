@@ -259,3 +259,24 @@ def assert_eqn_eval_math(eqn1, eqn2, eqn3, eqn4, args1, args2, args3,
     elif operator == '/':
         assert eqn1.eval(**args1) / eqn2.eval(**args2) == eqn3.eval(**args3)
         assert eqn1.eval(**args1) / 100 == eqn4.eval(**args1)
+
+
+def test_eqn_group_add():
+    """Test the addition / merging of two EquationGroup objects"""
+    dir_obj = EquationDirectory(GOOD_DIR)
+    group1 = dir_obj['jacket']
+    group2 = dir_obj['subdir::jacket']
+    group3 = group1 + group2
+    assert set(list(group1.keys()) + list(group2.keys())) == set(group3.keys())
+    assert 'lattice_cost=100' in str(group3['lattice'])
+    assert 'lattice_cost=100' in str(group3['subgroup::subgroup2::eqn8'])
+
+
+def test_eqn_dir_add():
+    """Test the addition / merging of two EquationDirectory objects"""
+    dir_obj = EquationDirectory(GOOD_DIR)
+    dir1 = dir_obj['subdir']
+    dir2 = dir_obj['subdir::subsubdir']
+    dir3 = dir1 + dir2
+    assert 'lattice_cost=50' in str(dir3['jacket::lattice'])
+    assert 'outfitting_cost=10' in str(dir3['jacket::outfitting_8MW'])
