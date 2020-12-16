@@ -13,8 +13,11 @@ TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
 MODULE_DIR = os.path.dirname(TEST_DIR)
 NRWAL_DIR = os.path.join(MODULE_DIR, 'NRWAL/')
+IGNORE_DIRS = ('handlers', )
 EQN_DIR_NAMES = [dirname for dirname in os.listdir(NRWAL_DIR)
-                 if os.path.isdir(os.path.join(NRWAL_DIR, dirname))]
+                 if os.path.isdir(os.path.join(NRWAL_DIR, dirname))
+                 and not dirname.startswith(('__', '.'))
+                 and dirname not in IGNORE_DIRS]
 
 
 def get_equations(obj):
