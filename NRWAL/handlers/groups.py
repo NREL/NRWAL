@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Handler objects to interface with NRWAL equation library.
+Handler objects to interface with NRWAL equation groups (files).
 """
 from abc import ABC
 import copy
@@ -90,7 +90,7 @@ class AbstractGroup(ABC):
 
     @staticmethod
     def _getitem_math(obj, key):
-        """Helper function to recsively perform math for the __getitem__ method
+        """Helper function to recusively perform math for __getitem__ method
 
         Parameters
         ----------
@@ -340,6 +340,37 @@ class AbstractGroup(ABC):
             self._global_variables.update(copy.deepcopy(var_dict))
             for v in self.values():
                 v._set_variables(var_dict)
+
+    @classmethod
+    def _r_all_equations(cls, obj):
+        """Recusively retrieve all Equation objects from an EquationGroup or
+        EquationDirectory object
+
+        Parameters
+        ----------
+        obj : EquationGroup | EquationDirectory
+            Group or directory of equations to recusively search for base
+            Equation objects.
+
+        Returns
+        -------
+        eqns : list
+            List of all Equation objects extracted from the input object.
+        """
+
+        eqns = []
+        for v in obj.values():
+            if isinstance(v, Equation):
+                eqns.append(v)
+            elif not isinstance(v, (int, float, str)):
+                eqns += cls._r_all_equations(v)
+
+        return eqns
+
+    @property
+    def all_equations(self):
+        """List of all Equation objects from this object."""
+        return self._r_all_equations(self)
 
     def keys(self):
         """Get the 1st level of equation group keys, same as dict.keys()"""

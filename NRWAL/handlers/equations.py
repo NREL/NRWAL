@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Handler objects to interface with NRWAL equation library.
+Handler objects to interface with single NRWAL equation strings.
 """
 import copy
 import re

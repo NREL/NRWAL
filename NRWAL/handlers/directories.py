@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Handler objects to interface with NRWAL equation library.
+Handler objects to interface with NRWAL equation directories
 """
 import copy
 import os
@@ -278,6 +278,11 @@ class EquationDirectory:
             and EquationDirectory objects within the heirarchy of this object.
         """
         return self._global_variables
+
+    @property
+    def all_equations(self):
+        """List of all Equation objects from this object."""
+        return EquationGroup._r_all_equations(self)
 
     def keys(self):
         """Get the 1st level of equation keys, same as dict.keys()"""

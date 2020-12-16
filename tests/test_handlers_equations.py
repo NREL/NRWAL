@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=E1101
 """
-Handler objects to interface with NRWAL equation library.
+Tests for NRWAL equation handler objects
 """
 import os
 import numpy as np
