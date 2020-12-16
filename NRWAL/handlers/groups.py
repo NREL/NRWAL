@@ -88,6 +88,25 @@ class AbstractGroup(ABC):
     def __repr__(self):
         return str(self)
 
+    @staticmethod
+    def _getitem_math(obj, key):
+        key = key.replace('**', '^')
+        if '+' in key:
+            split_keys = key.partition('+')
+            return obj[split_keys[0].strip()] + obj[split_keys[2].strip()]
+        elif '-' in key:
+            split_keys = key.partition('-')
+            return obj[split_keys[0].strip()] - obj[split_keys[2].strip()]
+        elif '*' in key:
+            split_keys = key.partition('*')
+            return obj[split_keys[0].strip()] * obj[split_keys[2].strip()]
+        elif '/' in key:
+            split_keys = key.partition('/')
+            return obj[split_keys[0].strip()] / obj[split_keys[2].strip()]
+        elif '^' in key:
+            split_keys = key.partition('^')
+            return obj[split_keys[0].strip()] ** obj[split_keys[2].strip()]
+
     def __getitem__(self, key):
         """Retrieve a nested Equation or EquationGroup object from this
         instance of an EquationGroup.
@@ -108,6 +127,13 @@ class AbstractGroup(ABC):
             An object in this instance of EquationGroup keyed by the
             input argument key.
         """
+
+        operators = ('+', '-', '*', '/', '^')
+        if any([op in key for op in operators]):
+            return self._getitem_math(self, key)
+
+        if Equation.is_num(key) and key not in self:
+            return Equation(key)
 
         if '::' in str(key):
             keys = key.split('::')

@@ -103,3 +103,45 @@ def test_eqn_dir_add():
     dir3 = dir1 + dir2
     assert 'lattice_cost=50' in str(dir3['jacket::lattice'])
     assert 'outfitting_cost=10' in str(dir3['jacket::outfitting_8MW'])
+
+
+def test_dir_math_retrieval():
+    """Test the group and directory __getitem__ method with embedded math"""
+    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    key1 = 'jacket::lattice'
+    key2 = 'jacket::outfitting_8MW'
+    key3 = 'jacket::transition_piece'
+    key4 = '0.6'
+    eqn1 = obj[key1]
+    eqn2 = obj[key2]
+    eqn3 = obj[key3]
+    eqn4 = obj[key4]
+    y1 = eqn1.eval(**{k: 2 for k in eqn1.vars})
+    y2 = eqn2.eval(**{k: 2 for k in eqn2.vars})
+    y3 = eqn3.eval(**{k: 2 for k in eqn3.vars})
+    y4 = eqn4.eval()
+
+    key_math = ''.join([key1, ' - ', key2, '+', key3])
+    eqn_math = obj[key_math]
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    assert y1 - y2 + y3 == y_math
+
+    key_math = ''.join([key1, ' - ', key2, ' * ', key3])
+    eqn_math = obj[key_math]
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    assert y1 - y2 * y3 == y_math
+
+    key_math = ''.join([key1, ' / ', key2, ' +', key3])
+    eqn_math = obj[key_math]
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    assert y1 / y2 + y3 == y_math
+
+    key_math = ''.join([key1, ' / ', key2, ' ** ', key4])
+    eqn_math = obj[key_math]
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    assert y1 / y2 ** y4 == y_math
+
+    key_math = ''.join([key1, ' * ', key2, ' ** ', key4])
+    eqn_math = obj[key_math]
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    assert y1 * y2 ** y4 == y_math

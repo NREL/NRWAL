@@ -134,3 +134,46 @@ def test_interp_extrap():
     out = (y3 - y1) * (x2 - x1) / (x3 - x1) + y1
     assert out == eqn.eval(**args)
     assert eqn.eval(**args) == 60.2
+
+
+def test_group_math_retrieval():
+    """Test the group __getitem__ method with embedded math"""
+    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    obj = obj['jacket']
+    key1 = 'lattice'
+    key2 = 'outfitting_8MW'
+    key3 = 'transition_piece'
+    key4 = '0.5'
+    eqn1 = obj[key1]
+    eqn2 = obj[key2]
+    eqn3 = obj[key3]
+    eqn4 = obj[key4]
+    y1 = eqn1.eval(**{k: 2 for k in eqn1.vars})
+    y2 = eqn2.eval(**{k: 2 for k in eqn2.vars})
+    y3 = eqn3.eval(**{k: 2 for k in eqn3.vars})
+    y4 = eqn4.eval()
+
+    key_math = ''.join([key1, ' + ', key2, '+', key3])
+    eqn_math = obj[key_math]
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    assert y1 + y2 + y3 == y_math
+
+    key_math = ''.join([key1, ' + ', key2, ' * ', key3])
+    eqn_math = obj[key_math]
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    assert y1 + y2 * y3 == y_math
+
+    key_math = ''.join([key1, ' / ', key2, ' - ', key3])
+    eqn_math = obj[key_math]
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    assert y1 / y2 - y3 == y_math
+
+    key_math = ''.join([key1, ' / ', key2, ' ** ', key4])
+    eqn_math = obj[key_math]
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    assert y1 / y2 ** y4 == y_math
+
+    key_math = ''.join([key1, ' * ', key2, ' ** ', key4])
+    eqn_math = obj[key_math]
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    assert y1 * y2 ** y4 == y_math

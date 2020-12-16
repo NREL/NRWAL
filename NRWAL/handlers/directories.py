@@ -6,6 +6,7 @@ import copy
 import os
 import logging
 
+from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.groups import EquationGroup, VariableGroup
 
 logger = logging.getLogger(__name__)
@@ -101,6 +102,13 @@ class EquationDirectory:
             An object in this instance of EquationDirectory keyed by the
             input argument key.
         """
+
+        operators = ('+', '-', '*', '/', '^')
+        if any([op in key for op in operators]):
+            return EquationGroup._getitem_math(self, key)
+
+        if Equation.is_num(key) and key not in self:
+            return Equation(key)
 
         if '::' in str(key):
             keys = key.split('::')
