@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=E1101
+# pylint: disable=E1101,W0104
 """
 Handler objects to interface with NRWAL equation library.
 """
@@ -145,3 +145,15 @@ def test_dir_math_retrieval():
     eqn_math = obj[key_math]
     y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
     assert y1 * y2 ** y4 == y_math
+
+
+def test_bad_math_retrieval():
+    """Test that attempting math in __getitem__ between an EquationGroup and
+    an Equation raises a TypeError"""
+    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    key1 = 'jacket'
+    key2 = 'jacket::outfitting_8MW'
+
+    key_math = ''.join([key1, ' - ', key2])
+    with pytest.raises(TypeError):
+        obj[key_math]

@@ -95,6 +95,8 @@ class EquationDirectory:
             eqns.yaml.  Alternatively, if eqns.yaml has an equation
             'eqn1': 'm*x + b', the the input key could be: 'eqns::eqn1' to
             retrieve the Equation object that holds 'm*x + b'
+            The input argument can also have embedded math like
+            'set_1::eqn1 + set_2::eqn2 ** 2'.
 
         Returns
         -------

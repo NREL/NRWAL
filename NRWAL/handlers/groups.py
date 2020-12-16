@@ -90,6 +90,30 @@ class AbstractGroup(ABC):
 
     @staticmethod
     def _getitem_math(obj, key):
+        """Helper function to recsively perform math for the __getitem__ method
+
+        Parameters
+        ----------
+        obj : EquationGroup | EquationDirectory
+            Instance of EquationGroup or EquationDirectory. This is input
+            explicitly in a staticmethod instead of an instance method so that
+            EquationDirectory can share the method.
+        key : str
+            A key or set of keys (delimited by "::") to retrieve from this
+            EquationGroup instance. For example, if this EquationGroup
+            has an equation 'eqn1': 'm*x + b', the the input key could be:
+            'eqn1' to retrieve the Equation object that holds 'm*x + b'.
+            The input argument key can also be delimited like 'set_1::eqn1'
+            to retrieve eqn1 nested in a sub EquationGroup object "set_1".
+            The input argument can also have embedded math like
+            'set_1::eqn1 + set_2::eqn2 ** 2'.
+
+        Returns
+        -------
+        out : Equation | EquationGroup
+            An object in this instance of EquationGroup keyed by the
+            input argument key.
+        """
         key = key.replace('**', '^')
         if '+' in key:
             split_keys = key.partition('+')
@@ -118,8 +142,10 @@ class AbstractGroup(ABC):
             EquationGroup instance. For example, if this EquationGroup
             has an equation 'eqn1': 'm*x + b', the the input key could be:
             'eqn1' to retrieve the Equation object that holds 'm*x + b'.
-            The input argument key can also be delimited like 'eqn_set_1::eqn1'
-            to retrieve eqn1 nested in a sub EquationGroup object.
+            The input argument key can also be delimited like 'set_1::eqn1'
+            to retrieve eqn1 nested in a sub EquationGroup object "set_1".
+            The input argument can also have embedded math like
+            'set_1::eqn1 + set_2::eqn2 ** 2'.
 
         Returns
         -------
