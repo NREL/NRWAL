@@ -21,7 +21,8 @@ class AbstractGroup(ABC):
     yaml or json file.
     """
 
-    def __init__(self, group, interp_extrap=False, use_nearest=False):
+    def __init__(self, group, name=None, interp_extrap=False,
+                 use_nearest=False):
         """
         Parameters
         ----------
@@ -29,6 +30,10 @@ class AbstractGroup(ABC):
             String filepath to a yaml or json file containing one or more
             equation strings OR a pre-extracted dictionary from a yaml or
             json file with equation strings as values.
+        name : str | None
+            Optional name for identification and debugging if this
+            AbstractGroup is being initialized with the "group" input argument
+            as a pre-extracted dictionary.
         interp_extrap : bool
             Flag to interpolate and extrapolate power (MW) dependent equations
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
@@ -43,7 +48,7 @@ class AbstractGroup(ABC):
             be raised if the exact equation name request is not found.
         """
 
-        self._base_name = None
+        self._base_name = name
         self._dir_name = None
         if isinstance(group, str):
             self._base_name = os.path.basename(group)
@@ -396,7 +401,7 @@ class EquationGroup(AbstractGroup):
     def __str__(self):
         s = ['EquationGroup object with heirarchy:']
         if self._base_name is not None:
-            s = ['EquationGroup object from file "{}" with heirarchy:'
+            s = ['EquationGroup object from "{}" with heirarchy:'
                  .format(self._base_name)]
 
         for k, v in self.items():
@@ -433,7 +438,7 @@ class EquationGroup(AbstractGroup):
                 eqn_group[k] = Equation(v, name=k)
 
             elif isinstance(v, dict):
-                eqn_group[k] = cls(v)
+                eqn_group[k] = cls(v, name=k)
 
             else:
                 msg = ('Cannot use equation group value that is not a '
