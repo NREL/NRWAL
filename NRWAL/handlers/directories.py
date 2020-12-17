@@ -123,9 +123,9 @@ class EquationDirectory:
 
         eqns = self._eqns
         for ikey in keys:
-            if ikey in eqns:
+            try:
                 eqns = eqns[ikey]
-            else:
+            except KeyError:
                 msg = ('Could not retrieve equation key "{}", '
                        'could not find "{}" in last available keys: {}'
                        .format(key, ikey, list(eqns.keys())))

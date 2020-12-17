@@ -95,6 +95,27 @@ def test_variable_setting():
     assert eqn.evaluate() == 95
 
 
+def test_nearest():
+    """Test the lookup of power-based equations and the nearest-power
+    calculation from a dir object"""
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=False,
+                                use_nearest=True)
+    eqn = dir_obj['jacket::outfitting_11MW']
+    truth = dir_obj['jacket::outfitting_10MW']
+    assert eqn == truth
+
+
+def test_interp_extrap():
+    """Test interp and extrap functionality of power-based equations
+    from __getitem__ on a dir object"""
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=True, use_nearest=True)
+    eqn = dir_obj['jacket::outfitting_11MW']
+    truth = ('((((outfitting_8MW(depth, outfitting_cost) '
+             '- outfitting_10MW(depth, outfitting_cost)) * 1.0) / -2.0) '
+             '+ outfitting_10MW(depth, outfitting_cost))')
+    assert str(eqn) == truth
+
+
 def test_eqn_dir_add():
     """Test the addition / merging of two EquationDirectory objects"""
     dir_obj = EquationDirectory(GOOD_DIR)
