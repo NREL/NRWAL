@@ -43,6 +43,7 @@ class EquationDirectory:
         self._use_nearest = use_nearest
         self._global_variables = {}
         self._base_name = os.path.basename(os.path.abspath(eqn_dir))
+        self._dir_name = os.path.dirname(os.path.abspath(eqn_dir))
         self._eqns = self._parse_eqn_dir(eqn_dir, interp_extrap=interp_extrap,
                                          use_nearest=use_nearest)
         self._set_variables()
@@ -189,7 +190,7 @@ class EquationDirectory:
         """
 
         eqns = {}
-        for name in os.listdir(eqn_dir):
+        for name in sorted(os.listdir(eqn_dir)):
             path = os.path.join(eqn_dir, name)
 
             is_directory = os.path.isdir(path)

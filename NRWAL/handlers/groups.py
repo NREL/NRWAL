@@ -44,8 +44,10 @@ class AbstractGroup(ABC):
         """
 
         self._base_name = None
+        self._dir_name = None
         if isinstance(group, str):
             self._base_name = os.path.basename(group)
+            self._dir_name = os.path.dirname(group)
 
         self._global_variables = {}
         self._interp_extrap = interp_extrap
@@ -426,7 +428,7 @@ class EquationGroup(AbstractGroup):
 
         eqn_group = super()._parse_group(eqn_group)
 
-        for k, v in eqn_group.items():
+        for k, v in sorted(eqn_group.items()):
             if isinstance(v, (str, int, float)):
                 eqn_group[k] = Equation(v, name=k)
 
