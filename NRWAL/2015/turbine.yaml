@@ -15,4 +15,4 @@ spar_tower:
 horiz_spar_tower:
   (259108.395067 * np.exp(0.259159 * turbine_capacity)) * hz_turbine_factor
 semi_tower:
-  (259108.395067 * np.exp(0.259159 * turbine_capacity)
+  (259108.395067 * np.exp(0.259159 * turbine_capacity))
