@@ -1,0 +1,20 @@
+lattice:
+  (np.exp(3.7136 + 0.00176 * turbine_capacity ** 2.5 +
+          0.645 * np.log(depth))) * lattice_cost
+subgroup:
+    eqn1:
+        100
+    subgroup2:
+        eqn8:
+            45 + lattice_cost
+    eqn2:
+        100 * depth
+transition_piece:
+  (1 / (-0.0131 + 0.0381 / np.log(turbine_capacity) -
+        0.00000000227 * depth ** 3)) * jacket_tp_cost
+outfitting_4MW:
+  (35 + (0.8 * (18 + depth))) * outfitting_cost
+outfitting_8MW:
+  (40 + (0.8 * (18 + depth))) * outfitting_cost
+outfitting_10MW:
+  (50 + (0.8 * (18 + depth))) * outfitting_cost

@@ -1,0 +1,3 @@
+grid_connection:
+  dist_l_to_ts * transmission_cost * transmission_multi *
+  turbine_capacity * num_turbines

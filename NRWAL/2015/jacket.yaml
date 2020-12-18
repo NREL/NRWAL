@@ -1,0 +1,89 @@
+foundation:
+  (8 * (np.exp(3.7136 + 0.00176 * turbine_capacity ** 2.5 +
+        0.645 * np.log(depth))) ** 0.5574) * pile_cost
+foundation_gt10MW:
+  (8 * (np.exp(3.7136 + 0.00176 * 10 ** 2.5 +
+        0.645 * np.log(depth))) ** 0.5574) * pile_cost
+lattice:
+  (np.exp(3.7136 + 0.00176 * turbine_capacity ** 2.5 +
+          0.645 * np.log(depth))) * lattice_cost
+lattice_gt10MW:
+  (np.exp(3.7136 + 0.00176 * 10 ** 2.5 +
+          0.645 * np.log(depth))) * lattice_cost
+transition_piece:
+  (1 / (-0.0131 + 0.0381 / np.log(turbine_capacity) -
+        0.00000000227 * depth ** 3)) * jacket_tp_cost
+transition_piece_gt10MW:
+  (1 / (-0.0131 + 0.0381 / np.log(10) -
+        0.00000000227 * depth ** 3)) * jacket_tp_cost
+install_3MW:
+  (-22750257 + 
+  20167344 * depth - 
+  1061022.9 * depth ** 2 +
+  24429.19 * depth ** 3 - 
+  246.45 * depth ** 4 +
+  0.9039 * depth ** 5 +
+  100790.4 * dist_p_to_s) * 0.01 * 
+  (np.exp(-0.21398756 +
+  0.0575015 * turbine_capacity +
+  0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+install_6MW:
+  (-458000000 +
+  517000000 * np.log(depth) +
+  809803.3 * dist_p_to_s -
+  159000000 * np.log(depth) ** 2 +
+  0.000000189 * dist_p_to_s ** 2 -
+  483412.33 * dist_p_to_s * np.log(depth) +
+  16772093 * np.log(depth) ** 3 -
+  0.000000000157 * dist_p_to_s ** 3 -
+  0.000000016 * dist_p_to_s ** 2 * np.log(depth) +
+  75745.92 * dist_p_to_s * np.log(depth) ** 2) * 0.01 *
+  (np.exp(-0.21398756 +
+  0.0575015 * turbine_capacity +
+  0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+install_10MW:
+  (127000000 -
+  2490356 * depth +
+  174980.65 * dist_p_to_s +
+  80518.69 * depth ** 2 +
+  0.0000000728 * dist_p_to_s ** 2 -
+  4226.92 * depth * dist_p_to_s -
+  514.33 * depth ** 3 -
+  0.0000000000637 * dist_p_to_s ** 3 -
+  0.00000000045 * depth * dist_p_to_s ** 2 +
+  49.24 * depth ** 2 * dist_p_to_s) * 0.01 *
+  (np.exp(-0.21398756 +
+  0.0575015 * turbine_capacity +
+  0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+pslt_3MW:
+  0.01 * (303605.89 +
+   743543.05 * np.log(depth) -
+   2244.04 * dist_p_to_s -
+   2.92 * dist_p_to_s ** 2) / 
+  (1 -
+   0.851 * np.log(depth) +
+   0.273 * np.log(depth) ** 2 -
+   0.0269 * np.log(depth) ** 3 -
+   0.0003 * dist_p_to_s)
+pslt_6MW:
+  0.01 * (12285015 +
+  77253.46 * depth +
+  11413.55 * dist_p_to_s -
+  739.597 * depth ** 2 -
+  0.2601 * dist_p_to_s ** 2 -
+  220.01 * depth * dist_p_to_s +
+  2.776 * depth ** 3 +
+  0.0003263 * dist_p_to_s ** 3 -
+  0.0000000005601 * depth * dist_p_to_s ** 2 +
+  2.524 * depth ** 2 * dist_p_to_s)
+pslt_10MW:
+  0.01 * (21321746 -
+  8043690.6 * np.log(depth) +
+  106665.06 * dist_p_to_s +
+  2496413.4 * np.log(depth) ** 2 -
+  0.26 * dist_p_to_s ** 2 -
+  56190.79 * dist_p_to_s * np.log(depth) -
+  219765.57 * np.log(depth) ** 3 +
+  0.00033 * dist_p_to_s ** 3 -
+  0.0000000265 * dist_p_to_s ** 2 * np.log(depth) +
+  7912.15 * dist_p_to_s * np.log(depth) ** 2)

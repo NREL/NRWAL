@@ -1,0 +1,25 @@
+pslt_3MW:
+  (10472899 + 2000 * depth + 19002.17 * dist_p_to_s) * 0.01
+pslt_6MW:
+  (12627913 + 2375 * depth + 22565 * dist_p_to_s) * 0.01
+pslt_10MW:
+  (15896470 + 2975 * depth + 28265.73 * dist_p_to_s) * 0.01
+pslt_12MW:
+  (15896470 + 2975 * depth + 28265.73 * dist_p_to_s) * 0.01
+pslt_15MW:
+  (15896470 + 2975 * depth + 28265.73 * dist_p_to_s) * 0.01
+install_3MW:
+  (18408000 + 7875 * depth + 24821.05 * dist_p_to_s_nolimit) * 0.01 /
+  (1 - floating_downtime)
+install_6MW:
+  (18408000 + 7875 * depth + 24821.05 * dist_p_to_s_nolimit) * 0.01 /
+  (1 - floating_downtime)
+install_10MW:
+  (23658000 + 11625 * depth + 35450.12 * dist_p_to_s_nolimit) * 0.01 /
+  (1 - floating_downtime)
+install_12MW:
+  (23658000 + 11625 * depth + 35450.12 * dist_p_to_s_nolimit) * 0.01 /
+  (1 - floating_downtime)
+install_15MW:
+  (23658000 + 11625 * depth + 35450.12 * dist_p_to_s_nolimit) * 0.01 /
+  (1 - floating_downtime)
