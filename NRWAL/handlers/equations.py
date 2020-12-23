@@ -17,7 +17,7 @@ class Equation:
     # illegal substrings that cannot be in cost equations
     ILLEGAL = ('import ', 'os.', 'sys.', '.__', '__.', 'eval', 'exec')
 
-    def __init__(self, eqn, name=None):
+    def __init__(self, eqn, name=None, global_variables=None):
         """
         Parameters
         ----------
@@ -26,10 +26,16 @@ class Equation:
             "-34.80 * depth ** 2 + 207619.80 * depth + 221197699.89"
         name : str | None
             Optional equation name / key for string formatting
+        global_variables : dict
+            Optional dictionary of variables accessible to this Equation
+            object. These inputs can still be overwritten at runtime.
         """
 
+        self._global_variables = global_variables
+        if self._global_variables is None:
+            self._global_variables = {}
+
         self._str = None
-        self._global_variables = {}
         self._base_name = name
         self._eqn = str(eqn)
         self._preflight()
@@ -77,7 +83,9 @@ class Equation:
 
         new_eqn = '({}) {} ({})'.format(self._eqn, operator, other._eqn)
         new_str = '({} {} {})'.format(self, operator, other)
-        out = cls(new_eqn)
+        gvars = copy.deepcopy(self._global_variables)
+        gvars.update(other._global_variables)
+        out = cls(new_eqn, global_variables=gvars)
         out._str = new_str
         return out
 
