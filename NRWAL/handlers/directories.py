@@ -15,6 +15,200 @@ logger = logging.getLogger(__name__)
 class EquationDirectory:
     """Class to handle a directory with one or more equation files or
     a directory containing subdirectories with one or more equation files.
+
+
+    Examples
+    --------
+
+    The NRWAL EquationDirectory object is instantiated from a directory input
+    arg that contains nested equation yaml or json files.
+
+    >>> from NRWAL import EquationDirectory
+    >>>
+    >>> obj = EquationDirectory('./NRWAL')
+    >>>
+    >>> obj
+    2015
+        variables.yaml
+            transmission_cost: 6536
+            tower_cost: 3960
+            pile_cost: 2250
+            monopile_tp_cost: 3230
+            lattice_cost: 4680
+            jacket_tp_cost: 4599
+            stiffened_column_cost: 3120
+            tapered_column_cost: 4220
+            truss_cost: 6250
+            heave_plate_cost: 5250
+            outfitting_cost: 7250
+            perm_ballast_cost: 150
+            operations_cost: 18880383
+            port_cost: 25000000
+            hz_turbine_factor: 0.05
+            windflip_CAPEX: 50000000
+            vertical_tow_OM_equip: 13400000
+            lease_price: 50000000
+        array.yaml
+            fixed(depth, num_turbines)
+            floating(depth, num_turbines)
+        ...
+        turbine_install.yaml
+            jacket_3MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            jacket_6MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            jacket_10MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            jacket_12MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            jacket_15MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            monopile_3MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            monopile_6MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            monopile_10MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            monopile_12MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            monopile_15MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            semi_3MW(dist_p_to_s_nolimit, floating_downtime)
+            semi_6MW(dist_p_to_s_nolimit, floating_downtime)
+            semi_10MW(dist_p_to_s_nolimit, floating_downtime)
+            semi_12MW(dist_p_to_s_nolimit, floating_downtime)
+            semi_15MW(dist_p_to_s_nolimit, floating_downtime)
+            spar_3MW(dist_a_to_s, dist_p_to_a, floating_downtime)
+            spar_6MW(dist_a_to_s, dist_p_to_a, floating_downtime)
+            spar_10MW(dist_a_to_s, dist_p_to_a, floating_downtime)
+            spar_12MW(dist_a_to_s, dist_p_to_a, floating_downtime)
+            spar_15MW(dist_a_to_s, dist_p_to_a, floating_downtime)
+
+
+    Nested EquationDirectory, EquationGroup, and Equation objects can be
+    retrieved using the python bracket syntax similar to a python dictionary.
+    Nested retrievals are delimited by two colons.
+
+    >>> type(obj['2015'])
+    NRWAL.handlers.directories.EquationDirectory
+
+    >>> type(obj['2015::array'])
+    NRWAL.handlers.groups.EquationGroup
+
+    >>> eqn = obj['2015::array::fixed']
+    >>> type(eqn)
+    NRWAL.handlers.equations.Equation
+
+    >>> eqn
+    fixed(depth, num_turbines)
+
+    NRWAL Equation objects can be evaluated using kwargs.
+
+    >>> import numpy as np
+    >>> eqn.vars
+    ['depth', 'num_turbines']
+
+    >>> eqn.eval(**{k: np.ones(2) for k in eqn.vars})
+    array([1.48410044e+08, 1.48410044e+08])
+
+    >>> eqn.eval(depth=np.ones(2), num_turbines=np.ones(2))
+    array([1.48410044e+08, 1.48410044e+08])
+
+    NRWAL Equation objects can be operated on using the usual python math
+    operators. Note that the tower_cost input arg in this equation group
+    is set to a default value of 3960 based on the variables.yaml file present
+    in the 2015 directory. As a result, this argument does not need to be
+    input in the eval() call, but can still be overwritten at runtime if
+    desired.
+
+    >>> group = obj['2015::turbine']
+    >>> group
+    EquationGroup object from "turbine.yaml" with heirarchy:
+    rna(turbine_capacity)
+    horiz_spar_rna(turbine_capacity, hz_turbine_factor=0.05)
+    jacket_tower(depth, turbine_capacity, tower_cost=3960)
+    monopile_tower(depth, turbine_capacity, tower_cost=3960)
+    spar_tower(turbine_capacity)
+    horiz_spar_tower(turbine_capacity, hz_turbine_factor=0.05)
+    semi_tower(turbine_capacity)
+
+    >>> eqn = group['rna'] + group['monopile_tower']
+    >>> eqn
+    (rna(turbine_capacity) + monopile_tower(depth, turbine_capacity,
+        tower_cost=3960))
+
+    >>> eqn = group['rna'] - group['monopile_tower']
+    >>>  eqn
+    (rna(turbine_capacity) - monopile_tower(depth, turbine_capacity,
+        tower_cost=3960))
+
+    >>>  eqn = group['rna'] * group['monopile_tower']
+    >>>  eqn
+    (rna(turbine_capacity) * monopile_tower(depth, turbine_capacity,
+        tower_cost=3960))
+
+    >>>  eqn = group['rna'] / group['monopile_tower']
+    >>>  eqn
+    (rna(turbine_capacity) / monopile_tower(depth, turbine_capacity,
+        tower_cost=3960))
+
+    >>>  eqn = group['rna'] ** group['monopile_tower']
+    >>>  eqn
+    (rna(turbine_capacity) ** monopile_tower(depth, turbine_capacity,
+        tower_cost=3960))
+
+    >>> eqn = group['rna'] + group['monopile_tower'] ** 2
+    >>> eqn
+    (rna(turbine_capacity) + (monopile_tower(depth, turbine_capacity,
+        tower_cost=3960) ** 2))
+
+    The new Equation objects resulting from math operations can be evaluated
+    just like the original Equation objects.
+
+    >>> eqn = group['rna + monopile_tower']
+    >>> eqn
+    (rna(turbine_capacity) + monopile_tower(depth, turbine_capacity,
+        tower_cost=3960))
+
+    >>> eqn.vars
+    ['depth', 'tower_cost', 'turbine_capacity']
+
+    >>> eqn.eval(**{k: np.ones(2) for k in eqn.vars})
+    array([1037835.27761686, 1037835.27761686])
+
+    >>> eqn.eval(depth=np.ones(2), turbine_capacity=np.ones(2))
+    array([1256782.29675191, 1256782.29675191])
+
+    The EquationDirectory object can parse power-dependent equations by
+    searching for the "_10MW" string in the equation name request and the
+    equations present in the directory (10 is an example and can be any
+    integer). By default, only an exact match is returned, but the
+    EquationDirectory object can also be set to perform interpolation +
+    extrapolation or nearest neighbor lookup. Interpolation and extrapolation
+    take priority over the use_nearest kwarg.
+
+    >>> obj['2015::spar']
+    EquationGroup object from "spar.yaml" with heirarchy:
+    install_3MW(dist_p_to_a, dist_p_to_s, floating_downtime)
+    install_6MW(dist_p_to_a, dist_p_to_s, floating_downtime)
+    install_10MW(dist_p_to_a, dist_p_to_s, floating_downtime)
+    spar_3MW(dist_a_to_s, dist_p_to_a)
+    spar_6MW(dist_a_to_s, dist_p_to_a)
+    spar_10MW(dist_a_to_s, dist_p_to_a)
+    stiffened_column(depth, turbine_capacity, stiffened_column_cost=3120)
+    tapered_column(turbine_capacity, tapered_column_cost=4220)
+    outfitting(depth, turbine_capacity, outfitting_cost=7250)
+    perm_ballast(turbine_capacity, perm_ballast_cost=150)
+    stiffened_column_gt10MW(depth, stiffened_column_cost=3120)
+    tapered_column_gt10MW(tapered_column_cost=4220)
+    outfitting_gt10MW(depth, outfitting_cost=7250)
+    perm_ballast_gt10MW(perm_ballast_cost=150)
+
+    >>> obj['2015::spar::spar_3MW']
+    spar_3MW(dist_a_to_s, dist_p_to_a)
+
+    >>> obj['2015::spar::spar_4MW']
+    KeyError: 'Could not retrieve equation key "2015::spar::spar_4MW"
+
+    >>> obj = EquationDirectory('./NRWAL', use_nearest=True)
+    >>> obj['2015::spar::spar_4MW']
+    spar_3MW(dist_a_to_s, dist_p_to_a)
+
+    >>> obj = EquationDirectory('./NRWAL', interp_extrap=True)
+    >>> obj['2015::spar::spar_4MW']
+    ((((spar_6MW(dist_a_to_s, dist_p_to_a)
+        - spar_3MW(dist_a_to_s, dist_p_to_a)) * 1.0) / 3.0)
+     + spar_3MW(dist_a_to_s, dist_p_to_a))
     """
 
     def __init__(self, eqn_dir, interp_extrap=False, use_nearest=False):
