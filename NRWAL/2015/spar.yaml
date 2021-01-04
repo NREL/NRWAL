@@ -1,36 +1,36 @@
 install_3MW:
   (70146438 + 87702.95 * dist_p_to_a + 44830.28 * dist_p_to_s) * 0.01 / 
-  (1 - floating_downtime)
+  (1 - floating_downtime) * num_turbines
 install_6MW:
   (83062187 + 88643.1 * dist_p_to_a + 65900.24 * dist_p_to_s) * 0.01 / 
-  (1 - floating_downtime)
+  (1 - floating_downtime) * num_turbines
 install_10MW:
   (94577688 + 90047.97 * dist_p_to_a + 85032.57 * dist_p_to_s) * 0.01 / 
-  (1 - floating_downtime)
-spar_3MW:
-  (25237609 + 23896.37 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01
-spar_6MW:
-  (26525267 + 25366.76 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01
-spar_10MW:
-  (28101577 + 27188.07 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01
+  (1 - floating_downtime) * num_turbines
+pslt_3MW:
+  (25237609 + 23896.37 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines + port_cost
+pslt_6MW:
+  (26525267 + 25366.76 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines + port_cost
+pslt_10MW:
+  (28101577 + 27188.07 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines + port_cost
 stiffened_column:
   (535.93 + 17.664 * turbine_capacity ** 2 + 0.0228 * depth * np.log(depth)) *
-  stiffened_column_cost
+  stiffened_column_cost * num_turbines
 tapered_column:
-  (125.81 * np.log(turbine_capacity) + 58.71) * tapered_column_cost
+  (125.81 * np.log(turbine_capacity) + 58.71) * tapered_column_cost * num_turbines
 outfitting:
   (np.exp(3.58 + 0.196 * turbine_capacity ** 0.5 * np.log(turbine_capacity) +
-  0.00001 * depth * np.log(depth))) * outfitting_cost
+  0.00001 * depth * np.log(depth))) * outfitting_cost * num_turbines
 perm_ballast:
   (-16.536 * turbine_capacity ** 2 + 1261.8 * turbine_capacity - 1554.6) *
-  perm_ballast_cost
+  perm_ballast_cost * num_turbines
 stiffened_column_gt10MW:
   (535.93 + 17.664 * 10 ** 2 + 0.0228 * depth * np.log(depth)) *
-  stiffened_column_cost
+  stiffened_column_cost * num_turbines
 tapered_column_gt10MW:
-  (125.81 * np.log(10) + 58.71) * tapered_column_cost
+  (125.81 * np.log(10) + 58.71) * tapered_column_cost * num_turbines
 outfitting_gt10MW:
   (np.exp(3.58 + 0.196 * 10 ** 0.5 * np.log(10) +
-  0.00001 * depth * np.log(depth))) * outfitting_cost
+  0.00001 * depth * np.log(depth))) * outfitting_cost * num_turbines
 perm_ballast_gt10MW:
-  (-16.536 * 10 ** 2 + 1261.8 * 10 - 1554.6) * perm_ballast_cost
+  (-16.536 * 10 ** 2 + 1261.8 * 10 - 1554.6) * perm_ballast_cost * num_turbines

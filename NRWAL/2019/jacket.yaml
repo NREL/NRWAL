@@ -60,7 +60,7 @@ install_3MW:
   246.45 * depth ** 4 +
   0.9039 * depth ** 5 +
   100790.4 * dist_p_to_s) * 0.01 *
-  (np.exp(-0.21398756 +
+  (1 + np.exp(-0.21398756 +
   0.0575015 * turbine_capacity +
   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
 install_6MW:
@@ -74,7 +74,7 @@ install_6MW:
   0.000000000157 * dist_p_to_s ** 3 -
   0.000000016 * dist_p_to_s ** 2 * np.log(depth) +
   75745.92 * dist_p_to_s * np.log(depth) ** 2) * 0.01 *
-  (np.exp(-0.21398756 +
+  (1 + np.exp(-0.21398756 +
   0.0575015 * turbine_capacity +
   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
 install_10MW:
@@ -88,7 +88,7 @@ install_10MW:
   0.0000000000637 * dist_p_to_s ** 3 -
   0.00000000045 * depth * dist_p_to_s ** 2 +
   49.24 * depth ** 2 * dist_p_to_s) * 0.01 *
-  (np.exp(-0.21398756 +
+  (1 + np.exp(-0.21398756 +
   0.0575015 * turbine_capacity +
   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
 install_12MW:
@@ -102,7 +102,7 @@ install_12MW:
   0.0000000000637 * dist_p_to_s ** 3 -
   0.00000000045 * depth * dist_p_to_s ** 2 +
   49.24 * depth ** 2 * dist_p_to_s) * 0.01 *
-  (np.exp(-0.21398756 +
+  (1 + np.exp(-0.21398756 +
   0.0575015 * turbine_capacity +
   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
 install_15MW:
@@ -116,6 +116,6 @@ install_15MW:
   0.0000000000637 * dist_p_to_s ** 3 -
   0.00000000045 * depth * dist_p_to_s ** 2 +
   49.24 * depth ** 2 * dist_p_to_s) * 0.01 *
-  (np.exp(-0.21398756 +
+  (1 + np.exp(-0.21398756 +
   0.0575015 * turbine_capacity +
   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)

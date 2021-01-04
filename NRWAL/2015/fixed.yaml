@@ -1,6 +1,6 @@
 outfitting_lt_4MW:
-  (35 + (0.8 * (18 + depth))) * outfitting_cost
+  (35 + (0.8 * (18 + depth))) * outfitting_cost * num_turbines
 outfitting_lt_8MW:
-  (40 + (0.8 * (18 + depth))) * outfitting_cost
+  (40 + (0.8 * (18 + depth))) * outfitting_cost * num_turbines
 outfitting:
-  (50 + (0.8 * (18 + depth))) * outfitting_cost
+  (50 + (0.8 * (18 + depth))) * outfitting_cost * num_turbines
