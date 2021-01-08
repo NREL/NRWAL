@@ -49,6 +49,12 @@ class Equation:
                 logger.error(msg)
                 raise ValueError(msg)
 
+        if not self.is_equation(self._eqn):
+            e = ('This expression is not fit for the NRWAL Equation '
+                 'handler: "{}"'.format(self._eqn))
+            logger.error(msg)
+            raise ValueError(e)
+
     @staticmethod
     def _check_input_args(kwargs):
         """Check that input args to equation are of expected types."""
@@ -207,16 +213,16 @@ class Equation:
 
     def __str__(self):
         if self._str is None:
-            if self.is_num(self._eqn) and not any(self.vars):
+            if self.is_num(self._eqn) and not any(self.variables):
                 self._str = str(self._eqn)
 
             else:
-                vars_str = [v for v in self.vars
+                vars_str = [v for v in self.variables
                             if v not in self.global_variables]
                 vars_str = str(vars_str).replace('[', '').replace(']', '')\
                     .replace("'", '').replace('"', '')
 
-                gvars_str = [v for v in self.vars
+                gvars_str = [v for v in self.variables
                              if v in self.global_variables]
                 for gvar in gvars_str:
                     base_str = ', ' if bool(vars_str) else ''
@@ -307,31 +313,61 @@ class Equation:
 
         Returns
         -------
-        global_variables : dict
-            Dictionary of variables accessible to all Equation, EquationGroup,
-            and EquationDirectory objects within the heirarchy of this object.
+        dict
         """
         return self._global_variables
 
+    @classmethod
+    def parse_variables(cls, expression):
+        """Parse variable names from an expression string."""
+        delimiters = ('*', '/', '+', '-', ' ', '(', ')', '[', ']')
+        regex_pattern = '|'.join(map(re.escape, delimiters))
+        variables = [sub for sub in re.split(regex_pattern, str(expression))
+                     if sub
+                     and not cls.is_num(sub)
+                     and not cls.is_method(sub)]
+        variables = sorted(list(set(variables)))
+        return variables
+
     @property
-    def vars(self):
-        """Get a list of variable names that the Equation uses as input.
+    def variables(self):
+        """Get a unique sorted list names of all input variables that the
+        Equation needs. This will return an empty list if the equation has
+        no variables.
 
         Returns
         -------
-        vars : list
-            List of strings representing variable names that were parsed from
-            the equation string. This will return an empty list if the equation
-            has no variables.
+        list
         """
-        delimiters = ('*', '/', '+', '-', ' ', '(', ')', '[', ']')
-        regex_pattern = '|'.join(map(re.escape, delimiters))
-        var_names = [sub for sub in re.split(regex_pattern, str(self._eqn))
-                     if sub
-                     and not self.is_num(sub)
-                     and not self.is_method(sub)]
-        var_names = sorted(list(set(var_names)))
-        return var_names
+        return self.parse_variables(self._eqn)
+
+    @classmethod
+    def is_equation(cls, expression):
+        """Check if an expression is an equation to be handled by this
+        framework.
+
+        Parameters
+        ----------
+        expression : str | int | float
+            Expression to be checked as an equation or not.
+
+        Returns
+        -------
+        check : bool
+            True if the expression is an equation that can be handled by this
+            framework.
+        """
+        check = False
+        operators = ('*', '/', '+', '-')
+
+        if not isinstance(expression, (str, int, float)):
+            check = False
+        elif cls.is_num(expression):
+            check = True
+        elif any([x in str(expression) for x in operators]):
+            check = True
+
+        return check
 
     def eval(self, **kwargs):
         """Abbreviated alias for evaluate()."""
@@ -351,7 +387,7 @@ class Equation:
         self._check_input_args(kwargs)
         kwargs = self._merge_vars(self._global_variables, kwargs)
 
-        missing = [v for v in self.vars
+        missing = [v for v in self.variables
                    if v not in globals()
                    and v not in kwargs]
         if any(missing):

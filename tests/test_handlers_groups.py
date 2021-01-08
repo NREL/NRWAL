@@ -148,32 +148,32 @@ def test_group_math_retrieval():
     eqn2 = obj[key2]
     eqn3 = obj[key3]
     eqn4 = obj[key4]
-    y1 = eqn1.eval(**{k: 2 for k in eqn1.vars})
-    y2 = eqn2.eval(**{k: 2 for k in eqn2.vars})
-    y3 = eqn3.eval(**{k: 2 for k in eqn3.vars})
+    y1 = eqn1.eval(**{k: 2 for k in eqn1.variables})
+    y2 = eqn2.eval(**{k: 2 for k in eqn2.variables})
+    y3 = eqn3.eval(**{k: 2 for k in eqn3.variables})
     y4 = eqn4.eval()
 
     key_math = ''.join([key1, ' + ', key2, '+', key3])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 + y2 + y3 == y_math
 
     key_math = ''.join([key1, ' + ', key2, ' * ', key3])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 + y2 * y3 == y_math
 
     key_math = ''.join([key1, ' / ', key2, ' - ', key3])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 / y2 - y3 == y_math
 
     key_math = ''.join([key1, ' / ', key2, ' ** ', key4])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 / y2 ** y4 == y_math
 
     key_math = ''.join([key1, ' * ', key2, ' ** ', key4])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 * y2 ** y4 == y_math

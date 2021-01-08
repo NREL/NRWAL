@@ -62,7 +62,7 @@ def test_nrwal_directory(dirname):
     eqns, groups = get_equations(dir_obj)
     for i, eqn in enumerate(eqns):
         try:
-            eqn.eval(**{k: 2 for k in eqn.vars})
+            eqn.eval(**{k: 2 for k in eqn.variables})
         except Exception:
             bad_eqn_i.append(i)
 

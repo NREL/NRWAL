@@ -10,6 +10,8 @@ import json
 import yaml
 import numpy as np
 import logging
+import operator
+from collections import OrderedDict
 
 from NRWAL.handlers.equations import Equation
 
@@ -121,22 +123,20 @@ class AbstractGroup(ABC):
             An object in this instance of EquationGroup keyed by the
             input argument key.
         """
+
+        # order of operator map enforces order of operations
+        op_map = OrderedDict()
+        op_map['+'] = operator.add
+        op_map['-'] = operator.sub
+        op_map['*'] = operator.mul
+        op_map['/'] = operator.truediv
+        op_map['^'] = operator.pow
         key = key.replace('**', '^')
-        if '+' in key:
-            split_keys = key.partition('+')
-            return obj[split_keys[0].strip()] + obj[split_keys[2].strip()]
-        elif '-' in key:
-            split_keys = key.partition('-')
-            return obj[split_keys[0].strip()] - obj[split_keys[2].strip()]
-        elif '*' in key:
-            split_keys = key.partition('*')
-            return obj[split_keys[0].strip()] * obj[split_keys[2].strip()]
-        elif '/' in key:
-            split_keys = key.partition('/')
-            return obj[split_keys[0].strip()] / obj[split_keys[2].strip()]
-        elif '^' in key:
-            split_keys = key.partition('^')
-            return obj[split_keys[0].strip()] ** obj[split_keys[2].strip()]
+        for op_str, op_fun in op_map.items():
+            if op_str in key:
+                split_keys = key.partition(op_str)
+                return op_fun(obj[split_keys[0].strip()],
+                              obj[split_keys[2].strip()])
 
     def __getitem__(self, key):
         """Retrieve a nested Equation or EquationGroup object from this
@@ -379,6 +379,14 @@ class AbstractGroup(ABC):
         """List of all Equation objects from this object."""
         return self._r_all_equations(self)
 
+    def get(self, key, default_value):
+        """Attempt to get a key from the EquationGroup, return
+        default_value if the key could not be retrieved"""
+        try:
+            return self[key]
+        except KeyError:
+            return default_value
+
     def keys(self):
         """Get the 1st level of equation group keys, same as dict.keys()"""
         return self._group.keys()
@@ -456,9 +464,7 @@ class EquationGroup(AbstractGroup):
 
         Returns
         -------
-        global_variables : dict
-            Dictionary of variables accessible to all Equation, EquationGroup,
-            and EquationDirectory objects within the heirarchy of this object.
+        dict
         """
         return self._global_variables
 

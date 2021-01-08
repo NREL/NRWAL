@@ -30,22 +30,22 @@ def test_print_eqn():
     eqn_name = 'outfitting_8MW'
     known_vars = ('depth', 'outfitting_cost')
     eqn = obj[eqn_name]
-    assert len(eqn.vars) == len(known_vars)
-    assert all([v in eqn.vars for v in known_vars])
+    assert len(eqn.variables) == len(known_vars)
+    assert all([v in eqn.variables for v in known_vars])
     assert all([v in str(eqn) for v in known_vars])
     assert eqn_name in str(eqn)
 
     eqn_name = 'lattice'
     known_vars = ('turbine_capacity', 'depth', 'lattice_cost')
     eqn = obj[eqn_name]
-    assert len(eqn.vars) == len(known_vars)
-    assert all([v in eqn.vars for v in known_vars])
+    assert len(eqn.variables) == len(known_vars)
+    assert all([v in eqn.variables for v in known_vars])
     assert all([v in str(eqn) for v in known_vars])
     assert eqn_name in str(eqn)
 
     eqn = obj['subgroup::eqn1']
-    assert isinstance(eqn.vars, list)
-    assert not eqn.vars
+    assert isinstance(eqn.variables, list)
+    assert not eqn.variables
     assert str(eqn) == '100'
 
     fp = os.path.join(GOOD_DIR, 'subdir/')
@@ -65,15 +65,15 @@ def test_eqn_eval():
     assert obj['subgroup::eqn1'].evaluate() == 100
 
     eqn = obj['outfitting_8MW']
-    kwargs = {k: 1 for k in eqn.vars}
+    kwargs = {k: 1 for k in eqn.variables}
     assert eqn.evaluate(**kwargs) == 55.2
 
     eqn = obj['lattice']
-    kwargs = {k: 1 for k in eqn.vars}
+    kwargs = {k: 1 for k in eqn.variables}
     assert eqn.evaluate(**kwargs) == 41.07337083665887
 
     eqn = obj['lattice']
-    kwargs = {k: np.ones((10, 10)) for k in eqn.vars}
+    kwargs = {k: np.ones((10, 10)) for k in eqn.variables}
     truth = 41.07337083665887 * np.ones((10, 10))
     assert np.allclose(eqn.evaluate(**kwargs), truth)
 
@@ -112,11 +112,11 @@ def test_eqn_math(operator):
     assert eqn1.full in eqn4.full
     assert '{} (3)'.format(operator) in eqn4.full
 
-    args1 = {k: 2 for k in eqn1.vars}
-    args2 = {k: 2 for k in eqn2.vars}
-    args3 = {k: 2 for k in eqn3.vars}
-    assert set(eqn1.vars + eqn2.vars) == set(eqn3.vars)
-    assert eqn1.vars == eqn4.vars
+    args1 = {k: 2 for k in eqn1.variables}
+    args2 = {k: 2 for k in eqn2.variables}
+    args3 = {k: 2 for k in eqn3.variables}
+    assert set(eqn1.variables + eqn2.variables) == set(eqn3.variables)
+    assert eqn1.variables == eqn4.variables
 
     assert_eqn_eval_math(eqn1, eqn2, eqn3, eqn4, args1, args2, args3, operator)
 

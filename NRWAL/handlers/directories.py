@@ -95,10 +95,10 @@ class EquationDirectory:
     NRWAL Equation objects can be evaluated using kwargs.
 
     >>> import numpy as np
-    >>> eqn.vars
+    >>> eqn.variables
     ['depth', 'num_turbines']
 
-    >>> eqn.eval(**{k: np.ones(2) for k in eqn.vars})
+    >>> eqn.eval(**{k: np.ones(2) for k in eqn.variables})
     array([1.48410044e+08, 1.48410044e+08])
 
     >>> eqn.eval(depth=np.ones(2), num_turbines=np.ones(2))
@@ -160,10 +160,10 @@ class EquationDirectory:
     (rna(turbine_capacity) + monopile_tower(depth, turbine_capacity,
         tower_cost=3960))
 
-    >>> eqn.vars
+    >>> eqn.variables
     ['depth', 'tower_cost', 'turbine_capacity']
 
-    >>> eqn.eval(**{k: np.ones(2) for k in eqn.vars})
+    >>> eqn.eval(**{k: np.ones(2) for k in eqn.variables})
     array([1037835.27761686, 1037835.27761686])
 
     >>> eqn.eval(depth=np.ones(2), turbine_capacity=np.ones(2))
@@ -427,39 +427,39 @@ class EquationDirectory:
 
         return eqns
 
-    def _set_variables(self, var_group=None):
+    def _set_variables(self, var_group=None, force_update=False):
         """Pass VariableGroup variable dictionaries defined within equation
         directories to adjacent and sub-level EquationGroup and Equation
         objects.
 
         Parameters
         ----------
-        eqn_dir : EquationDirectory
-            Equation directory object to set VariableGroup objects in.
         var_group : dict | None
             Variables group dictionary from a higher level in the equation
             heirarchy than eqn_dir that will be set to the EquationGroup
             objects in this EquationDirectory unless other VariableGroups are
             found on the local level in sub dirs. These variables can always
             be overwritten when Equation.evaluate() is called.
+        force_update : bool
+            Flag to force updates to local VariableGroup objects contained
+            in lower level directories.
         """
 
         if var_group is None:
             var_group = {}
 
-        if 'variables' in self.keys():
-            assert isinstance(self['variables'], VariableGroup)
+        if 'variables' in self.keys() and not force_update:
             # pylint: disable=E1101
+            # this makes it so that VariableGroup on lower directory levels
+            # will not be overwritten by the higher VariableGroup objects
+            assert isinstance(self['variables'], VariableGroup)
             var_group.update(self['variables'].var_dict)
 
         self._global_variables.update(copy.deepcopy(var_group))
 
         for v in self.values():
-            if isinstance(v, EquationGroup):
+            if isinstance(v, (EquationDirectory, EquationGroup, Equation)):
                 v._set_variables(var_group)
-
-            elif isinstance(v, EquationDirectory):
-                v._set_variables(var_group=var_group)
 
     @property
     def global_variables(self):
@@ -468,9 +468,7 @@ class EquationDirectory:
 
         Returns
         -------
-        global_variables : dict
-            Dictionary of variables accessible to all Equation, EquationGroup,
-            and EquationDirectory objects within the heirarchy of this object.
+        dict
         """
         return self._global_variables
 
@@ -478,6 +476,14 @@ class EquationDirectory:
     def all_equations(self):
         """List of all Equation objects from this object."""
         return EquationGroup._r_all_equations(self)
+
+    def get(self, key, default_value):
+        """Attempt to get a key from the EquationDirectory, return
+        default_value if the key could not be retrieved"""
+        try:
+            return self[key]
+        except KeyError:
+            return default_value
 
     def keys(self):
         """Get the 1st level of equation keys, same as dict.keys()"""
