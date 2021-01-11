@@ -50,10 +50,10 @@ class Equation:
                 raise ValueError(msg)
 
         if not self.is_equation(self._eqn):
-            e = ('This expression is not fit for the NRWAL Equation '
-                 'handler: "{}"'.format(self._eqn))
+            msg = ('This expression is not fit for the NRWAL Equation '
+                   'handler: "{}"'.format(self._eqn))
             logger.error(msg)
-            raise ValueError(e)
+            raise ValueError(msg)
 
     @staticmethod
     def _check_input_args(kwargs):

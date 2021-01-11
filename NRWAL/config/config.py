@@ -165,6 +165,13 @@ class NrwalConfig:
 
         out = {}
         for name, expression in config.items():
+            if not isinstance(expression, (int, float, str)):
+                msg = ('Cannot parse NrwalConfig expression for "{}", must be '
+                       'one of (int, float, str) but received type "{}": {}'
+                       .format(name, type(expression), expression))
+                logger.error(msg)
+                raise TypeError(msg)
+
             out[name] = cls._parse_expression(expression, config, eqn_dir,
                                               gvars)
         return out
@@ -206,21 +213,7 @@ class NrwalConfig:
                                         eqn_dir, gvars)
 
         elif Equation.is_equation(expression):
-            # order of operator map enforces order of operations
-            op_map = OrderedDict()
-            op_map['+'] = operator.add
-            op_map['-'] = operator.sub
-            op_map['*'] = operator.mul
-            op_map['/'] = operator.truediv
-            op_map['^'] = operator.pow
-            expression = expression.replace('**', '^')
-            for op_str, op_fun in op_map.items():
-                if op_str in expression:
-                    split = expression.partition(op_str)
-                    v0, v1 = split[0].strip(), split[2].strip()
-                    out = op_fun(
-                        cls._parse_expression(v0, config, eqn_dir, gvars),
-                        cls._parse_expression(v1, config, eqn_dir, gvars))
+            out = cls._parse_equation(expression, config, eqn_dir, gvars)
 
         elif '::' in expression and expression.split('::')[0] in config:
             config_key, _, sub_key = expression.partition('::')
@@ -228,12 +221,62 @@ class NrwalConfig:
             out = temp[sub_key]
 
         else:
-            out = eqn_dir[expression]
+            try:
+                out = eqn_dir[expression]
+            except KeyError as e:
+                msg = ('Could not parse unknown expression "{}". Must be an '
+                       'equation key in the EquationDirectory or a locally '
+                       'defined variable.'.format(expression))
+                logger.error(msg)
+                raise ValueError(msg) from e
 
         if isinstance(out, (Equation, EquationGroup)):
             out.set_default_variables(gvars)
         elif isinstance(out, EquationDirectory):
             out.set_default_variables(gvars, force_update=True)
+
+        return out
+
+    @classmethod
+    def _parse_equation(cls, expression, config, eqn_dir, gvars):
+        """Special parsing logic for expressions that are equations
+        (contain operators).
+
+        Parameters
+        ----------
+        expression : str
+            A string entry in the config containing operators.
+        config : dict
+            NRWAL config dictionary mapping names (str) to expressions (str)
+        eqn_dir : EquationDirectory
+            EquationDirectory object holding Equation objects available to
+            this config.
+        gvars : dict
+            Dictionary of global variables (constant numerical values)
+            available within this config object.
+
+        Returns
+        -------
+        out : Equation
+            NRWAL Equation object representing the input equation
+        """
+
+        assert Equation.is_equation(expression)
+
+        # order of operator map enforces order of operations
+        op_map = OrderedDict()
+        op_map['+'] = operator.add
+        op_map['-'] = operator.sub
+        op_map['*'] = operator.mul
+        op_map['/'] = operator.truediv
+        op_map['^'] = operator.pow
+        expression = expression.replace('**', '^')
+        for op_str, op_fun in op_map.items():
+            if op_str in expression:
+                split = expression.partition(op_str)
+                v0, v1 = split[0].strip(), split[2].strip()
+                out = op_fun(cls._parse_expression(v0, config, eqn_dir, gvars),
+                             cls._parse_expression(v1, config, eqn_dir, gvars))
 
         return out
 

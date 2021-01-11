@@ -15,6 +15,8 @@ TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
 
 FP_GOOD = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_00_good.yml')
+FP_BAD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_01_bad.yml')
+FP_BAD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_02_bad.yml')
 
 
 def test_good_config_parsing():
@@ -97,3 +99,15 @@ def test_good_config_parsing():
     obj.inputs = None
     with pytest.raises(RuntimeError):
         obj.evaluate()
+
+
+def test_bad_config_undefined():
+    """Test the parsing of a bad config with an undefined variable"""
+    with pytest.raises(ValueError):
+        NrwalConfig(FP_BAD_1)
+
+
+def test_bad_config_nesting():
+    """Test the parsing of a bad config with weird nestings"""
+    with pytest.raises(TypeError):
+        NrwalConfig(FP_BAD_2)
