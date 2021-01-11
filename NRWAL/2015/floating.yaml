@@ -1,8 +1,8 @@
 mooring:
-  3 * (0.001 * (depth ** 2) + 0.3345 * depth + 756.78) * (98.068 * turbine_capacity + 114.91)
+  3 * (0.001 * (depth ** 2) + 0.3345 * depth + 756.78) * (98.068 * turbine_capacity + 114.91) * num_turbines
 anchors:
-  3 * (-37.857 * turbine_capacity ** 2 + 2155.7 * turbine_capacity + 2100.6) * 2000 / (9.806 * 20)
+  3 * (-37.857 * turbine_capacity ** 2 + 2155.7 * turbine_capacity + 2100.6) * 2000 / (9.806 * 20) * num_turbines
 mooring_gt10MW:
-  3 * (0.001 * (depth ** 2) + 0.3345 * depth + 756.78) * (98.068 * 10 + 114.91)
+  3 * (0.001 * (depth ** 2) + 0.3345 * depth + 756.78) * (98.068 * 10 + 114.91) * num_turbines
 anchors_gt10MW:
-  3 * (-37.857 * 10 ** 2 + 2155.7 * turbine_capacity + 2100.6) * 2000 / (9.806 * 20)
+  3 * (-37.857 * 10 ** 2 + 2155.7 * turbine_capacity + 2100.6) * 2000 / (9.806 * 20) * num_turbines

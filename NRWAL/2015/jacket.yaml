@@ -1,21 +1,21 @@
 foundation:
   (8 * (np.exp(3.7136 + 0.00176 * turbine_capacity ** 2.5 +
-        0.645 * np.log(depth))) ** 0.5574) * pile_cost
+        0.645 * np.log(depth))) ** 0.5574) * pile_cost * num_turbines
 foundation_gt10MW:
   (8 * (np.exp(3.7136 + 0.00176 * 10 ** 2.5 +
-        0.645 * np.log(depth))) ** 0.5574) * pile_cost
+        0.645 * np.log(depth))) ** 0.5574) * pile_cost * num_turbines
 lattice:
   (np.exp(3.7136 + 0.00176 * turbine_capacity ** 2.5 +
-          0.645 * np.log(depth))) * lattice_cost
+          0.645 * np.log(depth))) * lattice_cost * num_turbines
 lattice_gt10MW:
   (np.exp(3.7136 + 0.00176 * 10 ** 2.5 +
-          0.645 * np.log(depth))) * lattice_cost
+          0.645 * np.log(depth))) * lattice_cost * num_turbines
 transition_piece:
   (1 / (-0.0131 + 0.0381 / np.log(turbine_capacity) -
-        0.00000000227 * depth ** 3)) * jacket_tp_cost
+        0.00000000227 * depth ** 3)) * jacket_tp_cost * num_turbines
 transition_piece_gt10MW:
   (1 / (-0.0131 + 0.0381 / np.log(10) -
-        0.00000000227 * depth ** 3)) * jacket_tp_cost
+        0.00000000227 * depth ** 3)) * jacket_tp_cost * num_turbines
 install_3MW:
   (-22750257 + 
   20167344 * depth - 
@@ -24,9 +24,9 @@ install_3MW:
   246.45 * depth ** 4 +
   0.9039 * depth ** 5 +
   100790.4 * dist_p_to_s) * 0.01 * 
-  (np.exp(-0.21398756 +
+  (1 + np.exp(-0.21398756 +
   0.0575015 * turbine_capacity +
-  0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+  0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime) * num_turbines
 install_6MW:
   (-458000000 +
   517000000 * np.log(depth) +
@@ -38,9 +38,9 @@ install_6MW:
   0.000000000157 * dist_p_to_s ** 3 -
   0.000000016 * dist_p_to_s ** 2 * np.log(depth) +
   75745.92 * dist_p_to_s * np.log(depth) ** 2) * 0.01 *
-  (np.exp(-0.21398756 +
+  (1 + np.exp(-0.21398756 +
   0.0575015 * turbine_capacity +
-  0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+  0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime) * num_turbines
 install_10MW:
   (127000000 -
   2490356 * depth +
@@ -52,9 +52,9 @@ install_10MW:
   0.0000000000637 * dist_p_to_s ** 3 -
   0.00000000045 * depth * dist_p_to_s ** 2 +
   49.24 * depth ** 2 * dist_p_to_s) * 0.01 *
-  (np.exp(-0.21398756 +
+  (1 + np.exp(-0.21398756 +
   0.0575015 * turbine_capacity +
-  0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+  0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime) * num_turbines
 pslt_3MW:
   0.01 * (303605.89 +
    743543.05 * np.log(depth) -
@@ -64,7 +64,7 @@ pslt_3MW:
    0.851 * np.log(depth) +
    0.273 * np.log(depth) ** 2 -
    0.0269 * np.log(depth) ** 3 -
-   0.0003 * dist_p_to_s)
+   0.0003 * dist_p_to_s) * num_turbines + port_cost
 pslt_6MW:
   0.01 * (12285015 +
   77253.46 * depth +
@@ -75,7 +75,7 @@ pslt_6MW:
   2.776 * depth ** 3 +
   0.0003263 * dist_p_to_s ** 3 -
   0.0000000005601 * depth * dist_p_to_s ** 2 +
-  2.524 * depth ** 2 * dist_p_to_s)
+  2.524 * depth ** 2 * dist_p_to_s) * num_turbines + port_cost
 pslt_10MW:
   0.01 * (21321746 -
   8043690.6 * np.log(depth) +
@@ -86,4 +86,4 @@ pslt_10MW:
   219765.57 * np.log(depth) ** 3 +
   0.00033 * dist_p_to_s ** 3 -
   0.0000000265 * dist_p_to_s ** 2 * np.log(depth) +
-  7912.15 * dist_p_to_s * np.log(depth) ** 2)
+  7912.15 * dist_p_to_s * np.log(depth) ** 2) * num_turbines + port_cost
