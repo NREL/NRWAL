@@ -289,7 +289,7 @@ class Equation:
     def is_num(s):
         """Check if a string is a number"""
         try:
-            float(s)
+            float(str(s))
         except ValueError:
             return False
         else:

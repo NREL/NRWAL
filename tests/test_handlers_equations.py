@@ -77,7 +77,7 @@ def test_eqn_eval():
     truth = 41.07337083665887 * np.ones((10, 10))
     assert np.allclose(eqn.evaluate(**kwargs), truth)
 
-    with pytest.raises(KeyError):
+    with pytest.raises(RuntimeError):
         eqn.evaluate()
 
 

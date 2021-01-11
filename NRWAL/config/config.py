@@ -419,7 +419,7 @@ class NrwalConfig:
         -------
         bool
         """
-        return ~any(self.missing_inputs)
+        return not any(self.missing_inputs)
 
     def get(self, key, default_value):
         """Attempt to get a key from the NrwalConfig, return
@@ -473,11 +473,12 @@ class NrwalConfig:
             logger.error(msg)
             raise RuntimeError(msg)
 
-        for k, v in self.values():
-            if Equation.is_num(v):
-                self._outputs[k] = v
+        for k, v in self.items():
+            if (isinstance(v, (EquationGroup, EquationDirectory))
+                    or Equation.is_num(v)):
+                pass
             elif isinstance(v, Equation):
-                self._outputs = v.evaluate(self.inputs)
+                self._outputs[k] = v.evaluate(**self.inputs)
             else:
                 msg = ('Cannot evaluate "{}" with unexpected type: {}'
                        .format(k, type(v)))

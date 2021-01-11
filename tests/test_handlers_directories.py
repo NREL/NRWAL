@@ -65,7 +65,7 @@ def test_variable_setting():
     obj = EquationDirectory(GOOD_DIR)
     assert not obj.default_variables
 
-    with pytest.raises(KeyError):
+    with pytest.raises(RuntimeError):
         obj['jacket::outfitting_8MW'].evaluate(depth=10)
 
     eqn = obj['subdir::jacket::outfitting_8MW']
@@ -74,7 +74,7 @@ def test_variable_setting():
     assert eqn.evaluate(depth=10, outfitting_cost=10) == eqn.evaluate(depth=10)
     assert eqn.evaluate(depth=10, outfitting_cost=20) != eqn.evaluate(depth=10)
 
-    with pytest.raises(KeyError):
+    with pytest.raises(RuntimeError):
         eqn.evaluate()
 
     assert obj['subdir'].default_variables['lattice_cost'] == 100
