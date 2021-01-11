@@ -18,7 +18,185 @@ logger = logging.getLogger(__name__)
 
 
 class NrwalConfig:
-    """Config framework for NRWAL"""
+    """Config framework for NRWAL.
+
+    Examples
+    --------
+
+    The NrwalConfig object can be instantiated from a config yaml file for
+    from a python dictionary. The config is based on a NRWAL equation directory
+    that can be specified by the "equation_directory" key in the config or will
+    be defaulted to the NRWAL repository equation directory. Please note that
+    the test config used in this example is completely fictitious and is
+    for demonstration purposes only.
+
+    >>> from NRWAL import NrwalConfig
+    >>> obj = NrwalConfig('./tests/data/test_configs/test_config_00_good.yml')
+    >>> obj
+    NrwalConfig object with equation directory: /home/gbuster/code/NRWAL/NRWAL
+    num_turbines
+            6.0
+    fixed_charge_rate
+            0.096
+    array
+            fixed(depth, num_turbines=6.0)
+    export
+            fixed(dist_s_to_l)
+    grid
+            grid_connection(dist_l_to_ts, transmission_multi, turbine_capacity,
+                            num_turbines=6.0, transmission_cost=6536.67)
+    monopile
+            EquationGroup object from "monopile.yaml" with heirarchy:
+            pslt_3MW(depth, dist_p_to_s)
+            pslt_6MW(depth, dist_p_to_s)
+            pslt_10MW(depth, dist_p_to_s)
+            pslt_12MW(depth, dist_p_to_s)
+            pslt_15MW(depth, dist_p_to_s)
+            install_3MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            install_6MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            install_10MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            install_12MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+            install_15MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+    monopile_costs
+            (pslt_12MW(depth, dist_p_to_s) + install_12MW(depth, dist_p_to_s,
+             fixed_downtime, turbine_capacity))
+    electrical
+            (fixed(depth, num_turbines=6.0) * (fixed(dist_s_to_l)
+             + grid_connection(dist_l_to_ts, transmission_multi,
+             turbine_capacity, num_turbines=6.0, transmission_cost=6536.67)))
+    electrical_duplicate
+            (fixed(depth, num_turbines=6.0) * (fixed(dist_s_to_l)
+             + grid_connection(dist_l_to_ts, transmission_multi,
+             turbine_capacity, num_turbines=6.0, transmission_cost=6536.67)))
+    capex
+            (fixed(depth, num_turbines=6.0) * (fixed(dist_s_to_l)
+             + grid_connection(dist_l_to_ts, transmission_multi,
+             turbine_capacity, num_turbines=6.0, transmission_cost=6536.67)))
+    lcoe
+            ((fixed(depth, num_turbines=6.0) * (fixed(dist_s_to_l)
+             + grid_connection(dist_l_to_ts, transmission_multi,
+             turbine_capacity, num_turbines=6.0, transmission_cost=6536.67)))
+             * 0.096)
+
+    Objects can be retrieved from the NrwalConfig object using the python
+    bracket syntax similar to a python dictionary. You can see here how
+    values in the config object correspond to: global variables defined in
+    the config (e.g. 'num_turbines'), NRWAL EquationGroup objects that
+    organize the equations found in the equation directory (e.g. 'monopile'),
+    or single NRWAL Equation objects that will output numerical data when
+    evaluated (e.g. 'monopile_costs').
+
+    >>> type(obj['num_turbines'])
+    float
+    >>> obj['num_turbines']
+    6.0
+
+    >>> type(obj['monopile'])
+    NRWAL.handlers.groups.EquationGroup
+    >>> obj['monopile']
+    EquationGroup object from "monopile.yaml" with heirarchy:
+    pslt_3MW(depth, dist_p_to_s)
+    pslt_6MW(depth, dist_p_to_s)
+    pslt_10MW(depth, dist_p_to_s)
+    pslt_12MW(depth, dist_p_to_s)
+    pslt_15MW(depth, dist_p_to_s)
+    install_3MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+    install_6MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+    install_10MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+    install_12MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+    install_15MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)
+
+    >>> type(obj['monopile_costs'])
+    NRWAL.handlers.equations.Equation
+    >>> obj['monopile_costs']
+    (pslt_12MW(depth, dist_p_to_s) + install_12MW(depth, dist_p_to_s, fixed_...
+
+    There are a number of helpful properties that show what variables are
+    available or required for all of the Equation objects in the config. Note
+    that the global variables are passed into each of the Equation objects
+    defined in the NrwalConfig, although these can always be overwritten by
+    the NrwalConfig inputs.
+
+    >>> obj.global_variables
+    {'num_turbines': 6.0, 'fixed_charge_rate': 0.096}
+
+    >>> obj.all_variables
+    ['depth',
+     'dist_l_to_ts',
+     'dist_p_to_s',
+     'dist_s_to_l',
+     'fixed_charge_rate',
+     'fixed_downtime',
+     'num_turbines',
+     'transmission_cost',
+     'transmission_multi',
+     'turbine_capacity']
+
+    >>> obj.required_inputs
+    ['depth',
+     'dist_l_to_ts',
+     'dist_p_to_s',
+     'dist_s_to_l',
+     'fixed_downtime',
+     'transmission_multi',
+     'turbine_capacity']
+
+    >>> obj.solvable
+    False
+
+    The NrwalConfig object can take a dictionary or DataFrame of inputs that
+    will be provided to all of the Equation objects. Inputs can be passed to
+    the NrwalConfig constructor or later to the NrwalConfig inputs property.
+    Note that passing new data to the inputs property will update the inputs
+    dictionary, not overwrite it. Inputs can also be passed to the NrwalConfig
+    object at runtime via the evaluate() method.
+
+    >>> obj.inputs
+    {}
+
+    >>> obj.inputs = {'depth': np.ones(3)}
+    >>> obj.inputs
+    {'depth': array([1., 1., 1.])}
+
+    >>> obj.inputs['depth'] = 2 * np.ones(3)
+    >>> obj.inputs
+    {'depth': array([2., 2., 2.])}
+
+    >>> obj.inputs = {'dist_p_to_s': np.ones(3)}
+    >>> obj.inputs
+    {'depth': array([2., 2., 2.]), 'dist_p_to_s': array([1., 1., 1.])}
+
+    >>> obj.missing_inputs
+    ['dist_l_to_ts',
+     'dist_s_to_l',
+     'fixed_downtime',
+     'transmission_multi',
+     'turbine_capacity']
+
+    >>> obj.solvable
+    False
+
+    Finally, the NrwalConfig object can be evaluated, which really means that
+    every Equation object in the NrwalConfig will be evaluated. Here you can
+    see the evaluate function being called with all remaining missing inputs
+    defined in the input argument (all the inputs that were not already passed
+    into the config inputs). The output is a dictionary of data with the keys
+    from the input config that map directly to Equations. Note that keys from
+    the input config like "num_turbines" and "monopile" map to global variables
+    and EquationGroups respectively, and so are not included in the outputs.
+    The outputs will also be saved to the NrwalConfig.outputs property.
+
+    >>> obj.evaluate(inputs={k: np.ones(3) for k in obj.missing_inputs})
+    {'array': array([1.52304188e+08, 1.52304188e+08, 1.52304188e+08]),
+     'export': array([92471016.757, 92471016.757, 92471016.757]),
+     'grid': array([39220., 39220., 39220.]),
+     'monopile_costs': array([inf, inf, inf]),
+     'electrical': array([1.40896965e+16, 1.40896965e+16, 1.40896965e+16]),
+     'electrical_duplicate': array([1.40896965e+16, 1.40896965e+16,
+                                    1.40896965e+16]),
+     'capex': array([1.40896965e+16, 1.40896965e+16, 1.40896965e+16]),
+     'lcoe': array([1.35261086e+15, 1.35261086e+15, 1.35261086e+15])}
+    """
 
     DEFAULT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -298,34 +476,6 @@ class NrwalConfig:
             return self._outputs[key]
         else:
             return self._config[key]
-
-    def __getattr__(self, attr):
-        """Retrieve data from the NrwalConfig, prioritizing outputs, then
-        expressions from the input config, then from the object itself.
-
-        Parameters
-        ----------
-        attr : str
-            Requested attribute from the NrwalConfig.
-
-        Returns
-        -------
-        out : int | float | np.ndarray | Equation
-            Requested data prioritized from the outputs, then the config,
-            then from the object itself.
-        """
-        if attr in self._outputs:
-            return self._outputs[attr]
-        elif attr in self._config:
-            return self._config[attr]
-        else:
-            try:
-                return super().__getattr__(attr)  # pylint: disable-msg=E1101
-            except AttributeError as e:
-                msg = ('Could not get attribute "{}" from NrwalConfig.'
-                       .format(attr))
-                logger.error(msg)
-                raise AttributeError(msg) from e
 
     def __str__(self):
         s = ['NrwalConfig object with equation directory: "{}"'
