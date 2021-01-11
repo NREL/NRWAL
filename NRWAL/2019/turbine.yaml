@@ -1,6 +1,6 @@
 rna:
-  1300 * (1. - 0.056) * turbine_capacity * 1000.0 * 0.86
+  1300 * (1. - 0.056) * turbine_capacity * 1000.0 * 0.86 * num_turbines
 horiz_spar_rna:
-  1300 * (1. - 0.056) * turbine_capacity * 1000.0 * 0.86 * hz_turbine_factor
+  1300 * (1. - 0.056) * turbine_capacity * 1000.0 * 0.86 * hz_turbine_factor * num_turbines
 tower:
-  turbine_capacity * 1000.0 * 1300 * 0.14
+  1300 * (1. - 0.056) * turbine_capacity * 1000.0 * 0.14 * num_turbines
