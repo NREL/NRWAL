@@ -3,6 +3,7 @@
 NRWAL config framework.
 """
 import logging
+import pandas as pd
 import yaml
 import json
 import os
@@ -21,13 +22,18 @@ class NrwalConfig:
 
     DEFAULT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    def __init__(self, config, interp_extrap=False, use_nearest=False):
+    def __init__(self, config, inputs=None, interp_extrap=False,
+                 use_nearest=False):
         """
         Parameters
         ----------
         config : dict | str
             NRWAL config input. Can be a string filepath to a json or yml file
             or an extracted dictionary.
+        inputs : dict | pd.DataFrame | None
+            Optional namespace of input data to make available for the
+            evaluation of the NrwalConfig. This can be set at any time after
+            config initialization by setting the .inputs attribute.
         interp_extrap : bool
             Flag to interpolate and extrapolate power (MW) dependent equations
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
@@ -42,12 +48,18 @@ class NrwalConfig:
             be raised if the exact equation name request is not found.
         """
 
+        # parse inputs arg with inputs setter function
+        self._inputs = None
+        self.inputs = inputs
+
         config, eqn_dir = self._load_config(config)
         self._eqn_dir = EquationDirectory(eqn_dir, interp_extrap=interp_extrap,
                                           use_nearest=use_nearest)
         self._global_variables = self._parse_global_variables(config)
         self._config = self._parse_config(config, self._eqn_dir,
                                           self._global_variables)
+
+        self._outputs = {}
 
     @classmethod
     def _load_config(cls, config):
@@ -226,21 +238,51 @@ class NrwalConfig:
         return out
 
     def __getitem__(self, key):
-        """Retrieve an expression from the config.
+        """Retrieve data from the NrwalConfig, prioritizing outputs, then
+        expressions from the input config.
 
         Parameters
         ----------
         key : str
+            Requested key from the NrwalConfig.
 
         Returns
         -------
-        out : int | float | Equation
-            A numeric value if the config expression corresponding to the
-            requested key is a number, or a NRWAL Equation object representing
-            the expression corresponding to the requested key that is ready
-            to be evaluated.
+        out : int | float | np.ndarray | Equation
+            Requested data prioritized from the outputs then the config.
         """
-        return self._config[key]
+        if key in self._outputs:
+            return self._outputs[key]
+        else:
+            return self._config[key]
+
+    def __getattr__(self, attr):
+        """Retrieve data from the NrwalConfig, prioritizing outputs, then
+        expressions from the input config, then from the object itself.
+
+        Parameters
+        ----------
+        attr : str
+            Requested attribute from the NrwalConfig.
+
+        Returns
+        -------
+        out : int | float | np.ndarray | Equation
+            Requested data prioritized from the outputs, then the config,
+            then from the object itself.
+        """
+        if attr in self._outputs:
+            return self._outputs[attr]
+        elif attr in self._config:
+            return self._config[attr]
+        else:
+            try:
+                return super().__getattr__(attr)  # pylint: disable-msg=E1101
+            except AttributeError as e:
+                msg = ('Could not get attribute "{}" from NrwalConfig.'
+                       .format(attr))
+                logger.error(msg)
+                raise AttributeError(msg) from e
 
     def __str__(self):
         s = ['NrwalConfig object with equation directory: "{}"'
@@ -257,6 +299,40 @@ class NrwalConfig:
         return str(self)
 
     @property
+    def inputs(self):
+        """Get the inputs dictionary.
+
+        Returns
+        -------
+        dict | None
+        """
+        return self._inputs
+
+    @inputs.setter
+    def inputs(self, arg):
+        """Set the inputs dictionary.
+
+        Parameters
+        ----------
+        arg : dict | pd.DataFrame | None
+            Namespace of input data to make available for the
+            evaluation of the NrwalConfig.
+        """
+
+        if arg is None:
+            self._inputs = None
+        elif isinstance(arg, dict):
+            self._inputs = arg
+        elif isinstance(arg, pd.DataFrame):
+            self._inputs = {k: arg[k].values.flatten()
+                            for k in arg.columns.values}
+        else:
+            msg = ('Cannot set inputs as datatype "{}". '
+                   'Requires a dict or DataFrame.'.format(type(arg)))
+            logger.error(msg)
+            raise TypeError(msg)
+
+    @property
     def global_variables(self):
         """Get a dictionary of global variables (constant numerical values)
         available within this config object.
@@ -268,7 +344,7 @@ class NrwalConfig:
         return self._global_variables
 
     @property
-    def variables(self):
+    def all_variables(self):
         """Get a unique sorted list of names of the input variables for all
         equations in this config. This will include global variables available
         within and defined in this config.
@@ -282,6 +358,23 @@ class NrwalConfig:
         for eqn in self.values():
             if isinstance(eqn, Equation):
                 names += eqn.variables
+
+        return sorted(list(set(names)))
+
+    @property
+    def required_inputs(self):
+        """Get a unique list of variable names required in the input namespace.
+        This considers variables set in the config or in variables.yaml files
+        to not be required, although these can still be overwritten in the
+        config "inputs" attribute.
+        """
+
+        names = []
+        for eqn in self.values():
+            if isinstance(eqn, Equation):
+                names += [v for v in eqn.variables
+                          if v not in self.global_variables
+                          and v not in eqn.global_variables]
 
         return sorted(list(set(names)))
 

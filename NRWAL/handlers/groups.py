@@ -471,7 +471,7 @@ class EquationGroup(AbstractGroup):
 
 class VariableGroup(AbstractGroup):
     """Class to handle a single json or yaml file with multiple numerical
-    variable definitions.
+    variable definitions from variables.yaml files.
     """
 
     def __str__(self):
