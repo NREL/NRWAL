@@ -235,12 +235,12 @@ class EquationDirectory:
 
         self._interp_extrap = interp_extrap
         self._use_nearest = use_nearest
-        self._global_variables = {}
+        self._default_variables = {}
         self._base_name = os.path.basename(os.path.abspath(eqn_dir))
         self._dir_name = os.path.dirname(os.path.abspath(eqn_dir))
         self._eqns = self._parse_eqn_dir(eqn_dir, interp_extrap=interp_extrap,
                                          use_nearest=use_nearest)
-        self._set_variables()
+        self.set_default_variables()
 
     def __add__(self, other):
         """Add another equation dir to this instance of EquationDirectory
@@ -272,7 +272,7 @@ class EquationDirectory:
 
         out = copy.deepcopy(self)
         out._eqns.update(other._eqns)
-        out._set_variables(other._global_variables)
+        out.set_default_variables(other._default_variables)
 
         return out
 
@@ -427,22 +427,22 @@ class EquationDirectory:
 
         return eqns
 
-    def _set_variables(self, var_group=None, force_update=False):
-        """Pass VariableGroup variable dictionaries defined within equation
-        directories to adjacent and sub-level EquationGroup and Equation
-        objects.
+    def set_default_variables(self, var_group=None, force_update=False):
+        """Set default variables available to this object and all
+        sub-directories, sub-groups, and equations within this object.
 
         Parameters
         ----------
         var_group : dict | None
-            Variables group dictionary from a higher level in the equation
-            heirarchy than eqn_dir that will be set to the EquationGroup
-            objects in this EquationDirectory unless other VariableGroups are
-            found on the local level in sub dirs. These variables can always
-            be overwritten when Equation.evaluate() is called.
+            Default variables namespace that will be set to the EquationGroup
+            objects in this EquationDirectory unless other variables.yaml files
+            are found on the local level in sub-directories. These variables
+            can always be overwritten when Equation.evaluate() is called.
         force_update : bool
-            Flag to force updates to local VariableGroup objects contained
-            in lower level directories.
+            Flag to force updates to local VariableGroup objects
+            (variables.yaml files) contained in lower level directories.
+            Default is False so that lower level directories will maintain
+            their locally-defined default variables.
         """
 
         if var_group is None:
@@ -455,22 +455,22 @@ class EquationDirectory:
             assert isinstance(self['variables'], VariableGroup)
             var_group.update(self['variables'].var_dict)
 
-        self._global_variables.update(copy.deepcopy(var_group))
+        self._default_variables.update(copy.deepcopy(var_group))
 
         for v in self.values():
             if isinstance(v, (EquationDirectory, EquationGroup, Equation)):
-                v._set_variables(var_group)
+                v.set_default_variables(var_group)
 
     @property
-    def global_variables(self):
-        """Get a dictionary of global variables from a variables.yaml file
+    def default_variables(self):
+        """Get a dictionary of default variables from a variables.yaml file
         accessible to this object
 
         Returns
         -------
         dict
         """
-        return self._global_variables
+        return self._default_variables
 
     @property
     def all_equations(self):

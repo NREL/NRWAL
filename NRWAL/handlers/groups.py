@@ -56,7 +56,7 @@ class AbstractGroup(ABC):
             self._base_name = os.path.basename(group)
             self._dir_name = os.path.dirname(group)
 
-        self._global_variables = {}
+        self._default_variables = {}
         self._interp_extrap = interp_extrap
         self._use_nearest = use_nearest
         self._group = self._parse_group(group)
@@ -90,7 +90,7 @@ class AbstractGroup(ABC):
 
         out = copy.deepcopy(self)
         out._group.update(other._group)
-        out._set_variables(other._global_variables)
+        out.set_default_variables(other._default_variables)
 
         return out
 
@@ -328,25 +328,23 @@ class AbstractGroup(ABC):
 
         return group
 
-    def _set_variables(self, var_dict):
-        """Pass VariableGroup variable dictionaries defined within equation
-        directories to adjacent and sub-level EquationGroup and Equation
-        objects.
+    def set_default_variables(self, var_dict):
+        """Set default variables available to this object and all sub-groups
+        and equations within this object.
 
         Parameters
         ----------
         var_dict : dict | None
-            Variables group dictionary from a higher level than or adjacent to
-            this instance of EquationGroup. Variables from this input will be
+            Default variables namespace. Variables from this input will be
             passed to all Equation objects in this EquationGroup. These
             variables can always be overwritten when Equation.evaluate()
             is called.
         """
 
         if var_dict is not None:
-            self._global_variables.update(copy.deepcopy(var_dict))
+            self._default_variables.update(copy.deepcopy(var_dict))
             for v in self.values():
-                v._set_variables(var_dict)
+                v.set_default_variables(var_dict)
 
     @classmethod
     def _r_all_equations(cls, obj):
@@ -458,15 +456,15 @@ class EquationGroup(AbstractGroup):
         return eqn_group
 
     @property
-    def global_variables(self):
-        """Get a dictionary of global variables from a variables.yaml file
+    def default_variables(self):
+        """Get a dictionary of default variables from a variables.yaml file
         accessible to this object
 
         Returns
         -------
         dict
         """
-        return self._global_variables
+        return self._default_variables
 
 
 class VariableGroup(AbstractGroup):

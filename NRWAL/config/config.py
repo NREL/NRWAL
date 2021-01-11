@@ -231,9 +231,9 @@ class NrwalConfig:
             out = eqn_dir[expression]
 
         if isinstance(out, (Equation, EquationGroup)):
-            out._set_variables(gvars)
+            out.set_default_variables(gvars)
         elif isinstance(out, EquationDirectory):
-            out._set_variables(gvars, force_update=True)
+            out.set_default_variables(gvars, force_update=True)
 
         return out
 
@@ -346,8 +346,9 @@ class NrwalConfig:
     @property
     def all_variables(self):
         """Get a unique sorted list of names of the input variables for all
-        equations in this config. This will include global variables available
-        within and defined in this config.
+        equations in this config. This will include global variables defined
+        in this config and default variables defined in the equation
+        directories.
 
         Returns
         -------
@@ -374,7 +375,7 @@ class NrwalConfig:
             if isinstance(eqn, Equation):
                 names += [v for v in eqn.variables
                           if v not in self.global_variables
-                          and v not in eqn.global_variables]
+                          and v not in eqn.default_variables]
 
         return sorted(list(set(names)))
 

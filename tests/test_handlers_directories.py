@@ -63,7 +63,7 @@ def test_print_eqn_dir():
 def test_variable_setting():
     """Test the presence of a variables.yaml file in an EquationDirectory"""
     obj = EquationDirectory(GOOD_DIR)
-    assert not obj.global_variables
+    assert not obj.default_variables
 
     with pytest.raises(KeyError):
         obj['jacket::outfitting_8MW'].evaluate(depth=10)
@@ -77,21 +77,22 @@ def test_variable_setting():
     with pytest.raises(KeyError):
         eqn.evaluate()
 
-    assert obj['subdir'].global_variables['lattice_cost'] == 100
+    assert obj['subdir'].default_variables['lattice_cost'] == 100
     sjacket = obj['subdir::jacket']
-    assert sjacket.global_variables['lattice_cost'] == 100
-    assert sjacket['outfitting_8MW'].global_variables['lattice_cost'] == 100
-    assert sjacket['lattice'].global_variables['lattice_cost'] == 100
+    assert sjacket.default_variables['lattice_cost'] == 100
+    assert sjacket['outfitting_8MW'].default_variables['lattice_cost'] == 100
+    assert sjacket['lattice'].default_variables['lattice_cost'] == 100
     subsub = obj['subdir::subsubdir']
     ssjacket = subsub['jacket']
-    assert subsub.global_variables['lattice_cost'] == 50
-    assert ssjacket.global_variables['lattice_cost'] == 50
-    assert ssjacket['lattice'].global_variables['lattice_cost'] == 50
-    assert ssjacket['subgroup3::eqn123'].global_variables['lattice_cost'] == 50
+    assert subsub.default_variables['lattice_cost'] == 50
+    assert ssjacket.default_variables['lattice_cost'] == 50
+    assert ssjacket['lattice'].default_variables['lattice_cost'] == 50
+    x = ssjacket['subgroup3::eqn123'].default_variables['lattice_cost']
+    assert x == 50
 
     eqn = obj['subdir::subsubdir::jacket::subgroup3::eqn123']
-    assert eqn.global_variables['lattice_cost'] == 50
-    assert eqn.global_variables['outfitting_cost'] == 10
+    assert eqn.default_variables['lattice_cost'] == 50
+    assert eqn.default_variables['outfitting_cost'] == 10
     assert eqn.evaluate() == 95
 
 

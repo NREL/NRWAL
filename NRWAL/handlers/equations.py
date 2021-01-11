@@ -17,7 +17,7 @@ class Equation:
     # illegal substrings that cannot be in cost equations
     ILLEGAL = ('import ', 'os.', 'sys.', '.__', '__.', 'eval', 'exec')
 
-    def __init__(self, eqn, name=None, global_variables=None):
+    def __init__(self, eqn, name=None, default_variables=None):
         """
         Parameters
         ----------
@@ -26,14 +26,14 @@ class Equation:
             "-34.80 * depth ** 2 + 207619.80 * depth + 221197699.89"
         name : str | None
             Optional equation name / key for string formatting
-        global_variables : dict
-            Optional dictionary of variables accessible to this Equation
-            object. These inputs can still be overwritten at runtime.
+        default_variables : dict
+            Optional dictionary of default variables accessible to this
+            Equation object. These inputs can still be overwritten at runtime.
         """
 
-        self._global_variables = global_variables
-        if self._global_variables is None:
-            self._global_variables = {}
+        self._default_variables = default_variables
+        if self._default_variables is None:
+            self._default_variables = {}
 
         self._str = None
         self._base_name = name
@@ -89,9 +89,9 @@ class Equation:
 
         new_eqn = '({}) {} ({})'.format(self._eqn, operator, other._eqn)
         new_str = '({} {} {})'.format(self, operator, other)
-        gvars = copy.deepcopy(self._global_variables)
-        gvars.update(other._global_variables)
-        out = cls(new_eqn, global_variables=gvars)
+        def_vars = copy.deepcopy(self._default_variables)
+        def_vars.update(other._default_variables)
+        out = cls(new_eqn, default_variables=def_vars)
         out._str = new_str
         return out
 
@@ -218,15 +218,15 @@ class Equation:
 
             else:
                 vars_str = [v for v in self.variables
-                            if v not in self.global_variables]
+                            if v not in self.default_variables]
                 vars_str = str(vars_str).replace('[', '').replace(']', '')\
                     .replace("'", '').replace('"', '')
 
                 gvars_str = [v for v in self.variables
-                             if v in self.global_variables]
+                             if v in self.default_variables]
                 for gvar in gvars_str:
                     base_str = ', ' if bool(vars_str) else ''
-                    kw_str = '{}={}'.format(gvar, self.global_variables[gvar])
+                    kw_str = '{}={}'.format(gvar, self.default_variables[gvar])
                     vars_str += base_str + kw_str
 
                 if self._base_name is None:
@@ -239,27 +239,23 @@ class Equation:
     def __contains__(self, arg):
         return arg in self._eqn
 
-    def _set_variables(self, var_dict):
-        """Pass VariableGroup variable dictionaries defined within equation
-        directories to adjacent and sub-level EquationGroup and Equation
-        objects.
+    def set_default_variables(self, var_dict):
+        """Set default variables available to this Equation object.
 
         Parameters
         ----------
         var_dict : dict | None
-            Variables group dictionary from a higher level than or adjacent to
-            this instance of Equation. Variables from this input will be
-            passed to the equation for evaluation. These variables can always
-            be overwritten when Equation.evaluate() is called.
+            Default variables namespace. These variables can always be
+            overwritten when Equation.evaluate() is called.
         """
         if var_dict is not None:
-            self._global_variables.update(copy.deepcopy(var_dict))
+            self._default_variables.update(copy.deepcopy(var_dict))
 
     @staticmethod
     def _merge_vars(var_group, kwargs):
         """Create a copied namespace of input args for the Equation evaluation.
-        This is the global-style variables set with the self._set_variables()
-        method and the self._global_variables attribute updated with kwargs
+        This is the default-style variables set with the self._set_variables()
+        method and the self._default_variables attribute updated with kwargs
         from the self.evaluate() method call.
 
         Parameters
@@ -307,15 +303,15 @@ class Equation:
         return self._eqn
 
     @property
-    def global_variables(self):
-        """Get a dictionary of global variables from a variables.yaml file
+    def default_variables(self):
+        """Get a dictionary of default variables from a variables.yaml file
         accessible to this object
 
         Returns
         -------
         dict
         """
-        return self._global_variables
+        return self._default_variables
 
     @classmethod
     def parse_variables(cls, expression):
@@ -385,7 +381,7 @@ class Equation:
                 Equation.evaluate({'input1': 10, 'input2': 20})
         """
         self._check_input_args(kwargs)
-        kwargs = self._merge_vars(self._global_variables, kwargs)
+        kwargs = self._merge_vars(self._default_variables, kwargs)
 
         missing = [v for v in self.variables
                    if v not in globals()
