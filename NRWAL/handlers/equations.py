@@ -58,10 +58,13 @@ class Equation:
     @staticmethod
     def _check_input_args(kwargs):
         """Check that input args to equation are of expected types."""
-        assert isinstance(kwargs, dict)
+        assert isinstance(kwargs, dict), 'Equation inputs must be a dict!'
         for k, v in kwargs.items():
-            assert isinstance(k, str)
-            assert isinstance(v, (int, float, np.ndarray, list, tuple))
+            msg = 'Input keys must be strings but received: {}'.format(k)
+            assert isinstance(k, str), msg
+            msg = ('Input data must be one of (int, float, np.ndarray, list, '
+                   'tuple), but received: {}'.format(type(v)))
+            assert isinstance(v, (int, float, np.ndarray, list, tuple)), msg
 
     def __eqn_math(self, other, operator):
         """Perform arithmetic with this instance of Equation (self) and an
@@ -366,7 +369,7 @@ class Equation:
         return check
 
     def eval(self, **kwargs):
-        """Abbreviated alias for evaluate()."""
+        """Alias for evaluate()."""
         return self.evaluate(**kwargs)
 
     def evaluate(self, **kwargs):
@@ -378,7 +381,7 @@ class Equation:
             Keyword arguments setting variables of the equation. Note that this
             is **kwargs so this method can be run in either of these syntaxes:
                 Equation.evaluate(input1=10, input2=20)
-                Equation.evaluate({'input1': 10, 'input2': 20})
+                Equation.evaluate(**{'input1': 10, 'input2': 20})
         """
         self._check_input_args(kwargs)
         kwargs = self._merge_vars(self._default_variables, kwargs)
@@ -390,6 +393,6 @@ class Equation:
             msg = ('Cannot evaluate "{}", missing the following input args: {}'
                    .format(self, missing))
             logger.error(msg)
-            raise KeyError(msg)
+            raise RuntimeError(msg)
 
         return eval(str(self._eqn), globals(), kwargs)

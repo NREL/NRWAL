@@ -49,7 +49,7 @@ class NrwalConfig:
         """
 
         # parse inputs arg with inputs setter function
-        self._inputs = None
+        self._inputs = {}
         self.inputs = inputs
 
         config, eqn_dir = self._load_config(config)
@@ -304,33 +304,47 @@ class NrwalConfig:
 
         Returns
         -------
-        dict | None
+        dict
         """
         return self._inputs
 
     @inputs.setter
     def inputs(self, arg):
-        """Set the inputs dictionary.
+        """Set the inputs dictionary or update it if inputs are already present
 
         Parameters
         ----------
         arg : dict | pd.DataFrame | None
-            Namespace of input data to make available for the
-            evaluation of the NrwalConfig.
+            Namespace of input data to make available for the evaluation of
+            the NrwalConfig. If inputs have been previously defined, they
+            will be updated with data from this arg. None will clear all
+            previously defined inputs.
         """
 
         if arg is None:
-            self._inputs = None
+            self._inputs = {}
         elif isinstance(arg, dict):
-            self._inputs = arg
+            self._inputs.update(arg)
         elif isinstance(arg, pd.DataFrame):
-            self._inputs = {k: arg[k].values.flatten()
-                            for k in arg.columns.values}
+            self._inputs.update({k: arg[k].values.flatten()
+                                 for k in arg.columns.values})
         else:
             msg = ('Cannot set inputs as datatype "{}". '
                    'Requires a dict or DataFrame.'.format(type(arg)))
             logger.error(msg)
             raise TypeError(msg)
+
+        Equation._check_input_args(self._inputs)
+
+    @property
+    def outputs(self):
+        """Get the outputs dictionary.
+
+        Returns
+        -------
+        dict
+        """
+        return self._outputs
 
     @property
     def global_variables(self):
@@ -345,7 +359,7 @@ class NrwalConfig:
 
     @property
     def all_variables(self):
-        """Get a unique sorted list of names of the input variables for all
+        """Get a sorted list of unique names of the input variables for all
         equations in this config. This will include global variables defined
         in this config and default variables defined in the equation
         directories.
@@ -364,10 +378,14 @@ class NrwalConfig:
 
     @property
     def required_inputs(self):
-        """Get a unique list of variable names required in the input namespace.
+        """Get a list of unique variable names required in the input namespace.
         This considers variables set in the config or in variables.yaml files
         to not be required, although these can still be overwritten in the
         config "inputs" attribute.
+
+        Returns
+        -------
+        list
         """
 
         names = []
@@ -378,6 +396,30 @@ class NrwalConfig:
                           and v not in eqn.default_variables]
 
         return sorted(list(set(names)))
+
+    @property
+    def missing_inputs(self):
+        """Get a list of unique variables names that are required to evaluate
+        the equations in the config but are still missing from the inputs.
+
+        Returns
+        -------
+        list
+        """
+        names = [x for x in self.required_inputs
+                 if x not in self.global_variables
+                 and x not in self.inputs]
+        return sorted(list(set(names)))
+
+    @property
+    def solvable(self):
+        """Are all required inputs defined?
+
+        Returns
+        -------
+        bool
+        """
+        return ~any(self.missing_inputs)
 
     def get(self, key, default_value):
         """Attempt to get a key from the NrwalConfig, return
@@ -399,3 +441,47 @@ class NrwalConfig:
     def values(self):
         """Get the 1st level of config values, same as dict.values()"""
         return self._config.values()
+
+    def eval(self, inputs=None):
+        """Alias for evaluate()."""
+        return self.evaluate(inputs=inputs)
+
+    def evaluate(self, inputs=None):
+        """Evaluate the equations in the NrwalConfig, set the output to the
+        outputs attribute, and return the output.
+
+        Parameters
+        ----------
+        inputs : dict | pd.DataFrame | None
+            Optional namespace of input data to make available for the
+            evaluation of the NrwalConfig. This will update any previously
+            set inputs.
+
+        Returns
+        -------
+        outputs : dict
+            Dictionary of outputs with the same keys as the input config but
+            with int, float, or np.ndarray outputs as values.
+        """
+
+        if inputs is not None:
+            self.inputs = inputs
+
+        if not self.solvable:
+            msg = ('Cannot evaluate NrwalConfig, missing the following '
+                   'input args: {}'.format(self.missing_inputs))
+            logger.error(msg)
+            raise RuntimeError(msg)
+
+        for k, v in self.values():
+            if Equation.is_num(v):
+                self._outputs[k] = v
+            elif isinstance(v, Equation):
+                self._outputs = v.evaluate(self.inputs)
+            else:
+                msg = ('Cannot evaluate "{}" with unexpected type: {}'
+                       .format(k, type(v)))
+                logger.error(msg)
+                raise TypeError(msg)
+
+        return self._outputs
