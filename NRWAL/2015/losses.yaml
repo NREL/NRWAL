@@ -1,0 +1,30 @@
+environmental:
+  0.0159
+technical_fixed:
+  0.01
+technical_floating:
+  1 - (1 - 0.01) * (1 - 0.001) * (1 - 0.001)
+wake:
+  1 - aeff * (1 + array_efficiency_adj)
+electrical:
+  (2.20224112 +
+  0.000604121 * depth +
+  0.0407303367321603 * dist_s_to_l +
+  -0.0003712532582 * dist_s_to_l ** 2 +
+  0.0000016525338 * dist_s_to_l ** 3 +
+  -0.000000003547544 * dist_s_to_l ** 4 +
+  0.0000000000029271 * dist_s_to_l ** 5) / 100
+avail_fixed:
+  1 -((0.0000167 * (dist_op_to_s) +
+  (0.0006 * (hs_average ** 2) -
+  0.0442 * hs_average + 0.9742)) * (1 + avail_adj))
+avail_semi:
+  1 - ((0.000017 * (dist_op_to_s) +
+  (-0.0039 * (hs_average ** 2) -
+  0.0384 * hs_average +
+  0.9735)) * (1 + avail_adj))
+avail_spar:
+  1 - ((0.000016 * (dist_op_to_s) +
+  (-0.0043 * (hs_average ** 2) -
+  0.0382 * (hs_average) +
+  0.9734)) * (1 + avail_adj))
