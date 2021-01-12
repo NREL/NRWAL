@@ -17,8 +17,10 @@ MODULE_DIR = os.path.dirname(TEST_DIR)
 EQNS_DIR = os.path.join(MODULE_DIR, 'NRWAL/')
 
 GOOD_DIR = os.path.join(TEST_DATA_DIR, 'test_eqns_dir/')
-FP_COST_REDUCTIONS = os.path.join(
-    TEST_DATA_DIR, 'test_cost_reductions/cost_reductions.yaml')
+FP_COST_REDUCTIONS_0 = os.path.join(
+    TEST_DATA_DIR, 'test_cost_reductions/cost_reductions_0.yaml')
+FP_COST_REDUCTIONS_1 = os.path.join(
+    TEST_DATA_DIR, 'test_cost_reductions/cost_reductions_1.yaml')
 
 BAD_DIR = os.path.join(TEST_DATA_DIR, 'bad_eqn_dir/')
 BAD_FILE_TYPE = os.path.join(BAD_DIR, 'bad_file_type.txt')
@@ -99,7 +101,7 @@ def test_nearest():
     dir_obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
                                 use_nearest_power=True)
     eqn_group = dir_obj['jacket']
-    eqns, powers = eqn_group.find_nearest_eqns('outfitting_9MW')
+    eqns, powers = eqn_group.find_nearest_power_eqns('outfitting_9MW')
     assert powers[0] == 8.0
     assert powers[1] == 10.0
     assert 'outfitting_8MW' in str(eqns[0])
@@ -215,7 +217,7 @@ def test_group_parenthesis_retrieval():
 def test_cost_reductions():
     """Test the extraction / parsing of cost reduction files which look a
     little different than normal files but should be handled similarly."""
-    obj = EquationGroup(FP_COST_REDUCTIONS)
+    obj = EquationGroup(FP_COST_REDUCTIONS_0)
     assert isinstance(obj, EquationGroup)
     assert isinstance(obj['fixed'], EquationGroup)
     assert isinstance(obj['fixed::turbine_install'], EquationGroup)
@@ -225,5 +227,56 @@ def test_cost_reductions():
     assert isinstance(obj['fixed::turbine_install::2015'].eval(), float)
     assert isinstance(obj['fixed::turbine_install::2020'].eval(), float)
     assert isinstance(obj['fixed::turbine_install::2025'].eval(), float)
+
+    obj = EquationGroup(FP_COST_REDUCTIONS_1)
+    assert isinstance(obj, EquationGroup)
+    assert isinstance(obj['fixed'], EquationGroup)
+    assert isinstance(obj['fixed::turbine_install_2015'], Equation)
+    assert isinstance(obj['fixed::turbine_install_2020'], Equation)
+    assert isinstance(obj['fixed::turbine_install_2025'], Equation)
+    assert isinstance(obj['fixed::turbine_install_2015'].eval(), float)
+    assert isinstance(obj['fixed::turbine_install_2020'].eval(), float)
+    assert isinstance(obj['fixed::turbine_install_2025'].eval(), float)
+
+
+def test_cost_reductions_interp():
+    """Test interp/extrap/nearest on cost reduction year."""
+    obj = EquationGroup(FP_COST_REDUCTIONS_0)
     with pytest.raises(KeyError):
         _ = obj['fixed::turbine_install::2030']
+    obj = EquationGroup(FP_COST_REDUCTIONS_1)
+    with pytest.raises(KeyError):
+        _ = obj['fixed::turbine_install::2030']
+    with pytest.raises(KeyError):
+        _ = obj['fixed::turbine_install_2030']
+
+    obj = EquationGroup(FP_COST_REDUCTIONS_0, use_nearest_year=True)
+    eqn1 = obj['fixed::turbine_install::2030']
+    eqn2 = obj['fixed::turbine_install::2025']
+    assert eqn1 == eqn2
+
+    obj = EquationGroup(FP_COST_REDUCTIONS_1, use_nearest_year=True)
+    eqn1 = obj['fixed::turbine_install_2030']
+    eqn2 = obj['fixed::turbine_install_2025']
+    assert eqn1 == eqn2
+
+    obj = EquationGroup(FP_COST_REDUCTIONS_0, interp_extrap_year=True,
+                        use_nearest_year=True)
+    eqn1 = obj['fixed::turbine_install::2030']
+    eqn2 = obj['fixed::turbine_install::2020']
+    eqn3 = obj['fixed::turbine_install::2025']
+    assert (eqn3.eval() - eqn2.eval()) + eqn3.eval() == eqn1.eval()
+
+    obj = EquationGroup(FP_COST_REDUCTIONS_0, interp_extrap_year=True,
+                        use_nearest_year=True)
+    eqn1 = obj['fixed::turbine_install::2023']
+    eqn2 = obj['fixed::turbine_install::2020']
+    eqn3 = obj['fixed::turbine_install::2025']
+    assert (3 / 5) * (eqn3.eval() - eqn2.eval()) + eqn2.eval() == eqn1.eval()
+
+    obj = EquationGroup(FP_COST_REDUCTIONS_1, interp_extrap_year=True,
+                        use_nearest_year=True)
+    eqn1 = obj['fixed::turbine_install_2023']
+    eqn2 = obj['fixed::turbine_install_2020']
+    eqn3 = obj['fixed::turbine_install_2025']
+    assert (3 / 5) * (eqn3.eval() - eqn2.eval()) + eqn2.eval() == eqn1.eval()

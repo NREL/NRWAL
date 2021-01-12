@@ -24,7 +24,8 @@ class AbstractGroup(ABC):
     """
 
     def __init__(self, group, name=None, interp_extrap_power=False,
-                 use_nearest_power=False):
+                 use_nearest_power=False, interp_extrap_year=False,
+                 use_nearest_year=False):
         """
         Parameters
         ----------
@@ -50,6 +51,18 @@ class AbstractGroup(ABC):
             If both interp_extrap_power & use_nearest_power are False, a
             KeyError will be raised if the exact equation name request is not
             found.
+        interp_extrap_year : bool
+            Flag to interpolate and extrapolate equations keyed by year.
+            This takes preference over the use_nearest_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_year : bool
+            Flag to use the nearest valid equation keyed by year.
+            This is second priority to the interp_extrap_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
         """
 
         self._base_name = name
@@ -61,6 +74,8 @@ class AbstractGroup(ABC):
         self._default_variables = {}
         self._interp_extrap_power = interp_extrap_power
         self._use_nearest_power = use_nearest_power
+        self._interp_extrap_year = interp_extrap_year
+        self._use_nearest_year = use_nearest_year
         self._group = self._parse_group(group)
 
     def __add__(self, other):
@@ -88,7 +103,9 @@ class AbstractGroup(ABC):
         cls = self.__class__
         if isinstance(other, (str, dict)):
             other = cls(other, interp_extrap_power=self._interp_extrap_power,
-                        use_nearest_power=self._use_nearest_power)
+                        use_nearest_power=self._use_nearest_power,
+                        interp_extrap_year=self._interp_extrap_year,
+                        use_nearest_year=self._use_nearest_year)
 
         out = copy.deepcopy(self)
         out._group.update(other._group)
@@ -206,30 +223,30 @@ class AbstractGroup(ABC):
         else:
             keys = [key]
 
-        nearest_eqns = []
-        nearest_powers = []
         keys = [str(k) for k in keys]
-
         out = self._group
-        for i, ikey in enumerate(keys):
+        for eqn_key in keys:
+            nn_eqns, nn_values, eqn_value = \
+                self._get_nn_eqns_values(eqn_key, keys, out)
 
-            if (self._interp_extrap_power or self._use_nearest_power
-                    and i == len(keys) - 1):
-                nearest_eqns, nearest_powers = self.find_nearest_eqns(ikey)
+            if eqn_key in out:
+                out = out[eqn_key]
 
-            if ikey in out:
-                out = out[ikey]
-            elif len(nearest_eqns) > 1 and self._interp_extrap_power:
-                x2 = self._parse_power(ikey)[0]
-                x1, x3 = nearest_powers[0:2]
-                y1, y3 = nearest_eqns[0:2]
-                out = (y3 - y1) * (x2 - x1) / (x3 - x1) + y1
-            elif any(nearest_eqns) and self._use_nearest_power:
-                out = nearest_eqns[0]
+            elif (self._interp_extrap_power or self._interp_extrap_year
+                    and len(nn_eqns) > 1):
+                x1, x3 = nn_values[0:2]
+                y1, y3 = nn_eqns[0:2]
+                out = (y3 - y1) * (eqn_value - x1) / (x3 - x1) + y1
+                if not any(out.variables):
+                    out = Equation(out.eval())
+
+            elif any(nn_eqns):
+                out = nn_eqns[0]
+
             else:
                 msg = ('Could not retrieve equation key "{}", '
                        'could not find "{}" in last available keys: {}'
-                       .format(key, ikey, list(out.keys())))
+                       .format(key, eqn_key, list(out.keys())))
                 logger.error(msg)
                 raise KeyError(msg)
 
@@ -263,6 +280,79 @@ class AbstractGroup(ABC):
     def __contains__(self, arg):
         return arg in self.keys()
 
+    def _get_nn_eqns_values(self, eqn_key, keys, group):
+        """Get lists of the nearest power or year dependent equations.
+
+        Parameters
+        ----------
+        eqn_key
+            Current equation retrieval key from the keys list
+        keys : list
+            List of equation strings delimited by '::'. For example, if
+            retrieving "2015::eqn_group::eqn_2012", keys will be:
+            ['2015', 'eqn_group', 'eqn_2012']
+        group : EquationGroup
+            Current group to retrieve equations from. This is typically the
+            group level just before the eqn_key
+
+        Returns
+        -------
+        nn_eqns : list
+            List of Equation objects close to eqn_key. Empty list if eqn_key
+            is not the last entry in keys.
+        nn_values : list
+            List of power or year values sorted by distance to eqn_key and
+            corresponding to nn_eqns. Empty list if eqn_key is not the last
+            entry in keys.
+        eqn_value : None | int | float
+            Power in MW (float) or year in YYYY format (int) from eqn_key.
+            None if eqn_key is not the last entry in keys.
+        """
+
+        nn_eqns = []
+        nn_values = []
+        eqn_value = None
+        i = keys.index(eqn_key)
+
+        if i == (len(keys) - 1):
+            # Only look for adjacent equations when were at the last
+            # retrieval level in the EquationGroup
+            if (self._interp_extrap_power or self._use_nearest_power
+                    and self.is_power_eqn(eqn_key)):
+                nn_eqns, nn_values = \
+                    self.find_nearest_power_eqns(eqn_key, group=group)
+                eqn_value = self._parse_power(eqn_key)[0]
+
+            elif (self._interp_extrap_year or self._use_nearest_year
+                    and self.is_year_eqn(eqn_key)):
+                nn_eqns, nn_values = \
+                    self.find_nearest_year_eqns(eqn_key, group=group)
+                eqn_value = self._parse_year(eqn_key)[0]
+
+        return nn_eqns, nn_values, eqn_value
+
+    @classmethod
+    def is_power_eqn(cls, key):
+        """Determine if an equation key is power-based by looking for the
+        case-insensitive regex pattern "_[0-9]*MW$"
+
+        Parameters
+        ----------
+        key : str
+            An equation key/name.
+
+        Returns
+        -------
+        out : bool
+            True if the regex pattern "_[0-9]*MW$" was found in key
+        """
+
+        out = False
+        if cls._parse_power(key)[0] is not None:
+            out = True
+
+        return out
+
     @staticmethod
     def _parse_power(key):
         """Parse the integer power from an equation key
@@ -291,7 +381,7 @@ class AbstractGroup(ABC):
 
         return power, base_str
 
-    def find_nearest_eqns(self, request):
+    def find_nearest_power_eqns(self, request, group=None):
         """Find power-based (MW) equations in this EquationGroup that match
         the request (by regex pattern "_[0-9]*MW$") and sort them by
         difference in equation power.
@@ -306,6 +396,9 @@ class AbstractGroup(ABC):
             A key to retrieve an equation from this EquationGroup. Should
             contain the case-insensitive regex pattern "_[0-9]*MW$". Otherwise,
             empty lists will be returned.
+        group : EquationGroup
+            Group to be looking in for equations adjacent to the requested
+            equation. Defaults to the top level self._group attribute.
 
         Returns
         -------
@@ -325,9 +418,12 @@ class AbstractGroup(ABC):
 
         eqn_keys = []
         eqn_powers = []
+        if group is None:
+            group = self._group
+
         req_mw, base_str = self._parse_power(request)
         if req_mw:
-            for key in self.keys():
+            for key in group.keys():
                 match_mw, match_base = self._parse_power(key)
                 if match_mw and base_str == match_base:
                     eqn_keys.append(key)
@@ -339,9 +435,121 @@ class AbstractGroup(ABC):
                 eqn_keys = list(np.array(eqn_keys)[indices])
                 eqn_powers = list(np.array(eqn_powers)[indices])
 
-        eqns = [self._group[k] for k in eqn_keys]
+        eqns = [group[k] for k in eqn_keys]
 
         return eqns, eqn_powers
+
+    @classmethod
+    def is_year_eqn(cls, key):
+        """Determine if an equation key is year-based by looking for YYYY or
+        *_YYYY in the key
+
+        Parameters
+        ----------
+        key : str
+            An equation key/name.
+
+        Returns
+        -------
+        out : bool
+            True if a year string YYYY or *_YYYY is found in key
+        """
+
+        out = False
+        if cls._parse_year(key)[0] is not None:
+            out = True
+
+        return out
+
+    @staticmethod
+    def _parse_year(key):
+        """Parse the integer year from an equation key
+
+        Parameters
+        ----------
+        key : str
+            A key to retrieve an equation from this EquationGroup. Should
+            be a YYYY year string or have the *_YYYY pattern. Otherwise,
+            None will be returned.
+
+        Returns
+        -------
+        year : int | None
+            The numeric year value in key. If the pattern is not found,
+            None is returned
+        base_str : str
+            Key with the regex pattern stripped out.
+        """
+
+        base_str = key
+        year = None
+
+        try:
+            year = int(base_str)
+            base_str = ''
+        except ValueError:
+            pass
+
+        if year is None:
+            year = re.search('_[1-2][0-9]{3}$', key, flags=re.IGNORECASE)
+            if year is not None:
+                base_str = key.replace(year.group(0), '')
+                year = int(year.group(0).lstrip('_'))
+
+        return year, base_str
+
+    def find_nearest_year_eqns(self, request, group=None):
+        """Find year-based (YYYY) equations in this EquationGroup that match
+        the request difference in equation year.
+
+        Parameters
+        ----------
+        request : str
+            A key to retrieve an equation from this EquationGroup. Should
+            be a YYYY year string or have the *_YYYY pattern. Otherwise,
+            None will be returned.
+        group : EquationGroup
+            Group to be looking in for equations adjacent to the requested
+            equation. Defaults to the top level self._group attribute.
+
+        Returns
+        -------
+        eqns : list
+            List of Equation objects that match the request key and are sorted
+            by difference in the YYYY specification to the input request key.
+            If the request key does not have the YYYY specification or if no
+            other keys in this EquationGroup match the request then this will
+            return an empty list.
+        eqn_years : list
+            List of integer year YYYY values corresponding to eqns and sorted
+            by difference in the YYYY specification to the input request key.
+            If the request key does not have the YYYY specification or if no
+            other keys in this EquationGroup match the request then this will
+            return an empty list.
+        """
+
+        eqn_keys = []
+        eqn_years = []
+        if group is None:
+            group = self._group
+
+        req_yr, base_str = self._parse_year(request)
+        if req_yr:
+            for key in group.keys():
+                match_yr, match_base = self._parse_year(key)
+                if match_yr and base_str == match_base:
+                    eqn_keys.append(key)
+                    eqn_years.append(match_yr)
+
+            if any(eqn_keys):
+                eqn_pow_diffs = np.abs(req_yr - np.array(eqn_years))
+                indices = np.argsort(eqn_pow_diffs)
+                eqn_keys = list(np.array(eqn_keys)[indices])
+                eqn_years = list(np.array(eqn_years)[indices])
+
+        eqns = [group[k] for k in eqn_keys]
+
+        return eqns, eqn_years
 
     @classmethod
     def _parse_group(cls, group):
