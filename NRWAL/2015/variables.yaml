@@ -17,3 +17,5 @@ hz_turbine_factor: 0.05
 windflip_CAPEX: 50000000
 vertical_tow_OM_equip: 13400000
 lease_price: 50000000
+array_efficiency_adj: 0.02
+avail_adj: 0.02

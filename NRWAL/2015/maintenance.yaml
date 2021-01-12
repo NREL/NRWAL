@@ -1,0 +1,19 @@
+fixed:
+  (4.3079 * np.log(dist_op_to_s) +
+  2.1306 * hs_average ** 2 +
+  7.3227 * hs_average + 31.314) * 
+  (0.4728 * np.log(num_turbines) - 1.2386) * 1000000
+semi:
+  (26.236675 +
+  5.470217 * hs_average ** 2 *
+  np.log(hs_average) +
+  0.563568 * np.log(dist_op_to_s) ** 2) * 
+  (0.4728 * np.log(num_turbines) - 1.2386) * 1000000
+spar:
+  (42.884999 +
+  10.8336 * hs_average ** 2 *
+  np.log(hs_average) +
+  0.5835 * np.log(dist_op_to_s) ** 2) * 
+  (0.4728 * np.log(num_turbines) - 1.2386) * 1000000
+operations:
+  18880383
