@@ -17,6 +17,8 @@ MODULE_DIR = os.path.dirname(TEST_DIR)
 EQNS_DIR = os.path.join(MODULE_DIR, 'NRWAL/')
 
 GOOD_DIR = os.path.join(TEST_DATA_DIR, 'test_eqns_dir/')
+FP_COST_REDUCTIONS = os.path.join(
+    TEST_DATA_DIR, 'test_cost_reductions/cost_reductions.yaml')
 
 BAD_DIR = os.path.join(TEST_DATA_DIR, 'bad_eqn_dir/')
 BAD_FILE_TYPE = os.path.join(BAD_DIR, 'bad_file_type.txt')
@@ -205,3 +207,20 @@ def test_group_parenthesis_retrieval():
     out2 = eqn2.evaluate(**inputs)
     assert np.allclose(out, 2 * (out1 + out2))
     assert ~np.allclose(out, 2 * out1 + out2)
+
+
+def test_cost_reductions():
+    """Test the extraction / parsing of cost reduction files which look a
+    little different than normal files but should be handled similarly."""
+    obj = EquationGroup(FP_COST_REDUCTIONS)
+    assert isinstance(obj, EquationGroup)
+    assert isinstance(obj['fixed'], EquationGroup)
+    assert isinstance(obj['fixed::turbine_install'], EquationGroup)
+    assert isinstance(obj['fixed::turbine_install::2015'], Equation)
+    assert isinstance(obj['fixed::turbine_install::2020'], Equation)
+    assert isinstance(obj['fixed::turbine_install::2025'], Equation)
+    assert isinstance(obj['fixed::turbine_install::2015'].eval(), float)
+    assert isinstance(obj['fixed::turbine_install::2020'].eval(), float)
+    assert isinstance(obj['fixed::turbine_install::2025'].eval(), float)
+    with pytest.raises(KeyError):
+        _ = obj['fixed::turbine_install::2030']

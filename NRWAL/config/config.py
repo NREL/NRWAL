@@ -2,11 +2,13 @@
 """
 NRWAL config framework.
 """
+import copy
 import logging
 import pandas as pd
 import yaml
 import json
 import os
+import re
 import operator
 from collections import OrderedDict
 
@@ -87,7 +89,7 @@ class NrwalConfig:
     evaluated (e.g. 'monopile_costs').
 
     >>> type(obj['num_turbines'])
-    float
+    NRWAL.handlers.equations.Equation
     >>> obj['num_turbines']
     6.0
 
@@ -351,7 +353,7 @@ class NrwalConfig:
                 raise TypeError(msg)
 
             out[name] = cls._parse_expression(expression, config, eqn_dir,
-                                              gvars)
+                                              copy.deepcopy(gvars))
         return out
 
     @classmethod
@@ -384,7 +386,7 @@ class NrwalConfig:
         """
 
         if Equation.is_num(expression):
-            out = float(expression)
+            out = Equation(expression)
 
         elif expression in config:
             out = cls._parse_expression(config[expression], config,
@@ -441,6 +443,17 @@ class NrwalConfig:
 
         assert Equation.is_equation(expression)
 
+        if '(' in expression:
+            assert ')' in expression
+            # pylint: disable=W1401
+            paren_keys = re.findall('\(.*?\)', str(expression))  # noqa: W605
+            for i, pk in enumerate(paren_keys):
+                wkey = 'workspace_{}'.format(int((i + 1) * len(gvars)))
+                assert wkey not in gvars
+                expression = expression.replace(pk, wkey)
+                pk = pk.lstrip('(').rstrip(')')
+                gvars[wkey] = cls._parse_expression(pk, config, eqn_dir, gvars)
+
         # order of operator map enforces order of operations
         op_map = OrderedDict()
         op_map['+'] = operator.add
@@ -452,9 +465,17 @@ class NrwalConfig:
         for op_str, op_fun in op_map.items():
             if op_str in expression:
                 split = expression.partition(op_str)
-                v0, v1 = split[0].strip(), split[2].strip()
-                out = op_fun(cls._parse_expression(v0, config, eqn_dir, gvars),
-                             cls._parse_expression(v1, config, eqn_dir, gvars))
+                v1, v2 = split[0].strip(), split[2].strip()
+
+                out1 = gvars.get(v1, None)
+                if out1 is None:
+                    out1 = cls._parse_expression(v1, config, eqn_dir, gvars)
+
+                out2 = gvars.get(v2, None)
+                if out2 is None:
+                    out2 = cls._parse_expression(v2, config, eqn_dir, gvars)
+
+                out = op_fun(out1, out2)
 
         return out
 

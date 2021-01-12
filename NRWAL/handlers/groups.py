@@ -141,7 +141,7 @@ class AbstractGroup(ABC):
             # pylint: disable=W1401
             paren_keys = re.findall('\(.*?\)', str(key))  # noqa: W605
             for i, pk in enumerate(paren_keys):
-                wkey = 'workspace_{}'.format(i)
+                wkey = 'workspace_{}'.format(int((i + 1) * len(workspace)))
                 assert wkey not in workspace
                 key = key.replace(pk, wkey)
                 pk = pk.lstrip('(').rstrip(')')
@@ -381,6 +381,8 @@ class AbstractGroup(ABC):
             msg = 'Cannot use group of type: {}'.format(type(group))
             logger.error(msg)
             raise TypeError(msg)
+
+        group = {str(k): v for k, v in group.items()}
 
         return group
 

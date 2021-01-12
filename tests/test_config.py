@@ -14,16 +14,18 @@ from NRWAL.handlers.groups import EquationGroup
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
 
-FP_GOOD = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_00_good.yml')
-FP_BAD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_01_bad.yml')
-FP_BAD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_02_bad.yml')
+FP_GOOD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_0.yml')
+FP_GOOD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_1.yml')
+FP_BAD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_0.yml')
+FP_BAD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_1.yml')
 
 
 def test_good_config_parsing():
     """Test the parsing of a good config."""
-    obj = NrwalConfig(FP_GOOD)
+    obj = NrwalConfig(FP_GOOD_1)
 
-    assert isinstance(obj['num_turbines'], float)
+    assert isinstance(obj['num_turbines'], Equation)
+    assert isinstance(obj['num_turbines'].eval(), (int, float))
     assert isinstance(obj['array'], Equation)
     assert isinstance(obj['monopile'], EquationGroup)
     assert isinstance(obj['monopile_costs'], Equation)
@@ -36,7 +38,7 @@ def test_good_config_parsing():
     assert not obj.solvable
 
     # test input arg
-    obj = NrwalConfig(FP_GOOD, inputs={'depth': 2 * np.ones(10)})
+    obj = NrwalConfig(FP_GOOD_1, inputs={'depth': 2 * np.ones(10)})
     assert len(obj.required_inputs) > len(obj.missing_inputs)
     assert len(obj.required_inputs) == 7
     assert len(obj.missing_inputs) == 6
@@ -44,7 +46,8 @@ def test_good_config_parsing():
     assert (obj.inputs['depth'] == 2).all()
 
     # test input arg as dataframe
-    obj = NrwalConfig(FP_GOOD, inputs=pd.DataFrame({'depth': 2 * np.ones(10)}))
+    inputs = {'depth': 2 * np.ones(10)}
+    obj = NrwalConfig(FP_GOOD_1, inputs=pd.DataFrame(inputs))
     assert len(obj.required_inputs) > len(obj.missing_inputs)
     assert len(obj.required_inputs) == 7
     assert len(obj.missing_inputs) == 6
@@ -99,6 +102,22 @@ def test_good_config_parsing():
     obj.inputs = None
     with pytest.raises(RuntimeError):
         obj.evaluate()
+
+
+def test_cost_reductions_config():
+    """Test config with cost reductions"""
+    obj = NrwalConfig(FP_GOOD_2)
+    k1 = 'array'
+    k2 = '2015::array::fixed'
+    k3 = '2015::cost_reductions::fixed::array_cable::2025'
+    eqn1 = obj[k1]
+    eqn2 = obj._eqn_dir[k2]
+    eqn3 = obj._eqn_dir[k3]
+    out1 = eqn1.evaluate(**{k: 1 for k in eqn1.variables})
+    out2 = eqn2.evaluate(**{k: 1 for k in eqn2.variables})
+    out3 = eqn3.evaluate(**{k: 1 for k in eqn3.variables})
+    assert out1 == (out2 * (1 - out3))
+    assert out1 != (out2 * 1 - out3)
 
 
 def test_bad_config_undefined():
