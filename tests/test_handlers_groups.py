@@ -3,6 +3,7 @@
 """
 Tests for NRWAL equation group (file) handler objects
 """
+import numpy as np
 import os
 import pytest
 
@@ -177,3 +178,30 @@ def test_group_math_retrieval():
     eqn_math = obj[key_math]
     y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 * y2 ** y4 == y_math
+
+
+def test_group_parenthesis_retrieval():
+    """Test parenthetical math expression retrieval from group object"""
+    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    obj = obj['jacket']
+    key1 = 'lattice'
+    key2 = 'outfitting_8MW'
+    key = '2 * ({} + {})'.format(key1, key2)
+    eqn = obj[key]
+    truth = ('(2 * (lattice(depth, lattice_cost, turbine_capacity) '
+             '+ outfitting_8MW(depth, outfitting_cost)))')
+    assert str(eqn) == truth
+    truth_full = ('(2) * (((np.exp(3.7136 + 0.00176 * turbine_capacity '
+                  '** 2.5 + 0.645 * np.log(depth))) * lattice_cost) '
+                  '+ ((40 + (0.8 * (18 + depth))) * outfitting_cost))')
+    assert eqn.full == truth_full
+    inputs = {k: np.ones(3) for k in eqn.variables}
+    out = eqn.eval(**inputs)
+    assert isinstance(out, np.ndarray)
+    assert np.allclose(out, 192.54674167 * np.ones(3))
+    eqn1 = obj[key1]
+    eqn2 = obj[key2]
+    out1 = eqn1.evaluate(**inputs)
+    out2 = eqn2.evaluate(**inputs)
+    assert np.allclose(out, 2 * (out1 + out2))
+    assert ~np.allclose(out, 2 * out1 + out2)

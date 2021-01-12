@@ -276,9 +276,9 @@ class EquationDirectory:
 
         return out
 
-    def __getitem__(self, key):
-        """Retrieve a nested Equation, EquationGroup, or EquationDirectory
-        object from this instance of an EquationDirectory.
+    def _getitem(self, key, workspace):
+        """Protected method for __getitem__ with additional args for
+        recursive call.
 
         Parameters
         ----------
@@ -292,6 +292,9 @@ class EquationDirectory:
             retrieve the Equation object that holds 'm*x + b'
             The input argument can also have embedded math like
             'set_1::eqn1 + set_2::eqn2 ** 2'.
+        workspace : dict | None
+            Temporary workspace to hold parts of math expressions. Useful
+            for extracting and caching parenthetical statements.
 
         Returns
         -------
@@ -300,9 +303,12 @@ class EquationDirectory:
             input argument key.
         """
 
+        if workspace is None:
+            workspace = {}
+
         operators = ('+', '-', '*', '/', '^')
         if any([op in key for op in operators]):
-            return EquationGroup._getitem_math(self, key)
+            return EquationGroup._getitem_math(self, key, workspace)
 
         if Equation.is_num(key) and key not in self:
             return Equation(key)
@@ -328,6 +334,32 @@ class EquationDirectory:
                 raise KeyError(msg)
 
         return eqns
+
+    def __getitem__(self, key):
+        """Retrieve a nested Equation, EquationGroup, or EquationDirectory
+        object from this instance of an EquationDirectory.
+
+        Parameters
+        ----------
+        key : str
+            A key or set of keys (delimited by "::") to retrieve from this
+            EquationDirectory instance. For example, if this EquationDirectory
+            has a eqns.yaml file directly in the directory, the input key could
+            be 'eqns' or 'eqns.yaml' to retrieve the EquationGroup that holds
+            eqns.yaml.  Alternatively, if eqns.yaml has an equation
+            'eqn1': 'm*x + b', the the input key could be: 'eqns::eqn1' to
+            retrieve the Equation object that holds 'm*x + b'
+            The input argument can also have embedded math like
+            'set_1::eqn1 + set_2::eqn2 ** 2'.
+
+        Returns
+        -------
+        out : Equation | EquationGroup | EquationDirectory
+            An object in this instance of EquationDirectory keyed by the
+            input argument key.
+        """
+
+        return self._getitem(key, None)
 
     def __repr__(self):
         return str(self)

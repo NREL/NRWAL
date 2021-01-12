@@ -98,7 +98,7 @@ class AbstractGroup(ABC):
         return str(self)
 
     @staticmethod
-    def _getitem_math(obj, key):
+    def _getitem_math(obj, key, workspace):
         """Helper function to recusively perform math for __getitem__ method
 
         Parameters
@@ -116,6 +116,9 @@ class AbstractGroup(ABC):
             to retrieve eqn1 nested in a sub EquationGroup object "set_1".
             The input argument can also have embedded math like
             'set_1::eqn1 + set_2::eqn2 ** 2'.
+        workspace : None | dict
+            Temporary workspace to hold parts of math expressions. Useful
+            for extracting and caching parenthetical statements.
 
         Returns
         -------
@@ -132,15 +135,37 @@ class AbstractGroup(ABC):
         op_map['/'] = operator.truediv
         op_map['^'] = operator.pow
         key = key.replace('**', '^')
+
+        if '(' in key:
+            assert ')' in key
+            # pylint: disable=W1401
+            paren_keys = re.findall('\(.*?\)', str(key))  # noqa: W605
+            for i, pk in enumerate(paren_keys):
+                wkey = 'workspace_{}'.format(i)
+                assert wkey not in workspace
+                key = key.replace(pk, wkey)
+                pk = pk.lstrip('(').rstrip(')')
+                workspace[wkey] = obj._getitem(pk, workspace)
+
         for op_str, op_fun in op_map.items():
             if op_str in key:
                 split_keys = key.partition(op_str)
-                return op_fun(obj[split_keys[0].strip()],
-                              obj[split_keys[2].strip()])
+                k1 = split_keys[0].strip()
+                k2 = split_keys[2].strip()
 
-    def __getitem__(self, key):
-        """Retrieve a nested Equation or EquationGroup object from this
-        instance of an EquationGroup.
+                out1 = workspace.get(k1, None)
+                if out1 is None:
+                    out1 = obj._getitem(k1, workspace)
+
+                out2 = workspace.get(k2, None)
+                if out2 is None:
+                    out2 = obj._getitem(k2, workspace)
+
+                return op_fun(out1, out2)
+
+    def _getitem(self, key, workspace):
+        """Protected method for __getitem__ with additional args for
+        recursive call.
 
         Parameters
         ----------
@@ -150,9 +175,12 @@ class AbstractGroup(ABC):
             has an equation 'eqn1': 'm*x + b', the the input key could be:
             'eqn1' to retrieve the Equation object that holds 'm*x + b'.
             The input argument key can also be delimited like 'set_1::eqn1'
-            to retrieve eqn1 nested in a sub EquationGroup object "set_1".
+            to eetrieve eqn1 nested in a sub EquationGroup object "set_1".
             The input argument can also have embedded math like
             'set_1::eqn1 + set_2::eqn2 ** 2'.
+        workspace : dict | None
+            Temporary workspace to hold parts of math expressions. Useful
+            for extracting and caching parenthetical statements.
 
         Returns
         -------
@@ -161,9 +189,12 @@ class AbstractGroup(ABC):
             input argument key.
         """
 
+        if workspace is None:
+            workspace = {}
+
         operators = ('+', '-', '*', '/', '^')
         if any([op in key for op in operators]):
-            return self._getitem_math(self, key)
+            return self._getitem_math(self, key, workspace)
 
         if Equation.is_num(key) and key not in self:
             return Equation(key)
@@ -200,6 +231,31 @@ class AbstractGroup(ABC):
                 raise KeyError(msg)
 
         return out
+
+    def __getitem__(self, key):
+        """Retrieve a nested Equation or EquationGroup object from this
+        instance of an EquationGroup.
+
+        Parameters
+        ----------
+        key : str
+            A key or set of keys (delimited by "::") to retrieve from this
+            EquationGroup instance. For example, if this EquationGroup
+            has an equation 'eqn1': 'm*x + b', the the input key could be:
+            'eqn1' to retrieve the Equation object that holds 'm*x + b'.
+            The input argument key can also be delimited like 'set_1::eqn1'
+            to eetrieve eqn1 nested in a sub EquationGroup object "set_1".
+            The input argument can also have embedded math like
+            'set_1::eqn1 + set_2::eqn2 ** 2'.
+
+        Returns
+        -------
+        out : Equation | EquationGroup
+            An object in this instance of EquationGroup keyed by the
+            input argument key.
+        """
+
+        return self._getitem(key, None)
 
     def __contains__(self, arg):
         return arg in self.keys()
