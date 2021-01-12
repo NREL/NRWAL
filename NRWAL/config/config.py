@@ -477,6 +477,22 @@ class NrwalConfig:
         else:
             return self._config[key]
 
+    def __getattr__(self, attr):
+        """Retrieve data from the NrwalConfig, prioritizing outputs, then
+        expressions from the input config.
+
+        Parameters
+        ----------
+        attr : str
+            Requested attribute from the NrwalConfig.
+
+        Returns
+        -------
+        out : int | float | np.ndarray | Equation
+            Requested data prioritized from the outputs then the config.
+        """
+        return self[attr]
+
     def __str__(self):
         s = ['NrwalConfig object with equation directory: "{}"'
              .format(os.path.join(self._eqn_dir._dir_name,
