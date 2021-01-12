@@ -202,8 +202,8 @@ class NrwalConfig:
 
     DEFAULT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    def __init__(self, config, inputs=None, interp_extrap=False,
-                 use_nearest=False):
+    def __init__(self, config, inputs=None, interp_extrap_power=False,
+                 use_nearest_power=False):
         """
         Parameters
         ----------
@@ -214,18 +214,20 @@ class NrwalConfig:
             Optional namespace of input data to make available for the
             evaluation of the NrwalConfig. This can be set at any time after
             config initialization by setting the .inputs attribute.
-        interp_extrap : bool
+        interp_extrap_power : bool
             Flag to interpolate and extrapolate power (MW) dependent equations
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This takes preference over the use_nearest flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
-        use_nearest : bool
+            This takes preference over the use_nearest_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_power : bool
             Flag to use the nearest valid power (MW) dependent equation
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This is second priority to the interp_extrap flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
+            This is second priority to the interp_extrap_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
         """
 
         # parse inputs arg with inputs setter function
@@ -233,8 +235,9 @@ class NrwalConfig:
         self.inputs = inputs
 
         config, eqn_dir = self._load_config(config)
-        self._eqn_dir = EquationDirectory(eqn_dir, interp_extrap=interp_extrap,
-                                          use_nearest=use_nearest)
+        self._eqn_dir = EquationDirectory(
+            eqn_dir, interp_extrap_power=interp_extrap_power,
+            use_nearest_power=use_nearest_power)
         self._global_variables = self._parse_global_variables(config)
         self._config = self._parse_config(config, self._eqn_dir,
                                           self._global_variables)

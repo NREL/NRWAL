@@ -175,7 +175,7 @@ class EquationDirectory:
     integer). By default, only an exact match is returned, but the
     EquationDirectory object can also be set to perform interpolation +
     extrapolation or nearest neighbor lookup. Interpolation and extrapolation
-    take priority over the use_nearest kwarg.
+    take priority over the use_nearest_power kwarg.
 
     >>> obj['2015::spar']
     EquationGroup object from "spar.yaml" with heirarchy:
@@ -200,18 +200,19 @@ class EquationDirectory:
     >>> obj['2015::spar::spar_4MW']
     KeyError: 'Could not retrieve equation key "2015::spar::spar_4MW"
 
-    >>> obj = EquationDirectory('./NRWAL', use_nearest=True)
+    >>> obj = EquationDirectory('./NRWAL', use_nearest_power=True)
     >>> obj['2015::spar::spar_4MW']
     spar_3MW(dist_a_to_s, dist_p_to_a)
 
-    >>> obj = EquationDirectory('./NRWAL', interp_extrap=True)
+    >>> obj = EquationDirectory('./NRWAL', interp_extrap_power=True)
     >>> obj['2015::spar::spar_4MW']
     ((((spar_6MW(dist_a_to_s, dist_p_to_a)
         - spar_3MW(dist_a_to_s, dist_p_to_a)) * 1.0) / 3.0)
      + spar_3MW(dist_a_to_s, dist_p_to_a))
     """
 
-    def __init__(self, eqn_dir, interp_extrap=False, use_nearest=False):
+    def __init__(self, eqn_dir, interp_extrap_power=False,
+                 use_nearest_power=False):
         """
         Parameters
         ----------
@@ -219,27 +220,30 @@ class EquationDirectory:
             Path to a directory with one or more equation files or a path to
             a directory containing subdirectories with one or more equation
             files.
-        interp_extrap : bool
+        interp_extrap_power : bool
             Flag to interpolate and extrapolate power (MW) dependent equations
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This takes preference over the use_nearest flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
-        use_nearest : bool
+            This takes preference over the use_nearest_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_power : bool
             Flag to use the nearest valid power (MW) dependent equation
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This is second priority to the interp_extrap flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
+            This is second priority to the interp_extrap_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
         """
 
-        self._interp_extrap = interp_extrap
-        self._use_nearest = use_nearest
+        self._interp_extrap_power = interp_extrap_power
+        self._use_nearest_power = use_nearest_power
         self._default_variables = {}
         self._base_name = os.path.basename(os.path.abspath(eqn_dir))
         self._dir_name = os.path.dirname(os.path.abspath(eqn_dir))
-        self._eqns = self._parse_eqn_dir(eqn_dir, interp_extrap=interp_extrap,
-                                         use_nearest=use_nearest)
+        self._eqns = self._parse_eqn_dir(
+            eqn_dir, interp_extrap_power=interp_extrap_power,
+            use_nearest_power=use_nearest_power)
         self.set_default_variables()
 
     def __add__(self, other):
@@ -267,8 +271,8 @@ class EquationDirectory:
         """
         cls = self.__class__
         if isinstance(other, str):
-            other = cls(other, interp_extrap=self._interp_extrap,
-                        use_nearest=self._use_nearest)
+            other = cls(other, interp_extrap_power=self._interp_extrap_power,
+                        use_nearest_power=self._use_nearest_power)
 
         out = copy.deepcopy(self)
         out._eqns.update(other._eqns)
@@ -384,7 +388,8 @@ class EquationDirectory:
         return arg in self.keys()
 
     @classmethod
-    def _parse_eqn_dir(cls, eqn_dir, interp_extrap=False, use_nearest=False):
+    def _parse_eqn_dir(cls, eqn_dir, interp_extrap_power=False,
+                       use_nearest_power=False):
         """
         Parameters
         ----------
@@ -392,18 +397,20 @@ class EquationDirectory:
             Path to a directory with one or more equation files or a path to
             a directory containing subdirectories with one or more equation
             files.
-        interp_extrap : bool
+        interp_extrap_power : bool
             Flag to interpolate and extrapolate power (MW) dependent equations
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This takes preference over the use_nearest flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
-        use_nearest : bool
+            This takes preference over the use_nearest_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_power : bool
             Flag to use the nearest valid power (MW) dependent equation
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This is second priority to the interp_extrap flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
+            This is second priority to the interp_extrap_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
 
         Returns
         -------
@@ -426,8 +433,8 @@ class EquationDirectory:
             ignore_check = name.startswith(('.', '__'))
 
             if is_directory and not ignore_check:
-                obj = cls(path, interp_extrap=interp_extrap,
-                          use_nearest=use_nearest)
+                obj = cls(path, interp_extrap_power=interp_extrap_power,
+                          use_nearest_power=use_nearest_power)
                 if any(obj.keys()):
                     eqns[name] = obj
 
@@ -435,8 +442,8 @@ class EquationDirectory:
                 key = os.path.splitext(name)[0]
                 try:
                     eqns[key] = VariableGroup(
-                        path, interp_extrap=interp_extrap,
-                        use_nearest=use_nearest)
+                        path, interp_extrap_power=interp_extrap_power,
+                        use_nearest_power=use_nearest_power)
                 except Exception as e:
                     msg = ('Could not parse an VariableGroup from '
                            'file: "{}". Received the exception: {}'
@@ -448,8 +455,8 @@ class EquationDirectory:
                 key = os.path.splitext(name)[0]
                 try:
                     eqns[key] = EquationGroup(
-                        path, interp_extrap=interp_extrap,
-                        use_nearest=use_nearest)
+                        path, interp_extrap_power=interp_extrap_power,
+                        use_nearest_power=use_nearest_power)
                 except Exception as e:
                     msg = ('Could not parse an EquationGroup from '
                            'file: "{}". Received the exception: {}'

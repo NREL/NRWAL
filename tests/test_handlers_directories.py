@@ -100,17 +100,18 @@ def test_variable_setting():
 def test_nearest():
     """Test the lookup of power-based equations and the nearest-power
     calculation from a dir object"""
-    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=False,
-                                use_nearest=True)
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                                use_nearest_power=True)
     eqn = dir_obj['jacket::outfitting_11MW']
     truth = dir_obj['jacket::outfitting_10MW']
     assert eqn == truth
 
 
-def test_interp_extrap():
+def test_interp_extrap_power():
     """Test interp and extrap functionality of power-based equations
     from __getitem__ on a dir object"""
-    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=True, use_nearest=True)
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap_power=True,
+                                use_nearest_power=True)
     eqn = dir_obj['jacket::outfitting_11MW']
     truth = ('((((outfitting_8MW(depth, outfitting_cost) '
              '- outfitting_10MW(depth, outfitting_cost)) * 1.0) / -2.0) '
@@ -130,7 +131,8 @@ def test_eqn_dir_add():
 
 def test_dir_math_retrieval():
     """Test the group and directory __getitem__ method with embedded math"""
-    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
     key1 = 'jacket::lattice'
     key2 = 'jacket::outfitting_8MW'
     key3 = 'jacket::transition_piece'
@@ -173,7 +175,8 @@ def test_dir_math_retrieval():
 def test_bad_math_retrieval():
     """Test that attempting math in __getitem__ between an EquationGroup and
     an Equation raises a TypeError"""
-    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
     key1 = 'jacket'
     key2 = 'jacket::outfitting_8MW'
 
@@ -184,7 +187,8 @@ def test_bad_math_retrieval():
 
 def test_dir_parenthesis_retrieval():
     """Test parenthetical math expression retrieval from directory object"""
-    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
     key1 = 'jacket::lattice'
     key2 = 'jacket::outfitting_8MW'
     key = '2 * ({} + {})'.format(key1, key2)

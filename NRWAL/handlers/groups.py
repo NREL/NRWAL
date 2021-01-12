@@ -23,8 +23,8 @@ class AbstractGroup(ABC):
     yaml or json file.
     """
 
-    def __init__(self, group, name=None, interp_extrap=False,
-                 use_nearest=False):
+    def __init__(self, group, name=None, interp_extrap_power=False,
+                 use_nearest_power=False):
         """
         Parameters
         ----------
@@ -36,18 +36,20 @@ class AbstractGroup(ABC):
             Optional name for identification and debugging if this
             AbstractGroup is being initialized with the "group" input argument
             as a pre-extracted dictionary.
-        interp_extrap : bool
+        interp_extrap_power : bool
             Flag to interpolate and extrapolate power (MW) dependent equations
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This takes preference over the use_nearest flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
-        use_nearest : bool
+            This takes preference over the use_nearest_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_power : bool
             Flag to use the nearest valid power (MW) dependent equation
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This is second priority to the interp_extrap flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
+            This is second priority to the interp_extrap_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
         """
 
         self._base_name = name
@@ -57,8 +59,8 @@ class AbstractGroup(ABC):
             self._dir_name = os.path.dirname(group)
 
         self._default_variables = {}
-        self._interp_extrap = interp_extrap
-        self._use_nearest = use_nearest
+        self._interp_extrap_power = interp_extrap_power
+        self._use_nearest_power = use_nearest_power
         self._group = self._parse_group(group)
 
     def __add__(self, other):
@@ -85,8 +87,8 @@ class AbstractGroup(ABC):
         """
         cls = self.__class__
         if isinstance(other, (str, dict)):
-            other = cls(other, interp_extrap=self._interp_extrap,
-                        use_nearest=self._use_nearest)
+            other = cls(other, interp_extrap_power=self._interp_extrap_power,
+                        use_nearest_power=self._use_nearest_power)
 
         out = copy.deepcopy(self)
         out._group.update(other._group)
@@ -211,17 +213,18 @@ class AbstractGroup(ABC):
         out = self._group
         for i, ikey in enumerate(keys):
 
-            if self._interp_extrap or self._use_nearest and i == len(keys) - 1:
+            if (self._interp_extrap_power or self._use_nearest_power
+                    and i == len(keys) - 1):
                 nearest_eqns, nearest_powers = self.find_nearest_eqns(ikey)
 
             if ikey in out:
                 out = out[ikey]
-            elif len(nearest_eqns) > 1 and self._interp_extrap:
+            elif len(nearest_eqns) > 1 and self._interp_extrap_power:
                 x2 = self._parse_power(ikey)[0]
                 x1, x3 = nearest_powers[0:2]
                 y1, y3 = nearest_eqns[0:2]
                 out = (y3 - y1) * (x2 - x1) / (x3 - x1) + y1
-            elif any(nearest_eqns) and self._use_nearest:
+            elif any(nearest_eqns) and self._use_nearest_power:
                 out = nearest_eqns[0]
             else:
                 msg = ('Could not retrieve equation key "{}", '

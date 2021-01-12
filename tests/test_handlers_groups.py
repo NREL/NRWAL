@@ -82,11 +82,11 @@ def test_eqn_group_add():
     assert 'lattice_cost=100' in str(group3['subgroup::subgroup2::eqn8'])
 
 
-def test_no_interp_extrap_nearest():
+def test_no_interp_extrap_nearest_power():
     """Negative test for power based equation without exact match and no
     interp/extrap/nearest"""
-    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=False,
-                                use_nearest=False)
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                                use_nearest_power=False)
     eqn_group = dir_obj['jacket']
     eqn = eqn_group['outfitting_8MW']  # pylint: disable=W0612
     with pytest.raises(KeyError):
@@ -96,8 +96,8 @@ def test_no_interp_extrap_nearest():
 def test_nearest():
     """Test the lookup of power-based equations and the nearest-power
     calculation"""
-    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=False,
-                                use_nearest=True)
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                                use_nearest_power=True)
     eqn_group = dir_obj['jacket']
     eqns, powers = eqn_group.find_nearest_eqns('outfitting_9MW')
     assert powers[0] == 8.0
@@ -108,9 +108,10 @@ def test_nearest():
     assert str(eqn) == 'outfitting_10MW(depth, outfitting_cost)'
 
 
-def test_interp_extrap():
+def test_interp_extrap_power():
     """Test the interpolation and extrapolation of power-based equations."""
-    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=True, use_nearest=True)
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap_power=True,
+                                use_nearest_power=True)
     eqn_group = dir_obj['jacket']
     eqn = eqn_group['outfitting_11MW']
     truth = ('((((outfitting_8MW(depth, outfitting_cost) '
@@ -141,7 +142,8 @@ def test_interp_extrap():
 
 def test_group_math_retrieval():
     """Test the group __getitem__ method with embedded math"""
-    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
     obj = obj['jacket']
     key1 = 'lattice'
     key2 = 'outfitting_8MW'
@@ -184,7 +186,8 @@ def test_group_math_retrieval():
 
 def test_group_parenthesis_retrieval():
     """Test parenthetical math expression retrieval from group object"""
-    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
     obj = obj['jacket']
     key1 = 'lattice'
     key2 = 'outfitting_8MW'
