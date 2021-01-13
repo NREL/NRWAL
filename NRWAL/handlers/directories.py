@@ -333,8 +333,7 @@ class EquationDirectory:
         if any([op in key for op in operators]):
             return EquationGroup._getitem_math(self, key, workspace)
 
-        if (key not in self and Equation.is_num(key)
-                and not EquationGroup.is_year_eqn(key)):
+        if key not in self and Equation.is_num(key):
             return Equation(key)
 
         if '::' in str(key):

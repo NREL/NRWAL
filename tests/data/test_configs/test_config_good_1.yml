@@ -5,7 +5,7 @@ fixed_charge_rate:
 cost_reductions:
     "2015::cost_reductions::fixed"
 array:
-    "2015::array::fixed * (1 - cost_reductions::array_cable::2025)"
+    "2015::array::fixed * (1 - cost_reductions::array_cable_2025)"
 export:
     "2015::export::fixed"
 grid:

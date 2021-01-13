@@ -109,7 +109,7 @@ def test_cost_reductions_config():
     obj = NrwalConfig(FP_GOOD_2)
     k1 = 'array'
     k2 = '2015::array::fixed'
-    k3 = '2015::cost_reductions::fixed::array_cable::2025'
+    k3 = '2015::cost_reductions::fixed::array_cable_2025'
     eqn1 = obj[k1]
     eqn2 = obj._eqn_dir[k2]
     eqn3 = obj._eqn_dir[k3]

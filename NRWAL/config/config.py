@@ -348,6 +348,12 @@ class NrwalConfig:
 
         out = {}
         for name, expression in config.items():
+            if Equation.is_num(name):
+                msg = ('You cannot use numbers as keys in config: "{}"'
+                       .format(name))
+                logger.error(msg)
+                raise ValueError(msg)
+
             if not isinstance(expression, (int, float, str)):
                 msg = ('Cannot parse NrwalConfig expression for "{}", must be '
                        'one of (int, float, str) but received type "{}": {}'

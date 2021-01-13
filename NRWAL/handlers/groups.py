@@ -215,8 +215,7 @@ class AbstractGroup(ABC):
         if any([op in key for op in operators]):
             return self._getitem_math(self, key, workspace)
 
-        if (key not in self and Equation.is_num(key)
-                and not self.is_year_eqn(key)):
+        if key not in self and Equation.is_num(key):
             return Equation(key)
 
         if '::' in str(key):
@@ -442,7 +441,7 @@ class AbstractGroup(ABC):
 
     @classmethod
     def is_year_eqn(cls, key):
-        """Determine if an equation key is year-based by looking for YYYY or
+        """Determine if an equation key is year-based by looking for
         *_YYYY in the key
 
         Parameters
@@ -453,7 +452,7 @@ class AbstractGroup(ABC):
         Returns
         -------
         out : bool
-            True if a year string YYYY or *_YYYY is found in key
+            True if a year string *_YYYY is found in key
         """
 
         out = False
@@ -470,8 +469,7 @@ class AbstractGroup(ABC):
         ----------
         key : str
             A key to retrieve an equation from this EquationGroup. Should
-            be a YYYY year string or have the *_YYYY pattern. Otherwise,
-            None will be returned.
+            have the *_YYYY pattern. Otherwise, None will be returned.
 
         Returns
         -------
@@ -483,23 +481,27 @@ class AbstractGroup(ABC):
         """
 
         base_str = key
-        year = re.search('[1-2][0-9]{3}$', key, flags=re.IGNORECASE)
+        year = re.search('_[1-2][0-9]{3}$', key, flags=re.IGNORECASE)
         if year is not None:
             base_str = key.replace(year.group(0), '')
             year = int(year.group(0).lstrip('_'))
 
+            # unlikely to be a year before 1800 or after 2200
+            if year < 1800 or year > 2200:
+                year = None
+                base_str = key
+
         return year, base_str
 
     def find_nearest_year_eqns(self, request, group=None):
-        """Find year-based (YYYY) equations in this EquationGroup that match
+        """Find year-based (*_YYYY) equations in this EquationGroup that match
         the request difference in equation year.
 
         Parameters
         ----------
         request : str
             A key to retrieve an equation from this EquationGroup. Should
-            be a YYYY year string or have the *_YYYY pattern. Otherwise,
-            None will be returned.
+            have the *_YYYY pattern. Otherwise, None will be returned.
         group : EquationGroup
             Group to be looking in for equations adjacent to the requested
             equation. Defaults to the top level self._group attribute.
@@ -700,6 +702,12 @@ class EquationGroup(AbstractGroup):
         eqn_group = super()._parse_group(eqn_group)
 
         for k, v in sorted(eqn_group.items()):
+            if Equation.is_num(k):
+                msg = ('You cannot use numbers as keys in group "{}"'
+                       .format(self._base_name))
+                logger.error(msg)
+                raise ValueError(msg)
+
             if isinstance(v, (str, int, float)):
                 eqn_group[k] = Equation(v, name=k)
 
@@ -770,7 +778,12 @@ class VariableGroup(AbstractGroup):
 
         var_group = super()._parse_group(var_group)
 
-        for v in var_group.values():
+        for k, v in var_group.items():
+            if Equation.is_num(k):
+                msg = ('You cannot use numbers as keys in group "{}"'
+                       .format(self._base_name))
+                logger.error(msg)
+                raise ValueError(msg)
             if not isinstance(v, (int, float)):
                 msg = ('Cannot use variable group value that is not a '
                        'float or int: {} ({})'.format(v, type(v)))

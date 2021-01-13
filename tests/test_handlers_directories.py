@@ -219,26 +219,18 @@ def test_cost_reductions_directory():
     directory object."""
 
     obj = EquationDirectory(COST_REDUCTIONS_DIR, use_nearest_year=True)
-    eqn1 = obj['cost_reductions_0::fixed::turbine_install::2030']
-    eqn2 = obj['cost_reductions_0::fixed::turbine_install::2025']
-    assert eqn1 == eqn2
-    eqn1 = obj['cost_reductions_1::fixed::turbine_install_2030']
-    eqn2 = obj['cost_reductions_1::fixed::turbine_install_2025']
+    eqn1 = obj['cost_reductions::fixed::turbine_install_2030']
+    eqn2 = obj['cost_reductions::fixed::turbine_install_2025']
     assert eqn1 == eqn2
 
     obj = EquationDirectory(COST_REDUCTIONS_DIR, interp_extrap_year=True,
                             use_nearest_year=True)
-    eqn1 = obj['cost_reductions_0::fixed::turbine_install::2030']
-    eqn2 = obj['cost_reductions_0::fixed::turbine_install::2020']
-    eqn3 = obj['cost_reductions_0::fixed::turbine_install::2025']
+    eqn1 = obj['cost_reductions::fixed::turbine_install_2030']
+    eqn2 = obj['cost_reductions::fixed::turbine_install_2020']
+    eqn3 = obj['cost_reductions::fixed::turbine_install_2025']
     assert (eqn3.eval() - eqn2.eval()) + eqn3.eval() == eqn1.eval()
 
-    eqn1 = obj['cost_reductions_0::fixed::turbine_install::2023']
-    eqn2 = obj['cost_reductions_0::fixed::turbine_install::2020']
-    eqn3 = obj['cost_reductions_0::fixed::turbine_install::2025']
-    assert (3 / 5) * (eqn3.eval() - eqn2.eval()) + eqn2.eval() == eqn1.eval()
-
-    eqn1 = obj['cost_reductions_1::fixed::turbine_install_2023']
-    eqn2 = obj['cost_reductions_1::fixed::turbine_install_2020']
-    eqn3 = obj['cost_reductions_1::fixed::turbine_install_2025']
+    eqn1 = obj['cost_reductions::fixed::turbine_install_2023']
+    eqn2 = obj['cost_reductions::fixed::turbine_install_2020']
+    eqn3 = obj['cost_reductions::fixed::turbine_install_2025']
     assert (3 / 5) * (eqn3.eval() - eqn2.eval()) + eqn2.eval() == eqn1.eval()
