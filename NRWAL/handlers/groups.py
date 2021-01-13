@@ -215,7 +215,8 @@ class AbstractGroup(ABC):
         if any([op in key for op in operators]):
             return self._getitem_math(self, key, workspace)
 
-        if Equation.is_num(key) and key not in self:
+        if (key not in self and Equation.is_num(key)
+                and not self.is_year_eqn(key)):
             return Equation(key)
 
         if '::' in str(key):
@@ -482,19 +483,10 @@ class AbstractGroup(ABC):
         """
 
         base_str = key
-        year = None
-
-        try:
-            year = int(base_str)
-            base_str = ''
-        except ValueError:
-            pass
-
-        if year is None:
-            year = re.search('_[1-2][0-9]{3}$', key, flags=re.IGNORECASE)
-            if year is not None:
-                base_str = key.replace(year.group(0), '')
-                year = int(year.group(0).lstrip('_'))
+        year = re.search('[1-2][0-9]{3}$', key, flags=re.IGNORECASE)
+        if year is not None:
+            base_str = key.replace(year.group(0), '')
+            year = int(year.group(0).lstrip('_'))
 
         return year, base_str
 
@@ -551,8 +543,8 @@ class AbstractGroup(ABC):
 
         return eqns, eqn_years
 
-    @classmethod
-    def _parse_group(cls, group):
+    @staticmethod
+    def _parse_group(group):
         """
         Parameters
         ----------
@@ -688,8 +680,7 @@ class EquationGroup(AbstractGroup):
 
         return '\n'.join(s)
 
-    @classmethod
-    def _parse_group(cls, eqn_group):
+    def _parse_group(self, eqn_group):
         """Parse a group of equation strings defined in a yaml or json file
 
         Parameters
@@ -713,7 +704,12 @@ class EquationGroup(AbstractGroup):
                 eqn_group[k] = Equation(v, name=k)
 
             elif isinstance(v, dict):
-                eqn_group[k] = cls(v, name=k)
+                cls = self.__class__
+                eqn_group[k] = cls(
+                    v, name=k, interp_extrap_power=self._interp_extrap_power,
+                    use_nearest_power=self._use_nearest_power,
+                    interp_extrap_year=self._interp_extrap_year,
+                    use_nearest_year=self._use_nearest_year)
 
             else:
                 msg = ('Cannot use equation group value that is not a '

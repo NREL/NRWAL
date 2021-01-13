@@ -22,6 +22,8 @@ BAD_DIR = os.path.join(TEST_DATA_DIR, 'bad_eqn_dir/')
 BAD_FILE_TYPE = os.path.join(BAD_DIR, 'bad_file_type.txt')
 BAD_EQN = os.path.join(BAD_DIR, 'bad_list_eqn.yaml')
 
+COST_REDUCTIONS_DIR = os.path.join(TEST_DATA_DIR, 'test_cost_reductions/')
+
 
 def test_bad_eqn_dir():
     """Test that EquationDirectory raises a RuntimeError when passed a
@@ -210,3 +212,33 @@ def test_dir_parenthesis_retrieval():
     out2 = eqn2.evaluate(**inputs)
     assert np.allclose(out, 2 * (out1 + out2))
     assert ~np.allclose(out, 2 * out1 + out2)
+
+
+def test_cost_reductions_directory():
+    """Test interp/extrap/nearest on cost reduction year from the
+    directory object."""
+
+    obj = EquationDirectory(COST_REDUCTIONS_DIR, use_nearest_year=True)
+    eqn1 = obj['cost_reductions_0::fixed::turbine_install::2030']
+    eqn2 = obj['cost_reductions_0::fixed::turbine_install::2025']
+    assert eqn1 == eqn2
+    eqn1 = obj['cost_reductions_1::fixed::turbine_install_2030']
+    eqn2 = obj['cost_reductions_1::fixed::turbine_install_2025']
+    assert eqn1 == eqn2
+
+    obj = EquationDirectory(COST_REDUCTIONS_DIR, interp_extrap_year=True,
+                            use_nearest_year=True)
+    eqn1 = obj['cost_reductions_0::fixed::turbine_install::2030']
+    eqn2 = obj['cost_reductions_0::fixed::turbine_install::2020']
+    eqn3 = obj['cost_reductions_0::fixed::turbine_install::2025']
+    assert (eqn3.eval() - eqn2.eval()) + eqn3.eval() == eqn1.eval()
+
+    eqn1 = obj['cost_reductions_0::fixed::turbine_install::2023']
+    eqn2 = obj['cost_reductions_0::fixed::turbine_install::2020']
+    eqn3 = obj['cost_reductions_0::fixed::turbine_install::2025']
+    assert (3 / 5) * (eqn3.eval() - eqn2.eval()) + eqn2.eval() == eqn1.eval()
+
+    eqn1 = obj['cost_reductions_1::fixed::turbine_install_2023']
+    eqn2 = obj['cost_reductions_1::fixed::turbine_install_2020']
+    eqn3 = obj['cost_reductions_1::fixed::turbine_install_2025']
+    assert (3 / 5) * (eqn3.eval() - eqn2.eval()) + eqn2.eval() == eqn1.eval()

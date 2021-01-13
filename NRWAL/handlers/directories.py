@@ -212,7 +212,8 @@ class EquationDirectory:
     """
 
     def __init__(self, eqn_dir, interp_extrap_power=False,
-                 use_nearest_power=False):
+                 use_nearest_power=False, interp_extrap_year=False,
+                 use_nearest_year=False):
         """
         Parameters
         ----------
@@ -234,16 +235,32 @@ class EquationDirectory:
             If both interp_extrap_power & use_nearest_power are False, a
             KeyError will be raised if the exact equation name request is not
             found.
+        interp_extrap_year : bool
+            Flag to interpolate and extrapolate equations keyed by year.
+            This takes preference over the use_nearest_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_year : bool
+            Flag to use the nearest valid equation keyed by year.
+            This is second priority to the interp_extrap_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
         """
 
         self._interp_extrap_power = interp_extrap_power
         self._use_nearest_power = use_nearest_power
+        self._interp_extrap_year = interp_extrap_year
+        self._use_nearest_year = use_nearest_year
         self._default_variables = {}
         self._base_name = os.path.basename(os.path.abspath(eqn_dir))
         self._dir_name = os.path.dirname(os.path.abspath(eqn_dir))
         self._eqns = self._parse_eqn_dir(
             eqn_dir, interp_extrap_power=interp_extrap_power,
-            use_nearest_power=use_nearest_power)
+            use_nearest_power=use_nearest_power,
+            interp_extrap_year=interp_extrap_year,
+            use_nearest_year=use_nearest_year)
         self.set_default_variables()
 
     def __add__(self, other):
@@ -272,7 +289,9 @@ class EquationDirectory:
         cls = self.__class__
         if isinstance(other, str):
             other = cls(other, interp_extrap_power=self._interp_extrap_power,
-                        use_nearest_power=self._use_nearest_power)
+                        use_nearest_power=self._use_nearest_power,
+                        interp_extrap_year=self._interp_extrap_year,
+                        use_nearest_year=self._use_nearest_year)
 
         out = copy.deepcopy(self)
         out._eqns.update(other._eqns)
@@ -314,7 +333,8 @@ class EquationDirectory:
         if any([op in key for op in operators]):
             return EquationGroup._getitem_math(self, key, workspace)
 
-        if Equation.is_num(key) and key not in self:
+        if (key not in self and Equation.is_num(key)
+                and not EquationGroup.is_year_eqn(key)):
             return Equation(key)
 
         if '::' in str(key):
@@ -389,8 +409,12 @@ class EquationDirectory:
 
     @classmethod
     def _parse_eqn_dir(cls, eqn_dir, interp_extrap_power=False,
-                       use_nearest_power=False):
-        """
+                       use_nearest_power=False, interp_extrap_year=False,
+                       use_nearest_year=False):
+        """Load in an equation directory and all subdirectories and files into
+        a dictionary structure with nested NRWAL EquationGroup and Equation
+        objects.
+
         Parameters
         ----------
         eqn_dir : str
@@ -409,6 +433,18 @@ class EquationDirectory:
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
             This is second priority to the interp_extrap_power flag.
             If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        interp_extrap_year : bool
+            Flag to interpolate and extrapolate equations keyed by year.
+            This takes preference over the use_nearest_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_year : bool
+            Flag to use the nearest valid equation keyed by year.
+            This is second priority to the interp_extrap_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
             KeyError will be raised if the exact equation name request is not
             found.
 
@@ -434,7 +470,9 @@ class EquationDirectory:
 
             if is_directory and not ignore_check:
                 obj = cls(path, interp_extrap_power=interp_extrap_power,
-                          use_nearest_power=use_nearest_power)
+                          use_nearest_power=use_nearest_power,
+                          interp_extrap_year=interp_extrap_year,
+                          use_nearest_year=use_nearest_year)
                 if any(obj.keys()):
                     eqns[name] = obj
 
@@ -443,7 +481,9 @@ class EquationDirectory:
                 try:
                     eqns[key] = VariableGroup(
                         path, interp_extrap_power=interp_extrap_power,
-                        use_nearest_power=use_nearest_power)
+                        use_nearest_power=use_nearest_power,
+                        interp_extrap_year=interp_extrap_year,
+                        use_nearest_year=use_nearest_year)
                 except Exception as e:
                     msg = ('Could not parse an VariableGroup from '
                            'file: "{}". Received the exception: {}'
@@ -456,7 +496,9 @@ class EquationDirectory:
                 try:
                     eqns[key] = EquationGroup(
                         path, interp_extrap_power=interp_extrap_power,
-                        use_nearest_power=use_nearest_power)
+                        use_nearest_power=use_nearest_power,
+                        interp_extrap_year=interp_extrap_year,
+                        use_nearest_year=use_nearest_year)
                 except Exception as e:
                     msg = ('Could not parse an EquationGroup from '
                            'file: "{}". Received the exception: {}'
