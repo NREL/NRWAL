@@ -203,7 +203,8 @@ class NrwalConfig:
     DEFAULT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     def __init__(self, config, inputs=None, interp_extrap_power=False,
-                 use_nearest_power=False):
+                 use_nearest_power=False, interp_extrap_year=False,
+                 use_nearest_year=False):
         """
         Parameters
         ----------
@@ -228,6 +229,18 @@ class NrwalConfig:
             If both interp_extrap_power & use_nearest_power are False, a
             KeyError will be raised if the exact equation name request is not
             found.
+        interp_extrap_year : bool
+            Flag to interpolate and extrapolate equations keyed by year.
+            This takes preference over the use_nearest_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_year : bool
+            Flag to use the nearest valid equation keyed by year.
+            This is second priority to the interp_extrap_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
         """
 
         # parse inputs arg with inputs setter function
@@ -237,7 +250,9 @@ class NrwalConfig:
         config, eqn_dir = self._load_config(config)
         self._eqn_dir = EquationDirectory(
             eqn_dir, interp_extrap_power=interp_extrap_power,
-            use_nearest_power=use_nearest_power)
+            use_nearest_power=use_nearest_power,
+            interp_extrap_year=interp_extrap_year,
+            use_nearest_year=use_nearest_year)
         self._global_variables = self._parse_global_variables(config)
         self._config = self._parse_config(config, self._eqn_dir,
                                           self._global_variables)

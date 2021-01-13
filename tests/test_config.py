@@ -16,6 +16,7 @@ TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
 
 FP_GOOD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_0.yml')
 FP_GOOD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_1.yml')
+FP_GOOD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_2.yml')
 FP_BAD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_0.yml')
 FP_BAD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_1.yml')
 
@@ -105,7 +106,7 @@ def test_good_config_parsing():
 
 
 def test_cost_reductions_config():
-    """Test config with cost reductions"""
+    """Test config with cost reductions and parenthetical statements"""
     obj = NrwalConfig(FP_GOOD_2)
     k1 = 'array'
     k2 = '2015::array::fixed'
@@ -118,6 +119,31 @@ def test_cost_reductions_config():
     out3 = eqn3.evaluate(**{k: 1 for k in eqn3.variables})
     assert out1 == (out2 * (1 - out3))
     assert out1 != (out2 * 1 - out3)
+
+
+def test_cost_reductions_interp_nearest():
+    """Test config with interpolated cost reductions"""
+    with pytest.raises(KeyError):
+        obj = NrwalConfig(FP_GOOD_3, interp_extrap_year=False,
+                          use_nearest_year=False)
+
+    obj = NrwalConfig(FP_GOOD_3, interp_extrap_year=False,
+                      use_nearest_year=True)
+    k1 = 'array'
+    eqn1 = obj[k1]
+    truth_1 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2030']
+    truth_2 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2025']
+    assert str(truth_1) in str(eqn1)
+    assert str(truth_2) in str(eqn1)
+
+    obj = NrwalConfig(FP_GOOD_3, interp_extrap_year=True,
+                      use_nearest_year=True)
+    k1 = 'array'
+    eqn1 = obj[k1]
+    truth_1 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2030']
+    truth_2 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2025']
+    assert str(truth_1) in str(eqn1)
+    assert str(truth_2) not in str(eqn1)
 
 
 def test_bad_config_undefined():
