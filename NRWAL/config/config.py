@@ -494,10 +494,14 @@ class NrwalConfig:
                 out1 = gvars.get(v1, None)
                 if out1 is None:
                     out1 = cls._parse_expression(v1, config, eqn_dir, gvars)
+                elif Equation.is_num(out1):
+                    out1 = Equation(out1)
 
                 out2 = gvars.get(v2, None)
                 if out2 is None:
                     out2 = cls._parse_expression(v2, config, eqn_dir, gvars)
+                elif Equation.is_num(out2):
+                    out2 = Equation(out2)
 
                 out = op_fun(out1, out2)
 

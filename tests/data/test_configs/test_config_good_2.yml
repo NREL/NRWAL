@@ -21,4 +21,4 @@ electrical_duplicate:
 capex:
     electrical
 lcoe:
-    capex * fixed_charge_rate
+    fixed_charge_rate * capex
