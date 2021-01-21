@@ -378,6 +378,8 @@ class NrwalConfig:
 
             out[name] = cls._parse_expression(expression, config, eqn_dir,
                                               copy.deepcopy(gvars))
+            config[name] = copy.deepcopy(out[name])
+
         return out
 
     @classmethod
@@ -409,7 +411,10 @@ class NrwalConfig:
             variables input. This Equation is ready to be evaluated.
         """
 
-        if Equation.is_num(expression):
+        if isinstance(expression, (Equation, EquationGroup)):
+            out = expression
+
+        elif Equation.is_num(expression):
             out = Equation(expression)
 
         elif expression in config:
