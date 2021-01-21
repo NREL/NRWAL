@@ -254,6 +254,7 @@ class NrwalConfig:
             interp_extrap_year=interp_extrap_year,
             use_nearest_year=use_nearest_year)
         self._global_variables = self._parse_global_variables(config)
+        self._simple = copy.deepcopy(config)
         self._config = self._parse_config(config, self._eqn_dir,
                                           self._global_variables)
 
@@ -551,7 +552,7 @@ class NrwalConfig:
         s = ['NrwalConfig object with equation directory: "{}"'
              .format(os.path.join(self._eqn_dir._dir_name,
                                   self._eqn_dir._base_name))]
-        for name, expression in self.items():
+        for name, expression in self._simple.items():
             s.append(str(name))
             lines = str(expression).split('\n')
             s += ['\t' + line for line in lines]
@@ -563,17 +564,24 @@ class NrwalConfig:
 
     def head(self, n=5):
         """Print the first n lines of the config string representation"""
-        s = str(self)
-        s = s.split('\n')
-        s = '\n'.join(s[:n])
-        print(s)
+        print('\n'.join(str(self).split('\n')[:n]))
 
     def tail(self, n=5):
         """Print the last n lines of the config string representation"""
-        s = str(self)
-        s = s.split('\n')
-        s = '\n'.join(s[-1 * n:])
-        print(s)
+        print('\n'.join(str(self).split('\n')[-1 * n:]))
+
+    @property
+    def full(self):
+        """Get the full string rep with all equations written out"""
+        s = ['NrwalConfig object with equation directory: "{}"'
+             .format(os.path.join(self._eqn_dir._dir_name,
+                                  self._eqn_dir._base_name))]
+        for name, expression in self.items():
+            s.append(str(name))
+            lines = str(expression).split('\n')
+            s += ['\t' + line for line in lines]
+
+        return '\n'.join(s)
 
     @property
     def inputs(self):
