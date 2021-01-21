@@ -17,7 +17,7 @@ class Equation:
     # illegal substrings that cannot be in cost equations
     ILLEGAL = ('import ', 'os.', 'sys.', '.__', '__.', 'eval', 'exec')
 
-    def __init__(self, eqn, name=None, global_variables=None):
+    def __init__(self, eqn, name=None, default_variables=None):
         """
         Parameters
         ----------
@@ -26,14 +26,14 @@ class Equation:
             "-34.80 * depth ** 2 + 207619.80 * depth + 221197699.89"
         name : str | None
             Optional equation name / key for string formatting
-        global_variables : dict
-            Optional dictionary of variables accessible to this Equation
-            object. These inputs can still be overwritten at runtime.
+        default_variables : dict
+            Optional dictionary of default variables accessible to this
+            Equation object. These inputs can still be overwritten at runtime.
         """
 
-        self._global_variables = global_variables
-        if self._global_variables is None:
-            self._global_variables = {}
+        self._default_variables = default_variables
+        if self._default_variables is None:
+            self._default_variables = {}
 
         self._str = None
         self._base_name = name
@@ -49,13 +49,22 @@ class Equation:
                 logger.error(msg)
                 raise ValueError(msg)
 
+        if not self.is_equation(self._eqn):
+            msg = ('This expression is not fit for the NRWAL Equation '
+                   'handler: "{}"'.format(self._eqn))
+            logger.error(msg)
+            raise ValueError(msg)
+
     @staticmethod
     def _check_input_args(kwargs):
         """Check that input args to equation are of expected types."""
-        assert isinstance(kwargs, dict)
+        assert isinstance(kwargs, dict), 'Equation inputs must be a dict!'
         for k, v in kwargs.items():
-            assert isinstance(k, str)
-            assert isinstance(v, (int, float, np.ndarray, list, tuple))
+            msg = 'Input keys must be strings but received: {}'.format(k)
+            assert isinstance(k, str), msg
+            msg = ('Input data must be one of (int, float, np.ndarray, list, '
+                   'tuple), but received: {}'.format(type(v)))
+            assert isinstance(v, (int, float, np.ndarray, list, tuple)), msg
 
     def __eqn_math(self, other, operator):
         """Perform arithmetic with this instance of Equation (self) and an
@@ -83,9 +92,9 @@ class Equation:
 
         new_eqn = '({}) {} ({})'.format(self._eqn, operator, other._eqn)
         new_str = '({} {} {})'.format(self, operator, other)
-        gvars = copy.deepcopy(self._global_variables)
-        gvars.update(other._global_variables)
-        out = cls(new_eqn, global_variables=gvars)
+        def_vars = copy.deepcopy(self._default_variables)
+        def_vars.update(other._default_variables)
+        out = cls(new_eqn, default_variables=def_vars)
         out._str = new_str
         return out
 
@@ -207,20 +216,20 @@ class Equation:
 
     def __str__(self):
         if self._str is None:
-            if self.is_num(self._eqn) and not any(self.vars):
+            if self.is_num(self._eqn) and not any(self.variables):
                 self._str = str(self._eqn)
 
             else:
-                vars_str = [v for v in self.vars
-                            if v not in self.global_variables]
+                vars_str = [v for v in self.variables
+                            if v not in self.default_variables]
                 vars_str = str(vars_str).replace('[', '').replace(']', '')\
                     .replace("'", '').replace('"', '')
 
-                gvars_str = [v for v in self.vars
-                             if v in self.global_variables]
+                gvars_str = [v for v in self.variables
+                             if v in self.default_variables]
                 for gvar in gvars_str:
                     base_str = ', ' if bool(vars_str) else ''
-                    kw_str = '{}={}'.format(gvar, self.global_variables[gvar])
+                    kw_str = '{}={}'.format(gvar, self.default_variables[gvar])
                     vars_str += base_str + kw_str
 
                 if self._base_name is None:
@@ -233,27 +242,23 @@ class Equation:
     def __contains__(self, arg):
         return arg in self._eqn
 
-    def _set_variables(self, var_dict):
-        """Pass VariableGroup variable dictionaries defined within equation
-        directories to adjacent and sub-level EquationGroup and Equation
-        objects.
+    def set_default_variables(self, var_dict):
+        """Set default variables available to this Equation object.
 
         Parameters
         ----------
         var_dict : dict | None
-            Variables group dictionary from a higher level than or adjacent to
-            this instance of Equation. Variables from this input will be
-            passed to the equation for evaluation. These variables can always
-            be overwritten when Equation.evaluate() is called.
+            Default variables namespace. These variables can always be
+            overwritten when Equation.evaluate() is called.
         """
         if var_dict is not None:
-            self._global_variables.update(copy.deepcopy(var_dict))
+            self._default_variables.update(copy.deepcopy(var_dict))
 
     @staticmethod
     def _merge_vars(var_group, kwargs):
         """Create a copied namespace of input args for the Equation evaluation.
-        This is the global-style variables set with the self._set_variables()
-        method and the self._global_variables attribute updated with kwargs
+        This is the default-style variables set with the self._set_variables()
+        method and the self._default_variables attribute updated with kwargs
         from the self.evaluate() method call.
 
         Parameters
@@ -284,7 +289,7 @@ class Equation:
     def is_num(s):
         """Check if a string is a number"""
         try:
-            float(s)
+            float(str(s))
         except ValueError:
             return False
         else:
@@ -301,40 +306,70 @@ class Equation:
         return self._eqn
 
     @property
-    def global_variables(self):
-        """Get a dictionary of global variables from a variables.yaml file
+    def default_variables(self):
+        """Get a dictionary of default variables from a variables.yaml file
         accessible to this object
 
         Returns
         -------
-        global_variables : dict
-            Dictionary of variables accessible to all Equation, EquationGroup,
-            and EquationDirectory objects within the heirarchy of this object.
+        dict
         """
-        return self._global_variables
+        return self._default_variables
+
+    @classmethod
+    def parse_variables(cls, expression):
+        """Parse variable names from an expression string."""
+        delimiters = ('*', '/', '+', '-', ' ', '(', ')', '[', ']')
+        regex_pattern = '|'.join(map(re.escape, delimiters))
+        variables = [sub for sub in re.split(regex_pattern, str(expression))
+                     if sub
+                     and not cls.is_num(sub)
+                     and not cls.is_method(sub)]
+        variables = sorted(list(set(variables)))
+        return variables
 
     @property
-    def vars(self):
-        """Get a list of variable names that the Equation uses as input.
+    def variables(self):
+        """Get a unique sorted list names of all input variables that the
+        Equation needs. This will return an empty list if the equation has
+        no variables.
 
         Returns
         -------
-        vars : list
-            List of strings representing variable names that were parsed from
-            the equation string. This will return an empty list if the equation
-            has no variables.
+        list
         """
-        delimiters = ('*', '/', '+', '-', ' ', '(', ')', '[', ']')
-        regex_pattern = '|'.join(map(re.escape, delimiters))
-        var_names = [sub for sub in re.split(regex_pattern, str(self._eqn))
-                     if sub
-                     and not self.is_num(sub)
-                     and not self.is_method(sub)]
-        var_names = sorted(list(set(var_names)))
-        return var_names
+        return self.parse_variables(self._eqn)
+
+    @classmethod
+    def is_equation(cls, expression):
+        """Check if an expression is an equation to be handled by this
+        framework.
+
+        Parameters
+        ----------
+        expression : str | int | float
+            Expression to be checked as an equation or not.
+
+        Returns
+        -------
+        check : bool
+            True if the expression is an equation that can be handled by this
+            framework.
+        """
+        check = False
+        operators = ('*', '/', '+', '-')
+
+        if not isinstance(expression, (str, int, float)):
+            check = False
+        elif cls.is_num(expression):
+            check = True
+        elif any([x in str(expression) for x in operators]):
+            check = True
+
+        return check
 
     def eval(self, **kwargs):
-        """Abbreviated alias for evaluate()."""
+        """Alias for evaluate()."""
         return self.evaluate(**kwargs)
 
     def evaluate(self, **kwargs):
@@ -346,18 +381,18 @@ class Equation:
             Keyword arguments setting variables of the equation. Note that this
             is **kwargs so this method can be run in either of these syntaxes:
                 Equation.evaluate(input1=10, input2=20)
-                Equation.evaluate({'input1': 10, 'input2': 20})
+                Equation.evaluate(**{'input1': 10, 'input2': 20})
         """
         self._check_input_args(kwargs)
-        kwargs = self._merge_vars(self._global_variables, kwargs)
+        kwargs = self._merge_vars(self._default_variables, kwargs)
 
-        missing = [v for v in self.vars
+        missing = [v for v in self.variables
                    if v not in globals()
                    and v not in kwargs]
         if any(missing):
             msg = ('Cannot evaluate "{}", missing the following input args: {}'
                    .format(self, missing))
             logger.error(msg)
-            raise KeyError(msg)
+            raise RuntimeError(msg)
 
         return eval(str(self._eqn), globals(), kwargs)

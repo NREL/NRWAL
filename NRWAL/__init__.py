@@ -6,6 +6,7 @@ from __future__ import print_function, division, absolute_import
 import os
 
 from NRWAL.version import __version__
+from NRWAL.config.config import NrwalConfig
 from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.groups import EquationGroup, VariableGroup
 from NRWAL.handlers.directories import EquationDirectory

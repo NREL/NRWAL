@@ -3,6 +3,7 @@
 """
 Tests for NRWAL equation group (file) handler objects
 """
+import numpy as np
 import os
 import pytest
 
@@ -16,10 +17,13 @@ MODULE_DIR = os.path.dirname(TEST_DIR)
 EQNS_DIR = os.path.join(MODULE_DIR, 'NRWAL/')
 
 GOOD_DIR = os.path.join(TEST_DATA_DIR, 'test_eqns_dir/')
+FP_COST_REDUCTIONS = os.path.join(
+    TEST_DATA_DIR, 'test_cost_reductions/cost_reductions.yaml')
 
 BAD_DIR = os.path.join(TEST_DATA_DIR, 'bad_eqn_dir/')
 BAD_FILE_TYPE = os.path.join(BAD_DIR, 'bad_file_type.txt')
 BAD_EQN = os.path.join(BAD_DIR, 'bad_list_eqn.yaml')
+BAD_KEYS = os.path.join(BAD_DIR, 'bad_cost_reductions.yaml')
 
 
 def test_bad_file_type():
@@ -34,6 +38,12 @@ def test_bad_eqn():
     non-numeric equation."""
     with pytest.raises(TypeError):
         EquationGroup(BAD_EQN)
+
+
+def test_bad_keys():
+    """Test that EquationGroup raises an error when passed numeric keys."""
+    with pytest.raises(ValueError):
+        EquationGroup(BAD_KEYS)
 
 
 def test_eqn_group():
@@ -79,11 +89,11 @@ def test_eqn_group_add():
     assert 'lattice_cost=100' in str(group3['subgroup::subgroup2::eqn8'])
 
 
-def test_no_interp_extrap_nearest():
+def test_no_interp_extrap_nearest_power():
     """Negative test for power based equation without exact match and no
     interp/extrap/nearest"""
-    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=False,
-                                use_nearest=False)
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                                use_nearest_power=False)
     eqn_group = dir_obj['jacket']
     eqn = eqn_group['outfitting_8MW']  # pylint: disable=W0612
     with pytest.raises(KeyError):
@@ -93,10 +103,10 @@ def test_no_interp_extrap_nearest():
 def test_nearest():
     """Test the lookup of power-based equations and the nearest-power
     calculation"""
-    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=False,
-                                use_nearest=True)
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                                use_nearest_power=True)
     eqn_group = dir_obj['jacket']
-    eqns, powers = eqn_group.find_nearest_eqns('outfitting_9MW')
+    eqns, powers = eqn_group.find_nearest_power_eqns('outfitting_9MW')
     assert powers[0] == 8.0
     assert powers[1] == 10.0
     assert 'outfitting_8MW' in str(eqns[0])
@@ -105,9 +115,10 @@ def test_nearest():
     assert str(eqn) == 'outfitting_10MW(depth, outfitting_cost)'
 
 
-def test_interp_extrap():
+def test_interp_extrap_power():
     """Test the interpolation and extrapolation of power-based equations."""
-    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=True, use_nearest=True)
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap_power=True,
+                                use_nearest_power=True)
     eqn_group = dir_obj['jacket']
     eqn = eqn_group['outfitting_11MW']
     truth = ('((((outfitting_8MW(depth, outfitting_cost) '
@@ -138,7 +149,8 @@ def test_interp_extrap():
 
 def test_group_math_retrieval():
     """Test the group __getitem__ method with embedded math"""
-    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
     obj = obj['jacket']
     key1 = 'lattice'
     key2 = 'outfitting_8MW'
@@ -148,32 +160,99 @@ def test_group_math_retrieval():
     eqn2 = obj[key2]
     eqn3 = obj[key3]
     eqn4 = obj[key4]
-    y1 = eqn1.eval(**{k: 2 for k in eqn1.vars})
-    y2 = eqn2.eval(**{k: 2 for k in eqn2.vars})
-    y3 = eqn3.eval(**{k: 2 for k in eqn3.vars})
+    y1 = eqn1.eval(**{k: 2 for k in eqn1.variables})
+    y2 = eqn2.eval(**{k: 2 for k in eqn2.variables})
+    y3 = eqn3.eval(**{k: 2 for k in eqn3.variables})
     y4 = eqn4.eval()
 
     key_math = ''.join([key1, ' + ', key2, '+', key3])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 + y2 + y3 == y_math
 
     key_math = ''.join([key1, ' + ', key2, ' * ', key3])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 + y2 * y3 == y_math
 
     key_math = ''.join([key1, ' / ', key2, ' - ', key3])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 / y2 - y3 == y_math
 
     key_math = ''.join([key1, ' / ', key2, ' ** ', key4])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 / y2 ** y4 == y_math
 
     key_math = ''.join([key1, ' * ', key2, ' ** ', key4])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 * y2 ** y4 == y_math
+
+
+def test_group_parenthesis_retrieval():
+    """Test parenthetical math expression retrieval from group object"""
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
+    obj = obj['jacket']
+    key1 = 'lattice'
+    key2 = 'outfitting_8MW'
+    key = '2 * ({} + {})'.format(key1, key2)
+    eqn = obj[key]
+    truth = ('(2 * (lattice(depth, lattice_cost, turbine_capacity) '
+             '+ outfitting_8MW(depth, outfitting_cost)))')
+    assert str(eqn) == truth
+    truth_full = ('(2) * (((np.exp(3.7136 + 0.00176 * turbine_capacity '
+                  '** 2.5 + 0.645 * np.log(depth))) * lattice_cost) '
+                  '+ ((40 + (0.8 * (18 + depth))) * outfitting_cost))')
+    assert eqn.full == truth_full
+    inputs = {k: np.ones(3) for k in eqn.variables}
+    out = eqn.eval(**inputs)
+    assert isinstance(out, np.ndarray)
+    assert np.allclose(out, 192.54674167 * np.ones(3))
+    eqn1 = obj[key1]
+    eqn2 = obj[key2]
+    out1 = eqn1.evaluate(**inputs)
+    out2 = eqn2.evaluate(**inputs)
+    assert np.allclose(out, 2 * (out1 + out2))
+    assert ~np.allclose(out, 2 * out1 + out2)
+
+
+def test_cost_reductions():
+    """Test the extraction / parsing of cost reduction files which look a
+    little different than normal files but should be handled similarly."""
+
+    obj = EquationGroup(FP_COST_REDUCTIONS)
+    assert isinstance(obj, EquationGroup)
+    assert isinstance(obj['fixed'], EquationGroup)
+    assert isinstance(obj['fixed::turbine_install_2015'], Equation)
+    assert isinstance(obj['fixed::turbine_install_2020'], Equation)
+    assert isinstance(obj['fixed::turbine_install_2025'], Equation)
+    assert isinstance(obj['fixed::turbine_install_2015'].eval(), float)
+    assert isinstance(obj['fixed::turbine_install_2020'].eval(), float)
+    assert isinstance(obj['fixed::turbine_install_2025'].eval(), float)
+
+
+def test_cost_reductions_interp():
+    """Test interp/extrap/nearest on cost reduction year."""
+    obj = EquationGroup(FP_COST_REDUCTIONS)
+    with pytest.raises(KeyError):
+        _ = obj['fixed::turbine_install::2030']
+    with pytest.raises(KeyError):
+        _ = obj['fixed::turbine_install_2030']
+
+    obj = EquationGroup(FP_COST_REDUCTIONS, use_nearest_year=True)
+    eqn1 = obj['fixed::turbine_install_2030']
+    eqn2 = obj['fixed::turbine_install_2025']
+    assert eqn1 == eqn2
+
+    obj = EquationGroup(FP_COST_REDUCTIONS, interp_extrap_year=True,
+                        use_nearest_year=True)
+    eqn1 = obj['fixed::turbine_install_2023']
+    eqn2 = obj['fixed::turbine_install_2020']
+    eqn3 = obj['fixed::turbine_install_2025']
+    assert (3 / 5) * (eqn3.eval() - eqn2.eval()) + eqn2.eval() == eqn1.eval()
+
+    eqn4 = obj['fixed::turbine_install_2023 * 1000']
+    assert 1000 * eqn1.eval() == eqn4.eval()

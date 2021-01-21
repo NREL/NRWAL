@@ -95,10 +95,10 @@ class EquationDirectory:
     NRWAL Equation objects can be evaluated using kwargs.
 
     >>> import numpy as np
-    >>> eqn.vars
+    >>> eqn.variables
     ['depth', 'num_turbines']
 
-    >>> eqn.eval(**{k: np.ones(2) for k in eqn.vars})
+    >>> eqn.eval(**{k: np.ones(2) for k in eqn.variables})
     array([1.48410044e+08, 1.48410044e+08])
 
     >>> eqn.eval(depth=np.ones(2), num_turbines=np.ones(2))
@@ -160,10 +160,10 @@ class EquationDirectory:
     (rna(turbine_capacity) + monopile_tower(depth, turbine_capacity,
         tower_cost=3960))
 
-    >>> eqn.vars
+    >>> eqn.variables
     ['depth', 'tower_cost', 'turbine_capacity']
 
-    >>> eqn.eval(**{k: np.ones(2) for k in eqn.vars})
+    >>> eqn.eval(**{k: np.ones(2) for k in eqn.variables})
     array([1037835.27761686, 1037835.27761686])
 
     >>> eqn.eval(depth=np.ones(2), turbine_capacity=np.ones(2))
@@ -175,7 +175,7 @@ class EquationDirectory:
     integer). By default, only an exact match is returned, but the
     EquationDirectory object can also be set to perform interpolation +
     extrapolation or nearest neighbor lookup. Interpolation and extrapolation
-    take priority over the use_nearest kwarg.
+    take priority over the use_nearest_power kwarg.
 
     >>> obj['2015::spar']
     EquationGroup object from "spar.yaml" with heirarchy:
@@ -200,18 +200,20 @@ class EquationDirectory:
     >>> obj['2015::spar::spar_4MW']
     KeyError: 'Could not retrieve equation key "2015::spar::spar_4MW"
 
-    >>> obj = EquationDirectory('./NRWAL', use_nearest=True)
+    >>> obj = EquationDirectory('./NRWAL', use_nearest_power=True)
     >>> obj['2015::spar::spar_4MW']
     spar_3MW(dist_a_to_s, dist_p_to_a)
 
-    >>> obj = EquationDirectory('./NRWAL', interp_extrap=True)
+    >>> obj = EquationDirectory('./NRWAL', interp_extrap_power=True)
     >>> obj['2015::spar::spar_4MW']
     ((((spar_6MW(dist_a_to_s, dist_p_to_a)
         - spar_3MW(dist_a_to_s, dist_p_to_a)) * 1.0) / 3.0)
      + spar_3MW(dist_a_to_s, dist_p_to_a))
     """
 
-    def __init__(self, eqn_dir, interp_extrap=False, use_nearest=False):
+    def __init__(self, eqn_dir, interp_extrap_power=False,
+                 use_nearest_power=False, interp_extrap_year=False,
+                 use_nearest_year=False):
         """
         Parameters
         ----------
@@ -219,28 +221,47 @@ class EquationDirectory:
             Path to a directory with one or more equation files or a path to
             a directory containing subdirectories with one or more equation
             files.
-        interp_extrap : bool
+        interp_extrap_power : bool
             Flag to interpolate and extrapolate power (MW) dependent equations
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This takes preference over the use_nearest flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
-        use_nearest : bool
+            This takes preference over the use_nearest_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_power : bool
             Flag to use the nearest valid power (MW) dependent equation
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This is second priority to the interp_extrap flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
+            This is second priority to the interp_extrap_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        interp_extrap_year : bool
+            Flag to interpolate and extrapolate equations keyed by year.
+            This takes preference over the use_nearest_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_year : bool
+            Flag to use the nearest valid equation keyed by year.
+            This is second priority to the interp_extrap_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
         """
 
-        self._interp_extrap = interp_extrap
-        self._use_nearest = use_nearest
-        self._global_variables = {}
+        self._interp_extrap_power = interp_extrap_power
+        self._use_nearest_power = use_nearest_power
+        self._interp_extrap_year = interp_extrap_year
+        self._use_nearest_year = use_nearest_year
+        self._default_variables = {}
         self._base_name = os.path.basename(os.path.abspath(eqn_dir))
         self._dir_name = os.path.dirname(os.path.abspath(eqn_dir))
-        self._eqns = self._parse_eqn_dir(eqn_dir, interp_extrap=interp_extrap,
-                                         use_nearest=use_nearest)
-        self._set_variables()
+        self._eqns = self._parse_eqn_dir(
+            eqn_dir, interp_extrap_power=interp_extrap_power,
+            use_nearest_power=use_nearest_power,
+            interp_extrap_year=interp_extrap_year,
+            use_nearest_year=use_nearest_year)
+        self.set_default_variables()
 
     def __add__(self, other):
         """Add another equation dir to this instance of EquationDirectory
@@ -267,14 +288,75 @@ class EquationDirectory:
         """
         cls = self.__class__
         if isinstance(other, str):
-            other = cls(other, interp_extrap=self._interp_extrap,
-                        use_nearest=self._use_nearest)
+            other = cls(other, interp_extrap_power=self._interp_extrap_power,
+                        use_nearest_power=self._use_nearest_power,
+                        interp_extrap_year=self._interp_extrap_year,
+                        use_nearest_year=self._use_nearest_year)
 
         out = copy.deepcopy(self)
         out._eqns.update(other._eqns)
-        out._set_variables(other._global_variables)
+        out.set_default_variables(other._default_variables)
 
         return out
+
+    def _getitem(self, key, workspace):
+        """Protected method for __getitem__ with additional args for
+        recursive call.
+
+        Parameters
+        ----------
+        key : str
+            A key or set of keys (delimited by "::") to retrieve from this
+            EquationDirectory instance. For example, if this EquationDirectory
+            has a eqns.yaml file directly in the directory, the input key could
+            be 'eqns' or 'eqns.yaml' to retrieve the EquationGroup that holds
+            eqns.yaml.  Alternatively, if eqns.yaml has an equation
+            'eqn1': 'm*x + b', the the input key could be: 'eqns::eqn1' to
+            retrieve the Equation object that holds 'm*x + b'
+            The input argument can also have embedded math like
+            'set_1::eqn1 + set_2::eqn2 ** 2'.
+        workspace : dict | None
+            Temporary workspace to hold parts of math expressions. Useful
+            for extracting and caching parenthetical statements.
+
+        Returns
+        -------
+        out : Equation | EquationGroup | EquationDirectory
+            An object in this instance of EquationDirectory keyed by the
+            input argument key.
+        """
+
+        if workspace is None:
+            workspace = {}
+
+        operators = ('+', '-', '*', '/', '^')
+        if any([op in key for op in operators]):
+            return EquationGroup._getitem_math(self, key, workspace)
+
+        if key not in self and Equation.is_num(key):
+            return Equation(key)
+
+        if '::' in str(key):
+            keys = key.split('::')
+        else:
+            keys = [key]
+
+        keys = [str(k) if not str(k).endswith(('.json', '.yml', '.yaml'))
+                else os.path.splitext(str(k))[0]
+                for k in keys]
+
+        eqns = self._eqns
+        for ikey in keys:
+            try:
+                eqns = eqns[ikey]
+            except KeyError:
+                msg = ('Could not retrieve equation key "{}", '
+                       'could not find "{}" in last available keys: {}'
+                       .format(key, ikey, list(eqns.keys())))
+                logger.error(msg)
+                raise KeyError(msg)
+
+        return eqns
 
     def __getitem__(self, key):
         """Retrieve a nested Equation, EquationGroup, or EquationDirectory
@@ -300,34 +382,7 @@ class EquationDirectory:
             input argument key.
         """
 
-        operators = ('+', '-', '*', '/', '^')
-        if any([op in key for op in operators]):
-            return EquationGroup._getitem_math(self, key)
-
-        if Equation.is_num(key) and key not in self:
-            return Equation(key)
-
-        if '::' in str(key):
-            keys = key.split('::')
-        else:
-            keys = [key]
-
-        keys = [str(k) if not str(k).endswith(('.json', '.yml', '.yaml'))
-                else os.path.splitext(str(k))[0]
-                for k in keys]
-
-        eqns = self._eqns
-        for ikey in keys:
-            try:
-                eqns = eqns[ikey]
-            except KeyError:
-                msg = ('Could not retrieve equation key "{}", '
-                       'could not find "{}" in last available keys: {}'
-                       .format(key, ikey, list(eqns.keys())))
-                logger.error(msg)
-                raise KeyError(msg)
-
-        return eqns
+        return self._getitem(key, None)
 
     def __repr__(self):
         return str(self)
@@ -352,26 +407,45 @@ class EquationDirectory:
         return arg in self.keys()
 
     @classmethod
-    def _parse_eqn_dir(cls, eqn_dir, interp_extrap=False, use_nearest=False):
-        """
+    def _parse_eqn_dir(cls, eqn_dir, interp_extrap_power=False,
+                       use_nearest_power=False, interp_extrap_year=False,
+                       use_nearest_year=False):
+        """Load in an equation directory and all subdirectories and files into
+        a dictionary structure with nested NRWAL EquationGroup and Equation
+        objects.
+
         Parameters
         ----------
         eqn_dir : str
             Path to a directory with one or more equation files or a path to
             a directory containing subdirectories with one or more equation
             files.
-        interp_extrap : bool
+        interp_extrap_power : bool
             Flag to interpolate and extrapolate power (MW) dependent equations
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This takes preference over the use_nearest flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
-        use_nearest : bool
+            This takes preference over the use_nearest_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_power : bool
             Flag to use the nearest valid power (MW) dependent equation
             based on the case-insensitive regex pattern: "_[0-9]*MW$"
-            This is second priority to the interp_extrap flag.
-            If both interp_extrap & use_nearest are False, a KeyError will
-            be raised if the exact equation name request is not found.
+            This is second priority to the interp_extrap_power flag.
+            If both interp_extrap_power & use_nearest_power are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        interp_extrap_year : bool
+            Flag to interpolate and extrapolate equations keyed by year.
+            This takes preference over the use_nearest_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
+        use_nearest_year : bool
+            Flag to use the nearest valid equation keyed by year.
+            This is second priority to the interp_extrap_year flag.
+            If both interp_extrap_year & use_nearest_year are False, a
+            KeyError will be raised if the exact equation name request is not
+            found.
 
         Returns
         -------
@@ -394,8 +468,10 @@ class EquationDirectory:
             ignore_check = name.startswith(('.', '__'))
 
             if is_directory and not ignore_check:
-                obj = cls(path, interp_extrap=interp_extrap,
-                          use_nearest=use_nearest)
+                obj = cls(path, interp_extrap_power=interp_extrap_power,
+                          use_nearest_power=use_nearest_power,
+                          interp_extrap_year=interp_extrap_year,
+                          use_nearest_year=use_nearest_year)
                 if any(obj.keys()):
                     eqns[name] = obj
 
@@ -403,8 +479,10 @@ class EquationDirectory:
                 key = os.path.splitext(name)[0]
                 try:
                     eqns[key] = VariableGroup(
-                        path, interp_extrap=interp_extrap,
-                        use_nearest=use_nearest)
+                        path, interp_extrap_power=interp_extrap_power,
+                        use_nearest_power=use_nearest_power,
+                        interp_extrap_year=interp_extrap_year,
+                        use_nearest_year=use_nearest_year)
                 except Exception as e:
                     msg = ('Could not parse an VariableGroup from '
                            'file: "{}". Received the exception: {}'
@@ -416,8 +494,10 @@ class EquationDirectory:
                 key = os.path.splitext(name)[0]
                 try:
                     eqns[key] = EquationGroup(
-                        path, interp_extrap=interp_extrap,
-                        use_nearest=use_nearest)
+                        path, interp_extrap_power=interp_extrap_power,
+                        use_nearest_power=use_nearest_power,
+                        interp_extrap_year=interp_extrap_year,
+                        use_nearest_year=use_nearest_year)
                 except Exception as e:
                     msg = ('Could not parse an EquationGroup from '
                            'file: "{}". Received the exception: {}'
@@ -427,57 +507,63 @@ class EquationDirectory:
 
         return eqns
 
-    def _set_variables(self, var_group=None):
-        """Pass VariableGroup variable dictionaries defined within equation
-        directories to adjacent and sub-level EquationGroup and Equation
-        objects.
+    def set_default_variables(self, var_group=None, force_update=False):
+        """Set default variables available to this object and all
+        sub-directories, sub-groups, and equations within this object.
 
         Parameters
         ----------
-        eqn_dir : EquationDirectory
-            Equation directory object to set VariableGroup objects in.
         var_group : dict | None
-            Variables group dictionary from a higher level in the equation
-            heirarchy than eqn_dir that will be set to the EquationGroup
-            objects in this EquationDirectory unless other VariableGroups are
-            found on the local level in sub dirs. These variables can always
-            be overwritten when Equation.evaluate() is called.
+            Default variables namespace that will be set to the EquationGroup
+            objects in this EquationDirectory unless other variables.yaml files
+            are found on the local level in sub-directories. These variables
+            can always be overwritten when Equation.evaluate() is called.
+        force_update : bool
+            Flag to force updates to local VariableGroup objects
+            (variables.yaml files) contained in lower level directories.
+            Default is False so that lower level directories will maintain
+            their locally-defined default variables.
         """
 
         if var_group is None:
             var_group = {}
 
-        if 'variables' in self.keys():
-            assert isinstance(self['variables'], VariableGroup)
+        if 'variables' in self.keys() and not force_update:
             # pylint: disable=E1101
+            # this makes it so that VariableGroup on lower directory levels
+            # will not be overwritten by the higher VariableGroup objects
+            assert isinstance(self['variables'], VariableGroup)
             var_group.update(self['variables'].var_dict)
 
-        self._global_variables.update(copy.deepcopy(var_group))
+        self._default_variables.update(copy.deepcopy(var_group))
 
         for v in self.values():
-            if isinstance(v, EquationGroup):
-                v._set_variables(var_group)
-
-            elif isinstance(v, EquationDirectory):
-                v._set_variables(var_group=var_group)
+            if isinstance(v, (EquationDirectory, EquationGroup, Equation)):
+                v.set_default_variables(var_group)
 
     @property
-    def global_variables(self):
-        """Get a dictionary of global variables from a variables.yaml file
+    def default_variables(self):
+        """Get a dictionary of default variables from a variables.yaml file
         accessible to this object
 
         Returns
         -------
-        global_variables : dict
-            Dictionary of variables accessible to all Equation, EquationGroup,
-            and EquationDirectory objects within the heirarchy of this object.
+        dict
         """
-        return self._global_variables
+        return self._default_variables
 
     @property
     def all_equations(self):
         """List of all Equation objects from this object."""
         return EquationGroup._r_all_equations(self)
+
+    def get(self, key, default_value):
+        """Attempt to get a key from the EquationDirectory, return
+        default_value if the key could not be retrieved"""
+        try:
+            return self[key]
+        except KeyError:
+            return default_value
 
     def keys(self):
         """Get the 1st level of equation keys, same as dict.keys()"""

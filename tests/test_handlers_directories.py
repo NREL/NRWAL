@@ -3,6 +3,7 @@
 """
 Tests for NRWAL equation directory handler objects
 """
+import numpy as np
 import os
 import pytest
 
@@ -20,6 +21,8 @@ GOOD_DIR = os.path.join(TEST_DATA_DIR, 'test_eqns_dir/')
 BAD_DIR = os.path.join(TEST_DATA_DIR, 'bad_eqn_dir/')
 BAD_FILE_TYPE = os.path.join(BAD_DIR, 'bad_file_type.txt')
 BAD_EQN = os.path.join(BAD_DIR, 'bad_list_eqn.yaml')
+
+COST_REDUCTIONS_DIR = os.path.join(TEST_DATA_DIR, 'test_cost_reductions/')
 
 
 def test_bad_eqn_dir():
@@ -63,9 +66,9 @@ def test_print_eqn_dir():
 def test_variable_setting():
     """Test the presence of a variables.yaml file in an EquationDirectory"""
     obj = EquationDirectory(GOOD_DIR)
-    assert not obj.global_variables
+    assert not obj.default_variables
 
-    with pytest.raises(KeyError):
+    with pytest.raises(RuntimeError):
         obj['jacket::outfitting_8MW'].evaluate(depth=10)
 
     eqn = obj['subdir::jacket::outfitting_8MW']
@@ -74,41 +77,43 @@ def test_variable_setting():
     assert eqn.evaluate(depth=10, outfitting_cost=10) == eqn.evaluate(depth=10)
     assert eqn.evaluate(depth=10, outfitting_cost=20) != eqn.evaluate(depth=10)
 
-    with pytest.raises(KeyError):
+    with pytest.raises(RuntimeError):
         eqn.evaluate()
 
-    assert obj['subdir'].global_variables['lattice_cost'] == 100
+    assert obj['subdir'].default_variables['lattice_cost'] == 100
     sjacket = obj['subdir::jacket']
-    assert sjacket.global_variables['lattice_cost'] == 100
-    assert sjacket['outfitting_8MW'].global_variables['lattice_cost'] == 100
-    assert sjacket['lattice'].global_variables['lattice_cost'] == 100
+    assert sjacket.default_variables['lattice_cost'] == 100
+    assert sjacket['outfitting_8MW'].default_variables['lattice_cost'] == 100
+    assert sjacket['lattice'].default_variables['lattice_cost'] == 100
     subsub = obj['subdir::subsubdir']
     ssjacket = subsub['jacket']
-    assert subsub.global_variables['lattice_cost'] == 50
-    assert ssjacket.global_variables['lattice_cost'] == 50
-    assert ssjacket['lattice'].global_variables['lattice_cost'] == 50
-    assert ssjacket['subgroup3::eqn123'].global_variables['lattice_cost'] == 50
+    assert subsub.default_variables['lattice_cost'] == 50
+    assert ssjacket.default_variables['lattice_cost'] == 50
+    assert ssjacket['lattice'].default_variables['lattice_cost'] == 50
+    x = ssjacket['subgroup3::eqn123'].default_variables['lattice_cost']
+    assert x == 50
 
     eqn = obj['subdir::subsubdir::jacket::subgroup3::eqn123']
-    assert eqn.global_variables['lattice_cost'] == 50
-    assert eqn.global_variables['outfitting_cost'] == 10
+    assert eqn.default_variables['lattice_cost'] == 50
+    assert eqn.default_variables['outfitting_cost'] == 10
     assert eqn.evaluate() == 95
 
 
 def test_nearest():
     """Test the lookup of power-based equations and the nearest-power
     calculation from a dir object"""
-    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=False,
-                                use_nearest=True)
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                                use_nearest_power=True)
     eqn = dir_obj['jacket::outfitting_11MW']
     truth = dir_obj['jacket::outfitting_10MW']
     assert eqn == truth
 
 
-def test_interp_extrap():
+def test_interp_extrap_power():
     """Test interp and extrap functionality of power-based equations
     from __getitem__ on a dir object"""
-    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap=True, use_nearest=True)
+    dir_obj = EquationDirectory(GOOD_DIR, interp_extrap_power=True,
+                                use_nearest_power=True)
     eqn = dir_obj['jacket::outfitting_11MW']
     truth = ('((((outfitting_8MW(depth, outfitting_cost) '
              '- outfitting_10MW(depth, outfitting_cost)) * 1.0) / -2.0) '
@@ -128,7 +133,8 @@ def test_eqn_dir_add():
 
 def test_dir_math_retrieval():
     """Test the group and directory __getitem__ method with embedded math"""
-    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
     key1 = 'jacket::lattice'
     key2 = 'jacket::outfitting_8MW'
     key3 = 'jacket::transition_piece'
@@ -137,44 +143,94 @@ def test_dir_math_retrieval():
     eqn2 = obj[key2]
     eqn3 = obj[key3]
     eqn4 = obj[key4]
-    y1 = eqn1.eval(**{k: 2 for k in eqn1.vars})
-    y2 = eqn2.eval(**{k: 2 for k in eqn2.vars})
-    y3 = eqn3.eval(**{k: 2 for k in eqn3.vars})
+    y1 = eqn1.eval(**{k: 2 for k in eqn1.variables})
+    y2 = eqn2.eval(**{k: 2 for k in eqn2.variables})
+    y3 = eqn3.eval(**{k: 2 for k in eqn3.variables})
     y4 = eqn4.eval()
 
     key_math = ''.join([key1, ' - ', key2, '+', key3])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 - y2 + y3 == y_math
 
     key_math = ''.join([key1, ' - ', key2, ' * ', key3])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 - y2 * y3 == y_math
 
     key_math = ''.join([key1, ' / ', key2, ' +', key3])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 / y2 + y3 == y_math
 
     key_math = ''.join([key1, ' / ', key2, ' ** ', key4])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 / y2 ** y4 == y_math
 
     key_math = ''.join([key1, ' * ', key2, ' ** ', key4])
     eqn_math = obj[key_math]
-    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.vars})
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 * y2 ** y4 == y_math
 
 
 def test_bad_math_retrieval():
     """Test that attempting math in __getitem__ between an EquationGroup and
     an Equation raises a TypeError"""
-    obj = EquationDirectory(GOOD_DIR, interp_extrap=False, use_nearest=False)
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
     key1 = 'jacket'
     key2 = 'jacket::outfitting_8MW'
 
     key_math = ''.join([key1, ' - ', key2])
     with pytest.raises(TypeError):
         obj[key_math]
+
+
+def test_dir_parenthesis_retrieval():
+    """Test parenthetical math expression retrieval from directory object"""
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
+    key1 = 'jacket::lattice'
+    key2 = 'jacket::outfitting_8MW'
+    key = '2 * ({} + {})'.format(key1, key2)
+    eqn = obj[key]
+    truth = ('(2 * (lattice(depth, lattice_cost, turbine_capacity) '
+             '+ outfitting_8MW(depth, outfitting_cost)))')
+    assert str(eqn) == truth
+    truth = ('(2) * (((np.exp(3.7136 + 0.00176 * turbine_capacity '
+             '** 2.5 + 0.645 * np.log(depth))) * lattice_cost) '
+             '+ ((40 + (0.8 * (18 + depth))) * outfitting_cost))')
+    assert eqn.full == truth
+    inputs = {k: np.ones(3) for k in eqn.variables}
+    out = eqn.eval(**inputs)
+    assert isinstance(out, np.ndarray)
+    assert np.allclose(out, 192.54674167 * np.ones(3))
+    eqn1 = obj[key1]
+    eqn2 = obj[key2]
+    out1 = eqn1.evaluate(**inputs)
+    out2 = eqn2.evaluate(**inputs)
+    assert np.allclose(out, 2 * (out1 + out2))
+    assert ~np.allclose(out, 2 * out1 + out2)
+
+
+def test_cost_reductions_directory():
+    """Test interp/extrap/nearest on cost reduction year from the
+    directory object."""
+
+    obj = EquationDirectory(COST_REDUCTIONS_DIR, use_nearest_year=True)
+    eqn1 = obj['cost_reductions::fixed::turbine_install_2030']
+    eqn2 = obj['cost_reductions::fixed::turbine_install_2025']
+    assert eqn1 == eqn2
+
+    obj = EquationDirectory(COST_REDUCTIONS_DIR, interp_extrap_year=True,
+                            use_nearest_year=True)
+    eqn1 = obj['cost_reductions::fixed::turbine_install_2030']
+    eqn2 = obj['cost_reductions::fixed::turbine_install_2020']
+    eqn3 = obj['cost_reductions::fixed::turbine_install_2025']
+    assert (eqn3.eval() - eqn2.eval()) + eqn3.eval() == eqn1.eval()
+
+    eqn1 = obj['cost_reductions::fixed::turbine_install_2023']
+    eqn2 = obj['cost_reductions::fixed::turbine_install_2020']
+    eqn3 = obj['cost_reductions::fixed::turbine_install_2025']
+    assert (3 / 5) * (eqn3.eval() - eqn2.eval()) + eqn2.eval() == eqn1.eval()
