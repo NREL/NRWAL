@@ -438,12 +438,8 @@ class NrwalConfig:
         else:
             try:
                 out = eqn_dir[expression]
-            except KeyError as e:
-                msg = ('Could not parse unknown expression "{}". Must be an '
-                       'equation key in the EquationDirectory or a locally '
-                       'defined variable.'.format(expression))
-                logger.error(msg)
-                raise ValueError(msg) from e
+            except KeyError:
+                out = Equation(expression)
 
         if isinstance(out, Equation) and name is not None:
             out._base_name = name

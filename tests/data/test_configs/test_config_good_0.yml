@@ -17,6 +17,6 @@ electrical:
 electrical_duplicate:
     array * export + grid
 capex:
-    electrical
+    electrical + site_input
 lcoe:
     capex * fixed_charge_rate
