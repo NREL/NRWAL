@@ -561,6 +561,20 @@ class NrwalConfig:
     def __repr__(self):
         return str(self)
 
+    def head(self, n=5):
+        """Print the first n lines of the config string representation"""
+        s = str(self)
+        s = s.split('\n')
+        s = '\n'.join(s[:n])
+        print(s)
+
+    def tail(self, n=5):
+        """Print the last n lines of the config string representation"""
+        s = str(self)
+        s = s.split('\n')
+        s = '\n'.join(s[-1 * n:])
+        print(s)
+
     @property
     def inputs(self):
         """Get the inputs dictionary.
