@@ -32,7 +32,8 @@ def test_good_config_parsing():
     assert isinstance(obj['monopile_costs'], Equation)
     assert isinstance(obj['electrical'], Equation)
     assert isinstance(obj['lcoe'], Equation)
-    assert str(obj['electrical']) == str(obj['electrical_duplicate'])
+    str_dup = str(obj['electrical_duplicate']).replace('_duplicate', '')
+    assert str(obj['electrical']) == str_dup
     assert id(obj['electrical']) != id(obj['electrical_duplicate'])
     assert obj.required_inputs == obj.missing_inputs
     assert len(obj.required_inputs) == 7
@@ -133,8 +134,8 @@ def test_cost_reductions_interp_nearest():
     eqn1 = obj[k1]
     truth_1 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2030']
     truth_2 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2025']
-    assert str(truth_1) in str(eqn1)
-    assert str(truth_2) in str(eqn1)
+    assert str(truth_1) in str(eqn1.full)
+    assert str(truth_2) in str(eqn1.full)
 
     obj = NrwalConfig(FP_GOOD_3, interp_extrap_year=True,
                       use_nearest_year=True)
@@ -142,8 +143,8 @@ def test_cost_reductions_interp_nearest():
     eqn1 = obj[k1]
     truth_1 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2030']
     truth_2 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2025']
-    assert str(truth_1) in str(eqn1)
-    assert str(truth_2) not in str(eqn1)
+    assert str(truth_1) in str(eqn1.full)
+    assert str(truth_2) not in str(eqn1.full)
 
 
 def test_bad_config_undefined():
