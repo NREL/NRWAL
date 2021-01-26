@@ -15,8 +15,8 @@ monopile_costs:
 electrical:
     array * export + grid
 electrical_duplicate:
-    electrical
+    array * export + grid
 capex:
-    electrical
+    electrical + site_input
 lcoe:
     capex * fixed_charge_rate

@@ -635,6 +635,14 @@ class AbstractGroup(ABC):
 
         return eqns
 
+    def head(self, n=5):
+        """Print the first n lines of the group string representation"""
+        print('\n'.join(str(self).split('\n')[:n]))
+
+    def tail(self, n=5):
+        """Print the last n lines of the group string representation"""
+        print('\n'.join(str(self).split('\n')[-1 * n:]))
+
     @property
     def all_equations(self):
         """List of all Equation objects from this object."""

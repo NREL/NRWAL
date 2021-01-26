@@ -254,6 +254,7 @@ class NrwalConfig:
             interp_extrap_year=interp_extrap_year,
             use_nearest_year=use_nearest_year)
         self._global_variables = self._parse_global_variables(config)
+        self._simple = copy.deepcopy(config)
         self._config = self._parse_config(config, self._eqn_dir,
                                           self._global_variables)
 
@@ -377,11 +378,13 @@ class NrwalConfig:
                 raise TypeError(msg)
 
             out[name] = cls._parse_expression(expression, config, eqn_dir,
-                                              copy.deepcopy(gvars))
+                                              copy.deepcopy(gvars), name=name)
+            config[name] = copy.deepcopy(out[name])
+
         return out
 
     @classmethod
-    def _parse_expression(cls, expression, config, eqn_dir, gvars):
+    def _parse_expression(cls, expression, config, eqn_dir, gvars, name=None):
         """Parse a config expression that can be a number, an EquationDirectory
         retrieval string, a key referencing a config entry, or a mathematical
         expression combining these options.
@@ -400,6 +403,9 @@ class NrwalConfig:
         gvars : dict
             Dictionary of global variables (constant numerical values)
             available within this config object.
+        name : None | str
+            Optional name for the current expression, used for identification
+            of Equation objects.
 
         Returns
         -------
@@ -409,31 +415,35 @@ class NrwalConfig:
             variables input. This Equation is ready to be evaluated.
         """
 
-        if Equation.is_num(expression):
-            out = Equation(expression)
+        if isinstance(expression, (Equation, EquationGroup)):
+            out = expression
+
+        elif Equation.is_num(expression):
+            out = Equation(expression, name=name)
 
         elif expression in config:
             out = cls._parse_expression(config[expression], config,
-                                        eqn_dir, gvars)
+                                        eqn_dir, gvars, name=name)
 
         elif Equation.is_equation(expression):
-            out = cls._parse_equation(expression, config, eqn_dir, gvars)
+            out = cls._parse_equation(expression, config, eqn_dir, gvars,
+                                      name=name)
 
         elif '::' in expression and expression.split('::')[0] in config:
             config_key, _, sub_key = expression.partition('::')
-            temp = cls._parse_expression(config_key, config, eqn_dir, gvars)
+            temp = cls._parse_expression(config_key, config, eqn_dir, gvars,
+                                         name=name)
             out = temp[sub_key]
 
         else:
             try:
                 out = eqn_dir[expression]
-            except KeyError as e:
-                msg = ('Could not parse unknown expression "{}". Must be an '
-                       'equation key in the EquationDirectory or a locally '
-                       'defined variable.'.format(expression))
-                logger.error(msg)
-                raise ValueError(msg) from e
+            except KeyError:
+                out = Equation(expression)
 
+        if isinstance(out, Equation) and name is not None:
+            out._base_name = name
+            out._str = None
         if isinstance(out, (Equation, EquationGroup)):
             out.set_default_variables(gvars)
         elif isinstance(out, EquationDirectory):
@@ -442,7 +452,7 @@ class NrwalConfig:
         return out
 
     @classmethod
-    def _parse_equation(cls, expression, config, eqn_dir, gvars):
+    def _parse_equation(cls, expression, config, eqn_dir, gvars, name=None):
         """Special parsing logic for expressions that are equations
         (contain operators).
 
@@ -458,6 +468,9 @@ class NrwalConfig:
         gvars : dict
             Dictionary of global variables (constant numerical values)
             available within this config object.
+        name : None | str
+            Optional name for the current expression, used for identification
+            of Equation objects.
 
         Returns
         -------
@@ -476,7 +489,8 @@ class NrwalConfig:
                 assert wkey not in gvars
                 expression = expression.replace(pk, wkey)
                 pk = pk.lstrip('(').rstrip(')')
-                gvars[wkey] = cls._parse_expression(pk, config, eqn_dir, gvars)
+                gvars[wkey] = cls._parse_expression(pk, config, eqn_dir, gvars,
+                                                    name=name)
 
         # order of operator map enforces order of operations
         op_map = OrderedDict()
@@ -493,15 +507,17 @@ class NrwalConfig:
 
                 out1 = gvars.get(v1, None)
                 if out1 is None:
-                    out1 = cls._parse_expression(v1, config, eqn_dir, gvars)
+                    out1 = cls._parse_expression(v1, config, eqn_dir, gvars,
+                                                 name=name)
                 elif Equation.is_num(out1):
-                    out1 = Equation(out1)
+                    out1 = Equation(out1, name=name)
 
                 out2 = gvars.get(v2, None)
                 if out2 is None:
-                    out2 = cls._parse_expression(v2, config, eqn_dir, gvars)
+                    out2 = cls._parse_expression(v2, config, eqn_dir, gvars,
+                                                 name=name)
                 elif Equation.is_num(out2):
-                    out2 = Equation(out2)
+                    out2 = Equation(out2, name=name)
 
                 out = op_fun(out1, out2)
 
@@ -555,6 +571,14 @@ class NrwalConfig:
 
     def __repr__(self):
         return str(self)
+
+    def head(self, n=5):
+        """Print the first n lines of the config string representation"""
+        print('\n'.join(str(self).split('\n')[:n]))
+
+    def tail(self, n=5):
+        """Print the last n lines of the config string representation"""
+        print('\n'.join(str(self).split('\n')[-1 * n:]))
 
     @property
     def inputs(self):
