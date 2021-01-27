@@ -421,13 +421,13 @@ class NrwalConfig:
         elif Equation.is_num(expression):
             out = Equation(expression, name=name)
 
-        elif expression in config:
-            out = cls._parse_expression(config[expression], config,
-                                        eqn_dir, gvars, name=name)
-
         elif Equation.is_equation(expression):
             out = cls._parse_equation(expression, config, eqn_dir, gvars,
                                       name=name)
+
+        elif expression in config:
+            out = cls._parse_expression(config[expression], config,
+                                        eqn_dir, gvars, name=name)
 
         elif '::' in expression and expression.split('::')[0] in config:
             config_key, _, sub_key = expression.partition('::')
@@ -481,6 +481,11 @@ class NrwalConfig:
         assert Equation.is_equation(expression)
 
         if '(' in expression:
+            if expression.count('(') > 1:
+                msg = ('Cannot parse multiple parenthetical statements: {}'
+                       .format(expression))
+                logger.error(msg)
+                raise ValueError(msg)
             assert ')' in expression
             # pylint: disable=W1401
             paren_keys = re.findall('\(.*?\)', str(expression))  # noqa: W605
@@ -494,11 +499,13 @@ class NrwalConfig:
 
         # order of operator map enforces order of operations
         op_map = OrderedDict()
+
         op_map['+'] = operator.add
         op_map['-'] = operator.sub
         op_map['*'] = operator.mul
         op_map['/'] = operator.truediv
         op_map['^'] = operator.pow
+
         expression = expression.replace('**', '^')
         for op_str, op_fun in op_map.items():
             if op_str in expression:
@@ -508,18 +515,23 @@ class NrwalConfig:
                 out1 = gvars.get(v1, None)
                 if out1 is None:
                     out1 = cls._parse_expression(v1, config, eqn_dir, gvars,
-                                                 name=name)
+                                                 name=v1)
                 elif Equation.is_num(out1):
-                    out1 = Equation(out1, name=name)
+                    out1 = Equation(out1, name=v1)
 
                 out2 = gvars.get(v2, None)
                 if out2 is None:
                     out2 = cls._parse_expression(v2, config, eqn_dir, gvars,
-                                                 name=name)
+                                                 name=v2)
                 elif Equation.is_num(out2):
-                    out2 = Equation(out2, name=name)
+                    out2 = Equation(out2, name=v2)
 
                 out = op_fun(out1, out2)
+
+                # need to break look on the first found operator because
+                # subsequent operators will be found in the recursive
+                # call to _parse_expression()
+                break
 
         return out
 
