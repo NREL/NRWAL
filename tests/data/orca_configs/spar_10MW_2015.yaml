@@ -1,0 +1,87 @@
+# Soft Cost Parameters
+floating_charge_rate:
+  0.071
+development_factor:
+  0.04
+proj_mgmt_factor:
+  0.02
+construction_insurance:
+  .0115
+project_completion:
+  .0115
+decomissioning:
+  .1725
+procurement_contingency:
+  .0575
+install_contingency:
+  .0345
+lease_price:
+  50000000
+
+# Construction Finance Parameters
+confin_factor:
+  1.043012405771711
+interest_during_construction:
+  0.044
+tax_rate:
+  0.26
+
+# CapEx Equations
+turbine:
+  2015::turbine::spar_tower + 2015::turbine::rna
+turbine_install:
+  2015::turbine_install::spar_10MW
+substructure:
+  2015::spar::stiffened_column + 2015::spar::tapered_column + 2015::spar::perm_ballast + 2015::spar::outfitting
+foundation:
+  2015::floating::mooring + 2015::floating::anchors
+sub_install:
+  2015::spar::install_10MW
+pslt:
+  2015::spar::pslt_10MW
+array:
+  2015::array::floating
+export:
+  2015::export::floating
+grid:
+  2015::grid::grid_connection
+
+# CapEx Aggregation
+support:
+  substructure + foundation
+install:
+  turbine_install + sub_install + pslt
+electrical:
+  array + export + grid
+subcomponents:
+  support + install + electrical
+
+# BOS CapEx
+development:
+  development_factor * (subcomponents + turbine)
+proj_mgmt:
+  proj_mgmt_factor * (subcomponents + turbine)
+bos:
+  lease_price + development + proj_mgmt + subcomponents
+
+# Soft CapEx
+constr_ins:
+  construction_insurance * (bos + turbine)
+decomm:
+  decomissioning * (install - pslt)
+proj_comp:
+  project_completion * (bos + turbine)
+test:
+  bos - install + pslt + turbine
+procurement_cont:
+  procurement_contingency * test
+install_cont:
+  install_contingency * (install - pslt)
+cons_financing:
+  (confin_factor - 1) * (constr_ins + decomm + proj_comp + procurement_cont + install_cont + bos + turbine)
+soft:
+  constr_ins + decomm + proj_comp + procurement_cont + install_cont + cons_financing
+
+# Total CapEx
+total:
+  (bos + soft + turbine) * capex_multi
