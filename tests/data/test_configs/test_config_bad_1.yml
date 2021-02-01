@@ -11,4 +11,4 @@ grid:
 monopile:
     "2019::monopile"
 lcoe:
-    ((capex * fixed_charge_rate) + num_turbines)
+    ([capex * fixed_charge_rate] + num_turbines)

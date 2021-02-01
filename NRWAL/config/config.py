@@ -480,22 +480,33 @@ class NrwalConfig:
 
         assert Equation.is_equation(expression)
 
+        if any([c in expression for c in ('[', ']', '{', '}')]):
+            msg = ('Cannot parse config expression with square or curly '
+                   'brackets: {}'.format(expression))
+            logger.error(msg)
+            raise ValueError(msg)
+
+        if expression[0] == '(' and expression[-1] == ')':
+            expression = expression[1:-1]
+
         if '(' in expression:
-            if expression.count('(') > 1:
-                msg = ('Cannot parse multiple parenthetical statements: {}'
-                       .format(expression))
-                logger.error(msg)
-                raise ValueError(msg)
-            assert ')' in expression
+            msg = 'Unbalanced parenthesis!'
+            assert expression.count('(') == expression.count(')'), msg
             # pylint: disable=W1401
-            paren_keys = re.findall('\(.*?\)', str(expression))  # noqa: W605
-            for i, pk in enumerate(paren_keys):
-                wkey = 'workspace_{}'.format(int((i + 1) * len(gvars)))
-                assert wkey not in gvars
-                expression = expression.replace(pk, wkey)
-                pk = pk.lstrip('(').rstrip(')')
-                gvars[wkey] = cls._parse_expression(pk, config, eqn_dir, gvars,
-                                                    name=name)
+            starts = [m.start() for m in
+                      re.finditer('\(', expression)]  # noqa: W605
+
+            for start_loc in reversed(starts):
+                # pylint: disable=W1401
+                exp = expression[start_loc:]
+                paren_keys = re.findall('\(.*?\)', exp)  # noqa: W605
+                for i, pk in enumerate(paren_keys):
+                    wkey = 'workspace_{}'.format(int((i + 1) * len(gvars)))
+                    assert wkey not in gvars
+                    expression = expression.replace(pk, wkey)
+                    pk = pk.lstrip('(').rstrip(')')
+                    gvars[wkey] = cls._parse_expression(pk, config, eqn_dir,
+                                                        gvars, name=name)
 
         # order of operator map enforces order of operations
         op_map = OrderedDict()

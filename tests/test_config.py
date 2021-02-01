@@ -191,3 +191,6 @@ def test_config_math():
     np.allclose(obj['math9'], arr + exp * grid)
     np.allclose(obj['math10'], arr + exp * grid ** 2)
     np.allclose(obj['math11'], arr + exp * grid ** 0.5)
+    np.allclose(obj['math12'], (arr + exp) * (grid + exp))
+    np.allclose(obj['math13'], ((arr + exp) * grid) ** 0.5)
+    np.allclose(obj['math14'], ((arr + exp) * grid) + (grid + exp) ** 0.5)

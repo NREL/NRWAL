@@ -30,3 +30,9 @@ math10:
     array + export * grid ** 2
 math11:
     array + export * grid ** 0.5
+math12:
+    ((array + export) * (grid + export))
+math13:
+    ((array + export) * grid) ** 0.5
+math14:
+    (((array + export) * grid) + (grid + export) ** 0.5)
