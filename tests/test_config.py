@@ -17,7 +17,9 @@ TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
 FP_GOOD_0 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_0.yml')
 FP_GOOD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_1.yml')
 FP_GOOD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_2.yml')
-FP_BAD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_0.yml')
+FP_GOOD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_3.yml')
+FP_BAD_0 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_0.yml')
+FP_BAD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_1.yml')
 
 
 def test_good_config_parsing():
@@ -99,7 +101,10 @@ def test_good_config_parsing():
     assert 'num_turbines' not in outputs
     assert isinstance(outputs['lcoe'], np.ndarray)
     assert len(outputs['lcoe']) == 10
-    assert np.allclose(outputs['lcoe'], 1.35261086e15 * np.ones(10))
+
+    truth = (((obj.array * obj.export + obj.grid) + obj.inputs['site_input'])
+             * obj.fixed_charge_rate.eval())
+    assert np.allclose(outputs['lcoe'], truth)
 
     # test bad evaluation
     obj.inputs = None
@@ -151,4 +156,38 @@ def test_cost_reductions_interp_nearest():
 def test_bad_config_nesting():
     """Test the parsing of a bad config with weird nestings"""
     with pytest.raises(TypeError):
+        NrwalConfig(FP_BAD_0)
+
+
+def test_bad_config_parens():
+    """Test the parsing of config with multiple parenthesis (cant parse
+    right now)"""
+    with pytest.raises(ValueError):
         NrwalConfig(FP_BAD_1)
+
+
+def test_config_math():
+    """Test more complex math in config expressions"""
+    obj = NrwalConfig(FP_GOOD_3)
+    inputs = {k: 1 for k in obj.required_inputs}
+    obj.eval(inputs)
+    arr = obj['array']
+    exp = obj['export']
+    grid = obj['grid']
+
+    # 0 or 1 can reduce math to useless tests
+    assert (arr != 0) & (arr != 1)
+    assert (exp != 0) & (exp != 1)
+    assert (grid != 0) & (grid != 1)
+
+    np.allclose(obj['math1'], arr - exp + grid)
+    np.allclose(obj['math2'], arr - exp + grid - exp)
+    np.allclose(obj['math3'], arr + exp - grid)
+    np.allclose(obj['math4'], arr + exp - 1)
+    np.allclose(obj['math5'], arr * exp - 1)
+    np.allclose(obj['math6'], arr * (exp - grid) / grid)
+    np.allclose(obj['math7'], arr / exp + grid)
+    np.allclose(obj['math8'], arr + exp / grid)
+    np.allclose(obj['math9'], arr + exp * grid)
+    np.allclose(obj['math10'], arr + exp * grid ** 2)
+    np.allclose(obj['math11'], arr + exp * grid ** 0.5)

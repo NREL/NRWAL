@@ -156,6 +156,11 @@ class AbstractGroup(ABC):
         key = key.replace('**', '^')
 
         if '(' in key:
+            if key.count('(') > 1:
+                msg = ('Cannot parse multiple parenthetical statements: {}'
+                       .format(key))
+                logger.error(msg)
+                raise ValueError(msg)
             assert ')' in key
             # pylint: disable=W1401
             paren_keys = re.findall('\(.*?\)', str(key))  # noqa: W605

@@ -351,7 +351,7 @@ class Equation:
             framework.
         """
         check = False
-        operators = ('*', '/', '+', '-')
+        operators = ('*', '/', '+', '-', '^')
 
         if not isinstance(expression, (str, int, float)):
             check = False
