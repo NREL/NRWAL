@@ -155,21 +155,29 @@ class AbstractGroup(ABC):
         op_map['^'] = operator.pow
         key = key.replace('**', '^')
 
+        if any([c in key for c in ('[', ']', '{', '}')]):
+            msg = ('Cannot parse EquationGroup key with square or curly '
+                   'brackets: {}'.format(key))
+            logger.error(msg)
+            raise ValueError(msg)
+
+        if key[0] == '(' and key[-1] == ')':
+            key = key[1:-1]
+
         if '(' in key:
-            if key.count('(') > 1:
-                msg = ('Cannot parse multiple parenthetical statements: {}'
-                       .format(key))
-                logger.error(msg)
-                raise ValueError(msg)
-            assert ')' in key
+            assert key.count('(') == key.count(')'), 'Unbalanced parenthesis!'
             # pylint: disable=W1401
-            paren_keys = re.findall('\(.*?\)', str(key))  # noqa: W605
-            for i, pk in enumerate(paren_keys):
-                wkey = 'workspace_{}'.format(int((i + 1) * len(workspace)))
-                assert wkey not in workspace
-                key = key.replace(pk, wkey)
-                pk = pk.lstrip('(').rstrip(')')
-                workspace[wkey] = obj._getitem(pk, workspace)
+            starts = [m.start() for m in re.finditer('\(', key)]  # noqa: W605
+            for start_loc in reversed(starts):
+                regex_k = key[start_loc:]
+                # pylint: disable=W1401
+                paren_keys = re.findall('\(.*?\)', regex_k)  # noqa: W605
+                for i, pk in enumerate(paren_keys):
+                    wkey = 'workspace_{}'.format(int((i + 1) * len(workspace)))
+                    assert wkey not in workspace
+                    key = key.replace(pk, wkey)
+                    pk = pk.lstrip('(').rstrip(')')
+                    workspace[wkey] = obj._getitem(pk, workspace)
 
         for op_str, op_fun in op_map.items():
             if op_str in key:

@@ -205,34 +205,6 @@ def test_group_math_retrieval():
     assert y1 * y2 ** y4 == y_math
 
 
-def test_group_parenthesis_retrieval():
-    """Test parenthetical math expression retrieval from group object"""
-    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
-                            use_nearest_power=False)
-    obj = obj['jacket']
-    key1 = 'lattice'
-    key2 = 'outfitting_8MW'
-    key = '2 * ({} + {})'.format(key1, key2)
-    eqn = obj[key]
-    truth = ('(2 * (lattice(depth, lattice_cost, turbine_capacity) '
-             '+ outfitting_8MW(depth, outfitting_cost)))')
-    assert str(eqn) == truth
-    truth_full = ('(2) * (((np.exp(3.7136 + 0.00176 * turbine_capacity '
-                  '** 2.5 + 0.645 * np.log(depth))) * lattice_cost) '
-                  '+ ((40 + (0.8 * (18 + depth))) * outfitting_cost))')
-    assert eqn.full == truth_full
-    inputs = {k: np.ones(3) for k in eqn.variables}
-    out = eqn.eval(**inputs)
-    assert isinstance(out, np.ndarray)
-    assert np.allclose(out, 192.54674167 * np.ones(3))
-    eqn1 = obj[key1]
-    eqn2 = obj[key2]
-    out1 = eqn1.evaluate(**inputs)
-    out2 = eqn2.evaluate(**inputs)
-    assert np.allclose(out, 2 * (out1 + out2))
-    assert ~np.allclose(out, 2 * out1 + out2)
-
-
 def test_cost_reductions():
     """Test the extraction / parsing of cost reduction files which look a
     little different than normal files but should be handled similarly."""
@@ -270,3 +242,63 @@ def test_cost_reductions_interp():
 
     eqn4 = obj['fixed::turbine_install_2023 * 1000']
     assert 1000 * eqn1.eval() == eqn4.eval()
+
+
+def test_group_parenthesis_retrieval():
+    """Test parenthetical math expression retrieval from group object"""
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
+    obj = obj['jacket']
+    lattice = 'lattice'
+    outfitting = 'outfitting_8MW'
+    tpiece = 'transition_piece'
+
+    lattice_val = obj[lattice]
+    outfit_val = obj[outfitting]
+    tpiece_val = obj[tpiece]
+    lattice_val = lattice_val.eval(**{k: 2 for k in lattice_val.variables})
+    outfit_val = outfit_val.eval(**{k: 2 for k in outfit_val.variables})
+    tpiece_val = tpiece_val.eval(**{k: 2 for k in tpiece_val.variables})
+
+    assert (lattice_val != 0) & (lattice_val != 1)
+    assert (outfit_val != 0) & (outfit_val != 1)
+    assert (tpiece_val != 0) & (tpiece_val != 1)
+
+    key = '2 * ({} - {} + {})'.format(tpiece, lattice, outfitting)
+    eqn = obj[key]
+    out = eqn.eval(**{k: 2 for k in eqn.variables})
+    assert np.allclose(out, 2 * (tpiece_val - lattice_val + outfit_val))
+
+    key = '(2 * ({} / ({} + {})))'.format(tpiece, lattice, outfitting)
+    eqn = obj[key]
+    out = eqn.eval(**{k: 2 for k in eqn.variables})
+    assert np.allclose(out, 2 * (tpiece_val / (lattice_val + outfit_val)))
+
+    key = '(2 * ({} - ({} + {})))'.format(tpiece, lattice, outfitting)
+    eqn = obj[key]
+    out = eqn.eval(**{k: 2 for k in eqn.variables})
+    assert np.allclose(out, 2 * (tpiece_val - (lattice_val + outfit_val)))
+
+    key = '(2 * ({} - {}) * (4 + {}))'.format(tpiece, lattice, outfitting)
+    eqn = obj[key]
+    out = eqn.eval(**{k: 2 for k in eqn.variables})
+    assert np.allclose(out, 2 * (tpiece_val - lattice_val) * (4 + outfit_val))
+
+    key = '(2 * ((({} - {}) ** 2) + {}))'.format(tpiece, lattice, outfitting)
+    eqn = obj[key]
+    out = eqn.eval(**{k: 2 for k in eqn.variables})
+    assert np.allclose(out, 2 * (((tpiece_val - lattice_val) ** 2)
+                                 + outfit_val))
+
+
+def test_group_bad_parenthesis_retrieval():
+    """Test errors in parenthetical statements"""
+    obj = EquationDirectory(GOOD_DIR, interp_extrap_power=False,
+                            use_nearest_power=False)
+    # pylint: disable=W0104
+    with pytest.raises(ValueError):
+        obj['2 * [lattice + transition_piece]']
+    with pytest.raises(ValueError):
+        obj['2 * {lattice + transition_piece}']
+    with pytest.raises(AssertionError):
+        obj['2 * (lattice + transition_piece']
