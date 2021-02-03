@@ -353,7 +353,7 @@ class EquationDirectory:
                 msg = ('Could not retrieve equation key "{}", '
                        'could not find "{}" in last available keys: {}'
                        .format(key, ikey, list(eqns.keys())))
-                logger.error(msg)
+                logger.info(msg)  # info statement to avoid unnecessary stdout
                 raise KeyError(msg)
 
         return eqns

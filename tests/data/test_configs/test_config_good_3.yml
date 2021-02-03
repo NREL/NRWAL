@@ -1,0 +1,38 @@
+num_turbines:
+    6
+fixed_charge_rate:
+    0.096
+array:
+    "2015::array::fixed"
+export:
+    "2015::export::fixed"
+grid:
+    "2015::grid::grid_connection"
+math1:
+    array - export + grid
+math2:
+    array - export + grid - export
+math3:
+    array + export - grid
+math4:
+    array + export - grid / grid
+math5:
+    array * export - grid / grid
+math6:
+    array * (export - grid) / grid
+math7:
+    array / export + grid
+math8:
+    array + export / grid
+math9:
+    array + export * grid
+math10:
+    array + export * grid ** 2
+math11:
+    array + export * grid ** 0.5
+math12:
+    ((array + export) * (grid + export))
+math13:
+    ((array + export) * grid) ** 0.5
+math14:
+    (((array + export) * grid) + (grid + export) ** 0.5)
