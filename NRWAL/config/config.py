@@ -698,6 +698,7 @@ class NrwalConfig:
             if isinstance(eqn, Equation):
                 names += [v for v in eqn.variables
                           if v not in self.global_variables
+                          and v not in self._config
                           and v not in eqn.default_variables]
 
         return sorted(list(set(names)))
