@@ -204,6 +204,11 @@ def test_group_math_retrieval():
     y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
     assert y1 * y2 ** y4 == y_math
 
+    key_math = '(({} + {}) * ({} + {}))'.format(key1, key2, key3, key4)
+    eqn_math = obj[key_math]
+    y_math = eqn_math.eval(**{k: 2 for k in eqn_math.variables})
+    assert (y1 + y2) * (y3 + y4) == y_math
+
 
 def test_cost_reductions():
     """Test the extraction / parsing of cost reduction files which look a

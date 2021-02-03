@@ -14,7 +14,7 @@ decomissioning:
 procurement_contingency:
   .0575
 install_contingency:
-  .0345
+  .345
 lease_price:
   50000000
 
@@ -77,8 +77,12 @@ procurement_cont:
   procurement_contingency * test
 install_cont:
   install_contingency * (install - pslt)
+tmp:
+  (constr_ins + decomm)
+factor:
+  (confin_factor - 1)
 cons_financing:
-  (confin_factor - 1) * (constr_ins + decomm + proj_comp + procurement_cont + install_cont + bos + turbine)
+  (confin_factor - 1) * (constr_ins + decomm)
 soft:
   constr_ins + decomm + proj_comp + procurement_cont + install_cont + cons_financing
 

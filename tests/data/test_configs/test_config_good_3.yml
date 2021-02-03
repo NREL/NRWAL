@@ -36,3 +36,7 @@ math13:
     ((array + export) * grid) ** 0.5
 math14:
     (((array + export) * grid) + (grid + export) ** 0.5)
+math15:
+    (fixed_charge_rate - 1) * (array + grid + export)
+math16:
+    (1 - fixed_charge_rate) * (math4 + grid + export)

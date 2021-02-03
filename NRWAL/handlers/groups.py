@@ -14,6 +14,7 @@ import operator
 from collections import OrderedDict
 
 from NRWAL.handlers.equations import Equation
+from NRWAL.utilities.utilities import find_parens
 
 logger = logging.getLogger(__name__)
 
@@ -161,23 +162,17 @@ class AbstractGroup(ABC):
             logger.error(msg)
             raise ValueError(msg)
 
-        if key[0] == '(' and key[-1] == ')':
-            key = key[1:-1]
+        while '(' in key:
+            start_loc, end_loc = find_parens(key)[0]
+            wkey = 'workspace_{}'.format(1 + len(workspace))
+            assert wkey not in workspace
+            pk = key[start_loc:end_loc + 1]
+            key = key.replace(pk, wkey)
+            pk = pk.lstrip('(').rstrip(')')
+            workspace[wkey] = obj._getitem(pk, workspace)
 
-        if '(' in key:
-            assert key.count('(') == key.count(')'), 'Unbalanced parenthesis!'
-            # pylint: disable=W1401
-            starts = [m.start() for m in re.finditer('\(', key)]  # noqa: W605
-            for start_loc in reversed(starts):
-                regex_k = key[start_loc:]
-                # pylint: disable=W1401
-                paren_keys = re.findall('\(.*?\)', regex_k)  # noqa: W605
-                for i, pk in enumerate(paren_keys):
-                    wkey = 'workspace_{}'.format(int((i + 1) * len(workspace)))
-                    assert wkey not in workspace
-                    key = key.replace(pk, wkey)
-                    pk = pk.lstrip('(').rstrip(')')
-                    workspace[wkey] = obj._getitem(pk, workspace)
+        if key in workspace:
+            return workspace[key]
 
         for op_str, op_fun in op_map.items():
             if op_str in key:

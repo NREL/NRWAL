@@ -173,11 +173,13 @@ def test_config_math():
     obj = NrwalConfig(FP_GOOD_3)
     inputs = {k: 1 for k in obj.required_inputs}
     obj.eval(inputs)
+    fcr = obj['fixed_charge_rate'].eval()
     arr = obj['array']
     exp = obj['export']
     grid = obj['grid']
 
     # 0 or 1 can reduce math to useless tests
+    assert (fcr != 0) & (fcr != 1)
     assert (arr != 0) & (arr != 1)
     assert (exp != 0) & (exp != 1)
     assert (grid != 0) & (grid != 1)
@@ -196,6 +198,8 @@ def test_config_math():
     np.allclose(obj['math12'], (arr + exp) * (grid + exp))
     np.allclose(obj['math13'], ((arr + exp) * grid) ** 0.5)
     np.allclose(obj['math14'], ((arr + exp) * grid) + (grid + exp) ** 0.5)
+    np.allclose(obj['math15'], (fcr - 1) * (arr + exp + grid))
+    np.allclose(obj['math16'], (1 - fcr) * (obj['math4'] + exp + grid))
 
 
 def test_complex_config():
@@ -215,3 +219,4 @@ def test_complex_config():
         assert v is not None
 
     assert obj.solved
+    assert np.allclose(obj['tmp'] * obj['factor'], obj['cons_financing'])
