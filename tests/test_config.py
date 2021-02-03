@@ -2,6 +2,7 @@
 """
 Tests for NRWAL equation handler objects
 """
+import yaml
 import pandas as pd
 import numpy as np
 import os
@@ -18,6 +19,7 @@ FP_GOOD_0 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_0.yml')
 FP_GOOD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_1.yml')
 FP_GOOD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_2.yml')
 FP_GOOD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_3.yml')
+FP_GOOD_4 = os.path.join(TEST_DATA_DIR, 'test_configs/mono_6MW_2015.yaml')
 FP_BAD_0 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_0.yml')
 FP_BAD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_1.yml')
 
@@ -194,3 +196,22 @@ def test_config_math():
     np.allclose(obj['math12'], (arr + exp) * (grid + exp))
     np.allclose(obj['math13'], ((arr + exp) * grid) ** 0.5)
     np.allclose(obj['math14'], ((arr + exp) * grid) + (grid + exp) ** 0.5)
+
+
+def test_complex_config():
+    """Test the evaluation of a complex config."""
+    with open(FP_GOOD_4, 'r') as f:
+        config = yaml.safe_load(f)
+
+    obj = NrwalConfig(FP_GOOD_4)
+
+    assert not any(set(config.keys()) - set(obj.keys()))
+    assert not any(set(config.keys()) - set(obj._raw_config.keys()))
+
+    out = obj.evaluate({k: 2 for k in obj.required_inputs})
+    for k, v in out.items():
+        assert k in config
+        assert k in obj._raw_config
+        assert v is not None
+
+    assert obj.solved

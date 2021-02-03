@@ -254,7 +254,7 @@ class NrwalConfig:
             interp_extrap_year=interp_extrap_year,
             use_nearest_year=use_nearest_year)
         self._global_variables = self._parse_global_variables(config)
-        self._simple = copy.deepcopy(config)
+        self._raw_config = copy.deepcopy(config)
         self._config = self._parse_config(config, self._eqn_dir,
                                           self._global_variables)
 
@@ -727,6 +727,20 @@ class NrwalConfig:
         """
         return not any(self.missing_inputs)
 
+    @property
+    def solved(self):
+        """Have all the config equations been solved?
+
+        Returns
+        -------
+        bool
+        """
+        to_be_solved = [k for k, v in self._config.items()
+                        if k not in self._outputs
+                        and k not in self.global_variables
+                        and isinstance(v, Equation)]
+        return not any(to_be_solved)
+
     def get(self, key, default_value):
         """Attempt to get a key from the NrwalConfig, return
         default_value if the key could not be retrieved"""
@@ -779,16 +793,19 @@ class NrwalConfig:
             logger.error(msg)
             raise RuntimeError(msg)
 
-        for k, v in self.items():
-            if (isinstance(v, (EquationGroup, EquationDirectory))
-                    or Equation.is_num(v)):
-                pass
-            elif isinstance(v, Equation):
-                self._outputs[k] = v.evaluate(**self.inputs)
-            else:
-                msg = ('Cannot evaluate "{}" with unexpected type: {}'
-                       .format(k, type(v)))
-                logger.error(msg)
-                raise TypeError(msg)
+        while not self.solved:
+            for k, v in self.items():
+                if (isinstance(v, (EquationGroup, EquationDirectory))
+                        or Equation.is_num(v)):
+                    pass
+                elif isinstance(v, Equation):
+                    kwargs = copy.deepcopy(self.inputs)
+                    kwargs.update(self._outputs)
+                    self._outputs[k] = v.evaluate(**kwargs)
+                else:
+                    msg = ('Cannot evaluate "{}" with unexpected type: {}'
+                           .format(k, type(v)))
+                    logger.error(msg)
+                    raise TypeError(msg)
 
         return self._outputs
