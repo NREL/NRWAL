@@ -1,5 +1,5 @@
 # Soft Cost Parameters
-floating_charge_rate:
+fixed_charge_rate:
   0.071
 development_factor:
   0.04
@@ -83,5 +83,38 @@ soft:
   constr_ins + decomm + proj_comp + procurement_cont + install_cont + cons_financing
 
 # Total CapEx
-total:
+capex:
   (bos + soft + turbine) * capex_multi
+
+# Total OpEx
+operations:
+  18880383
+maintenance:
+  2015::maintenance::spar
+opex:
+  operations + maintenance
+
+# NCF
+adjusted_gcf:
+  gcf * (0.006 * turbine_capacity + 0.9691)
+wake:
+  2015::losses::wake
+elec:
+  2015::losses::electrical
+avail:
+  2015::losses::avail_spar
+environmental:
+  0.0159
+  # 2015::losses::environmental
+technical:
+  2015::losses::technical_floating
+site_specific:
+  1 - (1 - wake) * (1 - elec) * (1 - avail)
+total_losses:
+  1 - (1 - environmental) * (1 - technical) * (1 - site_specific)
+ncf:
+  adjusted_gcf * (1 - total_losses)
+
+# LCOE
+lcoe:
+  (capex * fixed_charge_rate + opex) / (ncf * turbine_capacity * num_turbines * 8760)

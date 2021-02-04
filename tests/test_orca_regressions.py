@@ -116,4 +116,9 @@ def test_ORCA_2015_regression(ORCA, base_2015, case):
     assert np.allclose(res['electrical'], system.get_electric_system_capex(data))
     assert np.allclose(res['development'], system.development_capex(data))
     assert np.allclose(res['soft'], system.soft_capex(data))
-    assert np.allclose(res['total'], system.total_capex(data))
+    assert np.allclose(res['capex'], system.total_capex(data))
+
+    assert np.allclose(res['maintenance'], system.maintenance_costs(data, **system.system_kwargs))
+    assert np.allclose(res['opex'], system.total_opex(data))
+    assert np.allclose(res['ncf'], system.get_ncf(data))
+    assert np.allclose(res['lcoe'], system.lcoe(data))
