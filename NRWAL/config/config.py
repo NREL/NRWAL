@@ -8,13 +8,13 @@ import pandas as pd
 import yaml
 import json
 import os
-import re
 import operator
 from collections import OrderedDict
 
 from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.groups import EquationGroup
 from NRWAL.handlers.directories import EquationDirectory
+from NRWAL.utilities.utilities import find_parens
 
 logger = logging.getLogger(__name__)
 
@@ -486,27 +486,18 @@ class NrwalConfig:
             logger.error(msg)
             raise ValueError(msg)
 
-        if expression[0] == '(' and expression[-1] == ')':
-            expression = expression[1:-1]
+        while '(' in expression:
+            start_loc, end_loc = find_parens(expression)[0]
+            wkey = 'workspace_{}'.format(1 + len(gvars))
+            assert wkey not in gvars
+            pk = expression[start_loc:end_loc + 1]
+            expression = expression.replace(pk, wkey)
+            pk = pk.lstrip('(').rstrip(')')
+            gvars[wkey] = cls._parse_expression(pk, config, eqn_dir,
+                                                gvars, name=name)
 
-        if '(' in expression:
-            msg = 'Unbalanced parenthesis!'
-            assert expression.count('(') == expression.count(')'), msg
-            # pylint: disable=W1401
-            starts = [m.start() for m in
-                      re.finditer('\(', expression)]  # noqa: W605
-
-            for start_loc in reversed(starts):
-                # pylint: disable=W1401
-                exp = expression[start_loc:]
-                paren_keys = re.findall('\(.*?\)', exp)  # noqa: W605
-                for i, pk in enumerate(paren_keys):
-                    wkey = 'workspace_{}'.format(int((i + 1) * len(gvars)))
-                    assert wkey not in gvars
-                    expression = expression.replace(pk, wkey)
-                    pk = pk.lstrip('(').rstrip(')')
-                    gvars[wkey] = cls._parse_expression(pk, config, eqn_dir,
-                                                        gvars, name=name)
+        if expression in gvars:
+            return gvars[expression]
 
         # order of operator map enforces order of operations
         op_map = OrderedDict()
