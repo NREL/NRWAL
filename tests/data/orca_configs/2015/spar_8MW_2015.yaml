@@ -14,7 +14,7 @@ decomissioning:
 procurement_contingency:
   .0575
 install_contingency:
-  .0345
+  .345
 lease_price:
   50000000
 

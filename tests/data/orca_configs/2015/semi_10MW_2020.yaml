@@ -27,22 +27,24 @@ tax_rate:
   0.26
 
 # CapEx Equations
+cost_reductions:
+  2015::cost_reductions::floating
 turbine:
-  2015::turbine::semi_tower + 2015::turbine::rna
+  2015::turbine::semi_tower + 2015::turbine::rna * (1 - cost_reductions::rna_2020)
 turbine_install:
-  2015::turbine_install::semi_8MW
+  2015::turbine_install::semi_10MW * (1 - cost_reductions::turbine_install_2020)
 substructure:
-  2015::semi::stiffened_column + 2015::semi::truss + 2015::semi::heave_plate + 2015::semi::outfitting
+  (2015::semi::stiffened_column + 2015::semi::truss + 2015::semi::heave_plate + 2015::semi::outfitting) * (1 - cost_reductions::substructure_2020)
 foundation:
-  2015::floating::mooring + 2015::floating::anchors
+  (2015::floating::mooring + 2015::floating::anchors) * (1 - cost_reductions::foundation_2020)
 sub_install:
-  2015::semi::install_8MW
+  2015::semi::install_10MW * (1 - cost_reductions::sub_and_found_install_2020)
 pslt:
-  2015::semi::pslt_8MW
+  2015::semi::pslt_10MW
 array:
-  2015::array::floating
+  2015::array::floating * (1 - cost_reductions::array_cable_2020)
 export:
-  2015::export::floating
+  2015::export::floating * (1 - cost_reductions::export_cable_2020)
 grid:
   2015::grid::grid_connection
 
@@ -58,7 +60,7 @@ subcomponents:
 
 # BOS CapEx
 development:
-  development_factor * (subcomponents + turbine)
+  (development_factor * (subcomponents + turbine)) * (1 - cost_reductions::development_2020)
 proj_mgmt:
   proj_mgmt_factor * (subcomponents + turbine)
 bos:
@@ -88,15 +90,15 @@ capex:
 
 # Total OpEx
 operations:
-  18880383
+  18880383 * (1 - cost_reductions::operations_2020)
 maintenance:
-  2015::maintenance::semi
+  2015::maintenance::semi * (1 - cost_reductions::maintenance_2020)
 opex:
   operations + maintenance
 
 # NCF
 adjusted_gcf:
-  gcf * (0.006 * turbine_capacity + 0.9691)
+  (gcf * (0.006 * turbine_capacity + 0.9691)) * (1 + cost_reductions::gross_aep_2020)
 wake:
   2015::losses::wake
 elec:
@@ -111,7 +113,7 @@ technical:
 site_specific:
   1 - (1 - wake) * (1 - elec) * (1 - avail)
 total_losses:
-  1 - (1 - environmental) * (1 - technical) * (1 - site_specific)
+  (1 - (1 - environmental) * (1 - technical) * (1 - site_specific)) * (1 - cost_reductions::total_losses_2020)
 ncf:
   adjusted_gcf * (1 - total_losses)
 

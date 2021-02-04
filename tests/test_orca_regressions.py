@@ -40,12 +40,13 @@ def base_2015():
         "array_cable_capex_eq": "OW3F2015",
         "export_cable_capex_eq": "OW3F2015",
         "cost_reduction_year": 2015,
-        "cost_reductions": "NoReductions",
+        "cost_reductions": "OW3F2015"
     }
 
 
 @pytest.mark.parametrize(
     "case", (
+        # Base Equations
         "monopile_6MW_2015.yaml",
         "monopile_8MW_2015.yaml",
         "monopile_10MW_2015.yaml",
@@ -58,9 +59,17 @@ def base_2015():
         "spar_6MW_2015.yaml",
         "spar_8MW_2015.yaml",
         "spar_10MW_2015.yaml",
+
+        # Cost Reductions
+        "monopile_10MW_2017.yaml",
+        "monopile_10MW_2020.yaml",
+        "monopile_10MW_2025.yaml",
+        "semi_10MW_2017.yaml",
+        "semi_10MW_2020.yaml",
+        "semi_10MW_2025.yaml",
     ),
 )
-def test_ORCA_2015_regression(ORCA, base_2015, case):
+def test_ORCA_2015_base_regression(ORCA, base_2015, case):
     """"""
 
     System, Data = ORCA
@@ -80,14 +89,16 @@ def test_ORCA_2015_regression(ORCA, base_2015, case):
     turb_size = float(case.split("_")[1].replace("MW", ""))
     num_turbines = np.ceil(600 / turb_size)
 
+    cr_year = int(case.split("_")[2].replace(".yaml", ""))
+
     # NRWAL
     inputs = pd.read_csv(data_fp).to_dict(orient='list')
     inputs["num_turbines"] = [num_turbines] * len(inputs['depth'])
     inputs["turbine_capacity"] = [turb_size] * len(inputs['depth'])
     inputs = {k: np.array(v) for k, v in inputs.items()}
 
-    conf_fp = os.path.join(TEST_DATA_DIR, "orca_configs", case)
-    conf = NrwalConfig(conf_fp, interp_extrap_power=True)
+    conf_fp = os.path.join(TEST_DATA_DIR, "orca_configs", "2015", case)
+    conf = NrwalConfig(conf_fp, interp_extrap_power=True, interp_extrap_year=True)
     res = conf.eval(inputs)
 
     # ORCA
@@ -96,7 +107,8 @@ def test_ORCA_2015_regression(ORCA, base_2015, case):
         "sub_tech": sub_type,
         "turbine_capacity": turb_size,
         **base_2015,
-        **conf.global_variables
+        **conf.global_variables,
+        "cost_reduction_year": cr_year
     })
 
     assert np.allclose(res['turbine'], system.get_turbine_capex(data))
