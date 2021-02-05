@@ -245,6 +245,7 @@ class NrwalConfig:
 
         # parse inputs arg with inputs setter function
         self._inputs = {}
+        self._outputs = {}
         self.inputs = inputs
 
         config, eqn_dir = self._load_config(config)
@@ -258,7 +259,11 @@ class NrwalConfig:
         self._config = self._parse_config(config, self._eqn_dir,
                                           self._global_variables)
 
-        self._outputs = {}
+        # Update global variables with config items that are constant
+        self._global_variables.update({k: v.eval()
+                                       for k, v in self._config.items()
+                                       if isinstance(v, Equation)
+                                       and Equation.is_num(v.full)})
 
     @classmethod
     def _load_config(cls, config):
@@ -719,6 +724,19 @@ class NrwalConfig:
         return not any(self.missing_inputs)
 
     @property
+    def to_be_solved(self):
+        """NRWAL config keys that have not yet been solved but need to be.
+
+        Returns
+        -------
+        list
+        """
+        return [k for k, v in self._config.items()
+                if k not in self._outputs
+                and k not in self.global_variables
+                and isinstance(v, Equation)]
+
+    @property
     def solved(self):
         """Have all the config equations been solved?
 
@@ -726,11 +744,7 @@ class NrwalConfig:
         -------
         bool
         """
-        to_be_solved = [k for k, v in self._config.items()
-                        if k not in self._outputs
-                        and k not in self.global_variables
-                        and isinstance(v, Equation)]
-        return not any(to_be_solved)
+        return not any(self.to_be_solved)
 
     def get(self, key, default_value):
         """Attempt to get a key from the NrwalConfig, return
@@ -784,6 +798,7 @@ class NrwalConfig:
             logger.error(msg)
             raise RuntimeError(msg)
 
+        i = 0
         while not self.solved:
             for k, v in self.items():
                 if (isinstance(v, (EquationGroup, EquationDirectory))
@@ -798,5 +813,12 @@ class NrwalConfig:
                            .format(k, type(v)))
                     logger.error(msg)
                     raise TypeError(msg)
+
+            i += 1
+            if i > 100:
+                msg = ('NRWAL compute failed! The following config keys were '
+                       'never solved: {}'.format(self.to_be_solved))
+                logger.error(msg)
+                raise RuntimeError(msg)
 
         return self._outputs

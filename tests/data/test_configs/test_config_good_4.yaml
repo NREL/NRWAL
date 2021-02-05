@@ -57,8 +57,10 @@ subcomponents:
   support + install + electrical
 
 # BOS CapEx
+random_losses:
+    "2015::losses::technical_fixed"
 development:
-  development_factor * (subcomponents + turbine)
+  development_factor * (subcomponents + turbine) * random_losses
 proj_mgmt:
   proj_mgmt_factor * (subcomponents + turbine)
 bos:
