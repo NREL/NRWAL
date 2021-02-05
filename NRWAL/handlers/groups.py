@@ -325,13 +325,13 @@ class AbstractGroup(ABC):
         if i == (len(keys) - 1):
             # Only look for adjacent equations when were at the last
             # retrieval level in the EquationGroup
-            if (self._interp_extrap_power or self._use_nearest_power
+            if ((self._interp_extrap_power or self._use_nearest_power)
                     and self.is_power_eqn(eqn_key)):
                 nn_eqns, nn_values = \
                     self.find_nearest_power_eqns(eqn_key, group=group)
                 eqn_value = self._parse_power(eqn_key)[0]
 
-            elif (self._interp_extrap_year or self._use_nearest_year
+            elif ((self._interp_extrap_year or self._use_nearest_year)
                     and self.is_year_eqn(eqn_key)):
                 nn_eqns, nn_values = \
                     self.find_nearest_year_eqns(eqn_key, group=group)
