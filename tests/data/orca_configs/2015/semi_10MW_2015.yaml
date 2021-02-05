@@ -104,8 +104,7 @@ elec:
 avail:
   2015::losses::avail_semi
 environmental:
-  0.0159
-  # 2015::losses::environmental
+  2015::losses::environmental
 technical:
   2015::losses::technical_floating
 site_specific:

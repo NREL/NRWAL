@@ -106,11 +106,9 @@ elec:
 avail:
   2015::losses::avail_fixed
 environmental:
-  0.0159
-  # 2015::losses::environmental
+  2015::losses::environmental
 technical:
-  0.01
-  # 2015::losses::technical_fixed
+  2015::losses::technical_fixed
 site_specific:
   1 - (1 - wake) * (1 - elec) * (1 - avail)
 total_losses:
