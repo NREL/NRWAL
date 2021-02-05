@@ -1,25 +1,35 @@
+pslt_3MW:
+  (25237609 + 23896.37 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines + port_cost
+pslt_6MW:
+  (26525267 + 25366.76 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines + port_cost
+pslt_10MW:
+  (28101577 + 27188.07 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines + port_cost
+pslt_12MW:
+  (28101577 + 27188.07 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines + port_cost
+pslt_15MW:
+  (28101577 + 27188.07 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines + port_cost
 install_3MW:
   (70146438 + 87702.95 * dist_p_to_a + 44830.28 * dist_p_to_s) * 0.01 / 
-  (1 - floating_downtime)
+  (1 - floating_downtime) * num_turbines
 install_6MW:
   (83062187 + 88643.1 * dist_p_to_a + 65900.24 * dist_p_to_s) * 0.01 / 
-  (1 - floating_downtime)
+  (1 - floating_downtime) * num_turbines
 install_10MW:
   (94577688 + 90047.97 * dist_p_to_a + 85032.57 * dist_p_to_s) * 0.01 / 
-  (1 - floating_downtime)
+  (1 - floating_downtime) * num_turbines
 install_12MW:
   (94577688 + 90047.97 * dist_p_to_a + 85032.57 * dist_p_to_s) * 0.01 / 
-  (1 - floating_downtime)
+  (1 - floating_downtime) * num_turbines
 install_15MW:
   (94577688 + 90047.97 * dist_p_to_a + 85032.57 * dist_p_to_s) * 0.01 / 
-  (1 - floating_downtime)
+  (1 - floating_downtime) * num_turbines
 spar_3MW:
-  (25237609 + 23896.37 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01
+  (25237609 + 23896.37 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines
 spar_6MW:
-  (26525267 + 25366.76 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01
+  (26525267 + 25366.76 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines
 spar_10MW:
-  (28101577 + 27188.07 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01
+  (28101577 + 27188.07 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines
 spar_12MW:
-  (28101577 + 27188.07 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01
+  (28101577 + 27188.07 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines
 spar_15MW:
-  (28101577 + 27188.07 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01
+  (28101577 + 27188.07 * dist_p_to_a + 21666.67 * dist_a_to_s) * 0.01 * num_turbines

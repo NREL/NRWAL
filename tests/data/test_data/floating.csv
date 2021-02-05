@@ -1,0 +1,6 @@
+wfarm_id,site,name,nearest_city,latitude,longitude,depth,hub_height,wind_speed,gcf,aeff,dist_p_to_s,dist_p_to_s_nolimit,dist_op_to_s,dist_l_to_ts,dist_s_to_l,transmission_multi,capex_multi,hs_average,floating_downtime,fixed_downtime,dist_p_to_a,dist_a_to_s
+1,1,North,Astoria,45.90991922,-124.4119555,147,114,7.84,0.4348,0.924612,62,62,62,1,33,1,0.986426,2.52,0.419,0.2,10,10
+2,2,North Central,Pacific City,45.02436692,-124.4123602,279,114,8.12,0.4626,0.911157,55,55,55,1,31,1,0.983849,2.53,0.414,0.2,10,10
+3,3,Central,Florence,44.25380018,-124.5564964,101,114,8.28,0.472,0.93456,58,58,58,5,35,1,0.983849,2.52,0.402,0.2,10,10
+4,4,South Central,Coos Bay,43.46377046,-124.8148353,595,114,8.77,0.5068,0.943249,57,57,57,1,38,1,0.971819,2.57,0.441,0.2,10,10
+5,5,South,Port Orford,42.68225597,-124.8537149,602,114,9.91,0.5974,0.952813,95,95,95,1,29,1,0.971819,2.58,0.455,0.2,10,10

@@ -5,14 +5,14 @@ pslt_3MW:
   188.73 * depth ** 3 -
   2.27 * depth ** 4 +
   0.00909 * depth ** 5 +
-  6621.57 * dist_p_to_s)
+  6621.57 * dist_p_to_s) * num_turbines + port_cost
 pslt_6MW:
   0.01 * (7136675.4 -
   21122.213 * depth +
   1335.65 * dist_p_to_s +
   449.09 * depth ** 2 +
   0.0091 * dist_p_to_s ** 2 +
-  58.25 * depth * dist_p_to_s)
+  58.25 * depth * dist_p_to_s) * num_turbines + port_cost
 pslt_10MW:
   0.01 * (7533930.2 -
    116296.09 * depth +
@@ -23,7 +23,7 @@ pslt_10MW:
    0.0132 * depth +
    0.0000883 * depth ** 2 -
    0.000534 * dist_p_to_s +
-   0.000000238 * dist_p_to_s ** 2)
+   0.000000238 * dist_p_to_s ** 2) * num_turbines + port_cost
 pslt_12MW:
   0.01 * (7533930.2 -
    116296.09 * depth +
@@ -34,7 +34,7 @@ pslt_12MW:
    0.0132 * depth +
    0.0000883 * depth ** 2 -
    0.000534 * dist_p_to_s +
-   0.000000238 * dist_p_to_s ** 2)
+   0.000000238 * dist_p_to_s ** 2) * num_turbines + port_cost
 pslt_15MW:
   0.01 * (7533930.2 -
    116296.09 * depth +
@@ -45,7 +45,7 @@ pslt_15MW:
    0.0132 * depth +
    0.0000883 * depth ** 2 -
    0.000534 * dist_p_to_s +
-   0.000000238 * dist_p_to_s ** 2)
+   0.000000238 * dist_p_to_s ** 2) * num_turbines + port_cost
 install_3MW:
   (86671670 -
    3230771 * depth +
@@ -59,7 +59,7 @@ install_3MW:
    22.861 * depth ** 2 * dist_p_to_s) * 0.01 * 
   (1 + np.exp(-0.21398756 +
    0.0575015 * turbine_capacity +
-   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime) * num_turbines
 install_6MW:
   (88705573 -
    2965980.2 * depth -
@@ -73,7 +73,7 @@ install_6MW:
    19.44 * depth ** 2 * dist_p_to_s) * 0.01 * 
   (1 + np.exp(-0.21398756 +
    0.0575015 * turbine_capacity +
-   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime) * num_turbines
 install_10MW:
   (176860000 -
    2262000000. / depth +
@@ -83,7 +83,7 @@ install_10MW:
    2558888.2 * (dist_p_to_s / depth)) * 0.01 * 
   (1 + np.exp(-0.21398756 +
    0.0575015 * turbine_capacity +
-   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime) * num_turbines
 install_12MW:
   (176860000 -
    2262000000. / depth +
@@ -93,7 +93,7 @@ install_12MW:
    2558888.2 * (dist_p_to_s / depth)) * 0.01 * 
   (1 + np.exp(-0.21398756 +
    0.0575015 * turbine_capacity +
-   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime) * num_turbines
 install_15MW:
   (176860000 -
    2262000000. / depth +
@@ -103,4 +103,4 @@ install_15MW:
    2558888.2 * (dist_p_to_s / depth)) * 0.01 * 
   (1 + np.exp(-0.21398756 +
    0.0575015 * turbine_capacity +
-   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime)
+   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime) * num_turbines
