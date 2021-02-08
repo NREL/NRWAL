@@ -289,11 +289,15 @@ class NrwalConfig:
             Equation directory path to be used for this config.
         """
 
+        config_dir = None
+
         if isinstance(config, str):
             if not os.path.exists(config):
                 msg = 'Cannot find config file path: {}'.format(config)
                 logger.error(msg)
                 raise FileNotFoundError(msg)
+
+            config_dir = os.path.dirname(os.path.abspath(config))
 
             if config.endswith('.json'):
                 with open(config, 'r') as f:
@@ -321,6 +325,23 @@ class NrwalConfig:
             config['equation_directory'] = cls.DEFAULT_DIR
 
         eqn_dir = config.pop('equation_directory')
+
+        for key, value in config.items():
+            if any(m in str(value) for m in ('.json', '.yaml', '.yml')):
+                msg = ('Config pointer to other config must be of the format '
+                       '"./other_config.yaml::retrieval_key" but received: {}'
+                       .format(value))
+                assert '::' in value, msg
+                assert value.count('::') == 1, msg
+                out = value.partition('::')
+                fp_other, other_key = out[0], out[2]
+                fp_other = os.path.join(config_dir, fp_other)
+                msg = ('Cannot do a config pointer without the original '
+                       'config being input from a filepath.')
+                assert config_dir is not None, msg
+                msg = 'Config pointer file not found: {}'.format(fp_other)
+                assert os.path.exists(fp_other), msg
+                config[key] = cls._load_config(fp_other)[0][other_key]
 
         return config, eqn_dir
 

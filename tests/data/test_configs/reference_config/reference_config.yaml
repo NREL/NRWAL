@@ -1,0 +1,10 @@
+# CapEx Aggregation
+support:
+  substructure + foundation
+install:
+  turbine_install + sub_install + pslt
+electrical:
+  array + export + grid
+subcomponents:
+  support + install + electrical
+  

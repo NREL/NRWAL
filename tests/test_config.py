@@ -15,13 +15,14 @@ from NRWAL.handlers.groups import EquationGroup
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
 
+FP_BAD_0 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_0.yml')
+FP_BAD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_1.yml')
 FP_GOOD_0 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_0.yml')
 FP_GOOD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_1.yml')
 FP_GOOD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_2.yml')
 FP_GOOD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_3.yml')
 FP_GOOD_4 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_4.yaml')
-FP_BAD_0 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_0.yml')
-FP_BAD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_1.yml')
+FP_GOOD_5 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_5.yaml')
 
 
 def test_good_config_parsing():
@@ -220,3 +221,20 @@ def test_complex_config():
 
     assert obj.solved
     assert np.allclose(obj['tmp'] * obj['factor'], obj['cons_financing'])
+
+
+def test_config_reference():
+    """Test a config with reference to equations from another config"""
+
+    obj_4 = NrwalConfig(FP_GOOD_4)
+    obj_5 = NrwalConfig(FP_GOOD_5)
+
+    assert obj_4['support'].full == obj_5['support'].full
+    assert obj_4['install'].full == obj_5['install'].full
+    assert obj_4['electrical'].full == obj_5['electrical'].full
+    assert obj_4['subcomponents'].full == obj_5['subcomponents'].full
+
+    out_4 = obj_4.evaluate({k: 2 for k in obj_4.required_inputs})
+    out_5 = obj_5.evaluate({k: 2 for k in obj_5.required_inputs})
+    for k, v in out_4.items():
+        assert np.allclose(v, out_5[k])
