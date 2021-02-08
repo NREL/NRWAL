@@ -6,7 +6,7 @@ import os
 
 
 NRWAL_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-NRWAL_DIR = os.path.join(os.path.dirname(NRWAL_DIR), 'library/')
+NRWAL_DIR = os.path.join(os.path.dirname(NRWAL_DIR), 'analysis_library/')
 
 
 def find_parens(s):
