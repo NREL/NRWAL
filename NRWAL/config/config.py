@@ -250,11 +250,16 @@ class NrwalConfig:
         self.inputs = inputs
 
         config, eqn_dir = self._load_config(config)
-        self._eqn_dir = EquationDirectory(
-            eqn_dir, interp_extrap_power=interp_extrap_power,
-            use_nearest_power=use_nearest_power,
-            interp_extrap_year=interp_extrap_year,
-            use_nearest_year=use_nearest_year)
+
+        kwargs = {'use_nearest_year': use_nearest_year,
+                  'use_nearest_power': use_nearest_power,
+                  'interp_extrap_year': interp_extrap_year,
+                  'interp_extrap_power': interp_extrap_power}
+        for key in kwargs:
+            if key in config:
+                kwargs[key] = bool(config.pop(key))
+
+        self._eqn_dir = EquationDirectory(eqn_dir, **kwargs)
         self._global_variables = self._parse_global_variables(config)
         self._raw_config = copy.deepcopy(config)
         self._config = self._parse_config(config, self._eqn_dir,
