@@ -11,6 +11,7 @@ import os
 import operator
 from collections import OrderedDict
 
+from NRWAL.utilities.utilities import NRWAL_DIR
 from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.groups import EquationGroup
 from NRWAL.handlers.directories import EquationDirectory
@@ -200,7 +201,7 @@ class NrwalConfig:
      'lcoe': array([1.35261086e+15, 1.35261086e+15, 1.35261086e+15])}
     """
 
-    DEFAULT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    DEFAULT_DIR = NRWAL_DIR
 
     def __init__(self, config, inputs=None, interp_extrap_power=False,
                  use_nearest_power=False, interp_extrap_year=False,
