@@ -508,12 +508,12 @@ class EquationDirectory:
         return eqns
 
     def head(self, n=5):
-        """Print the first n lines of the directory string representation"""
-        print('\n'.join(str(self).split('\n')[:n]))
+        """Return the first n lines of the directory string representation"""
+        return '\n'.join(str(self).split('\n')[:n])
 
     def tail(self, n=5):
-        """Print the last n lines of the directory string representation"""
-        print('\n'.join(str(self).split('\n')[-1 * n:]))
+        """Return the last n lines of the directory string representation"""
+        return '\n'.join(str(self).split('\n')[-1 * n:])
 
     def set_default_variables(self, var_group=None, force_update=False):
         """Set default variables available to this object and all

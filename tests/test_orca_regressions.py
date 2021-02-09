@@ -226,7 +226,6 @@ def test_ORCA_2019_regression(ORCA, base_2019, case):
     conf_fp = os.path.join(TEST_DATA_DIR, "orca_configs", "2019", case)
 
     if turb_size > 10:
-        print(turb_size)
         conf = NrwalConfig(conf_fp, use_nearest_power=True,
                            interp_extrap_year=True)
 

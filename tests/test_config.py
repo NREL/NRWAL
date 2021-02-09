@@ -23,6 +23,7 @@ FP_GOOD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_2.yml')
 FP_GOOD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_3.yml')
 FP_GOOD_4 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_4.yaml')
 FP_GOOD_5 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_5.yaml')
+FP_GOOD_6 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_6.yaml')
 
 
 def test_good_config_parsing():
@@ -223,7 +224,7 @@ def test_complex_config():
     assert np.allclose(obj['tmp'] * obj['factor'], obj['cons_financing'])
 
 
-def test_config_reference():
+def test_config_reference_flat():
     """Test a config with reference to equations from another config"""
 
     obj_4 = NrwalConfig(FP_GOOD_4)
@@ -238,3 +239,24 @@ def test_config_reference():
     out_5 = obj_5.evaluate({k: 2 for k in obj_5.required_inputs})
     for k, v in out_4.items():
         assert np.allclose(v, out_5[k])
+
+
+def test_config_reference_nested():
+    """Test a config with reference to nested equations from another config"""
+    obj_4 = NrwalConfig(FP_GOOD_4)
+    obj_6 = NrwalConfig(FP_GOOD_6)
+
+    for config_key in ['development', 'test']:
+        for k, v in obj_4[config_key].default_variables.items():
+            if isinstance(v, Equation):
+                assert v.full == obj_6[config_key].default_variables[k].full
+            else:
+                assert v == obj_6[config_key].default_variables[k]
+
+            assert obj_4[config_key].full == obj_6[config_key].full
+
+    out_4 = obj_4.evaluate({k: 2 for k in obj_4.required_inputs})
+    out_6 = obj_6.evaluate({k: 2 for k in obj_6.required_inputs})
+
+    for k, v in out_6.items():
+        assert np.allclose(v, out_4[k])
