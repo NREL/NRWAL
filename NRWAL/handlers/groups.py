@@ -800,9 +800,12 @@ class VariableGroup(AbstractGroup):
                        .format(self._base_name))
                 logger.error(msg)
                 raise ValueError(msg)
-            if not isinstance(v, (int, float)):
+            if isinstance(v, int):
+                v = float(v)
+                var_group[k] = v
+            if not isinstance(v, float):
                 msg = ('Cannot use variable group value that is not a '
-                       'float or int: {} ({})'.format(v, type(v)))
+                       'float: {} ({})'.format(v, type(v)))
                 logger.error(msg)
                 raise TypeError(msg)
 

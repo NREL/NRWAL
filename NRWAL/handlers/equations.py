@@ -60,6 +60,14 @@ class Equation:
                    'tuple), but received: {}'.format(type(v)))
             assert isinstance(v, (int, float, np.ndarray, list, tuple)), msg
 
+            if isinstance(v, np.ndarray):
+                if np.issubdtype(v.dtype, np.integer):
+                    kwargs[k] = v.astype(np.float32)
+            elif isinstance(v, int):
+                kwargs[k] = float(v)
+
+        return kwargs
+
     def __eqn_math(self, other, operator):
         """Perform arithmetic with this instance of Equation (self) and an
         input "other" Equation and return a new Equation object that evaluates
@@ -376,8 +384,13 @@ class Equation:
             is **kwargs so this method can be run in either of these syntaxes:
                 Equation.evaluate(input1=10, input2=20)
                 Equation.evaluate(**{'input1': 10, 'input2': 20})
+
+        Returns
+        -------
+        out : float | np.ndarray
+            Evaluated output of this equation object.
         """
-        self._check_input_args(kwargs)
+        kwargs = self._check_input_args(kwargs)
         kwargs = self._merge_vars(self._default_variables, kwargs)
 
         missing = [v for v in self.variables
@@ -389,4 +402,12 @@ class Equation:
             logger.error(msg)
             raise RuntimeError(msg)
 
-        return eval(str(self._eqn), globals(), kwargs)
+        try:
+            out = eval(str(self._eqn), globals(), kwargs)
+        except Exception as e:
+            msg = ('Could not evaluate NRWAL Equation {}, received error: {}'
+                   .format(self, e))
+            logger.exception(msg)
+            raise RuntimeError(msg) from e
+
+        return out

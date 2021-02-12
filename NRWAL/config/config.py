@@ -5,6 +5,7 @@ NRWAL config framework.
 import copy
 import logging
 import pandas as pd
+import numpy as np
 import yaml
 import json
 import os
@@ -247,6 +248,8 @@ class NrwalConfig:
         # parse inputs arg with inputs setter function
         self._inputs = {}
         self._outputs = {}
+        self._config = {}
+        self._global_variables = {}
         self.inputs = inputs
 
         config, eqn_dir, pointers = self._load_config(config)
@@ -702,11 +705,27 @@ class NrwalConfig:
 
         if arg is None:
             self._inputs = {}
-        elif isinstance(arg, dict):
-            self._inputs.update(arg)
-        elif isinstance(arg, pd.DataFrame):
-            self._inputs.update({k: arg[k].values.flatten()
-                                 for k in arg.columns.values})
+
+        elif isinstance(arg, (dict, pd.DataFrame)):
+            if isinstance(arg, dict):
+                keys = arg.keys()
+            elif isinstance(arg, pd.DataFrame):
+                keys = arg.columns.values
+
+            for k in keys:
+                if isinstance(arg, dict):
+                    v = arg[k]
+                elif isinstance(arg, pd.DataFrame):
+                    v = arg[k].values.flatten()
+
+                if isinstance(v, np.ndarray):
+                    if Equation.is_num(v[0]):
+                        v = v.astype(np.float32)
+                elif isinstance(v, int):
+                    v = float(v)
+
+                self._inputs[k] = v
+
         else:
             msg = ('Cannot set inputs as datatype "{}". '
                    'Requires a dict or DataFrame.'.format(type(arg)))
@@ -885,7 +904,29 @@ class NrwalConfig:
                 elif isinstance(v, Equation):
                     kwargs = copy.deepcopy(self.inputs)
                     kwargs.update(self._outputs)
-                    self._outputs[k] = v.evaluate(**kwargs)
+
+                    try:
+                        self._outputs[k] = v.evaluate(**kwargs)
+                    except Exception as e:
+                        for var_name in v.variables:
+                            input_val = None
+                            if var_name in kwargs:
+                                input_val = kwargs[var_name]
+                            elif var_name in v.default_variables:
+                                input_val = v.default_variables[var_name]
+
+                            msg = ('NRWAL input "{}": {} {}'
+                                   .format(var_name, input_val,
+                                           type(input_val)))
+                            if isinstance(input_val, np.ndarray):
+                                msg += ' {}'.format(input_val.dtype)
+                            logger.info(msg)
+
+                        msg = ('Could not evaluate NRWAL equation: {}, '
+                               'received exception: {}'.format(v, e))
+                        logger.exception(msg)
+                        raise RuntimeError(msg) from e
+
                 elif isinstance(v, dict):
                     pass
                 else:
