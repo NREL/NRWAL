@@ -1,0 +1,26 @@
+# CapEx Aggregation
+substructure:
+  2015::monopile::transition_piece + 2015::fixed::outfitting_lt_8MW
+foundation:
+  2015::monopile::foundation
+turbine_install:
+  2015::turbine_install::monopile_6MW
+sub_install:
+  2015::monopile::install_6MW
+pslt:
+  2015::monopile::pslt_6MW
+array:
+  2015::array::fixed
+export:
+  2015::export::fixed
+grid:
+  2015::grid::grid_connection
+support:
+  substructure + foundation
+install:
+  turbine_install + sub_install + pslt
+electrical:
+  array + export + grid
+subcomponents:
+  support + install + electrical
+  

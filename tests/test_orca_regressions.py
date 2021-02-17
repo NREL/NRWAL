@@ -1,15 +1,17 @@
+"""
+ORCA regression tests
+"""
+
 __author__ = ["Jake Nunemaker"]
 __copyright__ = "Copyright 2021, National Renewable Energy Laboratory"
 __maintainer__ = "Jake Nunemaker"
 __email__ = ["jake.nunemaker@nrel.gov"]
-
 
 import os
 import pytest
 import numpy as np
 import pandas as pd
 from NRWAL import NrwalConfig
-from copy import deepcopy
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
@@ -25,7 +27,7 @@ def ORCA():
 
 @pytest.fixture
 def base_2015():
-    """"""
+    """Base 2015 fixtures"""
 
     return {
         "sub_install": "Vertical",
@@ -46,7 +48,7 @@ def base_2015():
 
 @pytest.fixture
 def base_2019():
-    """"""
+    """Base 2019 fixtures"""
 
     return {
         "sub_install": "Vertical",
@@ -91,7 +93,7 @@ def base_2019():
     ),
 )
 def test_ORCA_2015_regression(ORCA, base_2015, case):
-    """"""
+    """Test that the 2015 configs + equations match ORCA"""
 
     System, Data = ORCA
 
@@ -119,7 +121,7 @@ def test_ORCA_2015_regression(ORCA, base_2015, case):
     inputs = {k: np.array(v) for k, v in inputs.items()}
 
     conf_fp = os.path.join(TEST_DATA_DIR, "orca_configs", "2015", case)
-    conf = NrwalConfig(conf_fp, interp_extrap_power=True, interp_extrap_year=True)
+    conf = NrwalConfig(conf_fp)
     res = conf.eval(inputs)
 
     # ORCA
@@ -133,25 +135,32 @@ def test_ORCA_2015_regression(ORCA, base_2015, case):
     })
 
     assert np.allclose(res['turbine'], system.get_turbine_capex(data))
-    assert np.allclose(res['turbine_install'], system.get_turbine_install_capex(data))
-    
-    assert np.allclose(res['substructure'], system.get_substructure_capex(data))
-    assert np.allclose(res['foundation'], system.get_foundation_capex(data))
-    assert np.allclose(res['sub_install'], system.get_substructure_install_capex(data))
-    assert np.allclose(res['pslt'], system.get_pslt_capex(data))
-    
+    assert np.allclose(res['turbine_install'],
+                       system.get_turbine_install_capex(data))
+
+    assert np.allclose(res['substructure'],
+                       system.get_substructure_capex(data))
+    assert np.allclose(res['foundation'],
+                       system.get_foundation_capex(data))
+    assert np.allclose(res['sub_install'],
+                       system.get_substructure_install_capex(data))
+    assert np.allclose(res['pslt'],
+                       system.get_pslt_capex(data))
+
     assert np.allclose(res['array'], system.get_array_cable_capex(data))
     assert np.allclose(res['export'], system.get_export_cable_capex(data))
     assert np.allclose(res['grid'], system.get_grid_conn_capex(data))
-    
+
     assert np.allclose(res['support'], system.get_support_capex(data))
     assert np.allclose(res['install'], system.get_install_capex(data))
-    assert np.allclose(res['electrical'], system.get_electric_system_capex(data))
+    assert np.allclose(res['electrical'],
+                       system.get_electric_system_capex(data))
     assert np.allclose(res['development'], system.development_capex(data))
     assert np.allclose(res['soft'], system.soft_capex(data))
     assert np.allclose(res['capex'], system.total_capex(data))
 
-    assert np.allclose(res['maintenance'], system.maintenance_costs(data, **system.system_kwargs))
+    assert np.allclose(res['maintenance'],
+                       system.maintenance_costs(data, **system.system_kwargs))
     assert np.allclose(res['opex'], system.total_opex(data))
     assert np.allclose(res['ncf'], system.get_ncf(data))
     assert np.allclose(res['lcoe'], system.lcoe(data))
@@ -187,7 +196,7 @@ def test_ORCA_2015_regression(ORCA, base_2015, case):
     ),
 )
 def test_ORCA_2019_regression(ORCA, base_2019, case):
-    """"""
+    """Test that the 2019 configs + equations match ORCA"""
 
     System, Data = ORCA
 
@@ -217,11 +226,12 @@ def test_ORCA_2019_regression(ORCA, base_2019, case):
     conf_fp = os.path.join(TEST_DATA_DIR, "orca_configs", "2019", case)
 
     if turb_size > 10:
-        print(turb_size)
-        conf = NrwalConfig(conf_fp, use_nearest_power=True, interp_extrap_year=True)
+        conf = NrwalConfig(conf_fp, use_nearest_power=True,
+                           interp_extrap_year=True)
 
     else:
-        conf = NrwalConfig(conf_fp, interp_extrap_power=True, interp_extrap_year=True)
+        conf = NrwalConfig(conf_fp, interp_extrap_power=True,
+                           interp_extrap_year=True)
 
     res = conf.eval(inputs)
 
@@ -236,25 +246,30 @@ def test_ORCA_2019_regression(ORCA, base_2019, case):
     })
 
     assert np.allclose(res['turbine'], system.get_turbine_capex(data))
-    assert np.allclose(res['turbine_install'], system.get_turbine_install_capex(data))
-    
-    assert np.allclose(res['substructure'], system.get_substructure_capex(data))
+    assert np.allclose(res['turbine_install'],
+                       system.get_turbine_install_capex(data))
+
+    assert np.allclose(res['substructure'],
+                       system.get_substructure_capex(data))
     assert np.allclose(res['foundation'], system.get_foundation_capex(data))
-    assert np.allclose(res['sub_install'], system.get_substructure_install_capex(data))
+    assert np.allclose(res['sub_install'],
+                       system.get_substructure_install_capex(data))
     assert np.allclose(res['pslt'], system.get_pslt_capex(data))
-    
+
     assert np.allclose(res['array'], system.get_array_cable_capex(data))
     assert np.allclose(res['export'], system.get_export_cable_capex(data))
     assert np.allclose(res['grid'], system.get_grid_conn_capex(data))
-    
+
     assert np.allclose(res['support'], system.get_support_capex(data))
     assert np.allclose(res['install'], system.get_install_capex(data))
-    assert np.allclose(res['electrical'], system.get_electric_system_capex(data))
+    assert np.allclose(res['electrical'],
+                       system.get_electric_system_capex(data))
     assert np.allclose(res['development'], system.development_capex(data))
     assert np.allclose(res['soft'], system.soft_capex(data))
     assert np.allclose(res['capex'], system.total_capex(data))
 
-    assert np.allclose(res['maintenance'], system.maintenance_costs(data, **system.system_kwargs))
+    assert np.allclose(res['maintenance'],
+                       system.maintenance_costs(data, **system.system_kwargs))
     assert np.allclose(res['opex'], system.total_opex(data))
     assert np.allclose(res['ncf'], system.get_ncf(data))
     assert np.allclose(res['lcoe'], system.lcoe(data))

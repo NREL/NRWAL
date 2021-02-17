@@ -353,7 +353,8 @@ class EquationDirectory:
                 msg = ('Could not retrieve equation key "{}", '
                        'could not find "{}" in last available keys: {}'
                        .format(key, ikey, list(eqns.keys())))
-                logger.info(msg)  # info statement to avoid unnecessary stdout
+                # debug log statement to avoid unnecessary stdout
+                logger.debug(msg)
                 raise KeyError(msg)
 
         return eqns
@@ -508,12 +509,12 @@ class EquationDirectory:
         return eqns
 
     def head(self, n=5):
-        """Print the first n lines of the directory string representation"""
-        print('\n'.join(str(self).split('\n')[:n]))
+        """Return the first n lines of the directory string representation"""
+        return '\n'.join(str(self).split('\n')[:n])
 
     def tail(self, n=5):
-        """Print the last n lines of the directory string representation"""
-        print('\n'.join(str(self).split('\n')[-1 * n:]))
+        """Return the last n lines of the directory string representation"""
+        return '\n'.join(str(self).split('\n')[-1 * n:])
 
     def set_default_variables(self, var_group=None, force_update=False):
         """Set default variables available to this object and all

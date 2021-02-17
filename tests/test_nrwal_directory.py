@@ -6,13 +6,12 @@ parsed and evaluated.
 import os
 import pytest
 
+from NRWAL.utilities.utilities import NRWAL_DIR
 from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.directories import EquationDirectory
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
-MODULE_DIR = os.path.dirname(TEST_DIR)
-NRWAL_DIR = os.path.join(MODULE_DIR, 'NRWAL/')
 IGNORE_DIRS = ('handlers', )
 EQN_DIR_NAMES = [dirname for dirname in os.listdir(NRWAL_DIR)
                  if os.path.isdir(os.path.join(NRWAL_DIR, dirname))

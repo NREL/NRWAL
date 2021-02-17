@@ -644,12 +644,12 @@ class AbstractGroup(ABC):
         return eqns
 
     def head(self, n=5):
-        """Print the first n lines of the group string representation"""
-        print('\n'.join(str(self).split('\n')[:n]))
+        """Return the first n lines of the group string representation"""
+        return '\n'.join(str(self).split('\n')[:n])
 
     def tail(self, n=5):
-        """Print the last n lines of the group string representation"""
-        print('\n'.join(str(self).split('\n')[-1 * n:]))
+        """Return the last n lines of the group string representation"""
+        return '\n'.join(str(self).split('\n')[-1 * n:])
 
     @property
     def all_equations(self):
@@ -800,9 +800,12 @@ class VariableGroup(AbstractGroup):
                        .format(self._base_name))
                 logger.error(msg)
                 raise ValueError(msg)
-            if not isinstance(v, (int, float)):
+            if isinstance(v, int):
+                v = float(v)
+                var_group[k] = v
+            if not isinstance(v, float):
                 msg = ('Cannot use variable group value that is not a '
-                       'float or int: {} ({})'.format(v, type(v)))
+                       'float: {} ({})'.format(v, type(v)))
                 logger.error(msg)
                 raise TypeError(msg)
 
