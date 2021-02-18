@@ -252,7 +252,7 @@ class NrwalConfig:
         self._global_variables = {}
         self.inputs = inputs
 
-        config, eqn_dir, pointers = self._load_config(config)
+        config, eqn_dir = self._load_config(config)
 
         kwargs = {'use_nearest_year': use_nearest_year,
                   'use_nearest_power': use_nearest_power,
@@ -266,8 +266,7 @@ class NrwalConfig:
         self._global_variables = self._parse_global_variables(config)
         self._raw_config = copy.deepcopy(config)
         self._config = self._parse_config(config, self._eqn_dir,
-                                          self._global_variables,
-                                          pointers)
+                                          self._global_variables)
 
         # Update global variables with config items that are constant
         self._global_variables.update({k: v.eval()
@@ -291,13 +290,9 @@ class NrwalConfig:
             Loaded dictionary from a yaml or json file with NRWAL config.
         eqn_dir : str
             Equation directory path to be used for this config.
-        pointers : dict
-            Pointers to supplemental config dictionaries keyed by the
-            relative filepath pointer.
         """
 
         config_dir = None
-        pointers = {}
 
         if isinstance(config, str):
             if not os.path.exists(config):
@@ -334,42 +329,33 @@ class NrwalConfig:
 
         eqn_dir = config.pop('equation_directory')
 
-        remove_keys = []
         for key, value in config.items():
             file_markers = ('.json', '.yaml', '.yml')
             if any(m in str(value) for m in file_markers):
+
                 msg = ('Cannot do a config pointer without the original '
                        'config being input from a filepath.')
                 assert config_dir is not None, msg
 
-                if any(value.endswith(m) for m in file_markers):
-                    msg = 'Bad config pointer: {}'.format(value)
-                    assert '::' not in value, msg
-                    fp_other = os.path.join(config_dir, value)
-                    other_key = None
-                    remove_keys.append(key)
+                msg = ('Config pointer to other config must be of the '
+                       'format "./other_config.yaml::retrieval_key" but '
+                       'received: {}'.format(value))
+                assert value.count('::') == 1, msg
 
-                elif '::' in value:
-                    msg = ('Config pointer to other config must be of the '
-                           'format "./other_config.yaml::retrieval_key" but '
-                           'received: {}'.format(value))
-                    assert value.count('::') == 1, msg
-                    out = value.partition('::')
-                    fp_other, other_key = out[0], out[2]
-                    fp_other = os.path.join(config_dir, fp_other)
+                msg = ('Config pointer cannot include equations: {}'
+                       .format(value))
+                assert not any(x in value for x in ('*', '+', '(', ')')), msg
+
+                temp = value.partition('::')
+                fp_other, other_key = temp[0], temp[2]
+                fp_other = os.path.join(config_dir, fp_other)
 
                 msg = 'Config pointer file not found: {}'.format(fp_other)
                 assert os.path.exists(fp_other), msg
 
-                if other_key is not None:
-                    config[key] = cls._load_config(fp_other)[0][other_key]
-                else:
-                    pointers[key] = cls._load_config(fp_other)[0]
+                config[key] = cls._load_config(fp_other)[0][other_key]
 
-        for k in remove_keys:
-            del config[k]
-
-        return config, eqn_dir, pointers
+        return config, eqn_dir
 
     @staticmethod
     def _parse_global_variables(config):
@@ -396,7 +382,7 @@ class NrwalConfig:
         return gvars
 
     @classmethod
-    def _parse_config(cls, config, eqn_dir, gvars, pointers):
+    def _parse_config(cls, config, eqn_dir, gvars):
         """Parse a config mapping of names-to-string-expressions into a
         mapping of names-to-Equation where Equation is either a constant
         numerical value (global variable) or a NRWAL Equation handler object.
@@ -411,9 +397,6 @@ class NrwalConfig:
         gvars : dict
             Dictionary of global variables (constant numerical values)
             available within this config object.
-        pointers : dict
-            Pointers to supplemental config dictionaries keyed by the
-            relative filepath pointer.
 
         Returns
         -------
@@ -439,15 +422,13 @@ class NrwalConfig:
                 raise TypeError(msg)
 
             out[name] = cls._parse_expression(expression, config, eqn_dir,
-                                              copy.deepcopy(gvars), pointers,
-                                              name=name)
+                                              copy.deepcopy(gvars), name=name)
             config[name] = copy.deepcopy(out[name])
 
         return out
 
     @classmethod
-    def _parse_expression(cls, expression, config, eqn_dir, gvars, pointers,
-                          name=None):
+    def _parse_expression(cls, expression, config, eqn_dir, gvars, name=None):
         """Parse a config expression that can be a number, an EquationDirectory
         retrieval string, a key referencing a config entry, or a mathematical
         expression combining these options.
@@ -466,9 +447,6 @@ class NrwalConfig:
         gvars : dict
             Dictionary of global variables (constant numerical values)
             available within this config object.
-        pointers : dict
-            Pointers to supplemental config dictionaries keyed by the
-            relative filepath pointer.
         name : None | str
             Optional name for the current expression, used for identification
             of Equation objects.
@@ -488,33 +466,21 @@ class NrwalConfig:
             # Parse number as Equation object
             out = Equation(expression, name=name)
 
-        elif name in pointers:
-            # Expression references the pointers. Use pointers as config.
-            out = cls._parse_expression(expression, pointers[name], eqn_dir,
-                                        gvars, pointers, name=None)
-
         elif Equation.is_equation(expression):
             # Special parsing logic for expression with equation operators
             out = cls._parse_equation(expression, config, eqn_dir, gvars,
-                                      pointers, name=name)
+                                      name=name)
 
         elif expression in config:
             # Direct reference to object in the config
             out = cls._parse_expression(config[expression], config,
-                                        eqn_dir, gvars, pointers, name=name)
-
-        elif '::' in expression and expression.split('::')[0] in pointers:
-            # Syntax for expression referencing a pointer: "pointer::sub_key"
-            pointer_key, _, sub_key = expression.partition('::')
-            pointed_exp = pointers[pointer_key][sub_key]
-            out = cls._parse_expression(pointed_exp, config, eqn_dir, gvars,
-                                        pointers, name=pointer_key)
+                                        eqn_dir, gvars, name=name)
 
         elif '::' in expression and expression.split('::')[0] in config:
             # Syntax for expression referencing group: "group_key::sub_key"
             config_key, _, sub_key = expression.partition('::')
             temp = cls._parse_expression(config_key, config, eqn_dir, gvars,
-                                         pointers, name=name)
+                                         name=name)
             out = temp[sub_key]
 
         else:
@@ -534,8 +500,7 @@ class NrwalConfig:
         return out
 
     @classmethod
-    def _parse_equation(cls, expression, config, eqn_dir, gvars, pointers,
-                        name=None):
+    def _parse_equation(cls, expression, config, eqn_dir, gvars, name=None):
         """Special parsing logic for expressions that are equations
         (contain operators).
 
@@ -551,9 +516,6 @@ class NrwalConfig:
         gvars : dict
             Dictionary of global variables (constant numerical values)
             available within this config object.
-        pointers : dict
-            Pointers to supplemental config dictionaries keyed by the
-            relative filepath pointer.
         name : None | str
             Optional name for the current expression, used for identification
             of Equation objects.
@@ -580,7 +542,7 @@ class NrwalConfig:
             expression = expression.replace(pk, wkey)
             pk = pk.lstrip('(').rstrip(')')
             gvars[wkey] = cls._parse_expression(pk, config, eqn_dir,
-                                                gvars, pointers, name=name)
+                                                gvars, name=name)
 
         if expression in gvars:
             return gvars[expression]
@@ -603,14 +565,14 @@ class NrwalConfig:
                 out1 = gvars.get(v1, None)
                 if out1 is None:
                     out1 = cls._parse_expression(v1, config, eqn_dir, gvars,
-                                                 pointers, name=v1)
+                                                 name=v1)
                 elif Equation.is_num(out1):
                     out1 = Equation(out1, name=v1)
 
                 out2 = gvars.get(v2, None)
                 if out2 is None:
                     out2 = cls._parse_expression(v2, config, eqn_dir, gvars,
-                                                 pointers, name=v2)
+                                                 name=v2)
                 elif Equation.is_num(out2):
                     out2 = Equation(out2, name=v2)
 
