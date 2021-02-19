@@ -50,13 +50,13 @@ grid:
 
 # CapEx Aggregation
 support:
-  substructure + foundation
+  ./../standard_aggregation.yaml::support
 install:
-  turbine_install + sub_install + pslt
+  ./../standard_aggregation.yaml::install
 electrical:
-  array + export + grid
+  ./../standard_aggregation.yaml::electrical
 subcomponents:
-  support + install + electrical
+  ./../standard_aggregation.yaml::subcomponents
 
 # BOS CapEx
 development:
@@ -68,25 +68,23 @@ bos:
 
 # Soft CapEx
 constr_ins:
-  construction_insurance * (bos + turbine)
+  ./../standard_aggregation.yaml::constr_ins
 decomm:
-  decomissioning * (install - pslt)
+  ./../standard_aggregation.yaml::decomm
 proj_comp:
-  project_completion * (bos + turbine)
-test:
-  bos - install + pslt + turbine
+  ./../standard_aggregation.yaml::proj_comp
 procurement_cont:
-  procurement_contingency * test
+  ./../standard_aggregation.yaml::procurement_cont
 install_cont:
-  install_contingency * (install - pslt)
+  ./../standard_aggregation.yaml::install_cont
 cons_financing:
-  (confin_factor - 1) * (constr_ins + decomm + proj_comp + procurement_cont + install_cont + bos + turbine)
+  ./../standard_aggregation.yaml::cons_financing
 soft:
-  constr_ins + decomm + proj_comp + procurement_cont + install_cont + cons_financing
+  ./../standard_aggregation.yaml::soft
 
 # Total CapEx
 capex:
-  (bos + soft + turbine) * capex_multi * (1 - cost_reductions::capex_2028)
+  ./../standard_aggregation.yaml::capex * (1 - cost_reductions::capex_2028)
 
 # Total OpEx
 operations:
@@ -119,4 +117,4 @@ ncf:
 
 # LCOE
 lcoe:
-  (capex * fixed_charge_rate + opex) / (ncf * turbine_capacity * num_turbines * 8760)
+  ./../standard_aggregation.yaml::lcoe
