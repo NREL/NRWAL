@@ -13,6 +13,5 @@ perm_ballast_cost: 150
 operations_cost: 18880383
 port_cost: 25000000
 hz_turbine_factor: 0.05
-windflip_CAPEX: 50000000
 vertical_tow_OM_equip: 13400000
 lease_price: 50000000
