@@ -50,13 +50,13 @@ grid:
 
 # CapEx Aggregation
 support:
-  ./../standard_aggregation.yaml::support
+  ./standard_aggregation.yaml::support
 install:
-  ./../standard_aggregation.yaml::install
+  ./standard_aggregation.yaml::install
 electrical:
-  ./../standard_aggregation.yaml::electrical
+  ./standard_aggregation.yaml::electrical
 subcomponents:
-  ./../standard_aggregation.yaml::subcomponents
+  ./standard_aggregation.yaml::subcomponents
 
 # BOS CapEx
 development:
@@ -68,23 +68,25 @@ bos:
 
 # Soft CapEx
 constr_ins:
-  ./../standard_aggregation.yaml::constr_ins
+  ./standard_aggregation.yaml::constr_ins
 decomm:
-  ./../standard_aggregation.yaml::decomm
+  ./standard_aggregation.yaml::decomm
 proj_comp:
-  ./../standard_aggregation.yaml::proj_comp
+  ./standard_aggregation.yaml::proj_comp
 procurement_cont:
-  ./../standard_aggregation.yaml::procurement_cont
+  ./standard_aggregation.yaml::procurement_cont
 install_cont:
-  ./../standard_aggregation.yaml::install_cont
+  ./standard_aggregation.yaml::install_cont
 cons_financing:
-  ./../standard_aggregation.yaml::cons_financing
+  ./standard_aggregation.yaml::cons_financing
 soft:
-  ./../standard_aggregation.yaml::soft
+  ./standard_aggregation.yaml::soft
 
 # Total CapEx
+_capex:
+  ./standard_aggregation.yaml::capex
 capex:
-  ./../standard_aggregation.yaml::capex * (1 - cost_reductions::capex_2028)
+  _capex * (1 - cost_reductions::capex_2028)
 
 # Total OpEx
 operations:
@@ -117,4 +119,4 @@ ncf:
 
 # LCOE
 lcoe:
-  ./../standard_aggregation.yaml::lcoe
+  ./standard_aggregation.yaml::lcoe
