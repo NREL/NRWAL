@@ -2,6 +2,8 @@
 Welcome to NRWAL!
 *****************
 
+.. inclusion-intro
+
 NRWAL stands for The National Renewable Energy Laboratory Wind Analysis Libray (NRWAL).
 
 For the equation library, go `HERE <https://github.com/NREL/NRWAL/tree/master/analysis_library>`_.
