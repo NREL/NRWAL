@@ -813,6 +813,20 @@ class NrwalConfig:
         except KeyError:
             return default_value
 
+    def reset_output(self, key=None):
+        """Reset the output dictionary of the NrwalConfig object.
+
+        Parameters
+        ----------
+        key : str
+            Optioinal key to reset. Defaults to None which will reset
+            all outputs.
+        """
+        if key is None:
+            self._outputs = {}
+        elif key in self._outputs:
+            del self._outputs[key]
+
     def keys(self):
         """Get the 1st level of config keys, same as dict.keys()"""
         return self._config.keys()
