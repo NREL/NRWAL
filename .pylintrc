@@ -1,4 +1,4 @@
-[MAIN]
+[MASTER]
 
 # A comma-separated list of package or module names from where C extensions may
 # be loaded. Extensions are loading into the active Python interpreter and may
@@ -55,7 +55,6 @@ confidence=
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
 disable=
-		W0123,
         # Defaults
         print-statement,
         parameter-unpacking,
@@ -137,6 +136,7 @@ disable=
         redefined-builtin,
         broad-except,
         logging-format-interpolation,
+        logging-fstring-interpolation,
         wrong-import-order,
         wrong-import-position,
         relative-beyond-top-level,
