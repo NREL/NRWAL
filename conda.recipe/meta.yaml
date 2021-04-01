@@ -18,15 +18,14 @@ requirements:
     - click
     - numpy>=1.16
     - pandas
-    - psutil
-    - scipy
+    - pyyaml
   run:
     - python
     - pip
     - click
     - {{ pin_compatible('numpy') }}
     - pandas
-    - psutil
+    - pyyaml
 
 about:
   home: "https://github.com/NREL/NRWAL"
