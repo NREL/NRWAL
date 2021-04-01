@@ -27,7 +27,7 @@ Welcome to NRWAL!
     :target: https://codecov.io/gh/nrel/NRWAL
 
 .. image:: https://mybinder.org/badge_logo.svg
-    :target: https://mybinder.org/v2/gh/NREL/NRWAL/HEAD
+    :target: https://mybinder.org/v2/gh/NREL/NRWAL/HEAD?filepath=https%3A%2F%2Fgithub.com%2FNREL%2FNRWAL%2Fblob%2Fmain%2Fexamples%2Fexample.ipynb
 
 .. inclusion-intro
 
