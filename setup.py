@@ -38,9 +38,9 @@ class PostDevelopCommand(develop):
         develop.run(self)
 
 
-def find_equation_files(extensions=('.yaml', '.yml', '.json'), path='./NRWAL'):
-    """Find all equation files in the NRWAL library to include as package data
-    for pip install.
+def find_data_files(extensions=('.yaml', '.yml', '.json'), path='./NRWAL'):
+    """Find all equation and config files in the NRWAL library to include as
+    package data for pip install.
 
     Parameters
     ----------
@@ -59,12 +59,11 @@ def find_equation_files(extensions=('.yaml', '.yml', '.json'), path='./NRWAL'):
     equation_files = []
     if isinstance(path, (list, tuple)):
         for p in path:
-            equation_files += find_equation_files(extensions=extensions,
-                                                  path=p)
+            equation_files += find_data_files(extensions=extensions, path=p)
     else:
         for root, _, files in os.walk(path):
             for fn in files:
-                if any([ext in fn for ext in extensions]):
+                if any(ext in fn for ext in extensions):
                     fp = os.path.join(root, fn)
                     fp = fp.lstrip('./NRWAL')
                     equation_files.append(fp.replace(path, ''))
@@ -91,7 +90,7 @@ setup(
     url="https://nrel.github.io/NRWAL/",
     packages=find_packages(),
     package_dir={"NRWAL": "NRWAL"},
-    package_data={'NRWAL': find_equation_files()},
+    package_data={'NRWAL': find_data_files()},
     include_package_data=True,
     entry_points={
         "console_scripts": [
