@@ -66,6 +66,7 @@ def find_equation_files(extensions=('.yaml', '.yml', '.json'), path='./NRWAL'):
             for fn in files:
                 if any([ext in fn for ext in extensions]):
                     fp = os.path.join(root, fn)
+                    fp = fp.lstrip('./NRWAL')
                     equation_files.append(fp.replace(path, ''))
 
     return equation_files
@@ -74,9 +75,11 @@ def find_equation_files(extensions=('.yaml', '.yml', '.json'), path='./NRWAL'):
 with open("requirements.txt") as f:
     install_requires = f.readlines()
 
+
 test_requires = ["pytest>=5.2", ]
 description = ("National Renewable Energy Laboratory's (NREL's) Wind Analysis"
                "Library: NRWAL")
+
 
 setup(
     name="NREL-NRWAL",
@@ -89,12 +92,12 @@ setup(
     packages=find_packages(),
     package_dir={"NRWAL": "NRWAL"},
     package_data={'NRWAL': find_equation_files()},
+    include_package_data=True,
     entry_points={
         "console_scripts": [
             "NRWAL=NRWAL.cli:main",
         ],
     },
-    include_package_data=True,
     license="BSD 3-Clause",
     zip_safe=False,
     keywords="NRWAL",
