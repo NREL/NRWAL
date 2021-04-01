@@ -6,8 +6,7 @@ from __future__ import print_function, division, absolute_import
 import os
 
 from NRWAL.utilities.utilities import (NRWAL_DIR, NRWAL_ANALYSIS_DIR,
-                                       NRWAL_CODE_DIR, NRWAL_CONFIG_DIR,
-                                       NRWAL_EXAMPLE_DIR, NRWAL_TEST_DIR)
+                                       NRWAL_CONFIG_DIR)
 from NRWAL.version import __version__
 from NRWAL.config.config import NrwalConfig
 from NRWAL.handlers.equations import Equation

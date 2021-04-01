@@ -7,11 +7,9 @@ import os
 
 NRWAL_DIR = os.path.dirname(os.path.dirname(os.path.dirname(
     os.path.realpath(__file__))))
+NRWAL_DIR = os.path.join(NRWAL_DIR, 'NRWAL/')
 NRWAL_ANALYSIS_DIR = os.path.join(NRWAL_DIR, 'analysis_library/')
-NRWAL_CODE_DIR = os.path.join(NRWAL_DIR, 'NRWAL/')
 NRWAL_CONFIG_DIR = os.path.join(NRWAL_DIR, 'default_configs/')
-NRWAL_EXAMPLE_DIR = os.path.join(NRWAL_DIR, 'examples/')
-NRWAL_TEST_DIR = os.path.join(NRWAL_DIR, 'tests/')
 
 
 def find_parens(s):
