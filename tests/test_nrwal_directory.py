@@ -6,15 +6,15 @@ parsed and evaluated.
 import os
 import pytest
 
-from NRWAL.utilities.utilities import NRWAL_DIR
+from NRWAL.utilities.utilities import NRWAL_ANALYSIS_DIR
 from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.directories import EquationDirectory
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
 IGNORE_DIRS = ('handlers', )
-EQN_DIR_NAMES = [dirname for dirname in os.listdir(NRWAL_DIR)
-                 if os.path.isdir(os.path.join(NRWAL_DIR, dirname))
+EQN_DIR_NAMES = [dirname for dirname in os.listdir(NRWAL_ANALYSIS_DIR)
+                 if os.path.isdir(os.path.join(NRWAL_ANALYSIS_DIR, dirname))
                  and not dirname.startswith(('__', '.'))
                  and dirname not in IGNORE_DIRS]
 
@@ -56,7 +56,7 @@ def test_nrwal_directory(dirname):
     """Test that all equations in a NRWAL directory can be parsed and
     evaluated by the NRWAL handlers."""
     bad_eqn_i = []
-    eqn_dir_path = os.path.join(NRWAL_DIR, dirname)
+    eqn_dir_path = os.path.join(NRWAL_ANALYSIS_DIR, dirname)
     dir_obj = EquationDirectory(eqn_dir_path)
     eqns, groups = get_equations(dir_obj)
     for i, eqn in enumerate(eqns):

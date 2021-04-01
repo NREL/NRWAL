@@ -39,7 +39,8 @@ class PostDevelopCommand(develop):
 
 
 def find_equation_files(extensions=('.yaml', '.yml', '.json'),
-                        path='./analysis_library/'):
+                        path=('./analysis_library/', './examples/',
+                              './default_configs/')):
     """Find all equation files in the NRWAL library to include as package data
     for pip install.
 
@@ -47,8 +48,8 @@ def find_equation_files(extensions=('.yaml', '.yml', '.json'),
     ----------
     extensions : list | tuple
         List of equation file extensions to include as part of the install.
-    path : str
-        Directory of equation files to include in install.
+    path : str | list
+        Directory(s) of equation files to include in install.
 
     Returns
     -------
@@ -58,11 +59,16 @@ def find_equation_files(extensions=('.yaml', '.yml', '.json'),
     """
 
     equation_files = []
-    for root, _, files in os.walk(path):
-        for fn in files:
-            if any([ext in fn for ext in extensions]):
-                fp = os.path.join(root, fn)
-                equation_files.append(fp.replace(path, ''))
+    if isinstance(path, (list, tuple)):
+        for p in path:
+            equation_files += find_equation_files(extensions=extensions,
+                                                  path=p)
+    else:
+        for root, _, files in os.walk(path):
+            for fn in files:
+                if any([ext in fn for ext in extensions]):
+                    fp = os.path.join(root, fn)
+                    equation_files.append(fp.replace(path, ''))
 
     return equation_files
 
