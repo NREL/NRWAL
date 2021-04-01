@@ -38,9 +38,7 @@ class PostDevelopCommand(develop):
         develop.run(self)
 
 
-def find_equation_files(extensions=('.yaml', '.yml', '.json'),
-                        path=('./analysis_library/', './examples/',
-                              './default_configs/')):
+def find_equation_files(extensions=('.yaml', '.yml', '.json'), path='./'):
     """Find all equation files in the NRWAL library to include as package data
     for pip install.
 
