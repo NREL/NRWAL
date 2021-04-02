@@ -32,9 +32,24 @@ Welcome to NRWAL!
 
 .. inclusion-intro
 
-NRWAL stands for The National Renewable Energy Laboratory Wind Analysis Libray (NRWAL).
+The National Renewable Energy Laboratory Wind Analysis Library (NRWAL):
 
-`Equation Library <https://github.com/NREL/NRWAL/tree/main/NRWAL/analysis_library>`_.
+1. A library of wind cost equations 
+2. Dynamic python tools for intuitive equation handling
+3. Ready-to-use configs for basic users
+4. Easy equation manipulation without editing source code
+5. One seriously badass sea unicorn
+
+To get started with NRWAL, check out the `NRWAL Config documentation 
+<https://nrel.github.io/NRWAL/NRWAL/NRWAL.config.config.html>`_ or the 
+`NRWAL example notebook <https://github.com/NREL/NRWAL/blob/main/examples/example.ipynb>`_.
+You can also launch the notebook in an interactive jupyter shell 
+right in your browser without any downloads or software using 
+`binder <https://mybinder.org/v2/gh/NREL/NRWAL/HEAD>`_. 
+
+Here is the important stuff:
+
+`The NRWAL Equation Library <https://github.com/NREL/NRWAL/tree/main/NRWAL/analysis_library>`_.
 
 `Default NRWAL Configs <https://github.com/NREL/NRWAL/tree/main/NRWAL/default_configs>`_.
 
