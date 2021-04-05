@@ -22,7 +22,7 @@ Examples
 Simple Configuration File
 -------------------------
 
-The file `./2015/jacket_10MW_2015.yaml` is a simple example of running NRWAL
+The file ``./2015/jacket_10MW_2015.yaml`` is a simple example of running NRWAL
 without any cost reductions. The file is broken into sections:
 
 .. code-block::
@@ -48,7 +48,7 @@ without any cost reductions. The file is broken into sections:
 Cost Reductions
 ---------------
 
-The file `./2019/monopile_15MW_2025.yaml` includes cost reductions applied at
+The file ``./2019/monopile_15MW_2025.yaml`` includes cost reductions applied at
 the subcomponent level:
 
 .. code-block::
@@ -63,7 +63,7 @@ Interpolation
 -------------
 
 NRWAL can interpolate between turbine sizes and cost reduction years. An
-example of this is seen in file `./2019/jacket_8MW_2017.yaml`.
+example of this is seen in file ``./2019/jacket_8MW_2017.yaml``.
 
 .. code-block::
 
