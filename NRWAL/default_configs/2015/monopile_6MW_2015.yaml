@@ -2,7 +2,7 @@ interp_extrap_power:
     True
 interp_extrap_year:
     True
-
+    
 # Soft Cost Parameters
 fixed_charge_rate:
   0.071
@@ -35,15 +35,15 @@ tax_rate:
 turbine:
   2015::turbine::monopile_tower + 2015::turbine::rna
 turbine_install:
-  2015::turbine_install::monopile_10MW
+  2015::turbine_install::monopile_6MW
 substructure:
-  2015::monopile::transition_piece + 2015::fixed::outfitting
+  2015::monopile::transition_piece + 2015::fixed::outfitting_lt_8MW
 foundation:
   2015::monopile::foundation
 sub_install:
-  2015::monopile::install_10MW
+  2015::monopile::install_6MW
 pslt:
-  2015::monopile::pslt_10MW
+  2015::monopile::pslt_6MW
 array:
   2015::array::fixed
 export:

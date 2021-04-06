@@ -2,7 +2,7 @@ interp_extrap_power:
     True
 interp_extrap_year:
     True
-
+    
 # Soft Cost Parameters
 fixed_charge_rate:
   0.071
@@ -32,22 +32,24 @@ tax_rate:
   0.26
 
 # CapEx Equations
+cost_reductions:
+  2015::cost_reductions::floating
 turbine:
-  2015::turbine::monopile_tower + 2015::turbine::rna
+  2015::turbine::semi_tower + 2015::turbine::rna * (1 - cost_reductions::rna_2025)
 turbine_install:
-  2015::turbine_install::monopile_10MW
+  2015::turbine_install::semi_10MW * (1 - cost_reductions::turbine_install_2025)
 substructure:
-  2015::monopile::transition_piece + 2015::fixed::outfitting
+  (2015::semi::stiffened_column + 2015::semi::truss + 2015::semi::heave_plate + 2015::semi::outfitting) * (1 - cost_reductions::substructure_2025)
 foundation:
-  2015::monopile::foundation
+  (2015::floating::mooring + 2015::floating::anchors) * (1 - cost_reductions::foundation_2025)
 sub_install:
-  2015::monopile::install_10MW
+  2015::semi::install_10MW * (1 - cost_reductions::sub_and_found_install_2025)
 pslt:
-  2015::monopile::pslt_10MW
+  2015::semi::pslt_10MW
 array:
-  2015::array::fixed
+  2015::array::floating * (1 - cost_reductions::array_cable_2025)
 export:
-  2015::export::fixed
+  2015::export::floating * (1 - cost_reductions::export_cable_2025)
 grid:
   2015::grid::grid_connection
 
@@ -63,7 +65,7 @@ subcomponents:
 
 # BOS CapEx
 development:
-  development_factor * (subcomponents + turbine)
+  (development_factor * (subcomponents + turbine)) * (1 - cost_reductions::development_2025)
 proj_mgmt:
   proj_mgmt_factor * (subcomponents + turbine)
 bos:
@@ -91,29 +93,29 @@ capex:
 
 # Total OpEx
 operations:
-  18880383
+  18880383 * (1 - cost_reductions::operations_2025)
 maintenance:
-  2015::maintenance::fixed
+  2015::maintenance::semi * (1 - cost_reductions::maintenance_2025)
 opex:
   operations + maintenance
 
 # NCF
 adjusted_gcf:
-  gcf * (0.006 * turbine_capacity + 0.9691)
+  (gcf * (0.006 * turbine_capacity + 0.9691)) * (1 + cost_reductions::gross_aep_2025)
 wake:
   2015::losses::wake
 elec:
   2015::losses::electrical
 avail:
-  2015::losses::avail_fixed
+  2015::losses::avail_semi
 environmental:
   2015::losses::environmental
 technical:
-  2015::losses::technical_fixed
+  2015::losses::technical_floating
 site_specific:
   1 - (1 - wake) * (1 - elec) * (1 - avail)
 total_losses:
-  1 - (1 - environmental) * (1 - technical) * (1 - site_specific)
+  (1 - (1 - environmental) * (1 - technical) * (1 - site_specific)) * (1 - cost_reductions::total_losses_2025)
 ncf:
   adjusted_gcf * (1 - total_losses)
 

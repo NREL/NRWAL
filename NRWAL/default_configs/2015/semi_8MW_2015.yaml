@@ -2,7 +2,7 @@ interp_extrap_power:
     True
 interp_extrap_year:
     True
-
+    
 # Soft Cost Parameters
 fixed_charge_rate:
   0.071
@@ -33,21 +33,21 @@ tax_rate:
 
 # CapEx Equations
 turbine:
-  2015::turbine::monopile_tower + 2015::turbine::rna
+  2015::turbine::semi_tower + 2015::turbine::rna
 turbine_install:
-  2015::turbine_install::monopile_10MW
+  2015::turbine_install::semi_8MW
 substructure:
-  2015::monopile::transition_piece + 2015::fixed::outfitting
+  2015::semi::stiffened_column + 2015::semi::truss + 2015::semi::heave_plate + 2015::semi::outfitting
 foundation:
-  2015::monopile::foundation
+  2015::floating::mooring + 2015::floating::anchors
 sub_install:
-  2015::monopile::install_10MW
+  2015::semi::install_8MW
 pslt:
-  2015::monopile::pslt_10MW
+  2015::semi::pslt_8MW
 array:
-  2015::array::fixed
+  2015::array::floating
 export:
-  2015::export::fixed
+  2015::export::floating
 grid:
   2015::grid::grid_connection
 
@@ -93,7 +93,7 @@ capex:
 operations:
   18880383
 maintenance:
-  2015::maintenance::fixed
+  2015::maintenance::semi
 opex:
   operations + maintenance
 
@@ -105,11 +105,11 @@ wake:
 elec:
   2015::losses::electrical
 avail:
-  2015::losses::avail_fixed
+  2015::losses::avail_semi
 environmental:
   2015::losses::environmental
 technical:
-  2015::losses::technical_fixed
+  2015::losses::technical_floating
 site_specific:
   1 - (1 - wake) * (1 - elec) * (1 - avail)
 total_losses:
