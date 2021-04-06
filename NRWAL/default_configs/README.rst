@@ -17,6 +17,15 @@ building new configurations. NRWAL currently includes recreations of the ORCA
 model and the folders "2015" and "2019" correspond to original version of ORCA
 and the updated version, respectively.
 
+Naming Convention
+-----------------
+
+The files in this directory are named by the substructure technology, turbine
+size and expected commercial operation date (COD). For example, the config file
+``./2019/monopile_15MW_2028.yaml`` models an offshore wind farm with monopiles,
+15MW turbines, and a COD of 2028. This config uses the 2019 cost curves
+developed by NREL.
+
 Examples
 ========
 
