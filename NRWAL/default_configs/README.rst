@@ -12,9 +12,10 @@ Default Configurations
 ======================
 
 The files in this directory represent complete NRWAL configurations that can be
-used as examples or templates for building new configurations. NRWAL currently
-includes recreations of the ORCA model and the folders "2015" and "2019"
-correspond to original version of ORCA and the updated version, respectively. 
+used out-of-the-box for wind cost analysis, or as examples / templates for
+building new configurations. NRWAL currently includes recreations of the ORCA
+model and the folders "2015" and "2019" correspond to original version of ORCA
+and the updated version, respectively.
 
 Examples
 ========
@@ -22,15 +23,15 @@ Examples
 Simple Configuration File
 -------------------------
 
-The file ``./2015/jacket_10MW_2015.yaml`` is a simple example of running NRWAL
-without any cost reductions. The file is broken into sections:
+The config file ``./2015/jacket_10MW_2015.yaml`` is a simple example of running
+NRWAL without any cost reductions. The file is broken into sections:
 
 .. code-block::
 
    # Parameters
    fixed_charge_rate:
      0.071
-   
+
    # CapEx Equations
    turbine:
      2015::turbine::jacket_tower + 2015::turbine::rna  <--- NRWAL equations
@@ -48,8 +49,8 @@ without any cost reductions. The file is broken into sections:
 Cost Reductions
 ---------------
 
-The file ``./2019/monopile_15MW_2025.yaml`` includes cost reductions applied at
-the subcomponent level:
+The config file ``./2019/monopile_15MW_2025.yaml`` includes cost reductions
+estimated at a 2025 build year applied at the subcomponent level:
 
 .. code-block::
 
@@ -62,7 +63,8 @@ the subcomponent level:
 Interpolation
 -------------
 
-NRWAL can interpolate between turbine sizes and cost reduction years. An
+NRWAL can interpolate between turbine sizes and cost reduction years using the
+``interp_extrap_power`` and ``interp_extrap_year`` arguments in the config. An
 example of this is seen in file ``./2019/jacket_8MW_2017.yaml``.
 
 .. code-block::
