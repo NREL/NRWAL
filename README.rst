@@ -58,8 +58,38 @@ Here is the important stuff:
 Installing NRWAL
 ================
 
-NRWAL Inputs
-================
+Option 1: Install from PIP or Conda (recommended for analysts):
+---------------------------------------------------------------
+
+1. Create a new environment:
+    ``conda create --name nrwal``
+
+2. Activate directory:
+    ``conda activate nrwal``
+
+3. Install reVX:
+    1) ``pip install NREL-NRWAL`` or
+    2) ``conda install nrel-nrwal --channel=nrel``
+
+Option 2: Clone repo (recommended for developers)
+-------------------------------------------------
+
+1. from home dir, ``git clone https://github.com/NREL/NRWAL.git``
+    1) enter github username
+    2) enter github password
+
+2. Create ``NRWAL`` environment and install package
+    1) Create a conda env: ``conda create -n nrwal``
+    2) Run the command: ``conda activate nrwal``
+    3) cd into the repo cloned in 1.
+    4) prior to running ``pip`` below, make sure the branch is correct (install
+       from master!)
+    5) Install ``NRWAL`` and its dependencies by running:
+       ``pip install .`` (or ``pip install -e .`` if running a dev branch
+       or working on the source code)
+
+NRWAL Variables
+===============
 
 .. list-table:: NRWAL Inputs
     :widths: auto
