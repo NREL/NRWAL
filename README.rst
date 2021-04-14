@@ -34,18 +34,18 @@ Welcome to NRWAL!
 
 The National Renewable Energy Laboratory Wind Analysis Library (NRWAL):
 
-1. A library of wind cost equations 
+1. A library of wind cost equations
 2. Dynamic python tools for intuitive equation handling
 3. Ready-to-use configs for basic users
 4. Easy equation manipulation without editing source code
 5. One seriously badass sea unicorn
 
-To get started with NRWAL, check out the `NRWAL Config documentation 
-<https://nrel.github.io/NRWAL/NRWAL/NRWAL.config.config.html>`_ or the 
+To get started with NRWAL, check out the `NRWAL Config documentation
+<https://nrel.github.io/NRWAL/NRWAL/NRWAL.config.config.html>`_ or the
 `NRWAL example notebook <https://github.com/NREL/NRWAL/blob/main/examples/example.ipynb>`_.
-You can also launch the notebook in an interactive jupyter shell 
-right in your browser without any downloads or software using 
-`binder <https://mybinder.org/v2/gh/NREL/NRWAL/HEAD>`_. 
+You can also launch the notebook in an interactive jupyter shell
+right in your browser without any downloads or software using
+`binder <https://mybinder.org/v2/gh/NREL/NRWAL/HEAD>`_.
 
 Here is the important stuff:
 
@@ -54,3 +54,82 @@ Here is the important stuff:
 `Default NRWAL Configs <https://github.com/NREL/NRWAL/tree/main/NRWAL/default_configs>`_.
 
 `NRWAL Code Base <https://github.com/NREL/NRWAL/tree/master/NRWAL>`_.
+
+Installing NRWAL
+================
+
+NRWAL Inputs
+================
+
+.. list-table:: NRWAL Inputs
+    :widths: auto
+    :header-rows: 1
+
+    * - Variable Name
+      - Long Name
+      - Source
+      - Units
+    * - `aeff`
+      - Array Efficiency
+      - `array_efficiency` input layer, computed from ORBIT
+      - `%`
+    * - `capex_multi`
+      - CAPEX Multiplier
+      - Supplied by user
+      - unit-less
+    * - `depth`
+      - Water depth
+      - `bathymetry` input layer
+      - m (?)
+    * - `dist_a_to_s`
+      - Distance from assembly area to site
+      - Computed from `assembly_area` input layer
+      - km
+    * - `dist_op_to_s`
+      - Distance from operating port to site
+      - `ports_operations` input layer
+      - km
+    * - `dist_p_to_a`
+      - Distance from port (construction no-limit) to assembly area
+      - `assembly_area` input layer
+      - km
+    * - `dist_p_to_s`
+      - Distance from construction port to site
+      - `ports_construction` input layer
+      - km
+    * - `dist_p_to_s_nolimit`
+      - Distance from no-limit construction port to site
+      - `ports_construction_nolimit` input layer
+      - km
+    * - `dist_s_to_l`
+      - Distance site to nearest land
+      - `dist_to_coast` input layer
+      - km
+    * - `fixed_downtime`
+      - Average weather downtime for fixed structure turbines
+      - `weather_downtime_fixed_bottom` input layer
+      - hr (?)
+    * - `floating_downtime`
+      - Average weather downtime for floating structure turbines
+      - `weather_downtime_floating` input layer
+      - hr (?)
+    * - `gcf`
+      - Gross capacity factor
+      - Computed by reV / SAM with losses == 0
+      - unit-less
+    * - `hs_average`
+      - Average weather downtime due to significant wave height
+      - `weather_downtime_mean_wave_height_buoy` input layer
+      - hr (?)
+    * - `num_turbines`
+      - Number of turbines in array
+      - Supplied by user
+      - unit-less
+    * - `transmission_multi`
+      - Tranmission cost multiplier
+      - Supplied by user
+      - unit-less
+    * - `turbine_capacity`
+      - Capacity of each turbine in the array
+      - Supplied by user
+      - MW
