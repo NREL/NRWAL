@@ -110,7 +110,7 @@ NRWAL Variables
     * - `depth`
       - Water depth
       - `bathymetry` input layer
-      - m (?)
+      - m
     * - `dist_a_to_s`
       - Distance from assembly area to site
       - Computed from `assembly_area` input layer
