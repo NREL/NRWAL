@@ -108,7 +108,7 @@ NRWAL Variables
       - Supplied by user
       - unit-less
     * - `depth`
-      - Water depth
+      - Water depth (positive values)
       - `bathymetry` input layer
       - m
     * - `dist_a_to_s`
@@ -138,19 +138,19 @@ NRWAL Variables
     * - `fixed_downtime`
       - Average weather downtime for fixed structure turbines
       - `weather_downtime_fixed_bottom` input layer
-      - hr (?)
+      - fraction
     * - `floating_downtime`
       - Average weather downtime for floating structure turbines
       - `weather_downtime_floating` input layer
-      - hr (?)
+      - fraction
     * - `gcf`
       - Gross capacity factor
       - Computed by reV / SAM with losses == 0
       - unit-less
     * - `hs_average`
-      - Average weather downtime due to significant wave height
+      - Significant wave height to determine weather downtime
       - `weather_downtime_mean_wave_height_buoy` input layer
-      - hr (?)
+      - m
     * - `num_turbines`
       - Number of turbines in array
       - Supplied by user
