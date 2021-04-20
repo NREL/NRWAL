@@ -26,6 +26,9 @@ Welcome to NRWAL!
 .. image:: https://codecov.io/gh/nrel/NRWAL/branch/master/graph/badge.svg?token=3J5M44VAA9
     :target: https://codecov.io/gh/nrel/NRWAL
 
+.. image:: https://zenodo.org/badge/319377095.svg
+   :target: https://zenodo.org/badge/latestdoi/319377095
+
 .. image:: https://mybinder.org/badge_logo.svg
     :target: https://mybinder.org/v2/gh/NREL/NRWAL/HEAD
 
@@ -163,3 +166,8 @@ NRWAL Variables
       - Capacity of each turbine in the array
       - Supplied by user
       - MW
+
+Recommended Citation
+====================
+
+Grant Buster, Jake Nunemaker, and Michael Rossol. The National Renewable Energy Laboratory Wind Analysis Libray (NRWAL). https://github.com/NREL/NRWAL (version v0.0.2), 2021. https://doi.org/10.5281/zenodo.4705961.
