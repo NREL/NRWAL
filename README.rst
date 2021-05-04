@@ -26,6 +26,9 @@ Welcome to NRWAL!
 .. image:: https://codecov.io/gh/nrel/NRWAL/branch/master/graph/badge.svg?token=3J5M44VAA9
     :target: https://codecov.io/gh/nrel/NRWAL
 
+.. image:: https://zenodo.org/badge/319377095.svg
+   :target: https://zenodo.org/badge/latestdoi/319377095
+
 .. image:: https://mybinder.org/badge_logo.svg
     :target: https://mybinder.org/v2/gh/NREL/NRWAL/HEAD
 
@@ -108,7 +111,7 @@ NRWAL Variables
       - Supplied by user
       - unit-less
     * - `depth`
-      - Water depth
+      - Water depth (positive values)
       - `bathymetry` input layer
       - m
     * - `dist_a_to_s`
@@ -138,19 +141,19 @@ NRWAL Variables
     * - `fixed_downtime`
       - Average weather downtime for fixed structure turbines
       - `weather_downtime_fixed_bottom` input layer
-      - hr (?)
+      - fraction
     * - `floating_downtime`
       - Average weather downtime for floating structure turbines
       - `weather_downtime_floating` input layer
-      - hr (?)
+      - fraction
     * - `gcf`
       - Gross capacity factor
       - Computed by reV / SAM with losses == 0
       - unit-less
     * - `hs_average`
-      - Average weather downtime due to significant wave height
+      - Significant wave height to determine weather downtime
       - `weather_downtime_mean_wave_height_buoy` input layer
-      - hr (?)
+      - m
     * - `num_turbines`
       - Number of turbines in array
       - Supplied by user
@@ -163,3 +166,8 @@ NRWAL Variables
       - Capacity of each turbine in the array
       - Supplied by user
       - MW
+
+Recommended Citation
+====================
+
+Grant Buster, Jake Nunemaker, and Michael Rossol. The National Renewable Energy Laboratory Wind Analysis Libray (NRWAL). https://github.com/NREL/NRWAL (version v0.0.2), 2021. https://doi.org/10.5281/zenodo.4705961.
