@@ -1,3 +1,10 @@
+.. toctree::
+   :hidden:
+
+   Home page <self>
+   Installation and Usage <misc/installation_usage>
+   API reference <_autosummary/phygnn>
+
 NRWAL documentation
 *******************
 
@@ -6,17 +13,3 @@ What is NRWAL?
 
 .. include:: ../../README.rst
    :start-after: inclusion-intro
-
-.. toctree::
-   :maxdepth: 3
-   :caption: Contents:
-
-   misc/misc
-   NRWAL/NRWAL
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
