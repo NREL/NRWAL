@@ -560,28 +560,33 @@ class NrwalConfig:
         for op_str, op_fun in op_map.items():
             if op_str in expression:
                 split = expression.partition(op_str)
-                v1, v2 = split[0].strip(), split[2].strip()
 
-                out1 = gvars.get(v1, None)
-                if out1 is None:
-                    out1 = cls._parse_expression(v1, config, eqn_dir, gvars,
-                                                 name=v1)
-                elif Equation.is_num(out1):
-                    out1 = Equation(out1, name=v1)
+                if op_str == '-' and expression[0] == op_str:
+                    # ignore leading minus sign (negative number)
+                    pass
+                else:
+                    v1, v2 = split[0].strip(), split[2].strip()
 
-                out2 = gvars.get(v2, None)
-                if out2 is None:
-                    out2 = cls._parse_expression(v2, config, eqn_dir, gvars,
-                                                 name=v2)
-                elif Equation.is_num(out2):
-                    out2 = Equation(out2, name=v2)
+                    out1 = gvars.get(v1, None)
+                    if out1 is None:
+                        out1 = cls._parse_expression(v1, config, eqn_dir, gvars,
+                                                     name=v1)
+                    elif Equation.is_num(out1):
+                        out1 = Equation(out1, name=v1)
 
-                out = op_fun(out1, out2)
+                    out2 = gvars.get(v2, None)
+                    if out2 is None:
+                        out2 = cls._parse_expression(v2, config, eqn_dir, gvars,
+                                                     name=v2)
+                    elif Equation.is_num(out2):
+                        out2 = Equation(out2, name=v2)
 
-                # need to break look on the first found operator because
-                # subsequent operators will be found in the recursive
-                # call to _parse_expression()
-                break
+                    out = op_fun(out1, out2)
+
+                    # need to break look on the first found operator because
+                    # subsequent operators will be found in the recursive
+                    # call to _parse_expression()
+                    break
 
         return out
 
