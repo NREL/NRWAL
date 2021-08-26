@@ -110,7 +110,7 @@ def test_eqn_math(operator):
     assert eqn2.full in eqn3.full
     assert str(eqn1) in str(eqn4)
     assert eqn1.full in eqn4.full
-    assert '{} (3)'.format(operator) in eqn4.full
+    assert '{} 3'.format(operator) in eqn4.full
 
     args1 = {k: 2 for k in eqn1.variables}
     args2 = {k: 2 for k in eqn2.variables}
