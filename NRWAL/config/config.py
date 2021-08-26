@@ -528,7 +528,7 @@ class NrwalConfig:
 
         assert Equation.is_equation(expression)
 
-        if any([c in expression for c in ('[', ']', '{', '}')]):
+        if any(c in expression for c in ('[', ']', '{', '}')):
             msg = ('Cannot parse config expression with square or curly '
                    'brackets: {}'.format(expression))
             logger.error(msg)
