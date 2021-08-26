@@ -24,6 +24,7 @@ FP_GOOD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_2.yml')
 FP_GOOD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_3.yml')
 FP_GOOD_4 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_4.yaml')
 FP_GOOD_5 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_5.yaml')
+FP_GOOD_6 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_6.yaml')
 
 
 def test_good_config_parsing():
@@ -246,3 +247,28 @@ def test_config_reference_bad():
     another config"""
     with pytest.raises(AssertionError):
         _ = NrwalConfig(FP_BAD_2)
+
+
+def test_leading_negative():
+    """Test config with equations that have leading negative signs or
+    negative signs attached to variables"""
+    obj = NrwalConfig(FP_GOOD_6)
+    assert '()' not in obj['test1'].full
+    assert '()' not in obj['test2'].full
+    assert '()' not in obj['test3'].full
+    assert '()' not in obj['test4'].full
+    assert '()' not in obj['test5'].full
+    assert '()' not in obj['test6'].full
+
+    out = obj.evaluate({k: 2 for k in obj.required_inputs})
+    bos = out['bos']
+    install = out['install']
+    pslt = out['pslt']
+    turbine = out['turbine']
+
+    assert np.allclose(obj['test1'], bos - install + pslt + turbine)
+    assert np.allclose(obj['test2'], -bos - install + pslt + turbine)
+    assert np.allclose(obj['test3'], install - bos + pslt + turbine)
+    assert np.allclose(obj['test4'], -(bos - install) + pslt + turbine)
+    assert np.allclose(obj['test5'], -(bos * install) + pslt + turbine)
+    assert np.allclose(obj['test6'], -(bos * install) + pslt * -turbine)
