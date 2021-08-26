@@ -528,7 +528,7 @@ class NrwalConfig:
 
         assert Equation.is_equation(expression)
 
-        if any([c in expression for c in ('[', ']', '{', '}')]):
+        if any(c in expression for c in ('[', ']', '{', '}')):
             msg = ('Cannot parse config expression with square or curly '
                    'brackets: {}'.format(expression))
             logger.error(msg)
@@ -556,33 +556,88 @@ class NrwalConfig:
         op_map['/'] = operator.truediv
         op_map['^'] = operator.pow
 
-        expression = expression.replace('**', '^')
-        for op_str, op_fun in op_map.items():
-            if op_str in expression:
-                split = expression.partition(op_str)
-                v1, v2 = split[0].strip(), split[2].strip()
-
-                out1 = gvars.get(v1, None)
-                if out1 is None:
-                    out1 = cls._parse_expression(v1, config, eqn_dir, gvars,
-                                                 name=v1)
-                elif Equation.is_num(out1):
-                    out1 = Equation(out1, name=v1)
-
-                out2 = gvars.get(v2, None)
-                if out2 is None:
-                    out2 = cls._parse_expression(v2, config, eqn_dir, gvars,
-                                                 name=v2)
-                elif Equation.is_num(out2):
-                    out2 = Equation(out2, name=v2)
-
-                out = op_fun(out1, out2)
-
+        out = None
+        expr = expression.replace('**', '^')
+        for ops, fun in op_map.items():
+            if ops in expr:
                 # need to break look on the first found operator because
                 # subsequent operators will be found in the recursive
                 # call to _parse_expression()
-                break
 
+                expr_short = expr.replace(' ', '')
+                iop = expr_short.index(ops)
+
+                if ops == '-' and iop > 0 and expr_short[iop - 1] in op_map:
+                    # operation (e.g. * ^ /) on a minus sign (e.g. *-var)
+                    pass
+
+                elif ops == '-' and expr[0] == ops and expr.count('-') == 1:
+                    # ignore leading minus sign (negative number)
+                    out = cls._parse_expression_part(expr[1:], config, eqn_dir,
+                                                     gvars)
+                    out = Equation(-1) * out
+                    break
+
+                elif ops == '-' and expr[0] == ops and expr.count('-') > 1:
+                    # negative variable minus another variable - ignore first
+                    # negative when splitting string
+                    split = expr[1:].partition(ops)
+                    v1, v2 = split[0].strip(), split[2].strip()
+                    v1 = '-' + v1
+                    out1 = cls._parse_expression_part(v1, config, eqn_dir,
+                                                      gvars)
+                    out2 = cls._parse_expression_part(v2, config, eqn_dir,
+                                                      gvars)
+                    out = fun(out1, out2)
+                    break
+
+                else:
+                    # normal operation on two numbers / variables
+                    split = expr.partition(ops)
+                    v1, v2 = split[0].strip(), split[2].strip()
+                    out1 = cls._parse_expression_part(v1, config, eqn_dir,
+                                                      gvars)
+                    out2 = cls._parse_expression_part(v2, config, eqn_dir,
+                                                      gvars)
+                    out = fun(out1, out2)
+                    break
+
+        if out is None:
+            msg = 'Failed to parse expression: {}'.format(expr)
+            logger.error(msg)
+            raise RuntimeError(msg)
+
+        return out
+
+    @classmethod
+    def _parse_expression_part(cls, expr_part, config, eqn_dir, gvars):
+        """Parse a part of an expression that contains arithmetic ops
+
+        Parameters
+        ----------
+        expr_part : str
+            A string entry in the config (part of the eqn string)
+            that is being operated on.
+        config : dict
+            NRWAL config dictionary mapping names (str) to expressions (str)
+        eqn_dir : EquationDirectory
+            EquationDirectory object holding Equation objects available to
+            this config.
+        gvars : dict
+            Dictionary of global variables (constant numerical values)
+            available within this config object.
+
+        Returns
+        -------
+        out : Equation
+            NRWAL Equation object representing the input equation
+        """
+        out = gvars.get(expr_part, None)
+        if out is None:
+            out = cls._parse_expression(expr_part, config, eqn_dir, gvars,
+                                        name=expr_part)
+        elif Equation.is_num(out):
+            out = Equation(out, name=expr_part)
         return out
 
     def __getitem__(self, key):

@@ -55,6 +55,8 @@ confidence=
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
 disable=
+        # Custom
+        unspecified-encoding,
         # Defaults
         print-statement,
         parameter-unpacking,

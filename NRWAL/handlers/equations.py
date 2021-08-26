@@ -92,7 +92,14 @@ class Equation:
         if not isinstance(other, Equation):
             other = cls(other)
 
-        new_eqn = '({}) {} ({})'.format(self._eqn, operator, other._eqn)
+        arg1 = self._eqn
+        arg2 = other._eqn
+        if not self.is_num(arg1) and not self.is_variable(arg1):
+            arg1 = '({})'.format(arg1)
+        if not self.is_num(arg2) and not self.is_variable(arg2):
+            arg2 = '({})'.format(arg2)
+
+        new_eqn = '{} {} {}'.format(arg1, operator, arg2)
         new_str = '({} {} {})'.format(self, operator, other)
         def_vars = copy.deepcopy(self._default_variables)
         def_vars.update(other._default_variables)
@@ -301,6 +308,18 @@ class Equation:
     def is_method(s):
         """Check if a string is a numpy/pandas or python builtin method"""
         return bool(s.startswith(('np.', 'pd.')) or s in dir(__builtins__))
+
+    @classmethod
+    def is_variable(cls, s):
+        """Check if a string is a variable name without any constants,
+        operators, or arithmetic expressions"""
+        flags = ('(', ')', '[', ']', '+', '-', '/', '*',  '^', ' ')
+        if cls.is_num(s):
+            return False
+        elif any(f in s for f in flags):
+            return False
+        else:
+            return True
 
     @property
     def full(self):

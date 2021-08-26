@@ -198,7 +198,7 @@ def test_dir_parenthesis_retrieval():
     truth = ('(2 * (lattice(depth, lattice_cost, turbine_capacity) '
              '+ outfitting_8MW(depth, outfitting_cost)))')
     assert str(eqn) == truth
-    truth = ('(2) * (((np.exp(3.7136 + 0.00176 * turbine_capacity '
+    truth = ('2 * (((np.exp(3.7136 + 0.00176 * turbine_capacity '
              '** 2.5 + 0.645 * np.log(depth))) * lattice_cost) '
              '+ ((40 + (0.8 * (18 + depth))) * outfitting_cost))')
     assert eqn.full == truth
