@@ -1,0 +1,20 @@
+inter_array_length:
+    cable_overbuild_scalar * ((devices_per_row - 1) * device_spacing_in_row
+    * number_rows + row_spacing * (number_rows - 1))
+riser_length:
+    is_floating * cable_overbuild_scalar * (1.5 * depth * number_devices)
+export_length:
+    cable_overbuild_scalar * export_cable_redundancy
+    * (depth + dist_s_to_l * 1000)
+array:
+    (4.40 * (device_rated_power * devices_per_row / 1000.0) + 162.81)
+    * inter_array_length + (4.40 * (device_rated_power / 1000.0) + 162.81)
+    * riser_length
+export:
+    (4.40 * system_capacity_MW + 162.81) * export_length
+offshore_substation:
+    100000.0 * system_capacity_MW
+other_elec_infra:
+    47966.16 * system_capacity_MW + 665841.0
+electrical_costs:
+    array + export + offshore_substation + other_elec_infra

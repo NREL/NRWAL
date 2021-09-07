@@ -1,0 +1,5 @@
+plant_commissioning: 0.016
+site_access_port_staging: 0.011
+project_contingency: 0.05
+insurance_during_construction: 0.01
+reserve_accounts: 0.03
