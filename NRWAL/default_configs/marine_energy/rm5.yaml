@@ -15,21 +15,36 @@ system_capacity_MW:
 annual_energy:
   cf_mean * system_capacity_MW * 8760
 
-device_costs:
+power_takeoff:
+  marine_energy::device::power_takeoff_rm5
+assembly:
   marine_energy::device::assembly_rm5
-  + marine_energy::device::power_takeoff_rm5
-  + marine_energy::device::mooring_found_substruc_rm5
-
-bos_costs:
+mooring_found_substruc:
+  marine_energy::device::mooring_found_substruc_rm5
+development:
   marine_energy::bos::development
-  + marine_energy::bos::eng_and_mgmt
-  + marine_energy::bos::assembly_and_install
+eng_and_mgmt:
+  marine_energy::bos::eng_and_mgmt
+assembly_and_install:
+  marine_energy::bos::assembly_and_install
+offshore_substation:
+  marine_energy::electrical::offshore_substation
+other_elec_infra:
+  marine_energy::electrical::other_elec_infra
+array:
+  marine_energy::electrical::array
+export:
+  marine_energy::electrical::export
+
+device_costs:
+  assembly + power_takeoff + mooring_found_substruc
+bos_costs:
+  development + eng_and_mgmt + assembly_and_install
+electrical_costs:
+  marine_energy::electrical::electrical_costs
 
 capex:
-  device_costs
-  + bos_costs
-  + marine_energy::electrical::electrical_costs
-  + other_infrastructure
+  device_costs + bos_costs + electrical_costs + other_infrastructure
 
 cost_scalars:
   (marine_energy::variables::plant_commissioning
