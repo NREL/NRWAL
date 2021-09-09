@@ -16,7 +16,7 @@ annual_energy:
   cf_mean * system_capacity_MW * 8760
 
 device_costs:
-  marine_energy::device::structural_assembly_rm6
+  marine_energy::device::assembly_rm6
   + marine_energy::device::power_takeoff_rm6
   + marine_energy::device::mooring_found_substruc_rm6
 

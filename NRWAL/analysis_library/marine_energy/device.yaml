@@ -9,15 +9,15 @@ assembly_rm5:
 assembly_rm6:
   13320092 * system_capacity_MW + 6681164
 
-power_take_off_generic:
+power_takeoff_generic:
   1179579 * system_capacity_MW + 2495107
-power_take_off_rm1:
+power_takeoff_rm1:
   1527017 * system_capacity_MW + 505548
-power_take_off_rm3:
+power_takeoff_rm3:
   2081129 * system_capacity_MW ** 0.91
-power_take_off_rm5:
+power_takeoff_rm5:
   1600927 * system_capacity_MW ** 0.91
-power_take_off_rm6:
+power_takeoff_rm6:
   3796551 * system_capacity_MW ** 0.78
 
 mooring_found_substruc_generic:
