@@ -156,7 +156,7 @@ class AbstractGroup(ABC):
         op_map['^'] = operator.pow
         key = key.replace('**', '^')
 
-        if any([c in key for c in ('[', ']', '{', '}')]):
+        if any(c in key for c in ('[', ']', '{', '}')):
             msg = ('Cannot parse EquationGroup key with square or curly '
                    'brackets: {}'.format(key))
             logger.error(msg)
@@ -220,7 +220,7 @@ class AbstractGroup(ABC):
             workspace = {}
 
         operators = ('+', '-', '*', '/', '^')
-        if any([op in key for op in operators]):
+        if any(op in key for op in operators):
             return self._getitem_math(self, key, workspace)
 
         if key not in self and Equation.is_num(key):
@@ -698,26 +698,26 @@ class EquationGroup(AbstractGroup):
 
         return '\n'.join(s)
 
-    def _parse_group(self, eqn_group):
+    def _parse_group(self, group):
         """Parse a group of equation strings defined in a yaml or json file
 
         Parameters
         ----------
-        eqn_group : str | dict
+        group : str | dict
             String filepath to a yaml or json file containing one or more
             equation strings OR a pre-extracted dictionary from a yaml or
             json file with equation strings as values.
 
         Returns
         -------
-        eqn_group : dict
+        group : dict
             Loaded dictionary from a yaml or json file with equation strings
             or nested equation group dictionaries as values.
         """
 
-        eqn_group = super()._parse_group(eqn_group)
+        group = super()._parse_group(group)
 
-        for k, v in sorted(eqn_group.items()):
+        for k, v in sorted(group.items()):
             if Equation.is_num(k):
                 msg = ('You cannot use numbers as keys in group "{}"'
                        .format(self._base_name))
@@ -725,11 +725,11 @@ class EquationGroup(AbstractGroup):
                 raise ValueError(msg)
 
             if isinstance(v, (str, int, float)):
-                eqn_group[k] = Equation(v, name=k)
+                group[k] = Equation(v, name=k)
 
             elif isinstance(v, dict):
                 cls = self.__class__
-                eqn_group[k] = cls(
+                group[k] = cls(
                     v, name=k, interp_extrap_power=self._interp_extrap_power,
                     use_nearest_power=self._use_nearest_power,
                     interp_extrap_year=self._interp_extrap_year,
@@ -742,7 +742,18 @@ class EquationGroup(AbstractGroup):
                 logger.error(msg)
                 raise TypeError(msg)
 
-        return eqn_group
+        # if input variables for an equation are found in the same group, just
+        # insert the equations corresponding to those variables
+        working = True
+        while working:
+            working = False
+            for eqn in [v for v in group.values() if isinstance(v, Equation)]:
+                for var in [v for v in eqn.variables if v in group]:
+                    repl_str = '({})'.format(group[var]._eqn)
+                    eqn._eqn = eqn._eqn.replace(var, repl_str)
+                    working = True
+
+        return group
 
     @property
     def default_variables(self):
@@ -775,26 +786,26 @@ class VariableGroup(AbstractGroup):
         """
         return self._group
 
-    def _parse_group(self, var_group):
+    def _parse_group(self, group):
         """Parse a group of numerical variables defined in a yaml or json file
 
         Parameters
         ----------
-        var_group : str | dict
+        group : str | dict
             String filepath to a yaml or json file containing one or more
             numerical variable definitions OR a pre-extracted dictionary
             from a yaml or json file with variable definitions.
 
         Returns
         -------
-        var_group : dict
+        group : dict
             Loaded dictionary from a yaml or json file with numerical
             variable definitions
         """
 
-        var_group = super()._parse_group(var_group)
+        group = super()._parse_group(group)
 
-        for k, v in var_group.items():
+        for k, v in group.items():
             if Equation.is_num(k):
                 msg = ('You cannot use numbers as keys in group "{}"'
                        .format(self._base_name))
@@ -802,11 +813,11 @@ class VariableGroup(AbstractGroup):
                 raise ValueError(msg)
             if isinstance(v, int):
                 v = float(v)
-                var_group[k] = v
+                group[k] = v
             if not isinstance(v, float):
                 msg = ('Cannot use variable group value that is not a '
                        'float: {} ({})'.format(v, type(v)))
                 logger.error(msg)
                 raise TypeError(msg)
 
-        return var_group
+        return group

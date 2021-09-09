@@ -20,6 +20,8 @@ GOOD_DIR = os.path.join(TEST_DATA_DIR, 'test_eqns_dir/')
 FP_COST_REDUCTIONS = os.path.join(
     TEST_DATA_DIR, 'test_cost_reductions/cost_reductions.yaml')
 
+COMPLEX_GROUP = os.path.join(TEST_DATA_DIR, 'test_groups/complex_group.yaml')
+
 BAD_DIR = os.path.join(TEST_DATA_DIR, 'bad_eqn_dir/')
 BAD_FILE_TYPE = os.path.join(BAD_DIR, 'bad_file_type.txt')
 BAD_EQN = os.path.join(BAD_DIR, 'bad_list_eqn.yaml')
@@ -307,3 +309,27 @@ def test_group_bad_parenthesis_retrieval():
         obj['2 * {lattice + transition_piece}']
     with pytest.raises(AssertionError):
         obj['2 * (lattice + transition_piece']
+
+
+def test_complex_group():
+    """Test a complex equation group with locally referenced equations"""
+    obj = EquationGroup(COMPLEX_GROUP)
+    all_variables = []
+
+    for eqn in obj.all_equations:
+        all_variables += eqn.variables
+
+    assert 'test_double' not in all_variables
+    assert 'test_triple' not in all_variables
+    assert 'array' not in all_variables
+    assert 'export' not in all_variables
+
+    out = {}
+    for k, eqn in obj.items():
+        out[k] = eqn.eval(**{k: 2 for k in eqn.variables})
+
+    assert out['test_double'] == 2 * out['export']
+    assert out['test_triple'] == 6 * out['export']
+    truth = (out['array'] + out['export'] + out['offshore_substation']
+             + out['other_elec_infra'] + out['test_triple'])
+    assert out['electrical_costs'] == truth
