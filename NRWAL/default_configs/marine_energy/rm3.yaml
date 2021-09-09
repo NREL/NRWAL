@@ -32,11 +32,11 @@ capex:
   + other_infrastructure
 
 cost_scalars:
-  (plant_commissioning
-  + site_access_port_staging
-  + project_contingency
-  + insurance_during_construction
-  + reserve_accounts)
+  (marine_energy::variables::plant_commissioning
+  + marine_energy::variables::site_access_port_staging
+  + marine_energy::variables::project_contingency
+  + marine_energy::variables::insurance_during_construction
+  + marine_energy::variables::reserve_accounts)
 
 total_installed_cost:
   capex * (1 + cost_scalars)
@@ -45,7 +45,7 @@ total_installed_cost:
 capital_cost:
   total_installed_cost
 fixed_operating_cost:
-  operations + maintenance
+  marine_energy::om::operations + marine_energy::om::maintenance
 variable_operating_cost:
   0
 
