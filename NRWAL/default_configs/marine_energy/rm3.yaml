@@ -1,0 +1,69 @@
+fixed_charge_rate:
+  0.108
+export_cable_redundancy:
+  1.0
+cable_overbuild_scalar:
+  1.0
+is_floating:
+  1.0
+other_infrastructure:
+  0.0
+system_capacity_MW:
+  system_capacity / 1000
+
+# Annual energy needs to be MWh for LCOE to be $/MWh
+annual_energy:
+  cf_mean * system_capacity_MW * 8760
+
+power_takeoff:
+  marine_energy::device::power_takeoff_rm3
+assembly:
+  marine_energy::device::assembly_rm3
+mooring_found_substruc:
+  marine_energy::device::mooring_found_substruc_rm3
+development:
+  marine_energy::bos::development
+eng_and_mgmt:
+  marine_energy::bos::eng_and_mgmt
+assembly_and_install:
+  marine_energy::bos::assembly_and_install
+offshore_substation:
+  marine_energy::electrical::offshore_substation
+other_elec_infra:
+  marine_energy::electrical::other_elec_infra
+array:
+  marine_energy::electrical::array
+export:
+  marine_energy::electrical::export
+
+device_costs:
+  assembly + power_takeoff + mooring_found_substruc
+bos_costs:
+  development + eng_and_mgmt + assembly_and_install
+electrical_costs:
+  marine_energy::electrical::electrical_costs
+
+capex:
+  device_costs + bos_costs + electrical_costs + other_infrastructure
+
+cost_scalars:
+  (marine_energy::variables::plant_commissioning
+  + marine_energy::variables::site_access_port_staging
+  + marine_energy::variables::project_contingency
+  + marine_energy::variables::insurance_during_construction
+  + marine_energy::variables::reserve_accounts)
+
+total_installed_cost:
+  capex * (1 + cost_scalars)
+
+# Aliases for SAM ($ units)
+capital_cost:
+  total_installed_cost
+fixed_operating_cost:
+  marine_energy::om::operations + marine_energy::om::maintenance
+variable_operating_cost:
+  0
+
+# reV LCOE is $/MWh
+lcoe:
+  (capital_cost * fixed_charge_rate + fixed_operating_cost) / annual_energy

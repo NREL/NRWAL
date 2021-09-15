@@ -1,0 +1,6 @@
+development:
+  3197591 * system_capacity_MW ** 0.49
+eng_and_mgmt:
+  850744 * system_capacity_MW ** 0.5649
+assembly_and_install:
+  2805302 * system_capacity_MW ** 0.66

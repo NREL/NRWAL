@@ -1,0 +1,32 @@
+assembly_generic:
+  6854912 * system_capacity_MW + 2629191
+assembly_rm1:
+  284245 * system_capacity_MW + 785137
+assembly_rm3:
+  6854912 * system_capacity_MW  + 2629191
+assembly_rm5:
+  6848402 * system_capacity_MW + 3315338
+assembly_rm6:
+  13320092 * system_capacity_MW + 6681164
+
+power_takeoff_generic:
+  1179579 * system_capacity_MW + 2495107
+power_takeoff_rm1:
+  1527017 * system_capacity_MW + 505548
+power_takeoff_rm3:
+  2081129 * system_capacity_MW ** 0.91
+power_takeoff_rm5:
+  1600927 * system_capacity_MW ** 0.91
+power_takeoff_rm6:
+  3796551 * system_capacity_MW ** 0.78
+
+mooring_found_substruc_generic:
+  1178598 * system_capacity_MW + 1602348
+mooring_found_substruc_rm1:
+  437091 * system_capacity_MW + 433518
+mooring_found_substruc_rm3:
+  1836365 * system_capacity_MW + 29672
+mooring_found_substruc_rm5:
+  2158462 * system_capacity_MW + 1048932
+mooring_found_substruc_rm6:
+  2030816 * system_capacity_MW + 478400

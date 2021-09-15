@@ -1,0 +1,4 @@
+operations:
+  31250.0 * system_capacity_MW + 879282.0
+maintenance:
+  116803.0 * system_capacity_MW + 317719.0
