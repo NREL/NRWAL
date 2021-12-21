@@ -1,0 +1,15 @@
+fixed_charge_rate:
+  0.108
+export_cable_redundancy:
+  1.0
+cable_overbuild_scalar:
+  1.0
+is_floating:
+  1.0
+other_infrastructure:
+  0.0
+system_capacity_MW:
+  system_capacity / 1000
+
+output1:
+  (owen_test::eqns::cost_1 + owen_test::eqns::cost_2) * system_capacity_MW
