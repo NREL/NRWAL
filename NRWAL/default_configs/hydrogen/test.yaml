@@ -1,0 +1,13 @@
+fixed_charge_rate:
+  0.049
+system_capacity_MW:
+  system_capacity / 1000
+
+annual_energy:
+  cf_mean * system_capacity_MW * 8760
+
+# Just a quick scalar to test its working
+scalar:
+  0.45
+
+
