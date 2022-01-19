@@ -1,0 +1,33 @@
+# CapEx Aggregation
+support:
+  substructure + foundation
+install:
+  turbine_install + sub_install + pslt
+electrical:
+  array + export + grid
+subcomponents:
+  support + install + electrical
+
+# Soft CapEx
+constr_ins:
+  construction_insurance * (bos + turbine)
+decomm:
+  decomissioning * (install - pslt)
+proj_comp:
+  project_completion * (bos + turbine)
+procurement_cont:
+  procurement_contingency * (bos - install + pslt + turbine)
+install_cont:
+  install_contingency * (install - pslt)
+cons_financing:
+  (confin_factor - 1) * (constr_ins + decomm + proj_comp + procurement_cont + install_cont + bos + turbine)
+soft:
+  constr_ins + decomm + proj_comp + procurement_cont + install_cont + cons_financing
+
+# Total CapEx
+capex:
+  (bos + soft + turbine) * capex_multi
+
+# LCOE
+lcoe:
+  (capex * fixed_charge_rate + opex) / (ncf * turbine_capacity * num_turbines * 8760)

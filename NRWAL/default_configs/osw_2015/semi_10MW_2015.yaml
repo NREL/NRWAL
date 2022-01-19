@@ -1,0 +1,122 @@
+interp_extrap_power:
+    True
+interp_extrap_year:
+    True
+
+# Soft Cost Parameters
+fixed_charge_rate:
+  0.071
+development_factor:
+  0.04
+proj_mgmt_factor:
+  0.02
+construction_insurance:
+  .0115
+project_completion:
+  .0115
+decomissioning:
+  .1725
+procurement_contingency:
+  .0575
+install_contingency:
+  .345
+lease_price:
+  50000000
+
+# Construction Finance Parameters
+confin_factor:
+  1.043012405771711
+interest_during_construction:
+  0.044
+tax_rate:
+  0.26
+
+# CapEx Equations
+turbine:
+  osw_2015::turbine::semi_tower + osw_2015::turbine::rna
+turbine_install:
+  osw_2015::turbine_install::semi_10MW
+substructure:
+  osw_2015::semi::stiffened_column + osw_2015::semi::truss + osw_2015::semi::heave_plate + osw_2015::semi::outfitting
+foundation:
+  osw_2015::floating::mooring + osw_2015::floating::anchors
+sub_install:
+  osw_2015::semi::install_10MW
+pslt:
+  osw_2015::semi::pslt_10MW
+array:
+  osw_2015::array::floating
+export:
+  osw_2015::export::floating
+grid:
+  osw_2015::grid::grid_connection
+
+# CapEx Aggregation
+support:
+  ./standard_aggregation.yaml::support
+install:
+  ./standard_aggregation.yaml::install
+electrical:
+  ./standard_aggregation.yaml::electrical
+subcomponents:
+  ./standard_aggregation.yaml::subcomponents
+
+# BOS CapEx
+development:
+  development_factor * (subcomponents + turbine)
+proj_mgmt:
+  proj_mgmt_factor * (subcomponents + turbine)
+bos:
+  lease_price + development + proj_mgmt + subcomponents
+
+# Soft CapEx
+constr_ins:
+  ./standard_aggregation.yaml::constr_ins
+decomm:
+  ./standard_aggregation.yaml::decomm
+proj_comp:
+  ./standard_aggregation.yaml::proj_comp
+procurement_cont:
+  ./standard_aggregation.yaml::procurement_cont
+install_cont:
+  ./standard_aggregation.yaml::install_cont
+cons_financing:
+  ./standard_aggregation.yaml::cons_financing
+soft:
+  ./standard_aggregation.yaml::soft
+
+# Total CapEx
+capex:
+  ./standard_aggregation.yaml::capex
+
+# Total OpEx
+operations:
+  18880383
+maintenance:
+  osw_2015::maintenance::semi
+opex:
+  operations + maintenance
+
+# NCF
+adjusted_gcf:
+  gcf * (0.006 * turbine_capacity + 0.9691)
+wake:
+  osw_2015::losses::wake
+elec:
+  osw_2015::losses::electrical
+avail:
+  osw_2015::losses::avail_semi
+environmental:
+  osw_2015::losses::environmental
+technical:
+  osw_2015::losses::technical_floating
+site_specific:
+  1 - (1 - wake) * (1 - elec) * (1 - avail)
+total_losses:
+  1 - (1 - environmental) * (1 - technical) * (1 - site_specific)
+ncf:
+  adjusted_gcf * (1 - total_losses)
+
+# LCOE
+lcoe:
+  ./standard_aggregation.yaml::lcoe
