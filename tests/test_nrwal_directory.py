@@ -6,9 +6,10 @@ parsed and evaluated.
 import os
 import pytest
 
-from NRWAL.utilities.utilities import NRWAL_ANALYSIS_DIR
+from NRWAL.utilities.utilities import NRWAL_ANALYSIS_DIR, NRWAL_CONFIG_DIR
 from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.directories import EquationDirectory
+from NRWAL.config.config import NrwalConfig
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
@@ -71,4 +72,24 @@ def test_nrwal_directory(dirname):
         for i in bad_eqn_i:
             msg += '\n\t - {} {}'.format(groups[i]._base_name, eqns[i])
 
+        raise RuntimeError(msg)
+
+
+def test_nrwal_def_configs():
+    """Test that all nrwal default configs have valid references and can
+    be loaded."""
+    bad_configs = []
+    for d, _, fns in os.walk(NRWAL_CONFIG_DIR):
+        for fn in fns:
+            if fn.endswith(('.yml', '.yaml')):
+                fp = os.path.join(d, fn)
+                try:
+                    config_obj = NrwalConfig(fp)
+                    _ = len(config_obj.missing_inputs)
+                except Exception:
+                    bad_configs.append(fp)
+
+    if any(bad_configs):
+        msg = ('The following configs could not be loaded: {}'
+               .format(bad_configs))
         raise RuntimeError(msg)
