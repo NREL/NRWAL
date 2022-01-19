@@ -22,10 +22,10 @@ Welcome to NRWAL!
 
 .. image:: https://anaconda.org/nrel/nrel-NRWAL/badges/license.svg
     :target: https://anaconda.org/nrel/nrel-NRWAL
-
-.. image:: https://codecov.io/gh/nrel/NRWAL/branch/master/graph/badge.svg?token=3J5M44VAA9
-    :target: https://codecov.io/gh/nrel/NRWAL
-
+    
+.. image:: https://codecov.io/gh/nrel/NRWAL/branch/main/graph/badge.svg?token=NB29X039VU
+   :target: https://codecov.io/gh/nrel/NRWAL
+    
 .. image:: https://zenodo.org/badge/319377095.svg
    :target: https://zenodo.org/badge/latestdoi/319377095
 
