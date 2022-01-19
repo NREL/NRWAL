@@ -121,8 +121,8 @@ def test_cost_reductions_config():
     """Test config with cost reductions and parenthetical statements"""
     obj = NrwalConfig(FP_GOOD_1)
     k1 = 'array'
-    k2 = '2015::array::fixed'
-    k3 = '2015::cost_reductions::fixed::array_cable_2025'
+    k2 = 'osw_2015::array::fixed'
+    k3 = 'osw_2015::cost_reductions::fixed::array_cable_2025'
     eqn1 = obj[k1]
     eqn2 = obj._eqn_dir[k2]
     eqn3 = obj._eqn_dir[k3]
@@ -143,8 +143,9 @@ def test_cost_reductions_interp_nearest():
                       use_nearest_year=True)
     k1 = 'array'
     eqn1 = obj[k1]
-    truth_1 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2030']
-    truth_2 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2025']
+    cost_red_str = 'osw_2015::cost_reductions::fixed::array_cable_{}'
+    truth_1 = obj._eqn_dir[cost_red_str.format(2030)]
+    truth_2 = obj._eqn_dir[cost_red_str.format(2025)]
     assert str(truth_1) in str(eqn1.full)
     assert str(truth_2) in str(eqn1.full)
 
@@ -152,8 +153,8 @@ def test_cost_reductions_interp_nearest():
                       use_nearest_year=True)
     k1 = 'array'
     eqn1 = obj[k1]
-    truth_1 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2030']
-    truth_2 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2025']
+    truth_1 = obj._eqn_dir[cost_red_str.format(2030)]
+    truth_2 = obj._eqn_dir[cost_red_str.format(2025)]
     assert str(truth_1) in str(eqn1.full)
     assert str(truth_2) not in str(eqn1.full)
 

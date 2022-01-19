@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Tests to validate all equations in the NRWAL directory can be
+Tests to validate all equations and configs in the NRWAL library can be
 parsed and evaluated.
 """
 import os
@@ -79,17 +79,30 @@ def test_nrwal_def_configs():
     """Test that all nrwal default configs have valid references and can
     be loaded."""
     bad_configs = []
+    bad_eqn_ref = {}
     for d, _, fns in os.walk(NRWAL_CONFIG_DIR):
         for fn in fns:
             if fn.endswith(('.yml', '.yaml')):
                 fp = os.path.join(d, fn)
                 try:
                     config_obj = NrwalConfig(fp)
-                    _ = len(config_obj.missing_inputs)
                 except Exception:
                     bad_configs.append(fp)
+                else:
+                    inputs = config_obj.missing_inputs
+                    bad = [inp for inp in inputs if '::' in inp]
+                    if any(bad):
+                        bad_eqn_ref[fp] = bad
 
+    msgs = []
     if any(bad_configs):
-        msg = ('The following configs could not be loaded: {}'
-               .format(bad_configs))
+        msgs.append('The following configs could not be loaded: {}'
+                    .format(bad_configs))
+    if any(bad_eqn_ref):
+        msgs.append('The following config files had bad equation '
+                    'references that could not be found: {}'
+                    .format(bad_eqn_ref))
+
+    if any(msgs):
+        msg = '\n\n'.join(msgs)
         raise RuntimeError(msg)
