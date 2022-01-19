@@ -37,11 +37,12 @@ Welcome to NRWAL!
 
 The National Renewable Energy Laboratory Wind Analysis Library (NRWAL):
 
-1. A library of wind cost equations
-2. Dynamic python tools for intuitive equation handling
-3. Ready-to-use configs for basic users
-4. Easy equation manipulation without editing source code
-5. One seriously badass sea unicorn
+#. A library of offshore wind cost equations (plus new energy technologies like marine hydro!)
+#. Easy equation manipulation without editing source code
+#. Full continental-scale integration with the NREL Renewable Energy Potential Model (reV)
+#. Ready-to-use configs for basic users
+#. Dynamic python tools for intuitive equation handling
+#. One seriously badass sea unicorn
 
 To get started with NRWAL, check out the `NRWAL Config documentation
 <https://nrel.github.io/NRWAL/NRWAL/NRWAL.config.config.html>`_ or the
@@ -52,11 +53,8 @@ right in your browser without any downloads or software using
 
 Here is the important stuff:
 
-`The NRWAL Equation Library <https://github.com/NREL/NRWAL/tree/main/NRWAL/analysis_library>`_.
-
-`Default NRWAL Configs <https://github.com/NREL/NRWAL/tree/main/NRWAL/default_configs>`_.
-
-`NRWAL Code Base <https://github.com/NREL/NRWAL/tree/master/NRWAL>`_.
+ - `The NRWAL Equation Library <https://github.com/NREL/NRWAL/tree/main/NRWAL/analysis_library>`_.
+ - `Default NRWAL Configs <https://github.com/NREL/NRWAL/tree/main/NRWAL/default_configs>`_.
 
 Installing NRWAL
 ================
@@ -91,8 +89,8 @@ Option 2: Clone repo (recommended for developers)
        ``pip install .`` (or ``pip install -e .`` if running a dev branch
        or working on the source code)
 
-NRWAL Variables
-===============
+NRWAL Variables for Offshore Wind (OSW)
+=======================================
 
 .. list-table:: NRWAL Inputs
     :widths: auto
@@ -170,4 +168,10 @@ NRWAL Variables
 Recommended Citation
 ====================
 
-Grant Buster, Jake Nunemaker, and Michael Rossol. The National Renewable Energy Laboratory Wind Analysis Libray (NRWAL). https://github.com/NREL/NRWAL (version v0.0.2), 2021. https://doi.org/10.5281/zenodo.4705961.
+If using the NRWAL software (replace with current version and DOI):
+
+ - Grant Buster, Jake Nunemaker, and Michael Rossol. The National Renewable Energy Laboratory Wind Analysis Libray (NRWAL). https://github.com/NREL/NRWAL (version v0.0.2), 2021. https://doi.org/10.5281/zenodo.4705961.
+
+If using the Offshore Wind (OSW) cost equations:
+
+ - Beiter, Philipp, Walter Musial, Aaron Smith, Levi Kilcher, Rick Damiani, Michael Maness, Senu Sirnivas, et al. “A Spatial-Economic Cost-Reduction Pathway Analysis for U.S. Offshore Wind Energy Development from 2015–2030.” National Renewable Energy Lab. (NREL), Golden, CO (United States), September 1, 2016. https://doi.org/10.2172/1324526. https://www.nrel.gov/docs/fy16osti/66579.pdf.

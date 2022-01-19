@@ -3,15 +3,15 @@ num_turbines:
 fixed_charge_rate:
     0.096
 cost_reductions:
-    "2015::cost_reductions::fixed"
+    "osw_2015::cost_reductions::fixed"
 array:
-    "2015::array::fixed * (1 - cost_reductions::array_cable_2025)"
+    "osw_2015::array::fixed * (1 - cost_reductions::array_cable_2025)"
 export:
-    "2015::export::fixed"
+    "osw_2015::export::fixed"
 grid:
-    "2015::grid::grid_connection"
+    "osw_2015::grid::grid_connection"
 monopile:
-    "2019::monopile"
+    "osw_2019::monopile"
 monopile_costs:
     "monopile::pslt_12MW + monopile::install_12MW"
 electrical:
