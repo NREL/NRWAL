@@ -1,5 +1,13 @@
 """
-ORCA regression tests
+ORCA baseline regression tests
+
+These tests need the NREL ORCA library to run:
+https://github.nrel.gov/OffshoreAnalysis/ORCA
+
+Tested using ORCA v0.9 release:
+https://github.nrel.gov/OffshoreAnalysis/ORCA/releases/tag/v0.9
+
+Tested from latest commit on master: 98bbafddc855ad8f94fb16dc9b8922040207778e
 """
 
 __author__ = ["Jake Nunemaker"]
@@ -19,7 +27,7 @@ TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
 
 @pytest.fixture
 def ORCA():
-    """ORCA System class for regression tests."""
+    """ORCA System class for baseline regression tests."""
 
     ORCA = pytest.importorskip("ORCA")  # Skip tests if ORCA isn't found
     return ORCA.System, ORCA.Data
@@ -92,7 +100,7 @@ def base_2019():
         "semi_10MW_2025.yaml",
     ),
 )
-def test_ORCA_2015_regression(ORCA, base_2015, case):
+def test_ORCA_2015_baseline(ORCA, base_2015, case):
     """Test that the 2015 configs + equations match ORCA"""
 
     System, Data = ORCA
@@ -195,7 +203,7 @@ def test_ORCA_2015_regression(ORCA, base_2015, case):
         "semi_15MW_2028.yaml",
     ),
 )
-def test_ORCA_2019_regression(ORCA, base_2019, case):
+def test_ORCA_2019_baseline(ORCA, base_2019, case):
     """Test that the 2019 configs + equations match ORCA"""
 
     System, Data = ORCA

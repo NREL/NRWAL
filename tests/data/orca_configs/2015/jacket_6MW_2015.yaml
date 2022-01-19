@@ -2,7 +2,7 @@ interp_extrap_power:
     True
 interp_extrap_year:
     True
-    
+
 # Soft Cost Parameters
 fixed_charge_rate:
   0.071
@@ -33,23 +33,23 @@ tax_rate:
 
 # CapEx Equations
 turbine:
-  2015::turbine::jacket_tower + 2015::turbine::rna
+  osw_2015::turbine::jacket_tower + osw_2015::turbine::rna
 turbine_install:
-  2015::turbine_install::jacket_6MW
+  osw_2015::turbine_install::jacket_6MW
 substructure:
-  2015::jacket::lattice + 2015::jacket::transition_piece + 2015::fixed::outfitting_lt_8MW
+  osw_2015::jacket::lattice + osw_2015::jacket::transition_piece + osw_2015::fixed::outfitting_lt_8MW
 foundation:
-  2015::jacket::foundation
+  osw_2015::jacket::foundation
 sub_install:
-  2015::jacket::install_6MW
+  osw_2015::jacket::install_6MW
 pslt:
-  2015::jacket::pslt_6MW
+  osw_2015::jacket::pslt_6MW
 array:
-  2015::array::fixed
+  osw_2015::array::fixed
 export:
-  2015::export::fixed
+  osw_2015::export::fixed
 grid:
-  2015::grid::grid_connection
+  osw_2015::grid::grid_connection
 
 # CapEx Aggregation
 support:
@@ -93,7 +93,7 @@ capex:
 operations:
   18880383
 maintenance:
-  2015::maintenance::fixed
+  osw_2015::maintenance::fixed
 opex:
   operations + maintenance
 
@@ -101,15 +101,15 @@ opex:
 adjusted_gcf:
   gcf * (0.006 * turbine_capacity + 0.9691)
 wake:
-  2015::losses::wake
+  osw_2015::losses::wake
 elec:
-  2015::losses::electrical
+  osw_2015::losses::electrical
 avail:
-  2015::losses::avail_fixed
+  osw_2015::losses::avail_fixed
 environmental:
-  2015::losses::environmental
+  osw_2015::losses::environmental
 technical:
-  2015::losses::technical_fixed
+  osw_2015::losses::technical_fixed
 site_specific:
   1 - (1 - wake) * (1 - elec) * (1 - avail)
 total_losses:
