@@ -53,11 +53,8 @@ right in your browser without any downloads or software using
 
 Here is the important stuff:
 
-`The NRWAL Equation Library <https://github.com/NREL/NRWAL/tree/main/NRWAL/analysis_library>`_.
-
-`Default NRWAL Configs <https://github.com/NREL/NRWAL/tree/main/NRWAL/default_configs>`_.
-
-`NRWAL Code Base <https://github.com/NREL/NRWAL/tree/master/NRWAL>`_.
+ - `The NRWAL Equation Library <https://github.com/NREL/NRWAL/tree/main/NRWAL/analysis_library>`_.
+ - `Default NRWAL Configs <https://github.com/NREL/NRWAL/tree/main/NRWAL/default_configs>`_.
 
 Installing NRWAL
 ================
@@ -177,4 +174,4 @@ If using the NRWAL software (replace with current version and DOI):
 
 If using the Offshore Wind (OSW) cost equations:
 
- - Beiter, Philipp, Walter Musial, Aaron Smith, Levi Kilcher, Rick Damiani, Michael Maness, Senu Sirnivas, et al. “A Spatial-Economic Cost-Reduction Pathway Analysis for U.S. Offshore Wind Energy Development from 2015–2030.” National Renewable Energy Lab. (NREL), Golden, CO (United States), September 1, 2016. https://doi.org/10.2172/1324526.
+ - Beiter, Philipp, Walter Musial, Aaron Smith, Levi Kilcher, Rick Damiani, Michael Maness, Senu Sirnivas, et al. “A Spatial-Economic Cost-Reduction Pathway Analysis for U.S. Offshore Wind Energy Development from 2015–2030.” National Renewable Energy Lab. (NREL), Golden, CO (United States), September 1, 2016. https://doi.org/10.2172/1324526. https://www.nrel.gov/docs/fy16osti/66579.pdf.
