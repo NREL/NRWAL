@@ -57,6 +57,7 @@ confidence=
 disable=
         # Custom
         unspecified-encoding,
+        consider-using-f-string,
         # Defaults
         print-statement,
         parameter-unpacking,
