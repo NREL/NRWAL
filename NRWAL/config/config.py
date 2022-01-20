@@ -12,7 +12,7 @@ import os
 import operator
 from collections import OrderedDict
 
-from NRWAL.utilities.utilities import NRWAL_ANALYSIS_DIR
+from NRWAL.utilities.utilities import NRWAL_ANALYSIS_DIR, find_np_pd_methods
 from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.groups import EquationGroup
 from NRWAL.handlers.directories import EquationDirectory
@@ -272,7 +272,8 @@ class NrwalConfig:
         self._global_variables.update({k: v.eval()
                                        for k, v in self._config.items()
                                        if isinstance(v, Equation)
-                                       and Equation.is_num(v.full)})
+                                       and not any(v.variables)
+                                       })
 
     @classmethod
     def _load_config(cls, config):
@@ -414,6 +415,13 @@ class NrwalConfig:
                 logger.error(msg)
                 raise ValueError(msg)
 
+            if isinstance(expression, list):
+                msg = ('Cannot parse list object for "{0}". Try setting as '
+                       'a numpy array like this: {0}: np.array({1})'
+                       .format(name, expression))
+                logger.error(msg)
+                raise TypeError(msg)
+
             if not isinstance(expression, (int, float, str)):
                 msg = ('Cannot parse NrwalConfig expression for "{}", must be '
                        'one of (int, float, str) but received type "{}": {}'
@@ -535,12 +543,17 @@ class NrwalConfig:
             raise ValueError(msg)
 
         while '(' in expression:
-            start_loc, end_loc = find_parens(expression)[0]
+            start_loc, end_loc = find_np_pd_methods(expression)
+            if start_loc is None:
+                start_loc, end_loc = find_parens(expression)[0]
+
             wkey = 'workspace_{}'.format(1 + len(gvars))
             assert wkey not in gvars
-            pk = expression[start_loc:end_loc + 1]
+            pk = expression[start_loc:end_loc]
             expression = expression.replace(pk, wkey)
-            pk = pk.lstrip('(').rstrip(')')
+            if 'np.' not in pk and 'pd.' not in pk:
+                pk = pk.lstrip('(').rstrip(')')
+
             gvars[wkey] = cls._parse_expression(pk, config, eqn_dir,
                                                 gvars, name=name)
 

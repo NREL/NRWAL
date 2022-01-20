@@ -1,0 +1,6 @@
+test_exp:
+  np.exp(inp)
+test_max:
+  np.max(inp, axis=0)
+test_interp:
+  2 + 10 * np.interp(x, xp, fp)

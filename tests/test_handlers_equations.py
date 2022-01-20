@@ -17,6 +17,8 @@ EQNS_DIR = os.path.join(MODULE_DIR, 'NRWAL/')
 
 GOOD_DIR = os.path.join(TEST_DATA_DIR, 'test_eqns_dir/')
 
+NP_EQNS = os.path.join(GOOD_DIR, 'numpy_eqns.yaml')
+
 BAD_DIR = os.path.join(TEST_DATA_DIR, 'bad_eqn_dir/')
 BAD_FILE_TYPE = os.path.join(BAD_DIR, 'bad_file_type.txt')
 BAD_EQN = os.path.join(BAD_DIR, 'bad_list_eqn.yaml')
@@ -140,3 +142,28 @@ def assert_eqn_eval_math(eqn1, eqn2, eqn3, eqn4, args1, args2, args3,
     elif operator == '/':
         assert eqn1.eval(**args1) / eqn2.eval(**args2) == eqn3.eval(**args3)
         assert eqn1.eval(**args1) / 3 == eqn4.eval(**args1)
+
+
+def test_numpy_eqns():
+    """Test NRWAL equations with numpy operations"""
+    obj = EquationGroup(NP_EQNS)
+
+    eqn = obj['test_exp']
+    assert len(eqn.variables) == 1
+    assert eqn.variables[0] == 'inp'
+    assert eqn.eval(inp=2) == np.exp(2)
+
+    eqn = obj['test_max']
+    assert len(eqn.variables) == 1
+    assert eqn.variables[0] == 'inp'
+    assert eqn.eval(inp=[3, 2, 4, 5, 0]) == 5
+
+    eqn = obj['test_interp']
+    x = [0.25, 0.5, 1]
+    xp = [0, 2]
+    fp = np.array([0, 2])
+    truth = 2 + 10 * np.array([0.25, 0.5, 1])
+    assert np.allclose(eqn.eval(x=x, xp=xp, fp=fp), truth)
+    fp *= 2
+    truth = 2 + 10 * 2 * np.array([0.25, 0.5, 1])
+    assert np.allclose(eqn.eval(x=x, xp=xp, fp=fp), truth)
