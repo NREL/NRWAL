@@ -58,6 +58,7 @@ disable=
         # Custom
         unspecified-encoding,
         consider-using-f-string,
+        eval-used,
         # Defaults
         print-statement,
         parameter-unpacking,
