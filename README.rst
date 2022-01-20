@@ -22,10 +22,10 @@ Welcome to NRWAL!
 
 .. image:: https://anaconda.org/nrel/nrel-NRWAL/badges/license.svg
     :target: https://anaconda.org/nrel/nrel-NRWAL
-    
+
 .. image:: https://codecov.io/gh/nrel/NRWAL/branch/main/graph/badge.svg?token=NB29X039VU
    :target: https://codecov.io/gh/nrel/NRWAL
-    
+
 .. image:: https://zenodo.org/badge/319377095.svg
    :target: https://zenodo.org/badge/latestdoi/319377095
 
@@ -175,3 +175,8 @@ If using the NRWAL software (replace with current version and DOI):
 If using the Offshore Wind (OSW) cost equations:
 
  - Beiter, Philipp, Walter Musial, Aaron Smith, Levi Kilcher, Rick Damiani, Michael Maness, Senu Sirnivas, et al. “A Spatial-Economic Cost-Reduction Pathway Analysis for U.S. Offshore Wind Energy Development from 2015–2030.” National Renewable Energy Lab. (NREL), Golden, CO (United States), September 1, 2016. https://doi.org/10.2172/1324526. https://www.nrel.gov/docs/fy16osti/66579.pdf.
+
+If using the marine energy reference model (RM) cost models:
+
+ - https://energy.sandia.gov/programs/renewable-energy/water-power/projects/reference-model-project-rmp/
+ - Jenne, D. S., Y. H. Yu, and V. Neary. “Levelized Cost of Energy Analysis of Marine and Hydrokinetic Reference Models: Preprint.” National Renewable Energy Lab. (NREL), Golden, CO (United States), April 24, 2015. https://www.osti.gov/biblio/1215196-levelized-cost-energy-analysis-marine-hydrokinetic-reference-models-preprint.
