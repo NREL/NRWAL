@@ -45,8 +45,8 @@ The National Renewable Energy Laboratory Wind Analysis Library (NRWAL):
 #. One seriously badass sea unicorn
 
 To get started with NRWAL, check out the `NRWAL Config documentation
-<https://nrel.github.io/NRWAL/NRWAL/NRWAL.config.config.html>`_ or the
-`NRWAL example notebook <https://github.com/NREL/NRWAL/blob/main/examples/example.ipynb>`_.
+<https://nrel.github.io/NRWAL/_autosummary/NRWAL.handlers.config.NrwalConfig.html#nrwal-handlers-config-nrwalconfig>`_
+or the `NRWAL example notebook <https://github.com/NREL/NRWAL/blob/main/examples/example.ipynb>`_.
 You can also launch the notebook in an interactive jupyter shell
 right in your browser without any downloads or software using
 `binder <https://mybinder.org/v2/gh/NREL/NRWAL/HEAD>`_.
