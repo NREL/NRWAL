@@ -309,16 +309,12 @@ class Equation:
         """Check if a string is a numpy/pandas or python builtin method"""
         return bool(s.startswith(('np.', 'pd.')) or s in dir(__builtins__))
 
-    @staticmethod
-    def is_kwarg(s):
-        """Check if a string is a numpy/pandas input keyword argument"""
-        return bool('=' in s)
-
     @classmethod
     def is_variable(cls, s):
         """Check if a string is a variable name without any constants,
         operators, or arithmetic expressions"""
-        flags = ('(', ')', '[', ']', '+', '-', '/', '*', '^', ' ')
+        flags = ('(', ')', '[', ']', '{', '}', '+', '-', '/', '*', '^', ' ',
+                 '<', '>', '=', '\\', '|', '&', '$', '@', '-')
         if cls.is_num(s):
             return False
         elif any(f in s for f in flags):
@@ -345,14 +341,14 @@ class Equation:
     @classmethod
     def parse_variables(cls, expression):
         """Parse variable names from an expression string."""
-        delimiters = ('*', '/', '+', '-', ' ', '(', ')', '[', ']')
+        delimiters = ('*', '/', '+', '-', ' ', '(', ')', '[', ']', '>', '<')
         regex_pattern = '|'.join(map(re.escape, delimiters))
         variables = [sub.strip(',')
                      for sub in re.split(regex_pattern, str(expression))
                      if sub
-                     and not cls.is_num(sub)
-                     and not cls.is_method(sub)
-                     and not cls.is_kwarg(sub)]
+                     and cls.is_variable(sub)
+                     and not cls.is_num(sub.strip(','))
+                     and not cls.is_method(sub)]
         variables = sorted(list(set(variables)))
         return variables
 

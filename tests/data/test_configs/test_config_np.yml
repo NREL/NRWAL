@@ -1,0 +1,16 @@
+arr_xp :
+    np.array([0, 1, 2, 3])
+arr_fp :
+    np.array([0, 2, 4, 0])
+array:
+    "osw_2015::array::fixed"
+export:
+    "osw_2015::export::fixed"
+max_electrical:
+    np.where(array >= export, export, array)
+max_export:
+    np.max(export)
+max_test:
+    10 * np.max(input1, axis=0) ** 2 + np.min(input1)
+interp:
+    100 + np.interp(x, arr_xp, arr_fp)

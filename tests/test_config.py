@@ -25,6 +25,7 @@ FP_GOOD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_3.yml')
 FP_GOOD_4 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_4.yaml')
 FP_GOOD_5 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_5.yaml')
 FP_GOOD_6 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_6.yaml')
+FP_NP = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_np.yml')
 
 
 def test_good_config_parsing():
@@ -273,3 +274,36 @@ def test_leading_negative():
     assert np.allclose(obj['test4'], -(bos - install) + pslt + turbine)
     assert np.allclose(obj['test5'], -(bos * install) + pslt + turbine)
     assert np.allclose(obj['test6'], -(bos * install) + pslt * -turbine)
+
+
+def test_numpy():
+    """Test numpy operations in nrwal config"""
+    obj = NrwalConfig(FP_NP)
+
+    assert len(obj['max_test'].variables) == 1
+    assert obj['max_test'].variables[0] == 'input1'
+    assert (obj['max_test'].eval(input1=[1, 3, 2])) == 91
+
+    assert str(obj['max_electrical']) == 'max_electrical(array, export)'
+    assert '>' not in str(obj.missing_inputs)
+    assert str(obj['max_export']) == 'max_export(export)'
+    assert 'axis' not in str(obj.missing_inputs)
+
+    assert 'arr_xp' not in obj.missing_inputs
+    assert 'arr_fp' not in obj.missing_inputs
+
+    inputs = {k: 10 for k in obj.missing_inputs}
+    inputs['depth'] = np.random.uniform(50, 100, 5)
+    inputs['dist_s_to_l'] = np.random.uniform(50, 100, 5)
+    inputs['x'] = [0.5, 1.5, 2.5]  # should interp to [1, 3, 2]
+
+    outs = obj.eval(inputs)
+
+    max_export = outs['max_export']
+    max_electrical = outs['max_electrical']
+    export = outs['export']
+
+    assert not any(max_electrical > export)
+    assert max_export == np.max(export)
+
+    assert np.allclose(outs['interp'], [101, 103, 102])
