@@ -9,7 +9,7 @@ import pytest
 from NRWAL.utilities.utilities import NRWAL_ANALYSIS_DIR, NRWAL_CONFIG_DIR
 from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.directories import EquationDirectory
-from NRWAL.config.config import NrwalConfig
+from NRWAL.handlers.config import NrwalConfig
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')

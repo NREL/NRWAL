@@ -8,7 +8,7 @@ import numpy as np
 import os
 import pytest
 
-from NRWAL.config.config import NrwalConfig
+from NRWAL.handlers.config import NrwalConfig
 from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.groups import EquationGroup
 
