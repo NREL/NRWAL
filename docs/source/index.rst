@@ -3,7 +3,7 @@
 
    Home page <self>
    Installation and Usage <misc/installation_usage>
-   API reference <_autosummary/phygnn>
+   API reference <_autosummary/NRWAL>
 
 NRWAL documentation
 *******************
