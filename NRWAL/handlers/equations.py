@@ -347,7 +347,7 @@ class Equation:
         regex_pattern = '|'.join(map(re.escape, delimiters))
         variables = [sub.strip(',')
                      for sub in re.split(regex_pattern, str(expression))
-                     if sub
+                     if sub.strip(',')
                      and cls.is_variable(sub)
                      and not cls.is_num(sub.strip(','))
                      and not cls.is_method(sub)]
