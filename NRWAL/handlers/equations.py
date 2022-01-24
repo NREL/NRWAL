@@ -389,7 +389,7 @@ class Equation:
             check = False
         elif cls.is_num(expression):
             check = True
-        elif any([x in str(expression) for x in operators]):
+        elif any(x in str(expression) for x in operators):
             check = True
 
         return check
