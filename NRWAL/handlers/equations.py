@@ -58,7 +58,9 @@ class Equation:
             assert isinstance(k, str), msg
             msg = ('Input data must be one of (int, float, np.ndarray, list, '
                    'tuple), but received: {}'.format(type(v)))
-            assert isinstance(v, (int, float, np.ndarray, list, tuple)), msg
+            is_num = (isinstance(v, (int, float, np.ndarray, list, tuple))
+                      | np.issubdtype(type(v), np.number))
+            assert is_num, msg
 
             if isinstance(v, np.ndarray):
                 if np.issubdtype(v.dtype, np.integer):
