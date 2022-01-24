@@ -14,3 +14,5 @@ max_test:
     10 * np.max(input1, axis=0) ** 2 + np.min(input1)
 interp:
     100 + np.interp(x, arr_xp, arr_fp)
+list_entry:
+    np.min([arr_xp, arr_fp], axis=0)

@@ -306,4 +306,8 @@ def test_numpy():
     assert not any(max_electrical > export)
     assert max_export == np.max(export)
 
+    # test interp on arrays
     assert np.allclose(outs['interp'], [101, 103, 102])
+
+    # test a list entry to a numpy function
+    assert np.allclose(outs['list_entry'], [0, 1, 2, 0])

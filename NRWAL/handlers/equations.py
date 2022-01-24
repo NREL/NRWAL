@@ -58,7 +58,9 @@ class Equation:
             assert isinstance(k, str), msg
             msg = ('Input data must be one of (int, float, np.ndarray, list, '
                    'tuple), but received: {}'.format(type(v)))
-            assert isinstance(v, (int, float, np.ndarray, list, tuple)), msg
+            is_num = (isinstance(v, (int, float, np.ndarray, list, tuple))
+                      | np.issubdtype(type(v), np.number))
+            assert is_num, msg
 
             if isinstance(v, np.ndarray):
                 if np.issubdtype(v.dtype, np.integer):
@@ -345,7 +347,7 @@ class Equation:
         regex_pattern = '|'.join(map(re.escape, delimiters))
         variables = [sub.strip(',')
                      for sub in re.split(regex_pattern, str(expression))
-                     if sub
+                     if sub.strip(',')
                      and cls.is_variable(sub)
                      and not cls.is_num(sub.strip(','))
                      and not cls.is_method(sub)]
@@ -387,7 +389,7 @@ class Equation:
             check = False
         elif cls.is_num(expression):
             check = True
-        elif any([x in str(expression) for x in operators]):
+        elif any(x in str(expression) for x in operators):
             check = True
 
         return check
