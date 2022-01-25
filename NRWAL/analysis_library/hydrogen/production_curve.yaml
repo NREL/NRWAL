@@ -1,0 +1,12 @@
+normal_capacity:
+  np.array([0.00, 0.03, 0.05, 0.10, 0.15, 0.20, 0.25, 1.00])
+capacity_curve_mw:
+  normal_capacity * capacity * electrolyzer_size_ratio
+hyrogen_curve_kg_mwh:
+  np.array([0, 0, 12.12121212, 20.28397566, 20.92050209, 20.92050209, 20.28397566, 17.27115717])
+power_mw:
+  ncf * capacity
+hydrogen_kg:
+  np.interp(power_mw, capacity_curve_kg, hydrogen_curve_kg_mwh)
+hydrogen_annual_kg:
+  np.sum(hydrogen_kg, axis=0)

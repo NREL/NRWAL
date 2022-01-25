@@ -1,0 +1,43 @@
+# Constants
+electrolyzer_capex_per_mw:
+  461000
+electrolyzer_opex_per_mw:
+  37000
+electrolyzer_bop_per_mw:
+  60000
+electrolyzer_ebop_per_mw:
+  50000
+electrolyzer_efficiency_kg_mwh:
+  18.02
+electrolyzer_size_ratio:
+  0.9
+fcr:
+  0.049
+electrolyzer_size_mw:
+  capacity * electrolyzer_size_ratio
+capex_h2_per_mw:
+  electrolyzer_capex_per_mw + electrolyzer_bop_per_mw + electrolyzer_ebop_per_mw
+opex_h2_per_mw:
+  electrolyzer_size_mw * electrolyzer_opex_per_mw
+
+# Generation capacity factor variable
+ncf:
+  rep_profiles_0
+
+# Site dependent variables
+capacity_mw:
+  capacity
+capex_h2:
+  capex_h2_per_mw * electrolyzer_size_mw
+opex_h2:
+  opex_h2_per_mw * electrolyzer_size_mw
+capex_inc_h2:
+  mean_capital_cost + capex_h2
+opex_inc_h2:
+  mean_fixed_operating_cost + opex_h2
+
+# The target outputs
+hydrogen_kg: hydrogen::production_rate::hydrogen_kg
+hydrogen_annual_kg: hydrogen::production_rate::hydrogen_annual_kg
+lcoh_fcr:
+  (capex_inc_h2 * fcr + opex_inc_h2) / hydrogen_annual_kg
