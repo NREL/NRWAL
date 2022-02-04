@@ -1,0 +1,8 @@
+# This is an example nrwal config file
+
+# Make sure you change this directory to wherever you put this folder.
+equation_directory:
+  /Users/gbuster/code/NRWAL/getting_started/
+
+out:
+  equations::model::cost
