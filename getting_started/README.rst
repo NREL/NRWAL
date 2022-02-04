@@ -4,7 +4,7 @@ Welcome to the Getting Started with NRWAL Example Project!
 
 Want to use NRWAL but don't want to contribute to the github repo? No problem! Follow these steps:
 
-#. Create a new conda environment using python >= 3.7
+#. Create a new conda environment using python >= 3.7: ``conda create --name nrwal python=3.7``
 #. Run the following: ``pip install nrel-nrwal``
 #. Copy this directory (everything in ``getting_started/``) somewhere on your local machine where you want to set up your project.
 #. Update the filepaths in ``config.yaml`` and ``run_nrwal.py``.
