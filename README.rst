@@ -44,12 +44,9 @@ The National Renewable Energy Laboratory Wind Analysis Library (NRWAL):
 #. Dynamic python tools for intuitive equation handling
 #. One seriously badass sea unicorn
 
-To get started with NRWAL, check out the `NRWAL Config documentation
-<https://nrel.github.io/NRWAL/_autosummary/NRWAL.handlers.config.NrwalConfig.html#nrwal-handlers-config-nrwalconfig>`_
-or the `NRWAL example notebook <https://github.com/NREL/NRWAL/blob/main/examples/example.ipynb>`_.
-You can also launch the notebook in an interactive jupyter shell
-right in your browser without any downloads or software using
-`binder <https://mybinder.org/v2/gh/NREL/NRWAL/HEAD>`_.
+To get started with NRWAL, check out the `NRWAL Config documentation <https://nrel.github.io/NRWAL/_autosummary/NRWAL.handlers.config.NrwalConfig.html#nrwal-handlers-config-nrwalconfig>`_ or the `NRWAL example notebook <https://github.com/NREL/NRWAL/blob/main/examples/example.ipynb>`_. You can also launch the notebook in an interactive jupyter shell right in your browser without any downloads or software using `binder <https://mybinder.org/v2/gh/NREL/NRWAL/HEAD>`_. 
+
+Ready to build a model with NRWAL but don't want to contribute to the library? No problem! Check out the example getting started project `here <https://github.com/NREL/NRWAL/tree/main/getting_started>`_.
 
 Here is the important stuff:
 
