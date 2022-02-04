@@ -12,7 +12,9 @@ if __name__ == '__main__':
           'can evaluate the NRWAL object:',
           con.missing_inputs, end='\n\n')
 
-    inputs = pd.DataFrame({'input_price_1': [4, 5],
+    inputs = pd.DataFrame({'id': [42, 123],
+                           'name': ['product1', 'product2'],
+                           'input_price_1': [4, 5],
                            'input_price_2': [6, 7],
                            'input_variable_x': [3, 2]})
     print("Our input data table:")
