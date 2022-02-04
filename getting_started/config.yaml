@@ -4,7 +4,7 @@
 equation_directory:
   /Users/gbuster/code/NRWAL/getting_started/
 
-# "Import" the 'sample_equation' from the model file in the equation library using the "::" syntax and call it "model_equation"
+# Create a reference to the 'sample_equation' from the model file in the equation library using the "::" syntax and call it "model_equation"
 model_equation:
   equations::model::sample_equation
 
