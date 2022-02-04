@@ -4,5 +4,11 @@
 equation_directory:
   /Users/gbuster/code/NRWAL/getting_started/
 
+something:
+  equations::model::random_equation
+
+np_thing:
+  np.exp(something) + np.min(something)
+
 out:
-  equations::model::cost
+  equations::model::cost + something + np_thing

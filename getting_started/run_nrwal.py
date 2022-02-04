@@ -10,10 +10,11 @@ if __name__ == '__main__':
     con = NrwalConfig('/Users/gbuster/code/NRWAL/getting_started/config.yaml')
     print(con.missing_inputs)
 
-    inputs = pd.DataFrame({'input1': [4, 5], 'input2': [6, 7]})
+    inputs = pd.DataFrame({'input1': [4, 5],
+                           'input2': [6, 7],
+                           'input3': [3, 2]})
     con.inputs = inputs
     out = con.eval()
-
     print(out)
 
     full = inputs.join(pd.DataFrame(out))

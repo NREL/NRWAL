@@ -1,2 +1,4 @@
 cost:
   input1 + input2
+random_equation:
+  input3 ** 2
