@@ -167,3 +167,12 @@ def test_numpy_eqns():
     fp *= 2
     truth = 2 + 10 * 2 * np.array([0.25, 0.5, 1])
     assert np.allclose(eqn.eval(x=x, xp=xp, fp=fp), truth)
+
+
+def test_self_referential_eq():
+    """Test self-referential equations. """
+    fp = os.path.join(BAD_DIR, 'bad_self_ref_eqn.yaml')
+    with pytest.raises(ValueError) as excinfo:
+        EquationGroup(fp)
+
+    assert "Self-referencing is not allowed!" in str(excinfo.value)
