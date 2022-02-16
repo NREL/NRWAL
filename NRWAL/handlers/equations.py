@@ -49,6 +49,13 @@ class Equation:
                 logger.error(msg)
                 raise ValueError(msg)
 
+        if self._base_name is not None and self._base_name in self.variables:
+            msg = ("Self-referencing is not allowed! Please change "
+                   "either the equation name or the name of the dependent "
+                   "variable: {} = {}".format(self._base_name, self._eqn))
+            logger.error(msg)
+            raise ValueError(msg)
+
     @staticmethod
     def _check_input_args(kwargs):
         """Check that input args to equation are of expected types."""
