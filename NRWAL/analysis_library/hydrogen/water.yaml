@@ -1,0 +1,10 @@
+water_usage_gal_per_kg:
+  3.78
+water_cost_per_gallon_H2A:
+  0.002375
+water_cost_per_gallon_energy_gov:
+  0.00338
+annual_water_usage_gal:
+  hydrogen_annual_kg * water_usage_gal_per_kg
+annual_water_cost:
+  annual_water_usage_gal * water_cost_per_gallon_energy_gov
