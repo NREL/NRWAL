@@ -8,7 +8,7 @@ import os
 from NRWAL.utilities.utilities import (NRWAL_DIR, NRWAL_ANALYSIS_DIR,
                                        NRWAL_CONFIG_DIR)
 from NRWAL.version import __version__
-from NRWAL.config.config import NrwalConfig
+from NRWAL.handlers.config import NrwalConfig
 from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.groups import EquationGroup, VariableGroup
 from NRWAL.handlers.directories import EquationDirectory

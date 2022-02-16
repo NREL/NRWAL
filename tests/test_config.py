@@ -8,7 +8,7 @@ import numpy as np
 import os
 import pytest
 
-from NRWAL.config.config import NrwalConfig
+from NRWAL.handlers.config import NrwalConfig
 from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.groups import EquationGroup
 
@@ -25,6 +25,7 @@ FP_GOOD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_3.yml')
 FP_GOOD_4 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_4.yaml')
 FP_GOOD_5 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_5.yaml')
 FP_GOOD_6 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_6.yaml')
+FP_NP = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_np.yml')
 
 
 def test_good_config_parsing():
@@ -121,8 +122,8 @@ def test_cost_reductions_config():
     """Test config with cost reductions and parenthetical statements"""
     obj = NrwalConfig(FP_GOOD_1)
     k1 = 'array'
-    k2 = '2015::array::fixed'
-    k3 = '2015::cost_reductions::fixed::array_cable_2025'
+    k2 = 'osw_2015::array::fixed'
+    k3 = 'osw_2015::cost_reductions::fixed::array_cable_2025'
     eqn1 = obj[k1]
     eqn2 = obj._eqn_dir[k2]
     eqn3 = obj._eqn_dir[k3]
@@ -143,8 +144,9 @@ def test_cost_reductions_interp_nearest():
                       use_nearest_year=True)
     k1 = 'array'
     eqn1 = obj[k1]
-    truth_1 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2030']
-    truth_2 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2025']
+    cost_red_str = 'osw_2015::cost_reductions::fixed::array_cable_{}'
+    truth_1 = obj._eqn_dir[cost_red_str.format(2030)]
+    truth_2 = obj._eqn_dir[cost_red_str.format(2025)]
     assert str(truth_1) in str(eqn1.full)
     assert str(truth_2) in str(eqn1.full)
 
@@ -152,8 +154,8 @@ def test_cost_reductions_interp_nearest():
                       use_nearest_year=True)
     k1 = 'array'
     eqn1 = obj[k1]
-    truth_1 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2030']
-    truth_2 = obj._eqn_dir['2015::cost_reductions::fixed::array_cable_2025']
+    truth_1 = obj._eqn_dir[cost_red_str.format(2030)]
+    truth_2 = obj._eqn_dir[cost_red_str.format(2025)]
     assert str(truth_1) in str(eqn1.full)
     assert str(truth_2) not in str(eqn1.full)
 
@@ -272,3 +274,40 @@ def test_leading_negative():
     assert np.allclose(obj['test4'], -(bos - install) + pslt + turbine)
     assert np.allclose(obj['test5'], -(bos * install) + pslt + turbine)
     assert np.allclose(obj['test6'], -(bos * install) + pslt * -turbine)
+
+
+def test_numpy():
+    """Test numpy operations in nrwal config"""
+    obj = NrwalConfig(FP_NP)
+
+    assert len(obj['max_test'].variables) == 1
+    assert obj['max_test'].variables[0] == 'input1'
+    assert (obj['max_test'].eval(input1=[1, 3, 2])) == 91
+
+    assert str(obj['max_electrical']) == 'max_electrical(array, export)'
+    assert '>' not in str(obj.missing_inputs)
+    assert str(obj['max_export']) == 'max_export(export)'
+    assert 'axis' not in str(obj.missing_inputs)
+
+    assert 'arr_xp' not in obj.missing_inputs
+    assert 'arr_fp' not in obj.missing_inputs
+
+    inputs = {k: 10 for k in obj.missing_inputs}
+    inputs['depth'] = np.random.uniform(50, 100, 5)
+    inputs['dist_s_to_l'] = np.random.uniform(50, 100, 5)
+    inputs['x'] = [0.5, 1.5, 2.5]  # should interp to [1, 3, 2]
+
+    outs = obj.eval(inputs)
+
+    max_export = outs['max_export']
+    max_electrical = outs['max_electrical']
+    export = outs['export']
+
+    assert not any(max_electrical > export)
+    assert max_export == np.max(export)
+
+    # test interp on arrays
+    assert np.allclose(outs['interp'], [101, 103, 102])
+
+    # test a list entry to a numpy function
+    assert np.allclose(outs['list_entry'], [0, 1, 2, 0])

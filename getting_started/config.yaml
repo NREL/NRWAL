@@ -1,0 +1,17 @@
+# This is an example nrwal config file
+
+# Make sure you change this path to point to the directory containing the "equations" folder.
+equation_directory:
+  /Users/gbuster/code/NRWAL/getting_started/
+
+# Create a reference to the 'sample_equation' from the model file in the equation library using the "::" syntax and call it "model_equation"
+model_equation:
+  equations::model::sample_equation
+
+# Use the 'model_equation' from the previous line in a new computation involving the python library numpy (np)
+np_computation:
+  np.exp(model_equation) + np.min(model_equation)
+
+# bring all of the computations together into some desired output
+desired_output:
+  equations::model::cost + model_equation + np_computation

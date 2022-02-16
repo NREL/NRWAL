@@ -1,0 +1,4 @@
+cost:
+  input_price_1 + input_price_2
+sample_equation:
+  input_variable_x ** 2

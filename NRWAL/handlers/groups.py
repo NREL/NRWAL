@@ -166,7 +166,7 @@ class AbstractGroup(ABC):
             start_loc, end_loc = find_parens(key)[0]
             wkey = 'workspace_{}'.format(1 + len(workspace))
             assert wkey not in workspace
-            pk = key[start_loc:end_loc + 1]
+            pk = key[start_loc:end_loc]
             key = key.replace(pk, wkey)
             pk = pk.lstrip('(').rstrip(')')
             workspace[wkey] = obj._getitem(pk, workspace)

@@ -58,7 +58,9 @@ class Equation:
             assert isinstance(k, str), msg
             msg = ('Input data must be one of (int, float, np.ndarray, list, '
                    'tuple), but received: {}'.format(type(v)))
-            assert isinstance(v, (int, float, np.ndarray, list, tuple)), msg
+            is_num = (isinstance(v, (int, float, np.ndarray, list, tuple))
+                      | np.issubdtype(type(v), np.number))
+            assert is_num, msg
 
             if isinstance(v, np.ndarray):
                 if np.issubdtype(v.dtype, np.integer):
@@ -313,7 +315,8 @@ class Equation:
     def is_variable(cls, s):
         """Check if a string is a variable name without any constants,
         operators, or arithmetic expressions"""
-        flags = ('(', ')', '[', ']', '+', '-', '/', '*',  '^', ' ')
+        flags = ('(', ')', '[', ']', '{', '}', '+', '-', '/', '*', '^', ' ',
+                 '<', '>', '=', '\\', '|', '&', '$', '@', '-')
         if cls.is_num(s):
             return False
         elif any(f in s for f in flags):
@@ -340,11 +343,13 @@ class Equation:
     @classmethod
     def parse_variables(cls, expression):
         """Parse variable names from an expression string."""
-        delimiters = ('*', '/', '+', '-', ' ', '(', ')', '[', ']')
+        delimiters = ('*', '/', '+', '-', ' ', '(', ')', '[', ']', '>', '<')
         regex_pattern = '|'.join(map(re.escape, delimiters))
-        variables = [sub for sub in re.split(regex_pattern, str(expression))
-                     if sub
-                     and not cls.is_num(sub)
+        variables = [sub.strip(',')
+                     for sub in re.split(regex_pattern, str(expression))
+                     if sub.strip(',')
+                     and cls.is_variable(sub)
+                     and not cls.is_num(sub.strip(','))
                      and not cls.is_method(sub)]
         variables = sorted(list(set(variables)))
         return variables
@@ -384,7 +389,7 @@ class Equation:
             check = False
         elif cls.is_num(expression):
             check = True
-        elif any([x in str(expression) for x in operators]):
+        elif any(x in str(expression) for x in operators):
             check = True
 
         return check
