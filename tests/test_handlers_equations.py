@@ -169,9 +169,12 @@ def test_numpy_eqns():
     assert np.allclose(eqn.eval(x=x, xp=xp, fp=fp), truth)
 
 
-def test_self_referential_eq():
+@pytest.mark.parametrize(
+    'bad_fp', ('bad_self_ref_eqn.yaml', 'bad_deep_self_ref_eqn.yaml')
+)
+def test_self_referential_eq(bad_fp):
     """Test self-referential equations. """
-    fp = os.path.join(BAD_DIR, 'bad_self_ref_eqn.yaml')
+    fp = os.path.join(BAD_DIR, bad_fp)
     with pytest.raises(ValueError) as excinfo:
         EquationGroup(fp)
 

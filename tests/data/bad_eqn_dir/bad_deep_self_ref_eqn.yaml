@@ -1,0 +1,14 @@
+a_constant:
+  10
+
+other_input:
+  input_x
+
+other_input_2:
+  other_input
+
+renamed_input_x:
+  a_constant * other_input_2
+
+input_x:
+  renamed_input_x * 1000
