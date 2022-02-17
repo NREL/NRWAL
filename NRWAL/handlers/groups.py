@@ -749,8 +749,8 @@ class EquationGroup(AbstractGroup):
             working = False
             for eqn in [v for v in group.values() if isinstance(v, Equation)]:
                 for var in [v for v in eqn.variables if v in group]:
-                    repl_str = '({})'.format(group[var]._eqn)
-                    eqn._eqn = eqn._eqn.replace(var, repl_str)
+                    repl_str = '({})'.format(group[var].eqn)
+                    eqn.eqn = eqn.eqn.replace(var, repl_str)
                     working = True
 
         return group

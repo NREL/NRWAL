@@ -37,23 +37,50 @@ class Equation:
 
         self._str = None
         self._base_name = name
-        self._eqn = str(eqn)
+        self._eqn_history = [str(eqn)]
         self._preflight()
 
     def _preflight(self):
         """Run preflight checks on the equation string."""
         for substr in self.ILLEGAL:
-            if substr in str(self._eqn):
+            if substr in str(self.eqn):
                 msg = ('Will not evaluate string which contains "{}": {}'
-                       .format(substr, self._eqn))
+                       .format(substr, self.eqn))
                 logger.error(msg)
                 raise ValueError(msg)
 
-        if self._base_name is not None and self._base_name in self.variables:
+        self.verify_no_self_reference()
+
+    @property
+    def eqn(self):
+        """str: Full equation string
+
+        The setter method verifies that the new equation
+        does not contain any self references.
+        """
+        return self._eqn_history[-1]
+
+    @eqn.setter
+    def eqn(self, value):
+        """Set the  new equation and verify there are no self references. """
+        self._eqn_history.append(value)
+        self.verify_no_self_reference()
+
+    def verify_no_self_reference(self):
+        """Verify that the equation does not reference itself.
+
+        Raises
+        ------
+        ValueError
+            If a reference to the equation name is found in its variables.
+        """
+        if self._base_name in self.variables:
+            join_str = "\n\t{} = ".format(self._base_name)
+            hist_str = join_str.join(["Equation history:"] + self._eqn_history)
             msg = ("Self-referencing is not allowed! Please change "
                    "either the equation name or the name of the dependent "
-                   "variable in the following input equation: {} = {}"
-                   .format(self._base_name, self._eqn))
+                   "variable in the following input equation: {} = {}\n{}"
+                   .format(self._base_name, self.eqn, hist_str))
             logger.error(msg)
             raise ValueError(msg)
 
@@ -102,8 +129,8 @@ class Equation:
         if not isinstance(other, Equation):
             other = cls(other)
 
-        arg1 = self._eqn
-        arg2 = other._eqn
+        arg1 = self.eqn
+        arg2 = other.eqn
         if not self.is_num(arg1) and not self.is_variable(arg1):
             arg1 = '({})'.format(arg1)
         if not self.is_num(arg2) and not self.is_variable(arg2):
@@ -235,8 +262,8 @@ class Equation:
 
     def __str__(self):
         if self._str is None:
-            if self.is_num(self._eqn) and not any(self.variables):
-                self._str = str(self._eqn)
+            if self.is_num(self.eqn) and not any(self.variables):
+                self._str = str(self.eqn)
 
             else:
                 vars_str = [v for v in self.variables
@@ -259,7 +286,7 @@ class Equation:
         return self._str
 
     def __contains__(self, arg):
-        return arg in self._eqn
+        return arg in self.eqn
 
     def set_default_variables(self, var_dict):
         """Set default variables available to this Equation object.
@@ -335,7 +362,7 @@ class Equation:
     @property
     def full(self):
         """Get the full equation string without any pretty formatting."""
-        return self._eqn
+        return self.eqn
 
     @property
     def default_variables(self):
@@ -372,7 +399,7 @@ class Equation:
         -------
         list
         """
-        return self.parse_variables(self._eqn)
+        return self.parse_variables(self.eqn)
 
     @classmethod
     def is_equation(cls, expression):
@@ -435,7 +462,7 @@ class Equation:
             raise RuntimeError(msg)
 
         try:
-            out = eval(str(self._eqn), globals(), kwargs)
+            out = eval(str(self.eqn), globals(), kwargs)
         except Exception as e:
             msg = ('Could not evaluate NRWAL Equation {}, received error: {}'
                    .format(self, e))
