@@ -33,16 +33,16 @@ def test_print_eqn():
     known_vars = ('depth', 'outfitting_cost')
     eqn = obj[eqn_name]
     assert len(eqn.variables) == len(known_vars)
-    assert all([v in eqn.variables for v in known_vars])
-    assert all([v in str(eqn) for v in known_vars])
+    assert all(v in eqn.variables for v in known_vars)
+    assert all(v in str(eqn) for v in known_vars)
     assert eqn_name in str(eqn)
 
     eqn_name = 'lattice'
     known_vars = ('turbine_capacity', 'depth', 'lattice_cost')
     eqn = obj[eqn_name]
     assert len(eqn.variables) == len(known_vars)
-    assert all([v in eqn.variables for v in known_vars])
-    assert all([v in str(eqn) for v in known_vars])
+    assert all(v in eqn.variables for v in known_vars)
+    assert all(v in str(eqn) for v in known_vars)
     assert eqn_name in str(eqn)
 
     eqn = obj['subgroup::eqn1']
