@@ -1,8 +1,10 @@
-hydrogen_kg_using_rate:
-  electrolyzer_efficiency_kg_mwh * resource_capacity_profile
-electrolyzer_kg_max_production_rate:
-  electrolyzer_size_mw * electrolyzer_efficiency_kg_mwh
+hydrogen_production_kg_mwh:
+  18.02
+hourly_hydrogen_kg:
+  hydrogen_production_kg_mwh * resource_capacity_profile_mw
+max_hourly_hydrogen_kg:
+  hydrogen_production_kg_mwh * electrolyzer_size_mw
 hydrogen_kg:
-  np.where(hydrogen_kg_using_rate < electrolyzer_kg_max_production_rate, hydrogen_kg_using_rate, electrolyzer_kg_max_production_rate)
+  np.where(hourly_hydrogen_kg < max_hourly_hydrogen_kg, hourly_hydrogen_kg, max_hourly_hydrogen_kg)
 hydrogen_annual_kg:
   np.nansum(hydrogen_kg, axis=0)
