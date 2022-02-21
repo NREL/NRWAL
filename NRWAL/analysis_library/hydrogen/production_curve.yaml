@@ -2,14 +2,14 @@ normal_capacity:
   np.array([0.00, 0.03, 0.05, 0.10, 0.15, 0.20, 0.25, 1.00])
 capacity_curve_mw:
   normal_capacity * electrolyzer_size_mw
-hydrogen_curve_kg_mwh:
+hydrogen_curve_kg_per_mwh:
   np.array([0, 0, 12.12121212, 20.28397566, 20.92050209, 20.92050209, 20.28397566, 17.27115717])
-hydrogen_production_kg_mwh:
-  np.interp(resource_capacity_profile_mw, capacity_curve_mw, hydrogen_curve_kg_mwh)
+hydrogen_production_kg_per_mwh:
+  np.interp(resource_capacity_profile_mw, capacity_curve_mw, hydrogen_curve_kg_per_mwh)
 hourly_hydrogen_kg:
-  hydrogen_production_kg_mwh * resource_capacity_profile_mw
+  hydrogen_production_kg_per_mwh * resource_capacity_profile_mw
 hourly_hydrogen_max_kg:
-  np.max(hydrogen_curve_kg_mwh) * electrolyzer_size_mw
+  np.max(hydrogen_curve_kg_per_mwh) * electrolyzer_size_mw
 hydrogen_kg:
   np.where(hourly_hydrogen_kg < hourly_hydrogen_max_kg, hourly_hydrogen_kg, hourly_hydrogen_max_kg)
 hydrogen_annual_kg:
