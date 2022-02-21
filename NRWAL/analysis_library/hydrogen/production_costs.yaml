@@ -1,8 +1,4 @@
-capex_h2_per_mw:
-  capex_h2_per_kw * 1000
-opex_h2_per_mw:
-  electrolyzer_size_mw * electrolyzer_opex_per_mw
 capex_h2:
-  capex_h2_per_mw * electrolyzer_size_mw
+  electrolyzer_capex_per_mw * electrolyzer_size_mw
 opex_h2:
-  opex_h2_per_mw * electrolyzer_size_mw
+  electrolyzer_opex_per_mw * electrolyzer_size_mw
