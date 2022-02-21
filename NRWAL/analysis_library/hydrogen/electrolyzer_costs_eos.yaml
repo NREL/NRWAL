@@ -12,4 +12,4 @@ capacity_curve_mw:
 cost_curve_dollars_per_mw:
   np.array([550, 490, 440, 390, 300]) * 1000
 electrolyzer_capex_per_mw:
-  np.interp(electrolyzer_size_mw, capacity_curve_mw, cost_curve_dollars_per_mw)
+  np.interp(plant_capacity_mw, capacity_curve_mw, cost_curve_dollars_per_mw)
