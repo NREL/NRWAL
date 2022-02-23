@@ -994,7 +994,8 @@ class NrwalConfig:
                         or Equation.is_num(v)):
                     pass
                 elif isinstance(v, Equation):
-                    kwargs = copy.deepcopy(self.inputs)
+                    kwargs = copy.deepcopy(self.global_variables)
+                    kwargs.update(self.inputs)
                     kwargs.update(self._outputs)
 
                     try:

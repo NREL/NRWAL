@@ -28,7 +28,22 @@ FP_GOOD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_3.yml')
 FP_GOOD_4 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_4.yaml')
 FP_GOOD_5 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_5.yaml')
 FP_GOOD_6 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_6.yaml')
+FP_GOOD_7 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_7.yaml')
 FP_NP = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_np.yml')
+
+
+@pytest.fixture()
+def test_equations_directory():
+    """Temporarily set the NRWAL equations directory to the test version. """
+    # Startup
+    previous_dir = NrwalConfig.DEFAULT_DIR
+    NrwalConfig.DEFAULT_DIR = os.path.join(TEST_DATA_DIR, 'test_eqns_dir')
+
+    # test happens here
+    yield
+
+    # teardown (i.e. return equations directory to original dir)
+    NrwalConfig.DEFAULT_DIR = previous_dir
 
 
 def test_good_config_parsing():
@@ -286,6 +301,16 @@ def test_leading_negative():
     assert np.allclose(obj['test4'], -(bos - install) + pslt + turbine)
     assert np.allclose(obj['test5'], -(bos * install) + pslt + turbine)
     assert np.allclose(obj['test6'], -(bos * install) + pslt * -turbine)
+
+
+# pylint: disable=W0613
+def test_global_variables_used_for_eval(test_equations_directory):
+    """Test that the global variables dict is populated and used correctly. """
+    obj = NrwalConfig(FP_GOOD_7)
+    assert 'an_important_constant' in obj.global_variables
+
+    out = obj.evaluate()
+    assert 'model_out' in out
 
 
 def test_numpy():
