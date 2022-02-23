@@ -1,0 +1,5 @@
+an_important_constant:
+  model_constants::an_important_constant
+
+model_out:
+  model_equations::some_equation
