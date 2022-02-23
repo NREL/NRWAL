@@ -1,0 +1,6 @@
+gcf:
+  cf_mean
+
+# circular ref
+cf_mean:
+  gcf * 1000

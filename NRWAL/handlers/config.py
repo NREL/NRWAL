@@ -265,6 +265,9 @@ class NrwalConfig:
         self._eqn_dir = EquationDirectory(eqn_dir, **kwargs)
         self._global_variables = self._parse_global_variables(config)
         self._raw_config = copy.deepcopy(config)
+
+        self._check_circ_ref(config)
+
         self._config = self._parse_config(config, self._eqn_dir,
                                           self._global_variables)
 
@@ -381,6 +384,37 @@ class NrwalConfig:
                 gvars[k] = float(v)
 
         return gvars
+
+    @staticmethod
+    def _check_circ_ref(config):
+        """Check the config for circular variable references that would result
+        in a recursion error.
+
+        Parameters
+        ----------
+        config : dict
+            NRWAL config dictionary mapping names (str) to expressions (str)
+        """
+
+        circular_refs = []
+        for name, expression in config.items():
+            exp_vars = Equation.parse_variables(expression)
+
+            for other_name, other_exp in config.items():
+                other_vars = Equation.parse_variables(other_exp)
+
+                same = name == other_name
+                circle_1 = name in other_vars
+                circle_2 = other_name in exp_vars
+
+                if not same and circle_1 and circle_2:
+                    circular_refs.append((name, other_name))
+
+        if any(circular_refs):
+            msg = ('Cannot use NRWAL config with the following circular '
+                   'reference pairs: {}'.format(circular_refs))
+            logger.error(msg)
+            raise RuntimeError(msg)
 
     @classmethod
     def _parse_config(cls, config, eqn_dir, gvars):
