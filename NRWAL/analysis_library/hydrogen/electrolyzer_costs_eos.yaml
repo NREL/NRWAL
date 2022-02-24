@@ -8,8 +8,8 @@
 # $300/kw at 1000 MW
 
 capacity_curve_mw:
-  np.array([10, 20, 50, 100, 1000])
+  np.array([0, 10, 20, 50, 100, 1000])
 cost_curve_dollars_per_mw:
-  np.array([550, 490, 440, 390, 300]) * 1000
+  np.array([550, 550, 490, 440, 390, 300]) * 1000
 electrolyzer_capex_per_mw:
-  np.interp(plant_capacity_mw, capacity_curve_mw, cost_curve_dollars_per_mw)
+  np.interp(electrolyzer_size_mw, capacity_curve_mw, cost_curve_dollars_per_mw)
