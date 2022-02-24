@@ -1,0 +1,128 @@
+fixed:
+  array_cable_2017: 0.1048
+  array_cable_2020: 0.0
+  array_cable_2025: 0.0
+  array_cable_2030: 0.0
+  capex_2017: 0.0
+  capex_2018: 0.002 #cod 2020
+  capex_2023: 0.115337259 #cod 2025
+  capex_2028: 0.211310034 #cod 2030
+  capex_2033: 0.233946469 #cod 2035
+  development_2017: 0.0203
+  development_2020: 0.0
+  development_2025: 0.0
+  development_2030: 0.0
+  export_cable_2017: 0.0
+  export_cable_2020: 0.0
+  export_cable_2025: 0.0
+  export_cable_2030: 0.0
+  foundation_2017: 0.1132
+  foundation_2020: 0.0
+  foundation_2025: 0.0
+  foundation_2030: 0.0
+  gross_aep_2017: 0.0304
+  gross_aep_2020: 0.0
+  gross_aep_2025: 0.0
+  gross_aep_2030: 0.0
+  maintenance_2017: 0.142
+  maintenance_2020: 0.0
+  maintenance_2025: 0.0
+  maintenance_2030: 0.0
+  ncf_2017: 0.0
+  ncf_2018: -0.0112 #cod 2020
+  ncf_2023: -0.0371 #cod 2025
+  ncf_2028: -0.0799 #cod 2030
+  ncf_2033: -0.07 #cod 2035
+  operations_2017: 0.1272
+  operations_2020: 0.0
+  operations_2025: 0.0
+  operations_2030: 0.0
+  opex_2017: 0.0
+  opex_2018: 0.0075 #cod 2020
+  opex_2023: 0.045 #cod 2025
+  opex_2028: 0.0825 #cod 2030
+  opex_2033: 0.12 #cod 2035
+  rna_2017: 0.0
+  rna_2020: 0.0
+  rna_2025: 0.0
+  rna_2030: 0.0
+  sub_and_found_install_2017: 0.1511
+  sub_and_found_install_2020: 0.0
+  sub_and_found_install_2025: 0.0
+  sub_and_found_install_2030: 0.0
+  substructure_2017: 0.112
+  substructure_2020: 0.0
+  substructure_2025: 0.0
+  substructure_2030: 0.0
+  total_losses_2017: 0.056
+  total_losses_2020: 0.0
+  total_losses_2025: 0.0
+  total_losses_2030: 0.0
+  turbine_install_2017: 0.0963
+  turbine_install_2020: 0.0
+  turbine_install_2025: 0.0
+  turbine_install_2030: 0.0
+floating:
+  array_cable_2017: 0.133
+  array_cable_2020: 0.0
+  array_cable_2025: 0.0
+  array_cable_2030: 0.0
+  capex_2017: 0.0
+  capex_2018: 0.047 #2020 cod
+  capex_2023: 0.149 #2025 cod
+  capex_2028: 0.195 #2030 cod
+  capex_2033: 0.22 #2035 cod
+  development_2017: 0.0359
+  development_2020: 0.0
+  development_2025: 0.0
+  development_2030: 0.0
+  export_cable_2017: 0.0
+  export_cable_2020: 0.0
+  export_cable_2025: 0.0
+  export_cable_2030: 0.0
+  foundation_2017: 0.1129
+  foundation_2020: 0.0
+  foundation_2025: 0.0
+  foundation_2030: 0.0
+  gross_aep_2017: 0.0304
+  gross_aep_2020: 0.0
+  gross_aep_2025: 0.0
+  gross_aep_2030: 0.0
+  maintenance_2017: 0.1404
+  maintenance_2020: 0.0
+  maintenance_2025: 0.0
+  maintenance_2030: 0.0
+  ncf_2017: 0.0
+  ncf_2018: -0.0175 #2020 cod
+  ncf_2023: -0.024 #2025 cod
+  ncf_2028: -0.0572 #2030 cod
+  ncf_2033: -0.11 #2035 cod
+  operations_2017: 0.1273
+  operations_2020: 0.0
+  operations_2025: 0.0
+  operations_2030: 0.0
+  opex_2017: 0.0
+  opex_2018: 0.01375 #2020 cod
+  opex_2023: 0.0825 #2025 cod
+  opex_2028: 0.15125 #2030 cod
+  opex_2033: 0.22 #2035 cod
+  rna_2017: 0.0
+  rna_2020: 0.0
+  rna_2025: 0.0
+  rna_2030: 0.0
+  sub_and_found_install_2017: 0.1672
+  sub_and_found_install_2020: 0.0
+  sub_and_found_install_2025: 0.0
+  sub_and_found_install_2030: 0.0
+  substructure_2017: 0.1416
+  substructure_2020: 0.0
+  substructure_2025: 0.0
+  substructure_2030: 0.0
+  total_losses_2017: 0.0556
+  total_losses_2020: 0.0
+  total_losses_2025: 0.0
+  total_losses_2030: 0.0
+  turbine_install_2017: 0.0957
+  turbine_install_2020: 0.0
+  turbine_install_2025: 0.0
+  turbine_install_2030: 0.0
