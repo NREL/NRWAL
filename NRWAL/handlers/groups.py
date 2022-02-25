@@ -747,10 +747,15 @@ class EquationGroup(AbstractGroup):
         working = True
         while working:
             working = False
-            for eqn in [v for v in group.values() if isinstance(v, Equation)]:
+            for group_key, eqn in group.items():
+                if not isinstance(eqn, Equation):
+                    continue
                 for var in [v for v in eqn.variables if v in group]:
                     repl_str = '({})'.format(group[var].eqn)
-                    eqn.eqn = eqn.eqn.replace(var, repl_str)
+                    new_eqn = eqn.eqn.replace(var, repl_str)
+                    group[group_key] = eqn = Equation.replace_equation(
+                        eqn, new_eqn
+                    )
                     working = True
 
         return group

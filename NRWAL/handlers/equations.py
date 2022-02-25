@@ -53,18 +53,8 @@ class Equation:
 
     @property
     def eqn(self):
-        """str: Full equation string
-
-        The setter method verifies that the new equation
-        does not contain any self references.
-        """
+        """str: Full equation string. """
         return self._eqn_history[-1]
-
-    @eqn.setter
-    def eqn(self, value):
-        """Set the  new equation and verify there are no self references. """
-        self._eqn_history.append(value)
-        self.verify_no_self_reference()
 
     def verify_no_self_reference(self):
         """Verify that the equation does not reference itself.
@@ -104,6 +94,45 @@ class Equation:
                 kwargs[k] = float(v)
 
         return kwargs
+
+    @classmethod
+    def replace_equation(cls, old_eqn, new_eqn):
+        """Replace the expression of the old equation with a new one.
+
+        This method returns a new `Equation` instance that replaces
+        the old equation expression with the new one supplied by the
+        user, keeping the old name and old default variables.
+
+        Parameters
+        ----------
+        old_eqn : `Equation` instance
+            _description_
+        new_eqn : str
+            String representation of the new `Equation` instance.
+
+        Returns
+        -------
+        `Equation`
+            A new `Equation` instance with the same name and
+            default values as the old `Equation` but with the new
+            equation expression.
+
+        Raises
+        ------
+        TypeError
+            If `old_eqn` is not an instance of `Equation`.
+        """
+        if not isinstance(old_eqn, Equation):
+            msg = ("`old_eqn` input must be an instance of `Equation`! "
+                   "Instead, got: {} (type: {})"
+                   .format(old_eqn, type(old_eqn)))
+            logger.error(msg)
+            raise TypeError(msg)
+
+        return cls(
+            new_eqn, name=old_eqn._base_name,
+            default_variables=old_eqn.default_variables
+        )
 
     def __eqn_math(self, other, operator):
         """Perform arithmetic with this instance of Equation (self) and an
