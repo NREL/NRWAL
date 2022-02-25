@@ -18,6 +18,9 @@ TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
 FP_BAD_0 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_0.yml')
 FP_BAD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_1.yml')
 FP_BAD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_2.yaml')
+FP_BAD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_3.yaml')
+FP_BAD_4 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_4.yaml')
+
 FP_GOOD_0 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_0.yml')
 FP_GOOD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_1.yml')
 FP_GOOD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_2.yml')
@@ -264,6 +267,15 @@ def test_config_reference_bad():
     another config"""
     with pytest.raises(AssertionError):
         _ = NrwalConfig(FP_BAD_2)
+
+
+def test_bad_circular():
+    """Test that NRWAL raises an error for circular equation references"""
+    with pytest.raises(RuntimeError):
+        NrwalConfig(FP_BAD_3)
+
+    with pytest.raises(RuntimeError):
+        NrwalConfig(FP_BAD_4)
 
 
 def test_leading_negative():
