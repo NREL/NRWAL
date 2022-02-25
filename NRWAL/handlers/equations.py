@@ -95,18 +95,15 @@ class Equation:
 
         return kwargs
 
-    @classmethod
-    def replace_equation(cls, old_eqn, new_eqn):
-        """Replace the expression of the old equation with a new one.
+    def replace_equation(self, new_eqn):
+        """Replace the expression of this equation with a new one.
 
         This method returns a new `Equation` instance that replaces
-        the old equation expression with the new one supplied by the
-        user, keeping the old name and old default variables.
+        the existing equation expression with the new one supplied by the
+        user, keeping the equation name and default variables unchanged.
 
         Parameters
         ----------
-        old_eqn : `Equation` instance
-            _description_
         new_eqn : str
             String representation of the new `Equation` instance.
 
@@ -116,22 +113,11 @@ class Equation:
             A new `Equation` instance with the same name and
             default values as the old `Equation` but with the new
             equation expression.
-
-        Raises
-        ------
-        TypeError
-            If `old_eqn` is not an instance of `Equation`.
         """
-        if not isinstance(old_eqn, Equation):
-            msg = ("`old_eqn` input must be an instance of `Equation`! "
-                   "Instead, got: {} (type: {})"
-                   .format(old_eqn, type(old_eqn)))
-            logger.error(msg)
-            raise TypeError(msg)
 
-        return cls(
-            new_eqn, name=old_eqn._base_name,
-            default_variables=old_eqn.default_variables
+        return self.__class__(
+            new_eqn, name=self._base_name,
+            default_variables=self.default_variables
         )
 
     def __eqn_math(self, other, operator):

@@ -753,9 +753,7 @@ class EquationGroup(AbstractGroup):
                 for var in [v for v in eqn.variables if v in group]:
                     repl_str = '({})'.format(group[var].eqn)
                     new_eqn = eqn.eqn.replace(var, repl_str)
-                    group[group_key] = eqn = Equation.replace_equation(
-                        eqn, new_eqn
-                    )
+                    group[group_key] = eqn = eqn.replace_equation(new_eqn)
                     working = True
 
         return group
