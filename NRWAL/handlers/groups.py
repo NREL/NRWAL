@@ -751,8 +751,8 @@ class EquationGroup(AbstractGroup):
                 if not isinstance(eqn, Equation):
                     continue
                 for var in [v for v in eqn.variables if v in group]:
-                    repl_str = '({})'.format(group[var].eqn)
-                    new_eqn = eqn.eqn.replace(var, repl_str)
+                    repl_str = '({})'.format(group[var].full)
+                    new_eqn = eqn.full.replace(var, repl_str)
                     group[group_key] = eqn = eqn.replace_equation(new_eqn)
                     working = True
 
