@@ -1,0 +1,9 @@
+# Values output in 2015 USD (in agreement with ORCA)
+# Fixed-bottom maint. update (very roughly) derived with A. Cooperman 
+# based on Wiser Expert Elicitation values for 2020 OpEx
+
+fixed:
+  (4.3079 * np.log(dist_op_to_s) +
+  2.1306 * hs_average ** 2 +
+  7.3227 * hs_average + 31.314 - 16.1) * 
+  (0.4728 * np.log(num_turbines) - 1.2386) * 1000000

@@ -4,20 +4,20 @@
 # water depths from 5m-60m,
 # turbines used: 8MW from COE Review, 12, 15, 18 MW from 2021 ATB.
 # Note that monopile_capex includes the cost of the monopile and scour protection.
+# 7% increase in foundation costs based on hurricane risk (from SGRE)
 monopile_capex_8MW:
-  depth * 2531862.35293382 + 55232011.11411556
+  depth * 2531862.35293382 + 55232011.11411556 * 1.07
 transition_piece_capex_8MW:
-  depth * 442267.27705033 + 75731255.6270378
+  depth * 442267.27705033 + 75731255.6270378 * 1.07
 monopile_capex_12MW:
-  depth * 2672505.9123007 + 75880838.84687635
+  depth * 2672505.9123007 + 75880838.84687635 * 1.07
 transition_piece_capex_12MW:
-  depth * 386499.78636803 + 85925790.69056265
+  depth * 386499.78636803 + 85925790.69056265 * 1.07
 monopile_capex_15MW:
-  depth * 2536465.45717362 + 78715384.23273994
+  depth * 2536465.45717362 + 78715384.23273994 * 1.07
 transition_piece_capex_15MW:
-  depth * 342517.33495976 + 83344886.98159502
+  depth * 342517.33495976 + 83344886.98159502 * 1.07
 monopile_capex_18MW:
-  depth * 2476816.4437201 + 82173904.71575153
+  depth * 2476816.4437201 + 82173904.71575153 * 1.07
 transition_piece_capex_18MW:
-  depth * 317713.43123565 + 82548382.5219129
-
+  depth * 317713.43123565 + 82548382.5219129 * 1.07
