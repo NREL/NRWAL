@@ -18,6 +18,9 @@ TEST_DATA_DIR = os.path.join(TEST_DIR, 'data/')
 FP_BAD_0 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_0.yml')
 FP_BAD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_1.yml')
 FP_BAD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_2.yaml')
+FP_BAD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_3.yaml')
+FP_BAD_4 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_bad_4.yaml')
+
 FP_GOOD_0 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_0.yml')
 FP_GOOD_1 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_1.yml')
 FP_GOOD_2 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_2.yml')
@@ -25,7 +28,22 @@ FP_GOOD_3 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_3.yml')
 FP_GOOD_4 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_4.yaml')
 FP_GOOD_5 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_5.yaml')
 FP_GOOD_6 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_6.yaml')
+FP_GOOD_7 = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_good_7.yaml')
 FP_NP = os.path.join(TEST_DATA_DIR, 'test_configs/test_config_np.yml')
+
+
+@pytest.fixture()
+def test_equations_directory():
+    """Temporarily set the NRWAL equations directory to the test version. """
+    # Startup
+    previous_dir = NrwalConfig.DEFAULT_DIR
+    NrwalConfig.DEFAULT_DIR = os.path.join(TEST_DATA_DIR, 'test_eqns_dir')
+
+    # test happens here
+    yield
+
+    # teardown (i.e. return equations directory to original dir)
+    NrwalConfig.DEFAULT_DIR = previous_dir
 
 
 def test_good_config_parsing():
@@ -251,6 +269,15 @@ def test_config_reference_bad():
         _ = NrwalConfig(FP_BAD_2)
 
 
+def test_bad_circular():
+    """Test that NRWAL raises an error for circular equation references"""
+    with pytest.raises(RuntimeError):
+        NrwalConfig(FP_BAD_3)
+
+    with pytest.raises(RuntimeError):
+        NrwalConfig(FP_BAD_4)
+
+
 def test_leading_negative():
     """Test config with equations that have leading negative signs or
     negative signs attached to variables"""
@@ -274,6 +301,16 @@ def test_leading_negative():
     assert np.allclose(obj['test4'], -(bos - install) + pslt + turbine)
     assert np.allclose(obj['test5'], -(bos * install) + pslt + turbine)
     assert np.allclose(obj['test6'], -(bos * install) + pslt * -turbine)
+
+
+# pylint: disable=W0613
+def test_global_variables_used_for_eval(test_equations_directory):
+    """Test that the global variables dict is populated and used correctly. """
+    obj = NrwalConfig(FP_GOOD_7)
+    assert 'an_important_constant' in obj.global_variables
+
+    out = obj.evaluate()
+    assert 'model_out' in out
 
 
 def test_numpy():

@@ -33,16 +33,16 @@ def test_print_eqn():
     known_vars = ('depth', 'outfitting_cost')
     eqn = obj[eqn_name]
     assert len(eqn.variables) == len(known_vars)
-    assert all([v in eqn.variables for v in known_vars])
-    assert all([v in str(eqn) for v in known_vars])
+    assert all(v in eqn.variables for v in known_vars)
+    assert all(v in str(eqn) for v in known_vars)
     assert eqn_name in str(eqn)
 
     eqn_name = 'lattice'
     known_vars = ('turbine_capacity', 'depth', 'lattice_cost')
     eqn = obj[eqn_name]
     assert len(eqn.variables) == len(known_vars)
-    assert all([v in eqn.variables for v in known_vars])
-    assert all([v in str(eqn) for v in known_vars])
+    assert all(v in eqn.variables for v in known_vars)
+    assert all(v in str(eqn) for v in known_vars)
     assert eqn_name in str(eqn)
 
     eqn = obj['subgroup::eqn1']
@@ -167,3 +167,15 @@ def test_numpy_eqns():
     fp *= 2
     truth = 2 + 10 * 2 * np.array([0.25, 0.5, 1])
     assert np.allclose(eqn.eval(x=x, xp=xp, fp=fp), truth)
+
+
+@pytest.mark.parametrize(
+    'bad_fp', ('bad_self_ref_eqn.yaml', 'bad_deep_self_ref_eqn.yaml')
+)
+def test_self_referential_eq(bad_fp):
+    """Test self-referential equations. """
+    fp = os.path.join(BAD_DIR, bad_fp)
+    with pytest.raises(ValueError) as excinfo:
+        EquationGroup(fp)
+
+    assert "Self-referencing is not allowed!" in str(excinfo.value)

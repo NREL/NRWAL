@@ -49,6 +49,24 @@ class Equation:
                 logger.error(msg)
                 raise ValueError(msg)
 
+        self.verify_no_self_reference()
+
+    def verify_no_self_reference(self):
+        """Verify that the equation does not reference itself.
+
+        Raises
+        ------
+        ValueError
+            If a reference to the equation name is found in its variables.
+        """
+        if self._base_name in self.variables:
+            msg = ("Self-referencing is not allowed! Please change "
+                   "either the equation name or the name of the dependent "
+                   "variable in the following input equation: {} = {}"
+                   .format(self._base_name, self._eqn))
+            logger.error(msg)
+            raise ValueError(msg)
+
     @staticmethod
     def _check_input_args(kwargs):
         """Check that input args to equation are of expected types."""
@@ -69,6 +87,31 @@ class Equation:
                 kwargs[k] = float(v)
 
         return kwargs
+
+    def replace_equation(self, new_eqn):
+        """Replace the expression of this equation with a new one.
+
+        This method returns a new `Equation` instance that replaces
+        the existing equation expression with the new one supplied by the
+        user, keeping the equation name and default variables unchanged.
+
+        Parameters
+        ----------
+        new_eqn : str
+            String representation of the new `Equation` instance.
+
+        Returns
+        -------
+        `Equation`
+            A new `Equation` instance with the same name and
+            default values as the old `Equation` but with the new
+            equation expression.
+        """
+
+        return self.__class__(
+            new_eqn, name=self._base_name,
+            default_variables=self.default_variables
+        )
 
     def __eqn_math(self, other, operator):
         """Perform arithmetic with this instance of Equation (self) and an

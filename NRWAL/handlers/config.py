@@ -265,6 +265,10 @@ class NrwalConfig:
         self._eqn_dir = EquationDirectory(eqn_dir, **kwargs)
         self._global_variables = self._parse_global_variables(config)
         self._raw_config = copy.deepcopy(config)
+
+        for name, expression in config.items():
+            self._check_circ_ref(name, expression, config)
+
         self._config = self._parse_config(config, self._eqn_dir,
                                           self._global_variables)
 
@@ -381,6 +385,50 @@ class NrwalConfig:
                 gvars[k] = float(v)
 
         return gvars
+
+    @classmethod
+    def _check_circ_ref(cls, orig_name, expression, config, current_name=None,
+                        msg=None):
+        """Check the config for circular variable references that would result
+        in a recursion error.
+
+        Parameters
+        ----------
+        orig_name : str
+            The starting equation name to check for circular references.
+        expression : str
+            A string entry in the config, can be a number, an EquationDirectory
+            retrieval string, a key referencing a config entry, or a
+            mathematical expression combining these options.
+        config : dict
+            NRWAL config dictionary mapping names (str) to expressions (str)
+        current_name : str
+            The current equation name in the recursive search.
+        msg : str
+            The error message to be printed if a circular reference is found.
+        """
+
+        if current_name is None:
+            current_name = orig_name
+
+        if msg is None:
+            msg = ('Found a circular reference with NRWAL equations: {}'
+                   .format(orig_name))
+        else:
+            msg += ' -> {}'.format(current_name)
+
+        all_vars = Equation.parse_variables(expression)
+
+        if orig_name in all_vars:
+            msg += (', and ending with expression "{}": {}'
+                    .format(current_name, expression))
+            logger.error(msg)
+            raise RuntimeError(msg)
+
+        for var in all_vars:
+            if var in config:
+                cls._check_circ_ref(orig_name, config[var], config,
+                                    current_name=var, msg=msg)
 
     @classmethod
     def _parse_config(cls, config, eqn_dir, gvars):
