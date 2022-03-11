@@ -1,0 +1,8 @@
+# Values output in 2015 USD (in agreement with ORCA)
+# Should be total 1300 USD in end 2021 (inflation to be discussed with Philipp)
+# 7% tower cost increase due to hurricane risk
+rna:
+  1080.64 * turbine_capacity * 1000.0 * 0.86 * num_turbines
+tower:
+  1080.64 * turbine_capacity * 1000.0 * 0.14 * num_turbines * 1.07
+  
