@@ -386,6 +386,13 @@ class Equation:
     @classmethod
     def parse_variables(cls, expression):
         """Parse variable names from an expression string."""
+
+        # finds and replaces all scientific notation numbers
+        re_num = re.compile(r'[0-9]+\.?[0-9]*[eE][-+]?[0-9]*')
+        nums = re.findall(re_num, str(expression))
+        for num in nums:
+            expression = expression.replace(num, '-1')
+
         delimiters = ('*', '/', '+', '-', ' ', '(', ')', '[', ']', '>', '<')
         regex_pattern = '|'.join(map(re.escape, delimiters))
         variables = [sub.strip(',')
