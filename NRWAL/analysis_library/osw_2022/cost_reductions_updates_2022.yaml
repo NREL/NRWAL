@@ -4,10 +4,9 @@ fixed:
   array_cable_2025: 0.0
   array_cable_2030: 0.0
   capex_2017: 0.0
-  capex_2018: 0.002 #cod 2020
-  capex_2023: 0.115337259 #cod 2025
-  capex_2028: 0.211310034 #cod 2030
-  capex_2033: 0.233946469 #cod 2035
+  capex_2023: 0.13798 #cod 2025
+  capex_2028: 0.20511 #cod 2030
+  capex_2033: 0.24386 #cod 2035
   development_2017: 0.0203
   development_2020: 0.0
   development_2025: 0.0
@@ -68,10 +67,9 @@ floating:
   array_cable_2025: 0.0
   array_cable_2030: 0.0
   capex_2017: 0.0
-  capex_2018: 0.047 #2020 cod
-  capex_2023: 0.149 #2025 cod
-  capex_2028: 0.195 #2030 cod
-  capex_2033: 0.22 #2035 cod
+  capex_2023: 0.17875 #2025 cod
+  capex_2028: 0.24927 #2030 cod
+  capex_2033: 0.28808 #2035 cod
   development_2017: 0.0359
   development_2020: 0.0
   development_2025: 0.0
