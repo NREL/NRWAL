@@ -5,4 +5,4 @@ opex_pipeline:
 capex_pipeline_linear:
   (6.2385 * h2_flow_kg_h + 339713) * dist_to_h2_load_km
 capex_pipeline_EOS_nonlinear:
-  (-0.0084 * (h2_flow_kg_h**2) + 434.44 * h2_flow_kg_h + 400000) * dist_to_h2_load_km
+  (-0.020744 * (h2_flow_kg_h**2) + 710.144314 * h2_flow_kg_h + 212320.312500) * dist_to_h2_load_km
