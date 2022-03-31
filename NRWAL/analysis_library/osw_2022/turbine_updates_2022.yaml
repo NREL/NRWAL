@@ -1,8 +1,22 @@
 # Values output in 2015 USD (in agreement with ORCA)
 # Should be total 1300 USD in end 2021 (inflation to be discussed with Philipp)
 # 7% tower cost increase due to hurricane risk
-rna:
-  1080.64 * turbine_capacity * 1000.0 * 0.86 * num_turbines
-tower:
-  1080.64 * turbine_capacity * 1000.0 * 0.14 * num_turbines * 1.07
+# Transport cost adder estimate from New Orleans to San Juan split across both rna and tower.
+# Transport different for each capacity based on number of vessel trips with that model.
+rna_8MW:
+  1080.64 * turbine_capacity * 1000.0 * 0.86 * num_turbines + 0.86 * 21115334.69
+tower_8MW:
+  1080.64 * turbine_capacity * 1000.0 * 0.14 * num_turbines * 1.07 + 0.14 * 21115334.69
+rna_12MW:
+  1080.64 * turbine_capacity * 1000.0 * 0.86 * num_turbines + 0.86 * 15622102.73
+tower_12MW:
+  1080.64 * turbine_capacity * 1000.0 * 0.14 * num_turbines * 1.07 + 0.14 * 15622102.73
+rna_15MW:
+  1080.64 * turbine_capacity * 1000.0 * 0.86 * num_turbines + 0.86 * 13424809.94
+tower_15MW:
+  1080.64 * turbine_capacity * 1000.0 * 0.14 * num_turbines * 1.07 + 0.14 * 13424809.94
+rna_18MW:
+  1080.64 * turbine_capacity * 1000.0 * 0.86 * num_turbines + 0.86 * 12326163.55
+tower_18MW:
+  1080.64 * turbine_capacity * 1000.0 * 0.14 * num_turbines * 1.07 + 0.14 * 12326163.55
   
