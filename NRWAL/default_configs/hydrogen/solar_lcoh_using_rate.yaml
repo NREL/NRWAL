@@ -1,0 +1,81 @@
+# Generation capacity factor variable
+# plant_capacity_mw calculated by taking (area * power_density), where power_density = 36 MW/km2
+max_solar_cap_mw:
+  400
+plant_capacity_mw:
+  np.where(capacity < max_solar_cap_mw, capacity, max_solar_cap_mw)
+resource_capacity_profile_mw:
+  rep_profiles_0 * plant_capacity_mw
+
+
+# Electrolyzer config
+electrolyzer_size_ratio:
+  0.9
+electrolyzer_size_mw:
+  electrolyzer_size_ratio * plant_capacity_mw
+
+
+# Hydrogen production
+hydrogen_kg: hydrogen::production_rate::hydrogen_kg
+hydrogen_annual_kg: hydrogen::production_rate::hydrogen_annual_kg
+h2_flow_kg_h: hydrogen::production_rate::hourly_hydrogen_max_kg
+
+
+# Electrolyzer costs
+electrolyzer_capex_per_mw: hydrogen::electrolyzer_costs_flat::electrolyzer_capex_per_mw
+electrolyzer_opex_per_mw: hydrogen::electrolyzer_costs_flat::electrolyzer_opex_per_mw
+capex_h2: hydrogen::production_costs::capex_h2
+opex_h2: hydrogen::production_costs::opex_h2
+
+
+# Solar costs
+solar_cost_multiplier:
+  1
+solar_capex_per_mw:
+  (mean_capital_cost / mean_system_capacity) * 1000
+solar_opex_per_mw:
+  (mean_fixed_operating_cost / mean_system_capacity) * 1000
+capex_solar:
+  solar_capex_per_mw * plant_capacity_mw * solar_cost_multiplier
+opex_solar:
+  solar_opex_per_mw * plant_capacity_mw * solar_cost_multiplier
+
+
+# Pipeline costs
+pipeline_cost_multiplier:
+  1
+opex_pipeline:
+  hydrogen::pipeline::opex_pipeline * pipeline_cost_multiplier
+capex_pipeline:
+  hydrogen::pipeline::capex_pipeline_EOS_nonlinear * pipeline_cost_multiplier
+pipe_capex_per_km:
+  capex_pipeline / dist_to_h2_load_km
+pipe_opex_per_km:
+  opex_pipeline / dist_to_h2_load_km
+
+
+# Water costs
+water_cost_multiplier:
+  1
+annual_water_usage_gal: hydrogen::water::annual_water_usage_gal
+annual_water_cost:
+  hydrogen::water::annual_water_cost * water_cost_multiplier
+
+
+# Total and levelized costs
+total_capex:
+  capex_solar + capex_h2 + capex_pipeline
+fcr:
+  0.049
+solar_lcoh_component:
+  (capex_solar * fcr + opex_solar) / hydrogen_annual_kg
+h2_lcoh_component:
+  (capex_h2 * fcr + opex_h2) / hydrogen_annual_kg
+pipe_lcoh_component:
+  (capex_pipeline * fcr + opex_pipeline) / hydrogen_annual_kg
+water_lcoh_component:
+  annual_water_cost / hydrogen_annual_kg
+no_pipe_lcoh_fcr:
+  solar_lcoh_component + h2_lcoh_component + water_lcoh_component
+total_lcoh_fcr:
+  solar_lcoh_component + h2_lcoh_component + pipe_lcoh_component + water_lcoh_component
