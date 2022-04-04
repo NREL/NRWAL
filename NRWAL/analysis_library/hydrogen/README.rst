@@ -2,7 +2,7 @@
 Hydrogen Cost & Production Models
 *********************************
 
-This library includes equations for modeling costs and production of hydrogen using renewable energy input profiles. References used to derive these relationships include:
+This library includes equations for modeling costs and production of hydrogen using generation profiles as inputs. References used to derive these relationships include:
 
 - Electrolyzer Costs:
 Ruth, M.F., Jadun, P., Gilroy, N., Connelly, E., Boardman, R., Simon, A.J., Elgowainy, A. and Zuboy, J., 2020. The Technical and Economic Potential of the H2@ Scale Hydrogen Concept within the United States (No. NREL/TP-6A20-77610). National Renewable Energy Lab.(NREL), Golden, CO (United States).
