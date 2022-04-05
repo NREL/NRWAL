@@ -1,0 +1,10 @@
+hydrogen_production_kg_per_mwh:
+  18.02
+hourly_hydrogen_kg:
+  hydrogen_production_kg_per_mwh * resource_capacity_profile_mw
+hourly_hydrogen_max_kg:
+  hydrogen_production_kg_per_mwh * electrolyzer_size_mw
+hydrogen_kg:
+  np.where(hourly_hydrogen_kg < hourly_hydrogen_max_kg, hourly_hydrogen_kg, hourly_hydrogen_max_kg)
+hydrogen_annual_kg:
+  np.nansum(hydrogen_kg, axis=0)

@@ -1,0 +1,15 @@
+# These costs are based on the following NREL report:
+# "Manufacturing Cost Analysis for Proton Exchange Membrane Water Electrolyzers"
+#   - Mayyas, Ruth, Pivovar, Bender, Wipke
+# $550/kw at 10 MW
+# $490/kw at 20 MW
+# $440/kw at 50 MW
+# $390/kw at 100 MW
+# $300/kw at 1000 MW
+
+capacity_curve_mw:
+  np.array([0, 10, 20, 50, 100, 1000])
+cost_curve_dollars_per_mw:
+  np.array([550, 550, 490, 440, 390, 300]) * 1000
+electrolyzer_capex_per_mw:
+  np.interp(electrolyzer_size_mw, capacity_curve_mw, cost_curve_dollars_per_mw)
