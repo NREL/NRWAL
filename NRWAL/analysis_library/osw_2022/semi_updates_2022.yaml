@@ -1,0 +1,10 @@
+# Values output in 2015 USD (in agreement with ORCA)
+# Transport cost adder estimate from New Orleans to San Juan.
+semi_transport_8MW:
+  32101798.63 + 0
+semi_transport_12MW:
+  59567958.46 + 0
+semi_transport_15MW:
+  48581494.53 + 0
+semi_transport_18MW:
+  41989616.17 + 0
