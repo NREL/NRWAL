@@ -28,11 +28,7 @@ floating_array:
 # Still missing export spool transport
 #removing export costs
 fixed_export:
-  (0.0000000003 * dist_s_to_l ** 5 -
-   0.0000004236 * dist_s_to_l ** 4 +
-   0.0002190971 * dist_s_to_l ** 3 -
-   0.0561433389 * dist_s_to_l ** 2 +
-   9.4069414221 * dist_s_to_l + 83.12) * 1000000
+  dist_s_to_l * 1725970.33 + 202049737
 floating_export:
   (0.0000000003 * dist_s_to_l ** 5 -
    0.0000004450 * dist_s_to_l ** 4 +
