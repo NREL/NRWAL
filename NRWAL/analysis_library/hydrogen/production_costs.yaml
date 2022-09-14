@@ -1,0 +1,4 @@
+capex_h2:
+  electrolyzer_capex_per_mw * electrolyzer_size_mw
+opex_h2:
+  electrolyzer_opex_per_mw * electrolyzer_size_mw

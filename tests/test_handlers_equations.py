@@ -7,6 +7,7 @@ import os
 import numpy as np
 import pytest
 
+from NRWAL.handlers.equations import Equation
 from NRWAL.handlers.groups import EquationGroup
 from NRWAL.handlers.directories import EquationDirectory
 
@@ -179,3 +180,11 @@ def test_self_referential_eq(bad_fp):
         EquationGroup(fp)
 
     assert "Self-referencing is not allowed!" in str(excinfo.value)
+
+
+def test_sci_not():
+    """Test that numbers with scientific notation dont get parsed as variables
+    """
+    eqn = Equation('1e-4 + x-e*y*43.5E23/z-4.54e6')
+    assert len(eqn.variables) == 4
+    assert all(x in eqn.variables for x in ('x', 'e', 'y', 'z'))

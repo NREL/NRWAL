@@ -1,0 +1,55 @@
+# Values output in 2015 USD (in agreement with ORCA)
+# Cost curves derived with ORBIT for 600 MW plant, 
+# 7.2m/s mean wind speed (not accounting for wind shear since on the low end),
+# water depths from 5m-60m,
+# turbines used: 8MW from COE Review, 12, 15, 18 MW from 2021 ATB.
+# Note that monopile_capex includes the cost of the monopile and scour protection.
+
+transition_piece_capex_15MW:
+  (depth * 342517.33495976 + 83344886.98159502)
+monopile_capex_15MW:
+  (depth * 2536465.45717362 + 78715384.23273994)
+
+# Values output in 2015 USD (in agreement with ORCA)
+# Should be total 1300 USD in end 2021 (inflation to be discussed with Philipp)
+
+rna_15MW:
+  1080.64 * turbine_capacity * 1000.0 * 0.86 * num_turbines
+tower_15MW:
+  1080.64 * turbine_capacity * 1000.0 * 0.14 * num_turbines
+
+#removing transport costs of array cables
+
+fixed_array:
+  (-34.80 * depth ** 2 + 207619.80 * depth + 221197699.89) * (1 + ((num_turbines - 100) / 300.))
+floating_array:
+  (-36.56 * depth ** 2 + 218147.85 * depth + 241787966.27) * (1 + ((num_turbines - 100) / 300.))
+
+# Still missing export spool transport
+#removing export costs
+fixed_export:
+  dist_s_to_l * 1725970.33 + 202049737
+floating_export:
+  (0.0000000003 * dist_s_to_l ** 5 -
+   0.0000004450 * dist_s_to_l ** 4 +
+   0.0002307800 * dist_s_to_l ** 3 -
+   0.0590666309 * dist_s_to_l ** 2 +
+   9.6855829573 * dist_s_to_l + 83.12) * 1000000
+
+
+# Values output in 2015 USD (in agreement with ORCA)
+# Fixed-bottom maint. update (very roughly) derived with A. Cooperman 
+# based on Wiser Expert Elicitation values for 2020 OpEx
+
+fixed_maint:
+  (4.3079 * np.log(dist_op_to_s) +
+  2.1306 * hs_average ** 2 +
+  7.3227 * hs_average + 31.314 - 16.1) * 
+  (0.4728 * np.log(num_turbines) - 1.2386) * 1000000 + 9474000
+
+semi_maint:
+  (26.236675 +
+  5.470217 * hs_average ** 2 *
+  np.log(hs_average) +
+  0.563568 * np.log(dist_op_to_s) ** 2) * 
+  (0.4728 * np.log(num_turbines) - 1.2386) * 1000000 + 9474000

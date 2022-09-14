@@ -171,7 +171,7 @@ If using the NRWAL software (replace with current version and DOI):
 
 If using the Offshore Wind (OSW) cost equations:
 
- - Beiter, Philipp, Walter Musial, Aaron Smith, Levi Kilcher, Rick Damiani, Michael Maness, Senu Sirnivas, et al. “A Spatial-Economic Cost-Reduction Pathway Analysis for U.S. Offshore Wind Energy Development from 2015–2030.” National Renewable Energy Lab. (NREL), Golden, CO (United States), September 1, 2016. https://doi.org/10.2172/1324526. https://www.nrel.gov/docs/fy16osti/66579.pdf.
+ - Beiter, Philipp, Walter Musial, Aaron Smith, Levi Kilcher, Rick Damiani, Michael Maness, Senu Sirnivas, Tyler Stehly, Vahan Gevorgian, Meghan Mooney, and George Scott. “A Spatial-Economic Cost-Reduction Pathway Analysis for U.S. Offshore Wind Energy Development from 2015–2030.” National Renewable Energy Lab. (NREL), Golden, CO (United States), September 1, 2016. https://doi.org/10.2172/1324526. https://www.nrel.gov/docs/fy16osti/66579.pdf.
 
 If using the marine energy reference model (RM) cost models:
 
