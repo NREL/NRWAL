@@ -11,7 +11,7 @@
 #   (depth * 2536465.45717362 + 78715384.23273994)
 
 substructure_capex_17MW_low_SP:
-    (depth * 3552890.0353588713 + 217211360.40659437)
+    depth * 3552890.0353588713 + 217211360.40659437
 
 # Values output in 2015 USD (in agreement with ORCA)
 # 1300 USD * 1.1 for cold weather package (2021 USD inflation to be discussed with Philipp)
