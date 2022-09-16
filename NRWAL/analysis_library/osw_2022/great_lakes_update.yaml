@@ -1,32 +1,32 @@
 # Values output in 2015 USD (in agreement with ORCA)
 # Cost curves derived with ORBIT for 600 MW plant, 
-# 7.2m/s mean wind speed (not accounting for wind shear since on the low end),
+# 9 m/s mean wind speed (not accounting for wind shear since on the low end),
 # water depths from 5m-60m,
-# turbines used: 8MW from COE Review, 12, 15, 18 MW from 2021 ATB.
-# Note that monopile_capex includes the cost of the monopile and scour protection.
+# turbines used: 17 MW low specific power from Mayank.
+# Note that substructure_capex includes the cost of procuring monopile, TP, and scour protection.
 
-transition_piece_capex_15MW:
-  (depth * 342517.33495976 + 83344886.98159502)
-monopile_capex_15MW:
-  (depth * 2536465.45717362 + 78715384.23273994)
+# transition_piece_capex_15MW:
+#   (depth * 342517.33495976 + 83344886.98159502)
+# monopile_capex_15MW:
+#   (depth * 2536465.45717362 + 78715384.23273994)
+
+substructure_capex_17MW_low_SP:
+    (depth * 3552890.0353588713 + 217211360.40659437)
 
 # Values output in 2015 USD (in agreement with ORCA)
-# Should be total 1300 USD in end 2021 (inflation to be discussed with Philipp)
+# 1300 USD * 1.1 for cold weather package (2021 USD inflation to be discussed with Philipp)
 
-rna_15MW:
-  1080.64 * turbine_capacity * 1000.0 * 0.86 * num_turbines
-tower_15MW:
-  1080.64 * turbine_capacity * 1000.0 * 0.14 * num_turbines
+rna_17MW_low_SP:
+  1080.64 * turbine_capacity * 1000.0 * 0.86 * num_turbines * 1.1
+tower_17MW_low_SP:
+  1080.64 * turbine_capacity * 1000.0 * 0.14 * num_turbines * 1.1
 
-#removing transport costs of array cables
 
 fixed_array:
   (-34.80 * depth ** 2 + 207619.80 * depth + 221197699.89) * (1 + ((num_turbines - 100) / 300.))
 floating_array:
   (-36.56 * depth ** 2 + 218147.85 * depth + 241787966.27) * (1 + ((num_turbines - 100) / 300.))
 
-# Still missing export spool transport
-#removing export costs
 fixed_export:
   dist_s_to_l * 1725970.33 + 202049737
 floating_export:
@@ -41,6 +41,7 @@ floating_export:
 # Fixed-bottom maint. update (very roughly) derived with A. Cooperman 
 # based on Wiser Expert Elicitation values for 2020 OpEx
 
+
 fixed_maint:
   (4.3079 * np.log(dist_op_to_s) +
   2.1306 * hs_average ** 2 +
@@ -53,3 +54,9 @@ semi_maint:
   np.log(hs_average) +
   0.563568 * np.log(dist_op_to_s) ** 2) * 
   (0.4728 * np.log(num_turbines) - 1.2386) * 1000000 + 9474000
+
+# to add with Gabe:
+# 15% OpEx adder for 5.5 MW only
+# 1.5x PSLT for 5.5 MW only
+# Ice cone on substructure for $325,000/1.0786 per turbine (~2015USD) for 5.5 MW only
+# 5.5 in 2030
