@@ -1,14 +1,13 @@
 # Added OSS transport costs of 
 # Still missing export spool transport
+# fixed derived with ORBIT for 600MW plants from 1-300km dist_s_to_l. assume 30% weather delay during install
+# includes export system and install costs as well as offshore substation system and install costs and transport costs:
+# fixed and floating assume 1 trip for OSS and 1 trip for transporting cables with seperate mobilization costs 5.7 million each total trip
 fixed:
-  (0.0000000003 * dist_s_to_l ** 5 -
-   0.0000004236 * dist_s_to_l ** 4 +
-   0.0002190971 * dist_s_to_l ** 3 -
-   0.0561433389 * dist_s_to_l ** 2 +
-   9.4069414221 * dist_s_to_l + 83.12) * 1000000 + 5734285.184
+  dist_s_to_l * 1725970.33 + 202049737 + 5734285.184 * 2
 floating:
   (0.0000000003 * dist_s_to_l ** 5 -
    0.0000004450 * dist_s_to_l ** 4 +
    0.0002307800 * dist_s_to_l ** 3 -
    0.0590666309 * dist_s_to_l ** 2 +
-   9.6855829573 * dist_s_to_l + 83.12) * 1000000 + 5734285.184
+   9.6855829573 * dist_s_to_l + 83.12) * 1000000 + 5734285.184 * 2
