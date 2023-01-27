@@ -1,11 +1,29 @@
 # These are updated jacket eqns for 15 MW, 17 MW (low & normal SP)
+# Jacket depth range 10 m to 60 m
 # 600 MW farm assumed for ORBIT runs
+# All costs in 2015 USD
 
+# 15 MW jacket and TP procurement from WISDEM for 600 MW plant:
+# https://github.com/WISDEM/WISDEM/blob/43ab834c2d5ca251937ad8051d870fdbc238ef2e/wisdem/fixed_bottomse/jacket.py#L681
+jacket_procurement_15MW:
+  1.68*10**6 * depth + 8.64*10**7
 
-# 15 MW jacket install cost
+# 17 MW jacket and TP procurement from WISDEM for 612 MW plant:
+# https://github.com/WISDEM/WISDEM/blob/43ab834c2d5ca251937ad8051d870fdbc238ef2e/wisdem/fixed_bottomse/jacket.py#L681
+jacket_procurement_17MW:
+  1.74*10**6 * depth + 8.68*10**7
+
+# 17 MW low SP jacket and TP procurement from WISDEM:
+# https://github.com/WISDEM/WISDEM/blob/43ab834c2d5ca251937ad8051d870fdbc238ef2e/wisdem/fixed_bottomse/jacket.py#L681
+jacket_procurement_17MW_lowSP:
+  1.90*10**6 * depth + 8.40*10**7
+
+# 15 MW jacket install cost derived with ORBIT:
+# https://github.com/WISDEM/WISDEM/tree/cb3aab57d653a71e74294779797800517a5b6dcf/wisdem/orbit/phases/install/jacket_install
+# converting from may 2022 to 2015 USD with a factor of 0.81
 jacket_install_cost_15MW:
-  2022.3458904109582*dist_p_to_s + 136.52968036527298*depth + 1273920.0913242018
+  (2022.3458904109582*dist_p_to_s + 136.52968036527298*depth + 1273920.0913242018) * 0.81
 
-# 17 MW jacket install cost
+# 17 MW jacket install cost (both 17 MW and 17 MW low-SP since vessel trips are the same)
 jacket_install_cost_17MW:
-  2018.6888454011737*dist_p_to_s + 136.5296803653038*depth + 1278420.0913242016
+  (2018.6888454011737*dist_p_to_s + 136.5296803653038*depth + 1278420.0913242016) * 0.81
