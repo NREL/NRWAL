@@ -1,0 +1,11 @@
+# These are updated jacket eqns for 15 MW, 17 MW (low & normal SP)
+# 600 MW farm assumed for ORBIT runs
+
+
+# 15 MW jacket install cost
+jacket_install_cost_15MW:
+  2022.3458904109582*dist_p_to_s + 136.52968036527298*depth + 1273920.0913242018
+
+# 17 MW jacket install cost
+jacket_install_cost_17MW:
+  2018.6888454011737*dist_p_to_s + 136.5296803653038*depth + 1278420.0913242016
