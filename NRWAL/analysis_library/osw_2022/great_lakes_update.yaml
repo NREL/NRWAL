@@ -24,17 +24,21 @@ tower_17MW_low_SP:
 
 fixed_array:
   (-34.80 * depth ** 2 + 207619.80 * depth + 221197699.89) * (1 + ((num_turbines - 100) / 300.))
+
+# 20% adder for dynamic cables in floating
 floating_array:
-  (-36.56 * depth ** 2 + 218147.85 * depth + 241787966.27) * (1 + ((num_turbines - 100) / 300.))
+  (-36.56 * depth ** 2 + 218147.85 * depth + 241787966.27) * (1 + ((num_turbines - 100) / 300.)) * 1.2
 
 fixed_export:
   dist_s_to_l * 1725970.33 + 202049737
+
+# 20% adder for dynamic cables in floating
 floating_export:
   (0.0000000003 * dist_s_to_l ** 5 -
    0.0000004450 * dist_s_to_l ** 4 +
    0.0002307800 * dist_s_to_l ** 3 -
    0.0590666309 * dist_s_to_l ** 2 +
-   9.6855829573 * dist_s_to_l + 83.12) * 1000000
+   9.6855829573 * dist_s_to_l + 83.12) * 1000000 * 1.2
 
 
 # Values output in 2015 USD (in agreement with ORCA)
