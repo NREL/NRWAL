@@ -25,13 +25,13 @@ jacket_procurement_17MW_lowSP:
 # https://github.com/WISDEM/WISDEM/tree/cb3aab57d653a71e74294779797800517a5b6dcf/wisdem/orbit/phases/install/jacket_install
 # converting from may 2022 to 2015 USD with a factor of 0.81
 jacket_install_cost_15MW:
-  (2022.3458904109582*dist_p_to_s + 136.52968036527298*depth + 1273920.0913242018) * 0.81
+  (80893.83561643833 * dist_p_to_s + 5461.187214610919 * depth + 50956803.65296807) * 0.81
 
 
 
 # 17 MW jacket install cost (both 17 MW and 17 MW low-SP since vessel trips are the same)
 jacket_install_cost_17MW:
-  (2018.6888454011737*dist_p_to_s + 136.5296803653038*depth + 1278420.0913242016) * 0.81
+  (70654.10958904108 * dist_p_to_s + 4778.538812785633 * depth + 44744703.19634706) * 0.81
 
 
 # Values output in 2015 USD (in agreement with ORCA)
