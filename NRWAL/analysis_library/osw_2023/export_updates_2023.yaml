@@ -1,0 +1,9 @@
+## DNV calibration using a 275kV cable, the 220 kV vs 320 kV static cables, 
+## and the 220 kV vs 320 kV dynamic cables.
+## Valid up to 300 km
+
+fixed_export:
+	0.00007732*dist_s_to_l**3 – 0.045*dist_s_to_l**2 + 10.68*dist_s_to_l + 198.2
+
+floating_export:
+	0.00007605*dist_s_to_l**3 – 0.04322*dist_s_to_l**2 + 10.61*dist_s_to_l + 253.8
