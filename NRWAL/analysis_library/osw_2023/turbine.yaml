@@ -1,0 +1,10 @@
+# Values output in 2015 USD (in agreement with ORCA)
+# but reinflated to 2022 USD
+# 1300 USD
+
+#all turbines are the same (15, 17, 17 low sp)
+
+rna:
+  1080.64 * turbine_capacity * 1000.0 * 0.86 * num_turbines * 1.25
+tower:
+  1080.64 * turbine_capacity * 1000.0 * 0.14 * num_turbines * 1.25

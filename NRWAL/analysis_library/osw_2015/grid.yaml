@@ -1,3 +1,5 @@
+#this is the cost from ORCA representing the cost of moving from landfall to POI
+
 grid_connection:
   dist_l_to_ts * transmission_cost * transmission_multi *
   turbine_capacity * num_turbines
