@@ -1,6 +1,51 @@
-#years are actually CODs
-
+# As of June 2023, all years are COD! NOT FID!
+# ncf values are negative because they represent improvements
+# fixed-bottom ncf and opex trajectories derived from Wiser et al. (2021)
+# Expert Elicitation by assuming same rate of reduction from 2019-2035 applies
+# between 2022 and 2050
+# floating ncf trajectory is assumed to be the same as fixed-bottom
+# floating opex trajectory derived based on Wiser et al. (2021) by
+# assuming present-day opex is eqivalent to 2021 COE Review and 2035 opex is
+# median value from expert survey (approx. $80.50/kW-yr). Assuming same rate of
+# reduction from 2019-2035 applies between 2022 and 2050
+# capex reductions are based on a 7.3% learning rate
+# floating capex trajectory includes a 2.5x multiplier to scale initial costs 
+# from commercial-scale to pilot scale (matches FORCE Report)
 fixed:
-  ...
+  capex_2025: 0.07328287
+  capex_2030: 0.159170589
+  capex_2035: 0.196677864
+  capex_2040: 0.226677823
+  capex_2045: 0.253202942
+  capex_2050: 0.275294981
+  ncf_2025: -0.013125
+  ncf_2030: -0.035
+  ncf_2035: -0.056875
+  ncf_2040: -0.07875
+  ncf_2045: -0.100625
+  ncf_2050: -0.1225
+  opex_2025: 0.04125
+  opex_2030: 0.11
+  opex_2035: 0.17875
+  opex_2045: 0.2475
+  opex_2033: 0.31625
+  opex_2050: 0.385
 floating:
-  ...
+  capex_2025: -0.502730854
+  capex_2030: -0.088270886
+  capex_2035: 0.138339455
+  capex_2040: 0.248923065
+  capex_2045: 0.317133861
+  capex_2050: 0.361753548
+  ncf_2025: -0.013125
+  ncf_2030: -0.035
+  ncf_2035: -0.056875
+  ncf_2040: -0.07875
+  ncf_2045: -0.100625
+  ncf_2050: -0.1225
+  opex_2025: 0.060381356
+  opex_2030: 0.161016949
+  opex_2035: 0.261652542
+  opex_2045: 0.362288136
+  opex_2033: 0.462923729
+  opex_2050: 0.563559322
