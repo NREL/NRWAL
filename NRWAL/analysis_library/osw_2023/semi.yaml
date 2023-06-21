@@ -3,4 +3,4 @@
 
 
 substructure: 
-  4240000 * turbine_capatity ** 0.608 - 4000000
+  4240000 * turbine_capacity ** 0.608 - 4000000

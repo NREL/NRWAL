@@ -1,3 +1,4 @@
-#add opex eqs here from Aubryn
+#add opex eqs here from Aubryn, this is 1 GW cost for 67 15MW turbines
+#in 2022 USD
 opex_15MW: 
   0.022447580391412533 * dist_op_to_s * hs_average + 57.83453532955525
