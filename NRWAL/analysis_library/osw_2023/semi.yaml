@@ -1,1 +1,6 @@
-substructure: ...
+# Floating substructure, assuming a 3.3 cm steel wall thickness to match the mass of the 15MW reference semisubmersible platform. Further documentation available in a .docx file called summary_semisub_costmodel.docx
+# for a 15 MW turbine, the semisub is roughly 1.8e7 USD. For a 20 MW, semisub is roughly 2.2e7 USD.
+
+
+substructure: 
+  4240000 * turbine_capatity ** 0.608 - 4000000

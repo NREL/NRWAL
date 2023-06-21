@@ -10,20 +10,12 @@ fixed_array:
 floating_array:
   (-36.56 * depth ** 2 + 218147.85 * depth + 241787966.27) * (1 + ((num_turbines - 100) / 300.)) * 1.2 * 1.25
 
-#should end up with 
-fixed_export_capital: ...
-fixed_export_installation: ...
-floating_export_capital: ...
-floating_export_installation: ...
+#from ORBIT 2022:
+#The final cost curves include the procurement and installation costs for the export cable, offshore substation, and onshore substation. 
 
-# #remove 1.25 multiplier when updating
-# fixed_export:
-#   (dist_s_to_l * 1725970.33 + 202049737) * 1.25
+fixed_export: 
+  -0.000007692*dist_s_to_l**3 – 0.003728*dist_to_l**2 + 4.728*dist_s_to_l + 123.1
 
-# # 20% adder for dynamic cables in floating
-# floating_export:
-#   (0.0000000003 * dist_s_to_l ** 5 -
-#    0.0000004450 * dist_s_to_l ** 4 +
-#    0.0002307800 * dist_s_to_l ** 3 -
-#    0.0590666309 * dist_s_to_l ** 2 +
-#    9.6855829573 * dist_s_to_l + 83.12) * 1000000 * 1.2 * 1.25
+floating_export: 
+  -0.00001605*dist_s_to_l**3 – 0.00641*dist_s_to_l**2 + 5.39*dist_s_to_l + 128.1
+
