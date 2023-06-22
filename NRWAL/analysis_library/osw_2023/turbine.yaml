@@ -1,9 +1,9 @@
 
-# 1700 USD/kW ($2022), 86% is rna, 14% is tower
+# 1500 USD/kW ($2022), 86% is rna, 14% is tower
 
 #all turbines are the same (15, 17, 17 low sp)
 
 rna:
-  1700 * turbine_capacity * 1000.0 * 0.86 * num_turbines
+  1500 * turbine_capacity * 1000.0 * 0.86 * num_turbines
 tower:
-  1700 * turbine_capacity * 1000.0 * 0.14 * num_turbines
+  1500 * turbine_capacity * 1000.0 * 0.14 * num_turbines

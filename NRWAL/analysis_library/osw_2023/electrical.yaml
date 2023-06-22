@@ -11,7 +11,7 @@ floating_array:
   (-36.56 * depth ** 2 + 218147.85 * depth + 241787966.27) * (1 + ((num_turbines - 100) / 300.)) * 1.2 * 1.25
 
 #from ORBIT 2022:
-#The final cost curves include the procurement and installation costs for the export cable, offshore substation, and onshore substation. 
+#The final cost curves include the procurement and installation costs for the export cable, offshore substation, and DC converter. 
 
 fixed_export: 
   -0.000007692*dist_s_to_l**3 – 0.003728*dist_to_l**2 + 4.728*dist_s_to_l + 123.1
