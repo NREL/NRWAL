@@ -5,4 +5,4 @@ substructure:
   4240000 * turbine_capacity ** 0.608 - 4000000
 
 foundation:
-  ...
+  6095.315 * depth + 1810405.103
