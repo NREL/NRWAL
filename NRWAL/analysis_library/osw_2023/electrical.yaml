@@ -1,0 +1,21 @@
+#2015 USD inflated to 2022 USD
+#array cables from Great Lakes (Musial et al. 2023)
+#export eqs from ... (Becca)
+
+
+fixed_array:
+  (-34.80 * depth ** 2 + 207619.80 * depth + 221197699.89) * (1 + ((num_turbines - 100) / 300.)) * 1.25
+
+# 20% adder for dynamic cables in floating
+floating_array:
+  (-36.56 * depth ** 2 + 218147.85 * depth + 241787966.27) * (1 + ((num_turbines - 100) / 300.)) * 1.2 * 1.25
+
+#from ORBIT 2022:
+#The final cost curves include the procurement and installation costs for the export cable, offshore substation, and DC converter. 
+
+fixed_export: 
+  -0.000007692 * dist_s_to_l **3 – 0.003728 * dist_s_to_l ** 2 + 4.728 * dist_s_to_l + 123.1
+
+floating_export: 
+  -0.00001605 * dist_s_to_l ** 3 – 0.00641 * dist_s_to_l ** 2 + 5.39 * dist_s_to_l + 128.1
+

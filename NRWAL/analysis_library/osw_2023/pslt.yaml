@@ -1,0 +1,17 @@
+#from osw_2019::monopile::pslt_10MW, inflated to 2022 from 2015 USD
+
+monopile_10MW:
+  (0.01 * (7533930.2 -
+   116296.09 * depth +
+   1084.05 * depth ** 2 -
+   1.22 * depth ** 3 -
+   1425.02 * dist_p_to_s) / 
+  (1 -
+   0.0132 * depth +
+   0.0000883 * depth ** 2 -
+   0.000534 * dist_p_to_s +
+   0.000000238 * dist_p_to_s ** 2) * num_turbines + port_cost) * 1.25
+
+#from osw_2019::semi::pslt_10MW, inflated to 2022 from 2015 USD
+semi_10MW:
+  ((15896470 + 2975 * depth + 28265.73 * dist_p_to_s) * 0.01 * num_turbines + port_cost) * 1.25

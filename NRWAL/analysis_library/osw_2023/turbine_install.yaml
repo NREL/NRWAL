@@ -1,0 +1,14 @@
+#taken from osw_2019::turbine_install::monopile_10MW, but inflated to 2022 USD
+monopile_10MW:
+  ((57108119 +
+  1166745.7 * depth -
+  58333.39 * depth ** 2 +
+  1217.1 * depth ** 3 -
+  10.57 * depth ** 4 +
+  0.03233 * depth ** 5 +
+  24986.8 * dist_p_to_s) * 0.01 *
+  (0.071622 * turbine_capacity + 0.77973) / (1 - fixed_downtime) * num_turbines) * 1.25
+
+#taken from osw_2019::turbine_install::semi_10MW, but inflated to 2022 USD
+semi_10MW:
+  ((59608000 + 120833.33 * dist_p_to_s_nolimit) * 0.01 * num_turbines / (1 - floating_downtime)) * 1.25
