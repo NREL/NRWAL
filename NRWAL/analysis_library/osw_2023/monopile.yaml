@@ -1,0 +1,26 @@
+#costs assuming a 600 MW farm
+substructure_12MW: 
+  3242644.977 * depth + 77965195.344
+
+tp_12MW:
+  442298.663 * depth + 101494664.124
+
+substructure_15MW: 
+  2883377.407 * depth + 75116620.08
+
+tp_15MW:
+   372647.9 * depth + 92236536.288
+
+#using this one for the 17MW low sp
+substructure_18MW: 
+  2587999.4 * depth + 71698761.948
+
+#using this one for the 17MW low sp
+tp_18MW:
+  319431.125 * depth + 84354970.548
+
+substructure_20MW: 
+  2249196.412 * depth + 61692767.22
+
+tp_20MW:
+  278099.001 * depth + 73453686.972

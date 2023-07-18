@@ -1,0 +1,51 @@
+# As of June 2023, all years are COD! NOT FID!
+# ncf values are 0 because we will model directly
+
+# capex reductions are based on learning rates of 8.8% (fixed) and 11.5% (float) (matches FORCE Report)
+# floating capex trajectory has a scaling factor of 3 (cite Oregon study)
+
+# opex trajectories derived from Wiser et al. (2021) Expert Elicitation by 
+# assuming same rate of reduction from 2019-2035 applies 2022 to 2050 and 
+# taking a curve in the same shape as the capex learning curve, but with a 
+# final magnitude of reduction based on the value obatined from wiser
+# floating opex trajectory has a scaling factor of 2 to approximate the same 
+# commercial maturity date as the floating capex trajectory
+
+fixed:
+  capex_2025: 0.088231622
+  capex_2030: 0.189748932
+  capex_2035: 0.233403656
+  capex_2040: 0.268009357
+  capex_2045: 0.298369019
+  capex_2050: 0.323479782
+  ncf_2025: 0.0
+  ncf_2030: 0.0
+  ncf_2035: 0.0
+  ncf_2040: 0.0
+  ncf_2045: 0.0
+  ncf_2050: 0.0
+  opex_2025: 0.105011739
+  opex_2030: 0.225835873
+  opex_2035: 0.277792965
+  opex_2040: 0.318980067
+  opex_2045: 0.355113608
+  opex_2050: 0.385
+floating:
+  capex_2025: -0.788072662
+  capex_2030: -0.306301388
+  capex_2035: -0.03603437
+  capex_2040: 0.096442262
+  capex_2045: 0.17825835
+  capex_2050: 0.231807916
+  ncf_2025: 0.0
+  ncf_2030: 0.0
+  ncf_2035: 0.0
+  ncf_2040: 0.0
+  ncf_2045: 0.0
+  ncf_2050: 0.0
+  opex_2025: -0.387946477
+  opex_2030: -0.144639971
+  opex_2035: -0.008148388
+  opex_2040: 0.058755614
+  opex_2045: 0.100074778
+  opex_2050: 0.127118644

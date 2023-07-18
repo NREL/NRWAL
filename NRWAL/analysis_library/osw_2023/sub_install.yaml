@@ -1,0 +1,17 @@
+#taken from osw_2019::monopile::install_10MW, inflated to 2022
+
+monopile_install_10MW:
+  (176860000 -
+   2262000000. / depth +
+   257702.74 * dist_p_to_s +
+   12080700000. / depth ** 2 +
+   0.0000000181818 * dist_p_to_s ** 2 -
+   2558888.2 * (dist_p_to_s / depth)) * 0.01 * 
+  (1 + np.exp(-0.21398756 +
+   0.0575015 * turbine_capacity +
+   0.000046144 * depth ** 2) - 1) / (1 - fixed_downtime) * num_turbines * 1.25
+
+#taken from osw_2019::semi::install_10MW, inflated to 2022
+semi_install_10MW:
+  ((23658000 + 11625 * depth + 35450.12 * dist_p_to_s_nolimit) * 0.01 /
+  (1 - floating_downtime) * num_turbines) * 1.25
