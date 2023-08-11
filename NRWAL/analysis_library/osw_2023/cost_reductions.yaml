@@ -9,7 +9,7 @@
 # taking a curve in the same shape as the capex learning curve, but with a 
 # final magnitude of reduction based on the value obatined from wiser
 # floating opex trajectory has a scaling factor of 2 to approximate the same 
-# commercial maturity date as the floating capex trajectory
+# commercial maturity date as the floating capex trajectory. (test sentence.).
 
 fixed:
   capex_2025: 0.088231622
