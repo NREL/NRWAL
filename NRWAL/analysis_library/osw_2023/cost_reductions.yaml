@@ -14,7 +14,7 @@
 # all trajectories have short term cost adders to account for higher costs
 # reported by industry.
 
-fixed_mid_scenario:		
+fixed_mid_scenario:
   capex_2025: -0.156806259
   capex_2030: 0.158986365
   capex_2035: 0.196455523
@@ -32,8 +32,8 @@ fixed_mid_scenario:
   opex_2035: 0.180564516
   opex_2040: 0.208111259
   opex_2045: 0.232468436
-  opex_2050:	0.252755689
-fixed_conservative_scenario:		
+  opex_2050: 0.252755689
+fixed_conservative_scenario:
   capex_2025: -0.255881389
   capex_2030: -0.152322165
   capex_2035: 0.121762357
@@ -52,7 +52,7 @@ fixed_conservative_scenario:
   opex_2040: 0.080246449
   opex_2045: 0.090229109
   opex_2050: 0.098654088
-fixed_advanced_scenario:		
+fixed_advanced_scenario:
   capex_2025: -0.047733637
   capex_2030: 0.217880507
   capex_2035: 0.266870354
@@ -71,7 +71,7 @@ fixed_advanced_scenario:
   opex_2040: 0.282970423
   opex_2045: 0.314040152
   opex_2050: 0.339568546
-floating_mid_scenario:		
+floating_mid_scenario:
   capex_2025: -1.104037385
   capex_2030: -0.360733267
   capex_2035: -0.097373909
@@ -90,7 +90,7 @@ floating_mid_scenario:
   opex_2040: 0.285359068
   opex_2045: 0.299218076
   opex_2050: 0.307024618
-floating_conservative_scenario:		
+floating_conservative_scenario:
   capex_2025: -1.384849833
   capex_2030: -0.954067047
   capex_2035: -0.488069313
@@ -109,7 +109,7 @@ floating_conservative_scenario:
   opex_2040: 0.19171695
   opex_2045: 0.203225576
   opex_2050: 0.209863533
-floating_advanced_scenario:		
+floating_advanced_scenario:
   capex_2025: -0.827905943
   capex_2030: -0.077560145
   capex_2035: 0.199817748
