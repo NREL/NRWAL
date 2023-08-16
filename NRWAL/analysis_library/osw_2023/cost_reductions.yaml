@@ -1,0 +1,130 @@
+# As of June 2023, all years are COD! NOT FID!
+# ncf values are 0 because we will model directly
+
+# mid scennario capex reductions based on learning rates of 7.3% (fixed) and 
+# 10.2% (float)
+# advanced and conservative scenarios experience factor = b0+/-bse
+# regression variables included turbine rating (effects excluded from LR)
+# floating capex trajectory has a scaling factor of 2.5 (cite FORCE Report)
+
+# opex trajectories derived from Wiser et al. (2021) Expert Elicitation by 
+# assuming same magnitude of reduction in 2035 (adjusted relative to 2022)
+# but scaling the capex learning curve to match that value in 2035
+
+# all trajectories have short term cost adders to account for higher costs
+# reported by industry.
+
+fixed_mid_scenario:		
+  capex_2025: -0.156806259
+  capex_2030: 0.158986365
+  capex_2035: 0.196455523
+  capex_2040: 0.226426582
+  capex_2045: 0.25292737
+  capex_2050: 0.275000051
+  ncf_2025: 0
+  ncf_2030: 0
+  ncf_2035: 0
+  ncf_2040: 0
+  ncf_2045: 0
+  ncf_2050: 0
+  opex_2025: -0.162726796
+  opex_2030: 0.146126185
+  opex_2035: 0.180564516
+  opex_2040: 0.208111259
+  opex_2045: 0.232468436
+  opex_2050:	0.252755689
+fixed_conservative_scenario:		
+  capex_2025: -0.255881389
+  capex_2030: -0.152322165
+  capex_2035: 0.121762357
+  capex_2040: 0.141357556
+  capex_2045: 0.158942439
+  capex_2050: 0.1737834
+  ncf_2025: 0
+  ncf_2030: 0
+  ncf_2035: 0
+  ncf_2040: 0
+  ncf_2045: 0
+  ncf_2050: 0
+  opex_2025: -0.274954562
+  opex_2030: -0.194549838
+  opex_2035: 0.069122564
+  opex_2040: 0.080246449
+  opex_2045: 0.090229109
+  opex_2050: 0.098654088
+fixed_advanced_scenario:		
+  capex_2025: -0.047733637
+  capex_2030: 0.217880507
+  capex_2035: 0.266870354
+  capex_2040: 0.305374904
+  capex_2045: 0.338904611
+  capex_2050: 0.366454243
+  ncf_2025: 0
+  ncf_2030: 0
+  ncf_2035: 0
+  ncf_2040: 0
+  ncf_2045: 0
+  ncf_2050: 0
+  opex_2025: -0.055236627
+  opex_2030: 0.201895239
+  opex_2035: 0.247290841
+  opex_2040: 0.282970423
+  opex_2045: 0.314040152
+  opex_2050: 0.339568546
+floating_mid_scenario:		
+  capex_2025: -1.104037385
+  capex_2030: -0.360733267
+  capex_2035: -0.097373909
+  capex_2040: 0.029708329
+  capex_2045: 0.104001537
+  capex_2050: 0.145849628
+  ncf_2025: 0
+  ncf_2030: 0
+  ncf_2035: 0
+  ncf_2040: 0
+  ncf_2045: 0
+  ncf_2050: 0
+  opex_2025: -0.113229956
+  opex_2030: 0.212524235
+  opex_2035: 0.261652542
+  opex_2040: 0.285359068
+  opex_2045: 0.299218076
+  opex_2050: 0.307024618
+floating_conservative_scenario:		
+  capex_2025: -1.384849833
+  capex_2030: -0.954067047
+  capex_2035: -0.488069313
+  capex_2040: -0.377027157
+  capex_2045: -0.30961593
+  capex_2050: -0.270734415
+  ncf_2025: 0
+  ncf_2030: 0
+  ncf_2035: 0
+  ncf_2040: 0
+  ncf_2045: 0
+  ncf_2050: 0
+  opex_2025: -0.229124445
+  opex_2030: -0.114116181
+  opex_2035: 0.172759534
+  opex_2040: 0.19171695
+  opex_2045: 0.203225576
+  opex_2050: 0.209863533
+floating_advanced_scenario:		
+  capex_2025: -0.827905943
+  capex_2030: -0.077560145
+  capex_2035: 0.199817748
+  capex_2040: 0.325110179
+  capex_2045: 0.395539991
+  capex_2050: 0.434247631
+  ncf_2025: 0
+  ncf_2030: 0
+  ncf_2035: 0
+  ncf_2040: 0
+  ncf_2045: 0
+  ncf_2050: 0
+  opex_2025: 0.008114326
+  opex_2030: 0.273579547
+  opex_2035: 0.326927966
+  opex_2040: 0.351025608
+  opex_2045: 0.364571458
+  opex_2050: 0.372016144
