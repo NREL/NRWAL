@@ -14,15 +14,16 @@ floating_array:
 #The final cost curves include the procurement and installation costs for the export cable, offshore substation, and$
 #base equation output is million USD, so added multiplier
 # Sophie B. developed this 1 GW !! equation from ORBIT week of 28 Aug 2023.
-# NOTE: The below fixed and floating export cable equations are for 1 GW and not 600 MW.
+# NOTE: The below fixed and floating export cable equations are at 1 GW rates for $/kW, but multiplied to be 600 MW.
+# then in standard aggregation, this is bumped up to 1 GW
 
  
 
 fixed_export:
-  1000000*(0.0000301*dist_s_to_l**3 - 0.02184*dist_s_to_l**2 + 7.469*dist_s_to_l + 280.3)
+  600000*(0.0000301*dist_s_to_l**3 - 0.02184*dist_s_to_l**2 + 7.469*dist_s_to_l + 280.3)
 
  
 
 floating_export:
-  1000000*(0.0000285*dist_s_to_l**3 - 0.0205*dist_s_to_l**2 + 7.416*dist_s_to_l + 315.3)
+  600000*(0.0000285*dist_s_to_l**3 - 0.0205*dist_s_to_l**2 + 7.416*dist_s_to_l + 315.3)
 
