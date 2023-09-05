@@ -11,12 +11,18 @@ floating_array:
   (-36.56 * depth ** 2 + 218147.85 * depth + 241787966.27) * (1 + ((num_turbines - 100) / 300.)) * 1.2 * 1.25
 
 #from ORBIT 2022:
-#The final cost curves include the procurement and installation costs for the export cable, offshore substation, and DC converter. 
+#The final cost curves include the procurement and installation costs for the export cable, offshore substation, and$
 #base equation output is million USD, so added multiplier
+# Sophie B. developed this 1 GW !! equation from ORBIT week of 28 Aug 2023.
+# NOTE: The below fixed and floating export cable equations are for 1 GW and not 600 MW.
 
-fixed_export: 
-  1000000*(0.0000302*dist_s_to_l**3 - 0.02193*dist_s_to_l**2 + 7.49*dist_s_to_l + 291)
+ 
 
-floating_export: 
-  1000000*(0.00002872*dist_s_to_l**3 - 0.02059*dist_s_to_l**2 + 7.44*dist_s_to_l + 326)
+fixed_export:
+  1000000*(0.0000301*dist_s_to_l**3 - 0.02184*dist_s_to_l**2 + 7.469*dist_s_to_l + 280.3)
+
+ 
+
+floating_export:
+  1000000*(0.0000285*dist_s_to_l**3 - 0.0205*dist_s_to_l**2 + 7.416*dist_s_to_l + 315.3)
 
