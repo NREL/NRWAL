@@ -2,7 +2,9 @@
 # for a 15 MW turbine, the semisub is roughly 1.8e7 USD. For a 20 MW, semisub is roughly 2.2e7 USD.
 
 substructure: 
-  4240000 * turbine_capacity ** 0.608 - 4000000
+  (600/turbine_capacity) * (4240000 * turbine_capacity ** 0.608 - 4000000)
 
+# foundation cost is derived from mooring line and anchor equation costs and output by find_mooring_system_cost_curve.py
+# remains to be updated because those equations are from 2015
 foundation:
-  6095.315 * depth + 1810405.103
+  (600/turbine_capacity) * (6095.315 * depth + 1810405.103)
