@@ -1,0 +1,34 @@
+NRWAL.handlers.groups
+=====================
+
+.. automodule:: NRWAL.handlers.groups
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+   
+      AbstractGroup
+      EquationGroup
+      VariableGroup
+   
+   
+
+   
+   
+   
+
+
+

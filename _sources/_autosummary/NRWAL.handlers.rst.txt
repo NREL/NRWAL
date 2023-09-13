@@ -1,0 +1,34 @@
+NRWAL.handlers
+==============
+
+.. automodule:: NRWAL.handlers
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
+.. autosummary::
+   :toctree:
+   :template: custom-module-template.rst
+   :nosignatures:
+   :recursive:
+
+   NRWAL.handlers.config
+   NRWAL.handlers.directories
+   NRWAL.handlers.equations
+   NRWAL.handlers.groups
+

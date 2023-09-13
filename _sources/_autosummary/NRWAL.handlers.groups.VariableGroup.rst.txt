@@ -1,0 +1,42 @@
+NRWAL.handlers.groups.VariableGroup
+===================================
+
+.. currentmodule:: NRWAL.handlers.groups
+
+.. autoclass:: VariableGroup
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~VariableGroup.find_nearest_power_eqns
+      ~VariableGroup.find_nearest_year_eqns
+      ~VariableGroup.get
+      ~VariableGroup.head
+      ~VariableGroup.is_power_eqn
+      ~VariableGroup.is_year_eqn
+      ~VariableGroup.items
+      ~VariableGroup.keys
+      ~VariableGroup.set_default_variables
+      ~VariableGroup.tail
+      ~VariableGroup.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~VariableGroup.all_equations
+      ~VariableGroup.var_dict
+   
+   

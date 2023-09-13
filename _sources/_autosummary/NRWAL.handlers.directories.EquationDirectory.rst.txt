@@ -1,0 +1,38 @@
+NRWAL.handlers.directories.EquationDirectory
+============================================
+
+.. currentmodule:: NRWAL.handlers.directories
+
+.. autoclass:: EquationDirectory
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~EquationDirectory.get
+      ~EquationDirectory.head
+      ~EquationDirectory.items
+      ~EquationDirectory.keys
+      ~EquationDirectory.set_default_variables
+      ~EquationDirectory.tail
+      ~EquationDirectory.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EquationDirectory.all_equations
+      ~EquationDirectory.default_variables
+   
+   

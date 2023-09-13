@@ -1,0 +1,48 @@
+NRWAL.handlers.config.NrwalConfig
+=================================
+
+.. currentmodule:: NRWAL.handlers.config
+
+.. autoclass:: NrwalConfig
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~NrwalConfig.eval
+      ~NrwalConfig.evaluate
+      ~NrwalConfig.get
+      ~NrwalConfig.head
+      ~NrwalConfig.items
+      ~NrwalConfig.keys
+      ~NrwalConfig.reset_output
+      ~NrwalConfig.tail
+      ~NrwalConfig.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~NrwalConfig.DEFAULT_DIR
+      ~NrwalConfig.all_variables
+      ~NrwalConfig.global_variables
+      ~NrwalConfig.inputs
+      ~NrwalConfig.missing_inputs
+      ~NrwalConfig.outputs
+      ~NrwalConfig.required_inputs
+      ~NrwalConfig.solvable
+      ~NrwalConfig.solved
+      ~NrwalConfig.to_be_solved
+   
+   
