@@ -1,30 +1,30 @@
 # OpEx eqs here, this is 1 GW cost
-#in 2022 USD
+#in 2022 USD (adjusted from 2015 USD by multiplying by 1.25)
 # multiplying by 1e6 in all since original eqs were $/kw cost and we need $ for 1 GW farm.
 
 
 fixed_opex_12MW: 
-  1000000 * (0.006222906503243402 * dist_op_to_s * hs_average + 72.16157739314487)
+  1.25 * 1000000 * (0.006222906503243402 * dist_op_to_s * hs_average + 72.16157739314487)
 
 floating_opex_12MW:
-  1000000 * (0.024262739864694696 * dist_op_to_s * hs_average + 62.51115984123199)
+  1.25 * 1000000 * (0.024262739864694696 * dist_op_to_s * hs_average + 62.51115984123199)
 
 fixed_opex_15MW: 
-  1000000 * (0.005757354477639395 * dist_op_to_s * hs_average + 66.76297972682154)
+  1.25 * 1000000 * (0.005757354477639395 * dist_op_to_s * hs_average + 66.76297972682154)
 
 floating_opex_15MW:
-  1000000 * (0.022447580391412533 * dist_op_to_s * hs_average + 57.83453532955525)
+  1.25 * 1000000 * (0.022447580391412533 * dist_op_to_s * hs_average + 57.83453532955525)
 
 fixed_opex_18MW: 
-  1000000 * (0.005572466195556946 * dist_op_to_s * hs_average + 64.61899281819223)
+  1.25 * 1000000 * (0.005572466195556946 * dist_op_to_s * hs_average + 64.61899281819223)
 
 floating_opex_18MW:
-  1000000 * (0.021726712049608167 * dist_op_to_s * hs_average + 55.97727121221672)
+  1.25 * 1000000 * (0.021726712049608167 * dist_op_to_s * hs_average + 55.97727121221672)
 
 fixed_opex_20MW: 
-  1000000 * (0.005573299025656418 * dist_op_to_s * hs_average + 64.62865041687976)
+  1.25 * 1000000 * (0.005573299025656418 * dist_op_to_s * hs_average + 64.62865041687976)
 
 floating_opex_20MW:
-  1000000 * (0.02172995920430098 * dist_op_to_s * hs_average + 55.98563726679933)
+  1.25 * 1000000 * (0.02172995920430098 * dist_op_to_s * hs_average + 55.98563726679933)
 
 
