@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NRWAL.handlers.directories.EquationDirectory &mdash; NRWAL 0.0.12 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=3bbcec59"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NRWAL.handlers.equations" href="NRWAL.handlers.equations.html" />
+    <link rel="prev" title="NRWAL.handlers.directories" href="NRWAL.handlers.directories.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            NRWAL
+          </a>
+              <div class="version">
+                0.0.12
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home page</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/installation_usage.html">Installation and Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../misc/installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../misc/installation.html#option-1-install-from-pip-or-conda-recommended-for-analysts">Option 1: Install from PIP or Conda (recommended for analysts):</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../misc/installation.html#option-2-clone-repo-recommended-for-developers">Option 2: Clone repo (recommended for developers)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="NRWAL.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="NRWAL.handlers.html">NRWAL.handlers</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.handlers.config.html">NRWAL.handlers.config</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.config.NrwalConfig.html">NRWAL.handlers.config.NrwalConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="NRWAL.handlers.directories.html">NRWAL.handlers.directories</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">NRWAL.handlers.directories.EquationDirectory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.handlers.equations.html">NRWAL.handlers.equations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.equations.Equation.html">NRWAL.handlers.equations.Equation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.handlers.groups.html">NRWAL.handlers.groups</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.groups.AbstractGroup.html">NRWAL.handlers.groups.AbstractGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.groups.EquationGroup.html">NRWAL.handlers.groups.EquationGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.groups.VariableGroup.html">NRWAL.handlers.groups.VariableGroup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NRWAL.utilities.html">NRWAL.utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.utilities.utilities.html">NRWAL.utilities.utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.utilities.utilities.find_np_pd_methods.html">NRWAL.utilities.utilities.find_np_pd_methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.utilities.utilities.find_parens.html">NRWAL.utilities.utilities.find_parens</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NRWAL.version.html">NRWAL.version</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NRWAL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="NRWAL.html">NRWAL</a></li>
+          <li class="breadcrumb-item"><a href="NRWAL.handlers.html">NRWAL.handlers</a></li>
+          <li class="breadcrumb-item"><a href="NRWAL.handlers.directories.html">NRWAL.handlers.directories</a></li>
+      <li class="breadcrumb-item active">NRWAL.handlers.directories.EquationDirectory</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/nrel/NRWAL/blob/main/docs/source/_autosummary/NRWAL.handlers.directories.EquationDirectory.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nrwal-handlers-directories-equationdirectory">
+<h1>NRWAL.handlers.directories.EquationDirectory<a class="headerlink" href="#nrwal-handlers-directories-equationdirectory" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="NRWAL.handlers.directories.EquationDirectory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EquationDirectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eqn_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_extrap_power</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_nearest_power</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_extrap_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_nearest_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/directories.html#EquationDirectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.directories.EquationDirectory" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class to handle a directory with one or more equation files or
+a directory containing subdirectories with one or more equation files.</p>
+<p class="rubric">Examples</p>
+<p>The NRWAL EquationDirectory object is instantiated from a directory input
+arg that contains nested equation yaml or json files.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">NRWAL</span> <span class="kn">import</span> <span class="n">EquationDirectory</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">EquationDirectory</span><span class="p">(</span><span class="s1">&#39;./NRWAL&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span>
+<span class="go">2015</span>
+<span class="go">    variables.yaml</span>
+<span class="go">        transmission_cost: 6536</span>
+<span class="go">        tower_cost: 3960</span>
+<span class="go">        pile_cost: 2250</span>
+<span class="go">        monopile_tp_cost: 3230</span>
+<span class="go">        lattice_cost: 4680</span>
+<span class="go">        jacket_tp_cost: 4599</span>
+<span class="go">        stiffened_column_cost: 3120</span>
+<span class="go">        tapered_column_cost: 4220</span>
+<span class="go">        truss_cost: 6250</span>
+<span class="go">        heave_plate_cost: 5250</span>
+<span class="go">        outfitting_cost: 7250</span>
+<span class="go">        perm_ballast_cost: 150</span>
+<span class="go">        operations_cost: 18880383</span>
+<span class="go">        port_cost: 25000000</span>
+<span class="go">        hz_turbine_factor: 0.05</span>
+<span class="go">        windflip_CAPEX: 50000000</span>
+<span class="go">        vertical_tow_OM_equip: 13400000</span>
+<span class="go">        lease_price: 50000000</span>
+<span class="go">    array.yaml</span>
+<span class="go">        fixed(depth, num_turbines)</span>
+<span class="go">        floating(depth, num_turbines)</span>
+<span class="go">    ...</span>
+<span class="go">    turbine_install.yaml</span>
+<span class="go">        jacket_3MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)</span>
+<span class="go">        jacket_6MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)</span>
+<span class="go">        jacket_10MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)</span>
+<span class="go">        jacket_12MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)</span>
+<span class="go">        jacket_15MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)</span>
+<span class="go">        monopile_3MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)</span>
+<span class="go">        monopile_6MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)</span>
+<span class="go">        monopile_10MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)</span>
+<span class="go">        monopile_12MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)</span>
+<span class="go">        monopile_15MW(depth, dist_p_to_s, fixed_downtime, turbine_capacity)</span>
+<span class="go">        semi_3MW(dist_p_to_s_nolimit, floating_downtime)</span>
+<span class="go">        semi_6MW(dist_p_to_s_nolimit, floating_downtime)</span>
+<span class="go">        semi_10MW(dist_p_to_s_nolimit, floating_downtime)</span>
+<span class="go">        semi_12MW(dist_p_to_s_nolimit, floating_downtime)</span>
+<span class="go">        semi_15MW(dist_p_to_s_nolimit, floating_downtime)</span>
+<span class="go">        spar_3MW(dist_a_to_s, dist_p_to_a, floating_downtime)</span>
+<span class="go">        spar_6MW(dist_a_to_s, dist_p_to_a, floating_downtime)</span>
+<span class="go">        spar_10MW(dist_a_to_s, dist_p_to_a, floating_downtime)</span>
+<span class="go">        spar_12MW(dist_a_to_s, dist_p_to_a, floating_downtime)</span>
+<span class="go">        spar_15MW(dist_a_to_s, dist_p_to_a, floating_downtime)</span>
+</pre></div>
+</div>
+<p>Nested EquationDirectory, EquationGroup, and Equation objects can be
+retrieved using the python bracket syntax similar to a python dictionary.
+Nested retrievals are delimited by two colons.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;2015&#39;</span><span class="p">])</span>
+<span class="go">NRWAL.handlers.directories.EquationDirectory</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;2015::array&#39;</span><span class="p">])</span>
+<span class="go">NRWAL.handlers.groups.EquationGroup</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;2015::array::fixed&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">eqn</span><span class="p">)</span>
+<span class="go">NRWAL.handlers.equations.Equation</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span>
+<span class="go">fixed(depth, num_turbines)</span>
+</pre></div>
+</div>
+<p>NRWAL Equation objects can be evaluated using kwargs.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;depth&#39;, &#39;num_turbines&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">eqn</span><span class="o">.</span><span class="n">variables</span><span class="p">})</span>
+<span class="go">array([1.48410044e+08, 1.48410044e+08])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">num_turbines</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">array([1.48410044e+08, 1.48410044e+08])</span>
+</pre></div>
+</div>
+<p>NRWAL Equation objects can be operated on using the usual python math
+operators. Note that the tower_cost input arg in this equation group
+is set to a default value of 3960 based on the variables.yaml file present
+in the 2015 directory. As a result, this argument does not need to be
+input in the eval() call, but can still be overwritten at runtime if
+desired.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">group</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s1">&#39;2015::turbine&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">group</span>
+<span class="go">EquationGroup object from &quot;turbine.yaml&quot; with heirarchy:</span>
+<span class="go">rna(turbine_capacity)</span>
+<span class="go">horiz_spar_rna(turbine_capacity, hz_turbine_factor=0.05)</span>
+<span class="go">jacket_tower(depth, turbine_capacity, tower_cost=3960)</span>
+<span class="go">monopile_tower(depth, turbine_capacity, tower_cost=3960)</span>
+<span class="go">spar_tower(turbine_capacity)</span>
+<span class="go">horiz_spar_tower(turbine_capacity, hz_turbine_factor=0.05)</span>
+<span class="go">semi_tower(turbine_capacity)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;rna&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;monopile_tower&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span>
+<span class="go">(rna(turbine_capacity) + monopile_tower(depth, turbine_capacity,</span>
+<span class="go">    tower_cost=3960))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;rna&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;monopile_tower&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">eqn</span>
+<span class="go">(rna(turbine_capacity) - monopile_tower(depth, turbine_capacity,</span>
+<span class="go">    tower_cost=3960))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">eqn</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;rna&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;monopile_tower&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">eqn</span>
+<span class="go">(rna(turbine_capacity) * monopile_tower(depth, turbine_capacity,</span>
+<span class="go">    tower_cost=3960))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">eqn</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;rna&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;monopile_tower&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">eqn</span>
+<span class="go">(rna(turbine_capacity) / monopile_tower(depth, turbine_capacity,</span>
+<span class="go">    tower_cost=3960))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">eqn</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;rna&#39;</span><span class="p">]</span> <span class="o">**</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;monopile_tower&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">eqn</span>
+<span class="go">(rna(turbine_capacity) ** monopile_tower(depth, turbine_capacity,</span>
+<span class="go">    tower_cost=3960))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;rna&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;monopile_tower&#39;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span>
+<span class="go">(rna(turbine_capacity) + (monopile_tower(depth, turbine_capacity,</span>
+<span class="go">    tower_cost=3960) ** 2))</span>
+</pre></div>
+</div>
+<p>The new Equation objects resulting from math operations can be evaluated
+just like the original Equation objects.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="s1">&#39;rna + monopile_tower&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span>
+<span class="go">(rna(turbine_capacity) + monopile_tower(depth, turbine_capacity,</span>
+<span class="go">    tower_cost=3960))</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span><span class="o">.</span><span class="n">variables</span>
+<span class="go">[&#39;depth&#39;, &#39;tower_cost&#39;, &#39;turbine_capacity&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">eqn</span><span class="o">.</span><span class="n">variables</span><span class="p">})</span>
+<span class="go">array([1037835.27761686, 1037835.27761686])</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">eqn</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">turbine_capacity</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">array([1256782.29675191, 1256782.29675191])</span>
+</pre></div>
+</div>
+<p>The EquationDirectory object can parse power-dependent equations by
+searching for the “_10MW” string in the equation name request and the
+equations present in the directory (10 is an example and can be any
+integer). By default, only an exact match is returned, but the
+EquationDirectory object can also be set to perform interpolation +
+extrapolation or nearest neighbor lookup. Interpolation and extrapolation
+take priority over the use_nearest_power kwarg.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;2015::spar&#39;</span><span class="p">]</span>
+<span class="go">EquationGroup object from &quot;spar.yaml&quot; with heirarchy:</span>
+<span class="go">install_3MW(dist_p_to_a, dist_p_to_s, floating_downtime)</span>
+<span class="go">install_6MW(dist_p_to_a, dist_p_to_s, floating_downtime)</span>
+<span class="go">install_10MW(dist_p_to_a, dist_p_to_s, floating_downtime)</span>
+<span class="go">spar_3MW(dist_a_to_s, dist_p_to_a)</span>
+<span class="go">spar_6MW(dist_a_to_s, dist_p_to_a)</span>
+<span class="go">spar_10MW(dist_a_to_s, dist_p_to_a)</span>
+<span class="go">stiffened_column(depth, turbine_capacity, stiffened_column_cost=3120)</span>
+<span class="go">tapered_column(turbine_capacity, tapered_column_cost=4220)</span>
+<span class="go">outfitting(depth, turbine_capacity, outfitting_cost=7250)</span>
+<span class="go">perm_ballast(turbine_capacity, perm_ballast_cost=150)</span>
+<span class="go">stiffened_column_gt10MW(depth, stiffened_column_cost=3120)</span>
+<span class="go">tapered_column_gt10MW(tapered_column_cost=4220)</span>
+<span class="go">outfitting_gt10MW(depth, outfitting_cost=7250)</span>
+<span class="go">perm_ballast_gt10MW(perm_ballast_cost=150)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;2015::spar::spar_3MW&#39;</span><span class="p">]</span>
+<span class="go">spar_3MW(dist_a_to_s, dist_p_to_a)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;2015::spar::spar_4MW&#39;</span><span class="p">]</span>
+<span class="go">KeyError: &#39;Could not retrieve equation key &quot;2015::spar::spar_4MW&quot;</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">EquationDirectory</span><span class="p">(</span><span class="s1">&#39;./NRWAL&#39;</span><span class="p">,</span> <span class="n">use_nearest_power</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;2015::spar::spar_4MW&#39;</span><span class="p">]</span>
+<span class="go">spar_3MW(dist_a_to_s, dist_p_to_a)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span> <span class="o">=</span> <span class="n">EquationDirectory</span><span class="p">(</span><span class="s1">&#39;./NRWAL&#39;</span><span class="p">,</span> <span class="n">interp_extrap_power</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;2015::spar::spar_4MW&#39;</span><span class="p">]</span>
+<span class="go">((((spar_6MW(dist_a_to_s, dist_p_to_a)</span>
+<span class="go">    - spar_3MW(dist_a_to_s, dist_p_to_a)) * 1.0) / 3.0)</span>
+<span class="go"> + spar_3MW(dist_a_to_s, dist_p_to_a))</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eqn_dir</strong> (<em>str</em>) – Path to a directory with one or more equation files or a path to
+a directory containing subdirectories with one or more equation
+files.</p></li>
+<li><p><strong>interp_extrap_power</strong> (<em>bool</em>) – Flag to interpolate and extrapolate power (MW) dependent equations
+based on the case-insensitive regex pattern: “_[0-9]*MW$”
+This takes preference over the use_nearest_power flag.
+If both interp_extrap_power &amp; use_nearest_power are False, a
+KeyError will be raised if the exact equation name request is not
+found.</p></li>
+<li><p><strong>use_nearest_power</strong> (<em>bool</em>) – Flag to use the nearest valid power (MW) dependent equation
+based on the case-insensitive regex pattern: “_[0-9]*MW$”
+This is second priority to the interp_extrap_power flag.
+If both interp_extrap_power &amp; use_nearest_power are False, a
+KeyError will be raised if the exact equation name request is not
+found.</p></li>
+<li><p><strong>interp_extrap_year</strong> (<em>bool</em>) – Flag to interpolate and extrapolate equations keyed by year.
+This takes preference over the use_nearest_year flag.
+If both interp_extrap_year &amp; use_nearest_year are False, a
+KeyError will be raised if the exact equation name request is not
+found.</p></li>
+<li><p><strong>use_nearest_year</strong> (<em>bool</em>) – Flag to use the nearest valid equation keyed by year.
+This is second priority to the interp_extrap_year flag.
+If both interp_extrap_year &amp; use_nearest_year are False, a
+KeyError will be raised if the exact equation name request is not
+found.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.directories.EquationDirectory.get" title="NRWAL.handlers.directories.EquationDirectory.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a></p></td>
+<td><p>Attempt to get a key from the EquationDirectory, return default_value if the key could not be retrieved</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.directories.EquationDirectory.head" title="NRWAL.handlers.directories.EquationDirectory.head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">head</span></code></a></p></td>
+<td><p>Return the first n lines of the directory string representation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.directories.EquationDirectory.items" title="NRWAL.handlers.directories.EquationDirectory.items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code></a></p></td>
+<td><p>Get the 1st level of equation (keys, values), same as dict.items().</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.directories.EquationDirectory.keys" title="NRWAL.handlers.directories.EquationDirectory.keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code></a></p></td>
+<td><p>Get the 1st level of equation keys, same as dict.keys()</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.directories.EquationDirectory.set_default_variables" title="NRWAL.handlers.directories.EquationDirectory.set_default_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_default_variables</span></code></a></p></td>
+<td><p>Set default variables available to this object and all sub-directories, sub-groups, and equations within this object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.directories.EquationDirectory.tail" title="NRWAL.handlers.directories.EquationDirectory.tail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tail</span></code></a></p></td>
+<td><p>Return the last n lines of the directory string representation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.directories.EquationDirectory.values" title="NRWAL.handlers.directories.EquationDirectory.values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">values</span></code></a></p></td>
+<td><p>Get the 1st level of equation values, same as dict.values()</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.directories.EquationDirectory.all_equations" title="NRWAL.handlers.directories.EquationDirectory.all_equations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_equations</span></code></a></p></td>
+<td><p>List of all Equation objects from this object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.directories.EquationDirectory.default_variables" title="NRWAL.handlers.directories.EquationDirectory.default_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_variables</span></code></a></p></td>
+<td><p>Get a dictionary of default variables from a variables.yaml file accessible to this object</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.directories.EquationDirectory.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/directories.html#EquationDirectory.__add__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.directories.EquationDirectory.__add__" title="Link to this definition"></a></dt>
+<dd><p>Add another equation dir to this instance of EquationDirectory
+(self) and return a new EquationDirectory object that updates this
+instance with the new input. Note that overlapping sub directories or
+EquationGroups in the original EquationDirectory can be overwritten
+by the new input if a duplicate key exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>EquationDirectory | str</em>) – Another EquationDirectory object or path to an
+EquationDirectory to add to this instance of
+EquationDirectory (self).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out</strong> (<em>EquationDirectory</em>) – A new EquationDirectory instance with this instance of
+EquationDirectory (self) updated with the input EquationDirectory.
+Note that overlapping sub directories or EquationGroups in the
+original EquationDirectory may be overwritten by the new input if
+a duplicate key exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.directories.EquationDirectory.head">
+<span class="sig-name descname"><span class="pre">head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/directories.html#EquationDirectory.head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.directories.EquationDirectory.head" title="Link to this definition"></a></dt>
+<dd><p>Return the first n lines of the directory string representation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.directories.EquationDirectory.tail">
+<span class="sig-name descname"><span class="pre">tail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/directories.html#EquationDirectory.tail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.directories.EquationDirectory.tail" title="Link to this definition"></a></dt>
+<dd><p>Return the last n lines of the directory string representation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.directories.EquationDirectory.set_default_variables">
+<span class="sig-name descname"><span class="pre">set_default_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/directories.html#EquationDirectory.set_default_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.directories.EquationDirectory.set_default_variables" title="Link to this definition"></a></dt>
+<dd><p>Set default variables available to this object and all
+sub-directories, sub-groups, and equations within this object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>var_group</strong> (<em>dict | None</em>) – Default variables namespace that will be set to the EquationGroup
+objects in this EquationDirectory unless other variables.yaml files
+are found on the local level in sub-directories. These variables
+can always be overwritten when Equation.evaluate() is called.</p></li>
+<li><p><strong>force_update</strong> (<em>bool</em>) – Flag to force updates to local VariableGroup objects
+(variables.yaml files) contained in lower level directories.
+Default is False so that lower level directories will maintain
+their locally-defined default variables.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="NRWAL.handlers.directories.EquationDirectory.default_variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_variables</span></span><a class="headerlink" href="#NRWAL.handlers.directories.EquationDirectory.default_variables" title="Link to this definition"></a></dt>
+<dd><p>Get a dictionary of default variables from a variables.yaml file
+accessible to this object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>dict</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="NRWAL.handlers.directories.EquationDirectory.all_equations">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">all_equations</span></span><a class="headerlink" href="#NRWAL.handlers.directories.EquationDirectory.all_equations" title="Link to this definition"></a></dt>
+<dd><p>List of all Equation objects from this object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.directories.EquationDirectory.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/directories.html#EquationDirectory.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.directories.EquationDirectory.get" title="Link to this definition"></a></dt>
+<dd><p>Attempt to get a key from the EquationDirectory, return
+default_value if the key could not be retrieved</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.directories.EquationDirectory.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/directories.html#EquationDirectory.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.directories.EquationDirectory.keys" title="Link to this definition"></a></dt>
+<dd><p>Get the 1st level of equation keys, same as dict.keys()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.directories.EquationDirectory.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/directories.html#EquationDirectory.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.directories.EquationDirectory.items" title="Link to this definition"></a></dt>
+<dd><p>Get the 1st level of equation (keys, values), same as dict.items().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.directories.EquationDirectory.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/directories.html#EquationDirectory.values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.directories.EquationDirectory.values" title="Link to this definition"></a></dt>
+<dd><p>Get the 1st level of equation values, same as dict.values()</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="NRWAL.handlers.directories.html" class="btn btn-neutral float-left" title="NRWAL.handlers.directories" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="NRWAL.handlers.equations.html" class="btn btn-neutral float-right" title="NRWAL.handlers.equations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Alliance for Sustainable Energy, LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

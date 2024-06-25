@@ -1,0 +1,6 @@
+NRWAL.utilities.utilities.find\_parens
+======================================
+
+.. currentmodule:: NRWAL.utilities.utilities
+
+.. autofunction:: find_parens

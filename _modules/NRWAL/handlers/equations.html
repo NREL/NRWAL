@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NRWAL.handlers.equations &mdash; NRWAL 0.0.12 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=3bbcec59"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            NRWAL
+          </a>
+              <div class="version">
+                0.0.12
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home page</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../misc/installation_usage.html">Installation and Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../misc/installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../misc/installation.html#option-1-install-from-pip-or-conda-recommended-for-analysts">Option 1: Install from PIP or Conda (recommended for analysts):</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../misc/installation.html#option-2-clone-repo-recommended-for-developers">Option 2: Clone repo (recommended for developers)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/NRWAL.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.html">NRWAL.handlers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.config.html">NRWAL.handlers.config</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.config.NrwalConfig.html">NRWAL.handlers.config.NrwalConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.directories.html">NRWAL.handlers.directories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.directories.EquationDirectory.html">NRWAL.handlers.directories.EquationDirectory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.equations.html">NRWAL.handlers.equations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html">NRWAL.handlers.equations.Equation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.html">NRWAL.handlers.groups</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html">NRWAL.handlers.groups.AbstractGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.EquationGroup.html">NRWAL.handlers.groups.EquationGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.VariableGroup.html">NRWAL.handlers.groups.VariableGroup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.html">NRWAL.utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.utilities.html">NRWAL.utilities.utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.utilities.find_np_pd_methods.html">NRWAL.utilities.utilities.find_np_pd_methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.utilities.find_parens.html">NRWAL.utilities.utilities.find_parens</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/NRWAL.version.html">NRWAL.version</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">NRWAL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">NRWAL.handlers.equations</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for NRWAL.handlers.equations</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Handler objects to interface with single NRWAL equation strings.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Equation">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation">[docs]</a>
+<span class="k">class</span> <span class="nc">Equation</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to handle and evaluate a single wind cost equation string.&quot;&quot;&quot;</span>
+
+    <span class="c1"># illegal substrings that cannot be in cost equations</span>
+    <span class="n">ILLEGAL</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;import &#39;</span><span class="p">,</span> <span class="s1">&#39;os.&#39;</span><span class="p">,</span> <span class="s1">&#39;sys.&#39;</span><span class="p">,</span> <span class="s1">&#39;.__&#39;</span><span class="p">,</span> <span class="s1">&#39;__.&#39;</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">,</span> <span class="s1">&#39;exec&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eqn</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default_variables</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        eqn : str | int | float</span>
+<span class="sd">            Cost equation in a string representation or a single number e.g.:</span>
+<span class="sd">            &quot;-34.80 * depth ** 2 + 207619.80 * depth + 221197699.89&quot;</span>
+<span class="sd">        name : str | None</span>
+<span class="sd">            Optional equation name / key for string formatting</span>
+<span class="sd">        default_variables : dict</span>
+<span class="sd">            Optional dictionary of default variables accessible to this</span>
+<span class="sd">            Equation object. These inputs can still be overwritten at runtime.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span> <span class="o">=</span> <span class="n">default_variables</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_str</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eqn</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">eqn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_preflight</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_preflight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run preflight checks on the equation string.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">substr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ILLEGAL</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">substr</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_eqn</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Will not evaluate string which contains &quot;</span><span class="si">{}</span><span class="s1">&quot;: </span><span class="si">{}</span><span class="s1">&#39;</span>
+                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">substr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eqn</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">verify_no_self_reference</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Equation.verify_no_self_reference">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.verify_no_self_reference">[docs]</a>
+    <span class="k">def</span> <span class="nf">verify_no_self_reference</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify that the equation does not reference itself.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If a reference to the equation name is found in its variables.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Self-referencing is not allowed! Please change &quot;</span>
+                   <span class="s2">&quot;either the equation name or the name of the dependent &quot;</span>
+                   <span class="s2">&quot;variable in the following input equation: </span><span class="si">{}</span><span class="s2"> = </span><span class="si">{}</span><span class="s2">&quot;</span>
+                   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eqn</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_check_input_args</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check that input args to equation are of expected types.&quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="nb">dict</span><span class="p">),</span> <span class="s1">&#39;Equation inputs must be a dict!&#39;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Input keys must be strings but received: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="n">msg</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Input data must be one of (int, float, np.ndarray, list, &#39;</span>
+                   <span class="s1">&#39;tuple), but received: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
+            <span class="n">is_num</span> <span class="o">=</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span>
+                      <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">is_num</span><span class="p">,</span> <span class="n">msg</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">kwargs</span>
+
+<div class="viewcode-block" id="Equation.replace_equation">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.replace_equation">[docs]</a>
+    <span class="k">def</span> <span class="nf">replace_equation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_eqn</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Replace the expression of this equation with a new one.</span>
+
+<span class="sd">        This method returns a new `Equation` instance that replaces</span>
+<span class="sd">        the existing equation expression with the new one supplied by the</span>
+<span class="sd">        user, keeping the equation name and default variables unchanged.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        new_eqn : str</span>
+<span class="sd">            String representation of the new `Equation` instance.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        `Equation`</span>
+<span class="sd">            A new `Equation` instance with the same name and</span>
+<span class="sd">            default values as the old `Equation` but with the new</span>
+<span class="sd">            equation expression.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+            <span class="n">new_eqn</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span><span class="p">,</span>
+            <span class="n">default_variables</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">default_variables</span>
+        <span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">__eqn_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">operator</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform arithmetic with this instance of Equation (self) and an</span>
+<span class="sd">        input &quot;other&quot; Equation and return a new Equation object that evaluates</span>
+<span class="sd">        the arithmetic operation of the two equations</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Equation | str | int | float</span>
+<span class="sd">            Another Equation object or simple string representation of an</span>
+<span class="sd">            equation</span>
+<span class="sd">        operator : str</span>
+<span class="sd">            An arithmetic operator in a python string such as: + - / * ** %</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : Equation</span>
+<span class="sd">            A new Equation instance with this instance of Equation (self)</span>
+<span class="sd">            operated on by the input Equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Equation</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+        <span class="n">arg1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eqn</span>
+        <span class="n">arg2</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">_eqn</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_num</span><span class="p">(</span><span class="n">arg1</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_variable</span><span class="p">(</span><span class="n">arg1</span><span class="p">):</span>
+            <span class="n">arg1</span> <span class="o">=</span> <span class="s1">&#39;(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arg1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_num</span><span class="p">(</span><span class="n">arg2</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_variable</span><span class="p">(</span><span class="n">arg2</span><span class="p">):</span>
+            <span class="n">arg2</span> <span class="o">=</span> <span class="s1">&#39;(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arg2</span><span class="p">)</span>
+
+        <span class="n">new_eqn</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">arg2</span><span class="p">)</span>
+        <span class="n">new_str</span> <span class="o">=</span> <span class="s1">&#39;(</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operator</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+        <span class="n">def_vars</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span><span class="p">)</span>
+        <span class="n">def_vars</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_default_variables</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">new_eqn</span><span class="p">,</span> <span class="n">default_variables</span><span class="o">=</span><span class="n">def_vars</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">_str</span> <span class="o">=</span> <span class="n">new_str</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+<div class="viewcode-block" id="Equation.__add__">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.__add__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add another equation to this instance of Equation (self) and return</span>
+<span class="sd">        a new Equation object that evaluates the sum of the two equations</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Equation | str | int | float</span>
+<span class="sd">            Another Equation object or simple string representation of an</span>
+<span class="sd">            equation to add to this instance of Equation (self).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : Equation</span>
+<span class="sd">            A new Equation instance with this instance of Equation (self)</span>
+<span class="sd">            summed with the input Equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eqn_math</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Subtract another equation from this instance of Equation (self) and</span>
+<span class="sd">        return a new Equation object that evaluates the difference of the two</span>
+<span class="sd">        equations</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Equation | str | int | float</span>
+<span class="sd">            Another Equation object or simple string representation of an</span>
+<span class="sd">            equation to subtract from this instance of Equation (self).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : Equation</span>
+<span class="sd">            A new Equation instance with this instance of Equation (self)</span>
+<span class="sd">            subtracted by the input Equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eqn_math</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Equation.__mul__">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.__mul__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Multiply another equation by this instance of Equation (self) and</span>
+<span class="sd">        return a new Equation object that evaluates the product of the two</span>
+<span class="sd">        equations</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Equation | str | int | float</span>
+<span class="sd">            Another Equation object or simple string representation of an</span>
+<span class="sd">            equation to multiply by this instance of Equation (self).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : Equation</span>
+<span class="sd">            A new Equation instance with this instance of Equation (self)</span>
+<span class="sd">            multiplied by the input Equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eqn_math</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Raise this instance of Equation (self) by the output of another</span>
+<span class="sd">        equation and return a new Equation object that evaluates this power</span>
+<span class="sd">        function</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Equation | str | int | float</span>
+<span class="sd">            Another Equation object or simple string representation of an</span>
+<span class="sd">            equation to raise this instance of Equation (self) to the power of.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : Equation</span>
+<span class="sd">            A new Equation instance with this instance of Equation (self)</span>
+<span class="sd">            raise to the power of the output of the input Equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eqn_math</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;**&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Divide this instance of Equation (self) by another Equation and</span>
+<span class="sd">        return a new Equation object that evaluates the division of the two</span>
+<span class="sd">        equations.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Equation | str | int | float</span>
+<span class="sd">            Another Equation object or simple string representation of an</span>
+<span class="sd">            equation to divide this instance of Equation (self) by.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : Equation</span>
+<span class="sd">            A new Equation instance with this instance of Equation (self)</span>
+<span class="sd">            divided by the input Equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eqn_math</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Divide this instance of Equation (self) by another Equation and</span>
+<span class="sd">        return a new Equation object that evaluates the division of the two</span>
+<span class="sd">        equations.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : Equation | str | int | float</span>
+<span class="sd">            Another Equation object or simple string representation of an</span>
+<span class="sd">            equation to divide this instance of Equation (self) by.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : Equation</span>
+<span class="sd">            A new Equation instance with this instance of Equation (self)</span>
+<span class="sd">            divided by the input Equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eqn_math</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_str</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_num</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_eqn</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">variables</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_eqn</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">vars_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span>
+                            <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_variables</span><span class="p">]</span>
+                <span class="n">vars_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">vars_str</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>\
+                    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+                <span class="n">gvars_str</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span>
+                             <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_variables</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">gvar</span> <span class="ow">in</span> <span class="n">gvars_str</span><span class="p">:</span>
+                    <span class="n">base_str</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span> <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">vars_str</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+                    <span class="n">kw_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gvar</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_variables</span><span class="p">[</span><span class="n">gvar</span><span class="p">])</span>
+                    <span class="n">vars_str</span> <span class="o">+=</span> <span class="n">base_str</span> <span class="o">+</span> <span class="n">kw_str</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_str</span> <span class="o">=</span> <span class="s1">&#39;Equation(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">vars_str</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span><span class="p">,</span> <span class="n">vars_str</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_str</span>
+
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eqn</span>
+
+<div class="viewcode-block" id="Equation.set_default_variables">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.set_default_variables">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_default_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set default variables available to this Equation object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var_dict : dict | None</span>
+<span class="sd">            Default variables namespace. These variables can always be</span>
+<span class="sd">            overwritten when Equation.evaluate() is called.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">var_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">var_dict</span><span class="p">))</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_merge_vars</span><span class="p">(</span><span class="n">var_group</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a copied namespace of input args for the Equation evaluation.</span>
+<span class="sd">        This is the default-style variables set with the self._set_variables()</span>
+<span class="sd">        method and the self._default_variables attribute updated with kwargs</span>
+<span class="sd">        from the self.evaluate() method call.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var_group : dict | None</span>
+<span class="sd">            Variables group from a higher level than or adjacent to this</span>
+<span class="sd">            instance of Equation. Variables from this input will be</span>
+<span class="sd">            passed to the equation for evaluation. These variables can always</span>
+<span class="sd">            be overwritten when Equation.evaluate() is called.</span>
+<span class="sd">        kwargs : dict</span>
+<span class="sd">            Keyword arguments setting variables of the equation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : dict</span>
+<span class="sd">            Copied input args from var_group updated with kwargs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">var_group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">var_group</span><span class="p">)</span>
+
+        <span class="n">out</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+<div class="viewcode-block" id="Equation.is_num">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.is_num">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_num</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if a string is a number&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="Equation.is_method">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.is_method">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_method</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if a string is a numpy/pandas or python builtin method&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s1">&#39;np.&#39;</span><span class="p">,</span> <span class="s1">&#39;pd.&#39;</span><span class="p">))</span> <span class="ow">or</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">__builtins__</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Equation.is_variable">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.is_variable">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">is_variable</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if a string is a variable name without any constants,</span>
+<span class="sd">        operators, or arithmetic expressions&quot;&quot;&quot;</span>
+        <span class="n">flags</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;{&#39;</span><span class="p">,</span> <span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;&amp;&#39;</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span><span class="p">,</span> <span class="s1">&#39;@&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_num</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">f</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">flags</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">full</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the full equation string without any pretty formatting.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eqn</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a dictionary of default variables from a variables.yaml file</span>
+<span class="sd">        accessible to this object</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span>
+
+<div class="viewcode-block" id="Equation.parse_variables">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.parse_variables">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">parse_variables</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse variable names from an expression string.&quot;&quot;&quot;</span>
+
+        <span class="c1"># finds and replaces all scientific notation numbers</span>
+        <span class="n">re_num</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[0-9]+\.?[0-9]*[eE][-+]?[0-9]*&#39;</span><span class="p">)</span>
+        <span class="n">nums</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">re_num</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">expression</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="n">expression</span> <span class="o">=</span> <span class="n">expression</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="s1">&#39;-1&#39;</span><span class="p">)</span>
+
+        <span class="n">delimiters</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">)</span>
+        <span class="n">regex_pattern</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">,</span> <span class="n">delimiters</span><span class="p">))</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="p">[</span><span class="n">sub</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                     <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">regex_pattern</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">expression</span><span class="p">))</span>
+                     <span class="k">if</span> <span class="n">sub</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                     <span class="ow">and</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_variable</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
+                     <span class="ow">and</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_num</span><span class="p">(</span><span class="n">sub</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))</span>
+                     <span class="ow">and</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_method</span><span class="p">(</span><span class="n">sub</span><span class="p">)]</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">variables</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">variables</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a unique sorted list names of all input variables that the</span>
+<span class="sd">        Equation needs. This will return an empty list if the equation has</span>
+<span class="sd">        no variables.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parse_variables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_eqn</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Equation.is_equation">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.is_equation">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">is_equation</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if an expression is an equation to be handled by this</span>
+<span class="sd">        framework.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        expression : str | int | float</span>
+<span class="sd">            Expression to be checked as an equation or not.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        check : bool</span>
+<span class="sd">            True if the expression is an equation that can be handled by this</span>
+<span class="sd">            framework.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">check</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">operators</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_num</span><span class="p">(</span><span class="n">expression</span><span class="p">):</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">operators</span><span class="p">):</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">check</span></div>
+
+
+<div class="viewcode-block" id="Equation.eval">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.eval">[docs]</a>
+    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Alias for evaluate().&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Equation.evaluate">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html#NRWAL.handlers.equations.Equation.evaluate">[docs]</a>
+    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate the equation string and return the result</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kwargs : dict</span>
+<span class="sd">            Keyword arguments setting variables of the equation. Note that this</span>
+<span class="sd">            is **kwargs so this method can be run in either of these syntaxes:</span>
+<span class="sd">                Equation.evaluate(input1=10, input2=20)</span>
+<span class="sd">                Equation.evaluate(**{&#39;input1&#39;: 10, &#39;input2&#39;: 20})</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : float | np.ndarray</span>
+<span class="sd">            Evaluated output of this equation object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_input_args</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_vars</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">variables</span>
+                   <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span>
+                   <span class="ow">and</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">missing</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Cannot evaluate &quot;</span><span class="si">{}</span><span class="s1">&quot;, missing the following input args: </span><span class="si">{}</span><span class="s1">&#39;</span>
+                   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">missing</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_eqn</span><span class="p">),</span> <span class="nb">globals</span><span class="p">(),</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Could not evaluate NRWAL Equation </span><span class="si">{}</span><span class="s1">, received error: </span><span class="si">{}</span><span class="s1">&#39;</span>
+                   <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Alliance for Sustainable Energy, LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

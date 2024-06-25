@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NRWAL.handlers.groups.AbstractGroup &mdash; NRWAL 0.0.12 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=3bbcec59"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NRWAL.handlers.groups.EquationGroup" href="NRWAL.handlers.groups.EquationGroup.html" />
+    <link rel="prev" title="NRWAL.handlers.groups" href="NRWAL.handlers.groups.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            NRWAL
+          </a>
+              <div class="version">
+                0.0.12
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home page</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/installation_usage.html">Installation and Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../misc/installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../misc/installation.html#option-1-install-from-pip-or-conda-recommended-for-analysts">Option 1: Install from PIP or Conda (recommended for analysts):</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../misc/installation.html#option-2-clone-repo-recommended-for-developers">Option 2: Clone repo (recommended for developers)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="NRWAL.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="NRWAL.handlers.html">NRWAL.handlers</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.handlers.config.html">NRWAL.handlers.config</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.config.NrwalConfig.html">NRWAL.handlers.config.NrwalConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.handlers.directories.html">NRWAL.handlers.directories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.directories.EquationDirectory.html">NRWAL.handlers.directories.EquationDirectory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.handlers.equations.html">NRWAL.handlers.equations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.equations.Equation.html">NRWAL.handlers.equations.Equation</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="NRWAL.handlers.groups.html">NRWAL.handlers.groups</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">NRWAL.handlers.groups.AbstractGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.groups.EquationGroup.html">NRWAL.handlers.groups.EquationGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.groups.VariableGroup.html">NRWAL.handlers.groups.VariableGroup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NRWAL.utilities.html">NRWAL.utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.utilities.utilities.html">NRWAL.utilities.utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.utilities.utilities.find_np_pd_methods.html">NRWAL.utilities.utilities.find_np_pd_methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.utilities.utilities.find_parens.html">NRWAL.utilities.utilities.find_parens</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NRWAL.version.html">NRWAL.version</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NRWAL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="NRWAL.html">NRWAL</a></li>
+          <li class="breadcrumb-item"><a href="NRWAL.handlers.html">NRWAL.handlers</a></li>
+          <li class="breadcrumb-item"><a href="NRWAL.handlers.groups.html">NRWAL.handlers.groups</a></li>
+      <li class="breadcrumb-item active">NRWAL.handlers.groups.AbstractGroup</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/nrel/NRWAL/blob/main/docs/source/_autosummary/NRWAL.handlers.groups.AbstractGroup.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nrwal-handlers-groups-abstractgroup">
+<h1>NRWAL.handlers.groups.AbstractGroup<a class="headerlink" href="#nrwal-handlers-groups-abstractgroup" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AbstractGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_extrap_power</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_nearest_power</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_extrap_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_nearest_year</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Abstract class for groupings of equations or variables in a single
+yaml or json file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group</strong> (<em>str | dict</em>) – String filepath to a yaml or json file containing one or more
+equation strings OR a pre-extracted dictionary from a yaml or
+json file with equation strings as values.</p></li>
+<li><p><strong>name</strong> (<em>str | None</em>) – Optional name for identification and debugging if this
+AbstractGroup is being initialized with the “group” input argument
+as a pre-extracted dictionary.</p></li>
+<li><p><strong>interp_extrap_power</strong> (<em>bool</em>) – Flag to interpolate and extrapolate power (MW) dependent equations
+based on the case-insensitive regex pattern: “_[0-9]*MW$”
+This takes preference over the use_nearest_power flag.
+If both interp_extrap_power &amp; use_nearest_power are False, a
+KeyError will be raised if the exact equation name request is not
+found.</p></li>
+<li><p><strong>use_nearest_power</strong> (<em>bool</em>) – Flag to use the nearest valid power (MW) dependent equation
+based on the case-insensitive regex pattern: “_[0-9]*MW$”
+This is second priority to the interp_extrap_power flag.
+If both interp_extrap_power &amp; use_nearest_power are False, a
+KeyError will be raised if the exact equation name request is not
+found.</p></li>
+<li><p><strong>interp_extrap_year</strong> (<em>bool</em>) – Flag to interpolate and extrapolate equations keyed by year.
+This takes preference over the use_nearest_year flag.
+If both interp_extrap_year &amp; use_nearest_year are False, a
+KeyError will be raised if the exact equation name request is not
+found.</p></li>
+<li><p><strong>use_nearest_year</strong> (<em>bool</em>) – Flag to use the nearest valid equation keyed by year.
+This is second priority to the interp_extrap_year flag.
+If both interp_extrap_year &amp; use_nearest_year are False, a
+KeyError will be raised if the exact equation name request is not
+found.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.find_nearest_power_eqns" title="NRWAL.handlers.groups.AbstractGroup.find_nearest_power_eqns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_nearest_power_eqns</span></code></a></p></td>
+<td><p>Find power-based (MW) equations in this EquationGroup that match the request (by regex pattern &quot;_[0-9]*MW$&quot;) and sort them by difference in equation power.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.find_nearest_year_eqns" title="NRWAL.handlers.groups.AbstractGroup.find_nearest_year_eqns"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_nearest_year_eqns</span></code></a></p></td>
+<td><p>Find year-based (<a href="#id1"><span class="problematic" id="id2">*</span></a>_YYYY) equations in this EquationGroup that match the request difference in equation year.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.get" title="NRWAL.handlers.groups.AbstractGroup.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a></p></td>
+<td><p>Attempt to get a key from the EquationGroup, return default_value if the key could not be retrieved</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.head" title="NRWAL.handlers.groups.AbstractGroup.head"><code class="xref py py-obj docutils literal notranslate"><span class="pre">head</span></code></a></p></td>
+<td><p>Return the first n lines of the group string representation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.is_power_eqn" title="NRWAL.handlers.groups.AbstractGroup.is_power_eqn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_power_eqn</span></code></a></p></td>
+<td><p>Determine if an equation key is power-based by looking for the case-insensitive regex pattern &quot;_[0-9]*MW$&quot;</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.is_year_eqn" title="NRWAL.handlers.groups.AbstractGroup.is_year_eqn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_year_eqn</span></code></a></p></td>
+<td><p>Determine if an equation key is year-based by looking for <a href="#id3"><span class="problematic" id="id4">*</span></a>_YYYY in the key</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.items" title="NRWAL.handlers.groups.AbstractGroup.items"><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code></a></p></td>
+<td><p>Get the 1st level of equation (keys, values), same as dict.items().</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.keys" title="NRWAL.handlers.groups.AbstractGroup.keys"><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code></a></p></td>
+<td><p>Get the 1st level of equation group keys, same as dict.keys()</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.set_default_variables" title="NRWAL.handlers.groups.AbstractGroup.set_default_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_default_variables</span></code></a></p></td>
+<td><p>Set default variables available to this object and all sub-groups and equations within this object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.tail" title="NRWAL.handlers.groups.AbstractGroup.tail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tail</span></code></a></p></td>
+<td><p>Return the last n lines of the group string representation</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.values" title="NRWAL.handlers.groups.AbstractGroup.values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">values</span></code></a></p></td>
+<td><p>Get the 1st level of equation values, same as dict.values()</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.groups.AbstractGroup.all_equations" title="NRWAL.handlers.groups.AbstractGroup.all_equations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_equations</span></code></a></p></td>
+<td><p>List of all Equation objects from this object.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.__add__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.__add__" title="Link to this definition"></a></dt>
+<dd><p>Add another equation group to this instance of EquationGroup (self)
+and return a new EquationGroup object that updates this instance with
+the new input. Note that overlapping sub EquationGroups in the original
+EquationGroup may be overwritten by the new input if a duplicate key
+exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>EquationGroup | str | dict</em>) – Another EquationGroup object or filepath to an EquationGroup
+to add to this instance of EquationGroup (self).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out</strong> (<em>EquationGroup</em>) – A new EquationGroup instance with this instance of EquationGroup
+(self) updated with the input EquationGroup.
+Note that overlapping sub EquationGroups in the original
+EquationGroup may be overwritten by the new input if a duplicate
+key exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.is_power_eqn">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_power_eqn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.is_power_eqn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.is_power_eqn" title="Link to this definition"></a></dt>
+<dd><p>Determine if an equation key is power-based by looking for the
+case-insensitive regex pattern “_[0-9]*MW$”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>str</em>) – An equation key/name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out</strong> (<em>bool</em>) – True if the regex pattern “_[0-9]*MW$” was found in key</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.find_nearest_power_eqns">
+<span class="sig-name descname"><span class="pre">find_nearest_power_eqns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.find_nearest_power_eqns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.find_nearest_power_eqns" title="Link to this definition"></a></dt>
+<dd><p>Find power-based (MW) equations in this EquationGroup that match
+the request (by regex pattern “_[0-9]*MW$”) and sort them by
+difference in equation power.</p>
+<p>For example, if the request is “eqn_a_7MW” and there are “eqn_a_4MW”,
+“eqn_a_6MW”, and “eqn_a_10MW” in this group, this method will return
+[eqn_a_6MW, eqn_a_10MW, eqn_a_4MW], [6, 10, 4]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>str</em>) – A key to retrieve an equation from this EquationGroup. Should
+contain the case-insensitive regex pattern “_[0-9]*MW$”. Otherwise,
+empty lists will be returned.</p></li>
+<li><p><strong>group</strong> (<em>EquationGroup</em>) – Group to be looking in for equations adjacent to the requested
+equation. Defaults to the top level self._group attribute.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>eqns</strong> (<em>list</em>) – List of Equation objects that match the request key and are sorted
+by difference in the _*MW specification to the input request key.
+If the request key does not have the _*MW specification or if no
+other keys in this EquationGroup match the request then this will
+return an empty list.</p></li>
+<li><p><strong>eqn_powers</strong> (<em>list</em>) – List of float power MW values corresponding to eqns and sorted
+by difference in the _*MW specification to the input request key.
+If the request key does not have the _*MW specification or if no
+other keys in this EquationGroup match the request then this will
+return an empty list.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.is_year_eqn">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_year_eqn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.is_year_eqn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.is_year_eqn" title="Link to this definition"></a></dt>
+<dd><p>Determine if an equation key is year-based by looking for
+<a href="#id5"><span class="problematic" id="id6">*</span></a>_YYYY in the key</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<em>str</em>) – An equation key/name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out</strong> (<em>bool</em>) – True if a year string <a href="#id7"><span class="problematic" id="id8">*</span></a>_YYYY is found in key</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.find_nearest_year_eqns">
+<span class="sig-name descname"><span class="pre">find_nearest_year_eqns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.find_nearest_year_eqns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.find_nearest_year_eqns" title="Link to this definition"></a></dt>
+<dd><p>Find year-based (<a href="#id9"><span class="problematic" id="id10">*</span></a>_YYYY) equations in this EquationGroup that match
+the request difference in equation year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>request</strong> (<em>str</em>) – A key to retrieve an equation from this EquationGroup. Should
+have the <a href="#id11"><span class="problematic" id="id12">*</span></a>_YYYY pattern. Otherwise, None will be returned.</p></li>
+<li><p><strong>group</strong> (<em>EquationGroup</em>) – Group to be looking in for equations adjacent to the requested
+equation. Defaults to the top level self._group attribute.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>eqns</strong> (<em>list</em>) – List of Equation objects that match the request key and are sorted
+by difference in the YYYY specification to the input request key.
+If the request key does not have the YYYY specification or if no
+other keys in this EquationGroup match the request then this will
+return an empty list.</p></li>
+<li><p><strong>eqn_years</strong> (<em>list</em>) – List of integer year YYYY values corresponding to eqns and sorted
+by difference in the YYYY specification to the input request key.
+If the request key does not have the YYYY specification or if no
+other keys in this EquationGroup match the request then this will
+return an empty list.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.set_default_variables">
+<span class="sig-name descname"><span class="pre">set_default_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.set_default_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.set_default_variables" title="Link to this definition"></a></dt>
+<dd><p>Set default variables available to this object and all sub-groups
+and equations within this object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>var_dict</strong> (<em>dict | None</em>) – Default variables namespace. Variables from this input will be
+passed to all Equation objects in this EquationGroup. These
+variables can always be overwritten when Equation.evaluate()
+is called.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.head">
+<span class="sig-name descname"><span class="pre">head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.head" title="Link to this definition"></a></dt>
+<dd><p>Return the first n lines of the group string representation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.tail">
+<span class="sig-name descname"><span class="pre">tail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.tail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.tail" title="Link to this definition"></a></dt>
+<dd><p>Return the last n lines of the group string representation</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.all_equations">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">all_equations</span></span><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.all_equations" title="Link to this definition"></a></dt>
+<dd><p>List of all Equation objects from this object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.get" title="Link to this definition"></a></dt>
+<dd><p>Attempt to get a key from the EquationGroup, return
+default_value if the key could not be retrieved</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.keys" title="Link to this definition"></a></dt>
+<dd><p>Get the 1st level of equation group keys, same as dict.keys()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.items" title="Link to this definition"></a></dt>
+<dd><p>Get the 1st level of equation (keys, values), same as dict.items().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.groups.AbstractGroup.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/groups.html#AbstractGroup.values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.groups.AbstractGroup.values" title="Link to this definition"></a></dt>
+<dd><p>Get the 1st level of equation values, same as dict.values()</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="NRWAL.handlers.groups.html" class="btn btn-neutral float-left" title="NRWAL.handlers.groups" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="NRWAL.handlers.groups.EquationGroup.html" class="btn btn-neutral float-right" title="NRWAL.handlers.groups.EquationGroup" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Alliance for Sustainable Energy, LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

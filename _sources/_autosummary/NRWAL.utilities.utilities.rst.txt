@@ -1,0 +1,32 @@
+NRWAL.utilities.utilities
+=========================
+
+.. automodule:: NRWAL.utilities.utilities
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+   
+      find_np_pd_methods
+      find_parens
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,43 @@
+NRWAL.handlers.equations.Equation
+=================================
+
+.. currentmodule:: NRWAL.handlers.equations
+
+.. autoclass:: Equation
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~Equation.eval
+      ~Equation.evaluate
+      ~Equation.is_equation
+      ~Equation.is_method
+      ~Equation.is_num
+      ~Equation.is_variable
+      ~Equation.parse_variables
+      ~Equation.replace_equation
+      ~Equation.set_default_variables
+      ~Equation.verify_no_self_reference
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~Equation.ILLEGAL
+      ~Equation.default_variables
+      ~Equation.full
+      ~Equation.variables
+   
+   

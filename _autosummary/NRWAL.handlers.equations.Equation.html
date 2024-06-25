@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NRWAL.handlers.equations.Equation &mdash; NRWAL 0.0.12 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=3bbcec59"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NRWAL.handlers.groups" href="NRWAL.handlers.groups.html" />
+    <link rel="prev" title="NRWAL.handlers.equations" href="NRWAL.handlers.equations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            NRWAL
+          </a>
+              <div class="version">
+                0.0.12
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home page</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../misc/installation_usage.html">Installation and Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../misc/installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../misc/installation.html#option-1-install-from-pip-or-conda-recommended-for-analysts">Option 1: Install from PIP or Conda (recommended for analysts):</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../misc/installation.html#option-2-clone-repo-recommended-for-developers">Option 2: Clone repo (recommended for developers)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="NRWAL.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="NRWAL.handlers.html">NRWAL.handlers</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.handlers.config.html">NRWAL.handlers.config</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.config.NrwalConfig.html">NRWAL.handlers.config.NrwalConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.handlers.directories.html">NRWAL.handlers.directories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.directories.EquationDirectory.html">NRWAL.handlers.directories.EquationDirectory</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="NRWAL.handlers.equations.html">NRWAL.handlers.equations</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">NRWAL.handlers.equations.Equation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.handlers.groups.html">NRWAL.handlers.groups</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.groups.AbstractGroup.html">NRWAL.handlers.groups.AbstractGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.groups.EquationGroup.html">NRWAL.handlers.groups.EquationGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.handlers.groups.VariableGroup.html">NRWAL.handlers.groups.VariableGroup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NRWAL.utilities.html">NRWAL.utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="NRWAL.utilities.utilities.html">NRWAL.utilities.utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.utilities.utilities.find_np_pd_methods.html">NRWAL.utilities.utilities.find_np_pd_methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="NRWAL.utilities.utilities.find_parens.html">NRWAL.utilities.utilities.find_parens</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="NRWAL.version.html">NRWAL.version</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">NRWAL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="NRWAL.html">NRWAL</a></li>
+          <li class="breadcrumb-item"><a href="NRWAL.handlers.html">NRWAL.handlers</a></li>
+          <li class="breadcrumb-item"><a href="NRWAL.handlers.equations.html">NRWAL.handlers.equations</a></li>
+      <li class="breadcrumb-item active">NRWAL.handlers.equations.Equation</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/nrel/NRWAL/blob/main/docs/source/_autosummary/NRWAL.handlers.equations.Equation.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nrwal-handlers-equations-equation">
+<h1>NRWAL.handlers.equations.Equation<a class="headerlink" href="#nrwal-handlers-equations-equation" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Equation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eqn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_variables</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class to handle and evaluate a single wind cost equation string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eqn</strong> (<em>str | int | float</em>) – Cost equation in a string representation or a single number e.g.:
+“-34.80 * depth ** 2 + 207619.80 * depth + 221197699.89”</p></li>
+<li><p><strong>name</strong> (<em>str | None</em>) – Optional equation name / key for string formatting</p></li>
+<li><p><strong>default_variables</strong> (<em>dict</em>) – Optional dictionary of default variables accessible to this
+Equation object. These inputs can still be overwritten at runtime.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.eval" title="NRWAL.handlers.equations.Equation.eval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">eval</span></code></a></p></td>
+<td><p>Alias for evaluate().</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.evaluate" title="NRWAL.handlers.equations.Equation.evaluate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate</span></code></a></p></td>
+<td><p>Evaluate the equation string and return the result</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.is_equation" title="NRWAL.handlers.equations.Equation.is_equation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_equation</span></code></a></p></td>
+<td><p>Check if an expression is an equation to be handled by this framework.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.is_method" title="NRWAL.handlers.equations.Equation.is_method"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_method</span></code></a></p></td>
+<td><p>Check if a string is a numpy/pandas or python builtin method</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.is_num" title="NRWAL.handlers.equations.Equation.is_num"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_num</span></code></a></p></td>
+<td><p>Check if a string is a number</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.is_variable" title="NRWAL.handlers.equations.Equation.is_variable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_variable</span></code></a></p></td>
+<td><p>Check if a string is a variable name without any constants, operators, or arithmetic expressions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.parse_variables" title="NRWAL.handlers.equations.Equation.parse_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_variables</span></code></a></p></td>
+<td><p>Parse variable names from an expression string.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.replace_equation" title="NRWAL.handlers.equations.Equation.replace_equation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replace_equation</span></code></a></p></td>
+<td><p>Replace the expression of this equation with a new one.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.set_default_variables" title="NRWAL.handlers.equations.Equation.set_default_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_default_variables</span></code></a></p></td>
+<td><p>Set default variables available to this Equation object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.verify_no_self_reference" title="NRWAL.handlers.equations.Equation.verify_no_self_reference"><code class="xref py py-obj docutils literal notranslate"><span class="pre">verify_no_self_reference</span></code></a></p></td>
+<td><p>Verify that the equation does not reference itself.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ILLEGAL</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.default_variables" title="NRWAL.handlers.equations.Equation.default_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_variables</span></code></a></p></td>
+<td><p>Get a dictionary of default variables from a variables.yaml file accessible to this object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.full" title="NRWAL.handlers.equations.Equation.full"><code class="xref py py-obj docutils literal notranslate"><span class="pre">full</span></code></a></p></td>
+<td><p>Get the full equation string without any pretty formatting.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#NRWAL.handlers.equations.Equation.variables" title="NRWAL.handlers.equations.Equation.variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">variables</span></code></a></p></td>
+<td><p>Get a unique sorted list names of all input variables that the Equation needs.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.verify_no_self_reference">
+<span class="sig-name descname"><span class="pre">verify_no_self_reference</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.verify_no_self_reference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.verify_no_self_reference" title="Link to this definition"></a></dt>
+<dd><p>Verify that the equation does not reference itself.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – If a reference to the equation name is found in its variables.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.replace_equation">
+<span class="sig-name descname"><span class="pre">replace_equation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_eqn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.replace_equation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.replace_equation" title="Link to this definition"></a></dt>
+<dd><p>Replace the expression of this equation with a new one.</p>
+<p>This method returns a new <cite>Equation</cite> instance that replaces
+the existing equation expression with the new one supplied by the
+user, keeping the equation name and default variables unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>new_eqn</strong> (<em>str</em>) – String representation of the new <cite>Equation</cite> instance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><cite>Equation</cite> – A new <cite>Equation</cite> instance with the same name and
+default values as the old <cite>Equation</cite> but with the new
+equation expression.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.__add__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.__add__" title="Link to this definition"></a></dt>
+<dd><p>Add another equation to this instance of Equation (self) and return
+a new Equation object that evaluates the sum of the two equations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>Equation | str | int | float</em>) – Another Equation object or simple string representation of an
+equation to add to this instance of Equation (self).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out</strong> (<em>Equation</em>) – A new Equation instance with this instance of Equation (self)
+summed with the input Equation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.__mul__">
+<span class="sig-name descname"><span class="pre">__mul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.__mul__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.__mul__" title="Link to this definition"></a></dt>
+<dd><p>Multiply another equation by this instance of Equation (self) and
+return a new Equation object that evaluates the product of the two
+equations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<em>Equation | str | int | float</em>) – Another Equation object or simple string representation of an
+equation to multiply by this instance of Equation (self).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out</strong> (<em>Equation</em>) – A new Equation instance with this instance of Equation (self)
+multiplied by the input Equation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.set_default_variables">
+<span class="sig-name descname"><span class="pre">set_default_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.set_default_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.set_default_variables" title="Link to this definition"></a></dt>
+<dd><p>Set default variables available to this Equation object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>var_dict</strong> (<em>dict | None</em>) – Default variables namespace. These variables can always be
+overwritten when Equation.evaluate() is called.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.is_num">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.is_num"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.is_num" title="Link to this definition"></a></dt>
+<dd><p>Check if a string is a number</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.is_method">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.is_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.is_method" title="Link to this definition"></a></dt>
+<dd><p>Check if a string is a numpy/pandas or python builtin method</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.is_variable">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_variable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.is_variable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.is_variable" title="Link to this definition"></a></dt>
+<dd><p>Check if a string is a variable name without any constants,
+operators, or arithmetic expressions</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.full">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">full</span></span><a class="headerlink" href="#NRWAL.handlers.equations.Equation.full" title="Link to this definition"></a></dt>
+<dd><p>Get the full equation string without any pretty formatting.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.default_variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_variables</span></span><a class="headerlink" href="#NRWAL.handlers.equations.Equation.default_variables" title="Link to this definition"></a></dt>
+<dd><p>Get a dictionary of default variables from a variables.yaml file
+accessible to this object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>dict</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.parse_variables">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.parse_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.parse_variables" title="Link to this definition"></a></dt>
+<dd><p>Parse variable names from an expression string.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.variables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variables</span></span><a class="headerlink" href="#NRWAL.handlers.equations.Equation.variables" title="Link to this definition"></a></dt>
+<dd><p>Get a unique sorted list names of all input variables that the
+Equation needs. This will return an empty list if the equation has
+no variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>list</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.is_equation">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_equation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.is_equation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.is_equation" title="Link to this definition"></a></dt>
+<dd><p>Check if an expression is an equation to be handled by this
+framework.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>expression</strong> (<em>str | int | float</em>) – Expression to be checked as an equation or not.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>check</strong> (<em>bool</em>) – True if the expression is an equation that can be handled by this
+framework.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.eval">
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.eval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.eval" title="Link to this definition"></a></dt>
+<dd><p>Alias for evaluate().</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="NRWAL.handlers.equations.Equation.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/NRWAL/handlers/equations.html#Equation.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#NRWAL.handlers.equations.Equation.evaluate" title="Link to this definition"></a></dt>
+<dd><p>Evaluate the equation string and return the result</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kwargs</strong> (<em>dict</em>) – Keyword arguments setting variables of the equation. Note that this
+is <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs so this method can be run in either of these syntaxes:</p>
+<blockquote>
+<div><p>Equation.evaluate(input1=10, input2=20)
+Equation.evaluate(<a href="#id3"><span class="problematic" id="id4">**</span></a>{‘input1’: 10, ‘input2’: 20})</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out</strong> (<em>float | np.ndarray</em>) – Evaluated output of this equation object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="NRWAL.handlers.equations.html" class="btn btn-neutral float-left" title="NRWAL.handlers.equations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="NRWAL.handlers.groups.html" class="btn btn-neutral float-right" title="NRWAL.handlers.groups" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Alliance for Sustainable Energy, LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

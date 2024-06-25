@@ -1,0 +1,42 @@
+NRWAL.handlers.groups.EquationGroup
+===================================
+
+.. currentmodule:: NRWAL.handlers.groups
+
+.. autoclass:: EquationGroup
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~EquationGroup.find_nearest_power_eqns
+      ~EquationGroup.find_nearest_year_eqns
+      ~EquationGroup.get
+      ~EquationGroup.head
+      ~EquationGroup.is_power_eqn
+      ~EquationGroup.is_year_eqn
+      ~EquationGroup.items
+      ~EquationGroup.keys
+      ~EquationGroup.set_default_variables
+      ~EquationGroup.tail
+      ~EquationGroup.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~EquationGroup.all_equations
+      ~EquationGroup.default_variables
+   
+   

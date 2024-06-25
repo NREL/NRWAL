@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NRWAL.utilities.utilities &mdash; NRWAL 0.0.12 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=3bbcec59"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            NRWAL
+          </a>
+              <div class="version">
+                0.0.12
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home page</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../misc/installation_usage.html">Installation and Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../misc/installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../misc/installation.html#option-1-install-from-pip-or-conda-recommended-for-analysts">Option 1: Install from PIP or Conda (recommended for analysts):</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../misc/installation.html#option-2-clone-repo-recommended-for-developers">Option 2: Clone repo (recommended for developers)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/NRWAL.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.html">NRWAL.handlers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.config.html">NRWAL.handlers.config</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.config.NrwalConfig.html">NRWAL.handlers.config.NrwalConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.directories.html">NRWAL.handlers.directories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.directories.EquationDirectory.html">NRWAL.handlers.directories.EquationDirectory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.equations.html">NRWAL.handlers.equations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html">NRWAL.handlers.equations.Equation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.html">NRWAL.handlers.groups</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html">NRWAL.handlers.groups.AbstractGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.EquationGroup.html">NRWAL.handlers.groups.EquationGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.VariableGroup.html">NRWAL.handlers.groups.VariableGroup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.html">NRWAL.utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.utilities.html">NRWAL.utilities.utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.utilities.find_np_pd_methods.html">NRWAL.utilities.utilities.find_np_pd_methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.utilities.find_parens.html">NRWAL.utilities.utilities.find_parens</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/NRWAL.version.html">NRWAL.version</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">NRWAL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">NRWAL.utilities.utilities</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for NRWAL.utilities.utilities</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">NRWAL utilities module.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="n">NRWAL_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))))</span>
+<span class="n">NRWAL_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">NRWAL_DIR</span><span class="p">,</span> <span class="s1">&#39;NRWAL/&#39;</span><span class="p">)</span>
+<span class="n">NRWAL_ANALYSIS_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">NRWAL_DIR</span><span class="p">,</span> <span class="s1">&#39;analysis_library/&#39;</span><span class="p">)</span>
+<span class="n">NRWAL_CONFIG_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">NRWAL_DIR</span><span class="p">,</span> <span class="s1">&#39;default_configs/&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="find_parens">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.utilities.utilities.find_parens.html#NRWAL.utilities.utilities.find_parens">[docs]</a>
+<span class="k">def</span> <span class="nf">find_parens</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find matching parenthesis in a string</span>
+
+<span class="sd">    https://stackoverflow.com/questions/29991917/</span>
+<span class="sd">    indices-of-matching-parentheses-in-python</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s : str</span>
+<span class="sd">        String containing parentheses.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    indices : list</span>
+<span class="sd">        List of matching parentheses indices</span>
+<span class="sd">        e.g. [[i_start1, i_end1], [i_start2, i_end2]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pstack</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Unbalanced parenthesis in: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">s</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">),</span> <span class="n">msg</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;(&#39;</span><span class="p">:</span>
+            <span class="n">pstack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;)&#39;</span><span class="p">:</span>
+            <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">pstack</span><span class="o">.</span><span class="n">pop</span><span class="p">(),</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">assert</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">pstack</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">indices</span></div>
+
+
+
+<div class="viewcode-block" id="find_np_pd_methods">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.utilities.utilities.find_np_pd_methods.html#NRWAL.utilities.utilities.find_np_pd_methods">[docs]</a>
+<span class="k">def</span> <span class="nf">find_np_pd_methods</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the start and end index of the first np. or pd. function in the</span>
+<span class="sd">    input string</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s : str</span>
+<span class="sd">        String possibly containing numpy functions like &quot;10 + np.exp(input)&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    start / end : int</span>
+<span class="sd">        Starting and ending indices of the first np. or pd. method. So if</span>
+<span class="sd">        s=&quot;10 + np.exp(input)&quot; then s[start:end]=&quot;np.exp(input)&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="s1">&#39;np.&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">s</span> <span class="ow">and</span> <span class="s1">&#39;pd.&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">elif</span> <span class="s1">&#39;np.&#39;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;np.&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="s1">&#39;pd.&#39;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;pd.&#39;</span><span class="p">)</span>
+
+    <span class="n">paren_ind</span> <span class="o">=</span> <span class="n">find_parens</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">np_paren</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">paren_ind</span><span class="p">])</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">paren_ind</span><span class="p">[</span><span class="n">np_paren</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Alliance for Sustainable Energy, LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

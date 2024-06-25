@@ -1,0 +1,41 @@
+NRWAL.handlers.groups.AbstractGroup
+===================================
+
+.. currentmodule:: NRWAL.handlers.groups
+
+.. autoclass:: AbstractGroup
+   :members:
+   :show-inheritance:
+   :inherited-members:
+   :special-members: __call__, __add__, __mul__
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+      :nosignatures:
+   
+      ~AbstractGroup.find_nearest_power_eqns
+      ~AbstractGroup.find_nearest_year_eqns
+      ~AbstractGroup.get
+      ~AbstractGroup.head
+      ~AbstractGroup.is_power_eqn
+      ~AbstractGroup.is_year_eqn
+      ~AbstractGroup.items
+      ~AbstractGroup.keys
+      ~AbstractGroup.set_default_variables
+      ~AbstractGroup.tail
+      ~AbstractGroup.values
+   
+   
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AbstractGroup.all_equations
+   
+   

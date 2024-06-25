@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NRWAL.handlers.groups &mdash; NRWAL 0.0.12 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=3bbcec59"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            NRWAL
+          </a>
+              <div class="version">
+                0.0.12
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Home page</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../misc/installation_usage.html">Installation and Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../misc/installation.html">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../misc/installation.html#option-1-install-from-pip-or-conda-recommended-for-analysts">Option 1: Install from PIP or Conda (recommended for analysts):</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../misc/installation.html#option-2-clone-repo-recommended-for-developers">Option 2: Clone repo (recommended for developers)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/NRWAL.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.html">NRWAL.handlers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.config.html">NRWAL.handlers.config</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.config.NrwalConfig.html">NRWAL.handlers.config.NrwalConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.directories.html">NRWAL.handlers.directories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.directories.EquationDirectory.html">NRWAL.handlers.directories.EquationDirectory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.equations.html">NRWAL.handlers.equations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.equations.Equation.html">NRWAL.handlers.equations.Equation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.html">NRWAL.handlers.groups</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html">NRWAL.handlers.groups.AbstractGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.EquationGroup.html">NRWAL.handlers.groups.EquationGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.handlers.groups.VariableGroup.html">NRWAL.handlers.groups.VariableGroup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.html">NRWAL.utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.utilities.html">NRWAL.utilities.utilities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.utilities.find_np_pd_methods.html">NRWAL.utilities.utilities.find_np_pd_methods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../_autosummary/NRWAL.utilities.utilities.find_parens.html">NRWAL.utilities.utilities.find_parens</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../_autosummary/NRWAL.version.html">NRWAL.version</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">NRWAL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">NRWAL.handlers.groups</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for NRWAL.handlers.groups</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Handler objects to interface with NRWAL equation groups (files).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">from</span> <span class="nn">NRWAL.handlers.equations</span> <span class="kn">import</span> <span class="n">Equation</span>
+<span class="kn">from</span> <span class="nn">NRWAL.utilities.utilities</span> <span class="kn">import</span> <span class="n">find_parens</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AbstractGroup">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup">[docs]</a>
+<span class="k">class</span> <span class="nc">AbstractGroup</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract class for groupings of equations or variables in a single</span>
+<span class="sd">    yaml or json file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">interp_extrap_power</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">use_nearest_power</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">interp_extrap_year</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">use_nearest_year</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str | dict</span>
+<span class="sd">            String filepath to a yaml or json file containing one or more</span>
+<span class="sd">            equation strings OR a pre-extracted dictionary from a yaml or</span>
+<span class="sd">            json file with equation strings as values.</span>
+<span class="sd">        name : str | None</span>
+<span class="sd">            Optional name for identification and debugging if this</span>
+<span class="sd">            AbstractGroup is being initialized with the &quot;group&quot; input argument</span>
+<span class="sd">            as a pre-extracted dictionary.</span>
+<span class="sd">        interp_extrap_power : bool</span>
+<span class="sd">            Flag to interpolate and extrapolate power (MW) dependent equations</span>
+<span class="sd">            based on the case-insensitive regex pattern: &quot;_[0-9]*MW$&quot;</span>
+<span class="sd">            This takes preference over the use_nearest_power flag.</span>
+<span class="sd">            If both interp_extrap_power &amp; use_nearest_power are False, a</span>
+<span class="sd">            KeyError will be raised if the exact equation name request is not</span>
+<span class="sd">            found.</span>
+<span class="sd">        use_nearest_power : bool</span>
+<span class="sd">            Flag to use the nearest valid power (MW) dependent equation</span>
+<span class="sd">            based on the case-insensitive regex pattern: &quot;_[0-9]*MW$&quot;</span>
+<span class="sd">            This is second priority to the interp_extrap_power flag.</span>
+<span class="sd">            If both interp_extrap_power &amp; use_nearest_power are False, a</span>
+<span class="sd">            KeyError will be raised if the exact equation name request is not</span>
+<span class="sd">            found.</span>
+<span class="sd">        interp_extrap_year : bool</span>
+<span class="sd">            Flag to interpolate and extrapolate equations keyed by year.</span>
+<span class="sd">            This takes preference over the use_nearest_year flag.</span>
+<span class="sd">            If both interp_extrap_year &amp; use_nearest_year are False, a</span>
+<span class="sd">            KeyError will be raised if the exact equation name request is not</span>
+<span class="sd">            found.</span>
+<span class="sd">        use_nearest_year : bool</span>
+<span class="sd">            Flag to use the nearest valid equation keyed by year.</span>
+<span class="sd">            This is second priority to the interp_extrap_year flag.</span>
+<span class="sd">            If both interp_extrap_year &amp; use_nearest_year are False, a</span>
+<span class="sd">            KeyError will be raised if the exact equation name request is not</span>
+<span class="sd">            found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dir_name</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dir_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_interp_extrap_power</span> <span class="o">=</span> <span class="n">interp_extrap_power</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_nearest_power</span> <span class="o">=</span> <span class="n">use_nearest_power</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_interp_extrap_year</span> <span class="o">=</span> <span class="n">interp_extrap_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_nearest_year</span> <span class="o">=</span> <span class="n">use_nearest_year</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_group</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AbstractGroup.__add__">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.__add__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add another equation group to this instance of EquationGroup (self)</span>
+<span class="sd">        and return a new EquationGroup object that updates this instance with</span>
+<span class="sd">        the new input. Note that overlapping sub EquationGroups in the original</span>
+<span class="sd">        EquationGroup may be overwritten by the new input if a duplicate key</span>
+<span class="sd">        exists.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : EquationGroup | str | dict</span>
+<span class="sd">            Another EquationGroup object or filepath to an EquationGroup</span>
+<span class="sd">            to add to this instance of EquationGroup (self).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : EquationGroup</span>
+<span class="sd">            A new EquationGroup instance with this instance of EquationGroup</span>
+<span class="sd">            (self) updated with the input EquationGroup.</span>
+<span class="sd">            Note that overlapping sub EquationGroups in the original</span>
+<span class="sd">            EquationGroup may be overwritten by the new input if a duplicate</span>
+<span class="sd">            key exists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">interp_extrap_power</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_interp_extrap_power</span><span class="p">,</span>
+                        <span class="n">use_nearest_power</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_use_nearest_power</span><span class="p">,</span>
+                        <span class="n">interp_extrap_year</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_interp_extrap_year</span><span class="p">,</span>
+                        <span class="n">use_nearest_year</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_use_nearest_year</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">_group</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_group</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">set_default_variables</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">_default_variables</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_getitem_math</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">workspace</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Helper function to recusively perform math for __getitem__ method</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : EquationGroup | EquationDirectory</span>
+<span class="sd">            Instance of EquationGroup or EquationDirectory. This is input</span>
+<span class="sd">            explicitly in a staticmethod instead of an instance method so that</span>
+<span class="sd">            EquationDirectory can share the method.</span>
+<span class="sd">        key : str</span>
+<span class="sd">            A key or set of keys (delimited by &quot;::&quot;) to retrieve from this</span>
+<span class="sd">            EquationGroup instance. For example, if this EquationGroup</span>
+<span class="sd">            has an equation &#39;eqn1&#39;: &#39;m*x + b&#39;, the the input key could be:</span>
+<span class="sd">            &#39;eqn1&#39; to retrieve the Equation object that holds &#39;m*x + b&#39;.</span>
+<span class="sd">            The input argument key can also be delimited like &#39;set_1::eqn1&#39;</span>
+<span class="sd">            to retrieve eqn1 nested in a sub EquationGroup object &quot;set_1&quot;.</span>
+<span class="sd">            The input argument can also have embedded math like</span>
+<span class="sd">            &#39;set_1::eqn1 + set_2::eqn2 ** 2&#39;.</span>
+<span class="sd">        workspace : None | dict</span>
+<span class="sd">            Temporary workspace to hold parts of math expressions. Useful</span>
+<span class="sd">            for extracting and caching parenthetical statements.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : Equation | EquationGroup</span>
+<span class="sd">            An object in this instance of EquationGroup keyed by the</span>
+<span class="sd">            input argument key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># order of operator map enforces order of operations</span>
+        <span class="n">op_map</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">op_map</span><span class="p">[</span><span class="s1">&#39;+&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">add</span>
+        <span class="n">op_map</span><span class="p">[</span><span class="s1">&#39;-&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">sub</span>
+        <span class="n">op_map</span><span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">mul</span>
+        <span class="n">op_map</span><span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">truediv</span>
+        <span class="n">op_map</span><span class="p">[</span><span class="s1">&#39;^&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">pow</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;**&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">c</span> <span class="ow">in</span> <span class="n">key</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">,</span> <span class="s1">&#39;]&#39;</span><span class="p">,</span> <span class="s1">&#39;{&#39;</span><span class="p">,</span> <span class="s1">&#39;}&#39;</span><span class="p">)):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Cannot parse EquationGroup key with square or curly &#39;</span>
+                   <span class="s1">&#39;brackets: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="s1">&#39;(&#39;</span> <span class="ow">in</span> <span class="n">key</span><span class="p">:</span>
+            <span class="n">start_loc</span><span class="p">,</span> <span class="n">end_loc</span> <span class="o">=</span> <span class="n">find_parens</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">wkey</span> <span class="o">=</span> <span class="s1">&#39;workspace_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">workspace</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="n">wkey</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">workspace</span>
+            <span class="n">pk</span> <span class="o">=</span> <span class="n">key</span><span class="p">[</span><span class="n">start_loc</span><span class="p">:</span><span class="n">end_loc</span><span class="p">]</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">wkey</span><span class="p">)</span>
+            <span class="n">pk</span> <span class="o">=</span> <span class="n">pk</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+            <span class="n">workspace</span><span class="p">[</span><span class="n">wkey</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_getitem</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">workspace</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">workspace</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">op_str</span><span class="p">,</span> <span class="n">op_fun</span> <span class="ow">in</span> <span class="n">op_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">op_str</span> <span class="ow">in</span> <span class="n">key</span><span class="p">:</span>
+                <span class="n">split_keys</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="n">op_str</span><span class="p">)</span>
+                <span class="n">k1</span> <span class="o">=</span> <span class="n">split_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">k2</span> <span class="o">=</span> <span class="n">split_keys</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+                <span class="n">out1</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k1</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">out1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">out1</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_getitem</span><span class="p">(</span><span class="n">k1</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span>
+
+                <span class="n">out2</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k2</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">out2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">out2</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">_getitem</span><span class="p">(</span><span class="n">k2</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span>
+
+                <span class="k">return</span> <span class="n">op_fun</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="n">out2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getitem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">workspace</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Protected method for __getitem__ with additional args for</span>
+<span class="sd">        recursive call.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        key : str</span>
+<span class="sd">            A key or set of keys (delimited by &quot;::&quot;) to retrieve from this</span>
+<span class="sd">            EquationGroup instance. For example, if this EquationGroup</span>
+<span class="sd">            has an equation &#39;eqn1&#39;: &#39;m*x + b&#39;, the the input key could be:</span>
+<span class="sd">            &#39;eqn1&#39; to retrieve the Equation object that holds &#39;m*x + b&#39;.</span>
+<span class="sd">            The input argument key can also be delimited like &#39;set_1::eqn1&#39;</span>
+<span class="sd">            to eetrieve eqn1 nested in a sub EquationGroup object &quot;set_1&quot;.</span>
+<span class="sd">            The input argument can also have embedded math like</span>
+<span class="sd">            &#39;set_1::eqn1 + set_2::eqn2 ** 2&#39;.</span>
+<span class="sd">        workspace : dict | None</span>
+<span class="sd">            Temporary workspace to hold parts of math expressions. Useful</span>
+<span class="sd">            for extracting and caching parenthetical statements.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : Equation | EquationGroup</span>
+<span class="sd">            An object in this instance of EquationGroup keyed by the</span>
+<span class="sd">            input argument key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">workspace</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">workspace</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">operators</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">op</span> <span class="ow">in</span> <span class="n">key</span> <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">operators</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getitem_math</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">workspace</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span> <span class="ow">and</span> <span class="n">Equation</span><span class="o">.</span><span class="n">is_num</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Equation</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;::&#39;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;::&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">]</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group</span>
+        <span class="k">for</span> <span class="n">eqn_key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="n">nn_eqns</span><span class="p">,</span> <span class="n">nn_values</span><span class="p">,</span> <span class="n">eqn_value</span> <span class="o">=</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">_get_nn_eqns_values</span><span class="p">(</span><span class="n">eqn_key</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">eqn_key</span> <span class="ow">in</span> <span class="n">out</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="n">eqn_key</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_interp_extrap_power</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_interp_extrap_year</span>
+                    <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">nn_eqns</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">x1</span><span class="p">,</span> <span class="n">x3</span> <span class="o">=</span> <span class="n">nn_values</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">y1</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">nn_eqns</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">y3</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">eqn_value</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">x3</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">+</span> <span class="n">y1</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">variables</span><span class="p">):</span>
+                    <span class="n">out</span> <span class="o">=</span> <span class="n">Equation</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">eval</span><span class="p">())</span>
+
+            <span class="k">elif</span> <span class="nb">any</span><span class="p">(</span><span class="n">nn_eqns</span><span class="p">):</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">nn_eqns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Could not retrieve equation key &quot;</span><span class="si">{}</span><span class="s1">&quot;, &#39;</span>
+                       <span class="s1">&#39;could not find &quot;</span><span class="si">{}</span><span class="s1">&quot; in last available keys: </span><span class="si">{}</span><span class="s1">&#39;</span>
+                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">eqn_key</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve a nested Equation or EquationGroup object from this</span>
+<span class="sd">        instance of an EquationGroup.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        key : str</span>
+<span class="sd">            A key or set of keys (delimited by &quot;::&quot;) to retrieve from this</span>
+<span class="sd">            EquationGroup instance. For example, if this EquationGroup</span>
+<span class="sd">            has an equation &#39;eqn1&#39;: &#39;m*x + b&#39;, the the input key could be:</span>
+<span class="sd">            &#39;eqn1&#39; to retrieve the Equation object that holds &#39;m*x + b&#39;.</span>
+<span class="sd">            The input argument key can also be delimited like &#39;set_1::eqn1&#39;</span>
+<span class="sd">            to eetrieve eqn1 nested in a sub EquationGroup object &quot;set_1&quot;.</span>
+<span class="sd">            The input argument can also have embedded math like</span>
+<span class="sd">            &#39;set_1::eqn1 + set_2::eqn2 ** 2&#39;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : Equation | EquationGroup</span>
+<span class="sd">            An object in this instance of EquationGroup keyed by the</span>
+<span class="sd">            input argument key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getitem</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_get_nn_eqns_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eqn_key</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get lists of the nearest power or year dependent equations.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        eqn_key</span>
+<span class="sd">            Current equation retrieval key from the keys list</span>
+<span class="sd">        keys : list</span>
+<span class="sd">            List of equation strings delimited by &#39;::&#39;. For example, if</span>
+<span class="sd">            retrieving &quot;2015::eqn_group::eqn_2012&quot;, keys will be:</span>
+<span class="sd">            [&#39;2015&#39;, &#39;eqn_group&#39;, &#39;eqn_2012&#39;]</span>
+<span class="sd">        group : EquationGroup</span>
+<span class="sd">            Current group to retrieve equations from. This is typically the</span>
+<span class="sd">            group level just before the eqn_key</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        nn_eqns : list</span>
+<span class="sd">            List of Equation objects close to eqn_key. Empty list if eqn_key</span>
+<span class="sd">            is not the last entry in keys.</span>
+<span class="sd">        nn_values : list</span>
+<span class="sd">            List of power or year values sorted by distance to eqn_key and</span>
+<span class="sd">            corresponding to nn_eqns. Empty list if eqn_key is not the last</span>
+<span class="sd">            entry in keys.</span>
+<span class="sd">        eqn_value : None | int | float</span>
+<span class="sd">            Power in MW (float) or year in YYYY format (int) from eqn_key.</span>
+<span class="sd">            None if eqn_key is not the last entry in keys.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">nn_eqns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nn_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">eqn_value</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">keys</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">eqn_key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># Only look for adjacent equations when were at the last</span>
+            <span class="c1"># retrieval level in the EquationGroup</span>
+            <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_interp_extrap_power</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_nearest_power</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_power_eqn</span><span class="p">(</span><span class="n">eqn_key</span><span class="p">)):</span>
+                <span class="n">nn_eqns</span><span class="p">,</span> <span class="n">nn_values</span> <span class="o">=</span> \
+                    <span class="bp">self</span><span class="o">.</span><span class="n">find_nearest_power_eqns</span><span class="p">(</span><span class="n">eqn_key</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+                <span class="n">eqn_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_power</span><span class="p">(</span><span class="n">eqn_key</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">elif</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_interp_extrap_year</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_nearest_year</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_year_eqn</span><span class="p">(</span><span class="n">eqn_key</span><span class="p">)):</span>
+                <span class="n">nn_eqns</span><span class="p">,</span> <span class="n">nn_values</span> <span class="o">=</span> \
+                    <span class="bp">self</span><span class="o">.</span><span class="n">find_nearest_year_eqns</span><span class="p">(</span><span class="n">eqn_key</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+                <span class="n">eqn_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_year</span><span class="p">(</span><span class="n">eqn_key</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">nn_eqns</span><span class="p">,</span> <span class="n">nn_values</span><span class="p">,</span> <span class="n">eqn_value</span>
+
+<div class="viewcode-block" id="AbstractGroup.is_power_eqn">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.is_power_eqn">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">is_power_eqn</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine if an equation key is power-based by looking for the</span>
+<span class="sd">        case-insensitive regex pattern &quot;_[0-9]*MW$&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        key : str</span>
+<span class="sd">            An equation key/name.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : bool</span>
+<span class="sd">            True if the regex pattern &quot;_[0-9]*MW$&quot; was found in key</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_parse_power</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_parse_power</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse the integer power from an equation key</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        key : str</span>
+<span class="sd">            A key to retrieve an equation from this EquationGroup. Should</span>
+<span class="sd">            contain the case-insensitive regex pattern &quot;_[0-9]*MW$&quot;. Otherwise,</span>
+<span class="sd">            None will be returned.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        power : float | None</span>
+<span class="sd">            The numeric power value in key in the regex pattern &quot;_[0-9]*MW$&quot;.</span>
+<span class="sd">            If the pattern is not found, None is returned</span>
+<span class="sd">        base_str : str</span>
+<span class="sd">            Key with the regex pattern stripped out.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">base_str</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="n">power</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;_[0-9]*MW$&#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">power</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">base_str</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">power</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">power</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">power</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;MW&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">power</span><span class="p">,</span> <span class="n">base_str</span>
+
+<div class="viewcode-block" id="AbstractGroup.find_nearest_power_eqns">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.find_nearest_power_eqns">[docs]</a>
+    <span class="k">def</span> <span class="nf">find_nearest_power_eqns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find power-based (MW) equations in this EquationGroup that match</span>
+<span class="sd">        the request (by regex pattern &quot;_[0-9]*MW$&quot;) and sort them by</span>
+<span class="sd">        difference in equation power.</span>
+
+<span class="sd">        For example, if the request is &quot;eqn_a_7MW&quot; and there are &quot;eqn_a_4MW&quot;,</span>
+<span class="sd">        &quot;eqn_a_6MW&quot;, and &quot;eqn_a_10MW&quot; in this group, this method will return</span>
+<span class="sd">        [eqn_a_6MW, eqn_a_10MW, eqn_a_4MW], [6, 10, 4]</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : str</span>
+<span class="sd">            A key to retrieve an equation from this EquationGroup. Should</span>
+<span class="sd">            contain the case-insensitive regex pattern &quot;_[0-9]*MW$&quot;. Otherwise,</span>
+<span class="sd">            empty lists will be returned.</span>
+<span class="sd">        group : EquationGroup</span>
+<span class="sd">            Group to be looking in for equations adjacent to the requested</span>
+<span class="sd">            equation. Defaults to the top level self._group attribute.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        eqns : list</span>
+<span class="sd">            List of Equation objects that match the request key and are sorted</span>
+<span class="sd">            by difference in the _*MW specification to the input request key.</span>
+<span class="sd">            If the request key does not have the _*MW specification or if no</span>
+<span class="sd">            other keys in this EquationGroup match the request then this will</span>
+<span class="sd">            return an empty list.</span>
+<span class="sd">        eqn_powers : list</span>
+<span class="sd">            List of float power MW values corresponding to eqns and sorted</span>
+<span class="sd">            by difference in the _*MW specification to the input request key.</span>
+<span class="sd">            If the request key does not have the _*MW specification or if no</span>
+<span class="sd">            other keys in this EquationGroup match the request then this will</span>
+<span class="sd">            return an empty list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">eqn_keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">eqn_powers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group</span>
+
+        <span class="n">req_mw</span><span class="p">,</span> <span class="n">base_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_power</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">req_mw</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">match_mw</span><span class="p">,</span> <span class="n">match_base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_power</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">match_mw</span> <span class="ow">and</span> <span class="n">base_str</span> <span class="o">==</span> <span class="n">match_base</span><span class="p">:</span>
+                    <span class="n">eqn_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="n">eqn_powers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match_mw</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">eqn_keys</span><span class="p">):</span>
+                <span class="n">eqn_pow_diffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">req_mw</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eqn_powers</span><span class="p">))</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">eqn_pow_diffs</span><span class="p">)</span>
+                <span class="n">eqn_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eqn_keys</span><span class="p">)[</span><span class="n">indices</span><span class="p">])</span>
+                <span class="n">eqn_powers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eqn_powers</span><span class="p">)[</span><span class="n">indices</span><span class="p">])</span>
+
+        <span class="n">eqns</span> <span class="o">=</span> <span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">eqn_keys</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">eqns</span><span class="p">,</span> <span class="n">eqn_powers</span></div>
+
+
+<div class="viewcode-block" id="AbstractGroup.is_year_eqn">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.is_year_eqn">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">is_year_eqn</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine if an equation key is year-based by looking for</span>
+<span class="sd">        *_YYYY in the key</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        key : str</span>
+<span class="sd">            An equation key/name.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out : bool</span>
+<span class="sd">            True if a year string *_YYYY is found in key</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_parse_year</span><span class="p">(</span><span class="n">key</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_parse_year</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse the integer year from an equation key</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        key : str</span>
+<span class="sd">            A key to retrieve an equation from this EquationGroup. Should</span>
+<span class="sd">            have the *_YYYY pattern. Otherwise, None will be returned.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        year : int | None</span>
+<span class="sd">            The numeric year value in key. If the pattern is not found,</span>
+<span class="sd">            None is returned</span>
+<span class="sd">        base_str : str</span>
+<span class="sd">            Key with the regex pattern stripped out.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">base_str</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="n">year</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;_[1-2][0-9]</span><span class="si">{3}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">year</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">base_str</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">year</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+
+            <span class="c1"># unlikely to be a year before 1800 or after 2200</span>
+            <span class="k">if</span> <span class="n">year</span> <span class="o">&lt;</span> <span class="mi">1800</span> <span class="ow">or</span> <span class="n">year</span> <span class="o">&gt;</span> <span class="mi">2200</span><span class="p">:</span>
+                <span class="n">year</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">base_str</span> <span class="o">=</span> <span class="n">key</span>
+
+        <span class="k">return</span> <span class="n">year</span><span class="p">,</span> <span class="n">base_str</span>
+
+<div class="viewcode-block" id="AbstractGroup.find_nearest_year_eqns">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.find_nearest_year_eqns">[docs]</a>
+    <span class="k">def</span> <span class="nf">find_nearest_year_eqns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find year-based (*_YYYY) equations in this EquationGroup that match</span>
+<span class="sd">        the request difference in equation year.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        request : str</span>
+<span class="sd">            A key to retrieve an equation from this EquationGroup. Should</span>
+<span class="sd">            have the *_YYYY pattern. Otherwise, None will be returned.</span>
+<span class="sd">        group : EquationGroup</span>
+<span class="sd">            Group to be looking in for equations adjacent to the requested</span>
+<span class="sd">            equation. Defaults to the top level self._group attribute.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        eqns : list</span>
+<span class="sd">            List of Equation objects that match the request key and are sorted</span>
+<span class="sd">            by difference in the YYYY specification to the input request key.</span>
+<span class="sd">            If the request key does not have the YYYY specification or if no</span>
+<span class="sd">            other keys in this EquationGroup match the request then this will</span>
+<span class="sd">            return an empty list.</span>
+<span class="sd">        eqn_years : list</span>
+<span class="sd">            List of integer year YYYY values corresponding to eqns and sorted</span>
+<span class="sd">            by difference in the YYYY specification to the input request key.</span>
+<span class="sd">            If the request key does not have the YYYY specification or if no</span>
+<span class="sd">            other keys in this EquationGroup match the request then this will</span>
+<span class="sd">            return an empty list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">eqn_keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">eqn_years</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group</span>
+
+        <span class="n">req_yr</span><span class="p">,</span> <span class="n">base_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_year</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">req_yr</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">match_yr</span><span class="p">,</span> <span class="n">match_base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_year</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">match_yr</span> <span class="ow">and</span> <span class="n">base_str</span> <span class="o">==</span> <span class="n">match_base</span><span class="p">:</span>
+                    <span class="n">eqn_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="n">eqn_years</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match_yr</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">eqn_keys</span><span class="p">):</span>
+                <span class="n">eqn_pow_diffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">req_yr</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eqn_years</span><span class="p">))</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">eqn_pow_diffs</span><span class="p">)</span>
+                <span class="n">eqn_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eqn_keys</span><span class="p">)[</span><span class="n">indices</span><span class="p">])</span>
+                <span class="n">eqn_years</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">eqn_years</span><span class="p">)[</span><span class="n">indices</span><span class="p">])</span>
+
+        <span class="n">eqns</span> <span class="o">=</span> <span class="p">[</span><span class="n">group</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">eqn_keys</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">eqns</span><span class="p">,</span> <span class="n">eqn_years</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_parse_group</span><span class="p">(</span><span class="n">group</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str | dict</span>
+<span class="sd">            String filepath to a yaml or json file containing one or more</span>
+<span class="sd">            equation strings OR a pre-extracted dictionary from a yaml or</span>
+<span class="sd">            json file with equation strings as values.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        group : dict</span>
+<span class="sd">            Loaded dictionary from a yaml or json file with equation strings</span>
+<span class="sd">            or nested equation group dictionaries as values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">group</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Cannot find equation file path: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">group</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">):</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">group</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">group</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s1">&#39;.yml&#39;</span><span class="p">,</span> <span class="s1">&#39;.yaml&#39;</span><span class="p">)):</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">group</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Cannot load file path, must be json or yaml: </span><span class="si">{}</span><span class="s1">&#39;</span>
+                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">group</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Cannot use group of type: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">group</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">group</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="k">return</span> <span class="n">group</span>
+
+<div class="viewcode-block" id="AbstractGroup.set_default_variables">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.set_default_variables">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_default_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set default variables available to this object and all sub-groups</span>
+<span class="sd">        and equations within this object.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var_dict : dict | None</span>
+<span class="sd">            Default variables namespace. Variables from this input will be</span>
+<span class="sd">            passed to all Equation objects in this EquationGroup. These</span>
+<span class="sd">            variables can always be overwritten when Equation.evaluate()</span>
+<span class="sd">            is called.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">var_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">var_dict</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">v</span><span class="o">.</span><span class="n">set_default_variables</span><span class="p">(</span><span class="n">var_dict</span><span class="p">)</span></div>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_r_all_equations</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recusively retrieve all Equation objects from an EquationGroup or</span>
+<span class="sd">        EquationDirectory object</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        obj : EquationGroup | EquationDirectory</span>
+<span class="sd">            Group or directory of equations to recusively search for base</span>
+<span class="sd">            Equation objects.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        eqns : list</span>
+<span class="sd">            List of all Equation objects extracted from the input object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">eqns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Equation</span><span class="p">):</span>
+                <span class="n">eqns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+                <span class="n">eqns</span> <span class="o">+=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_r_all_equations</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">eqns</span>
+
+<div class="viewcode-block" id="AbstractGroup.head">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.head">[docs]</a>
+    <span class="k">def</span> <span class="nf">head</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the first n lines of the group string representation&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[:</span><span class="n">n</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="AbstractGroup.tail">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.tail">[docs]</a>
+    <span class="k">def</span> <span class="nf">tail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the last n lines of the group string representation&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">n</span><span class="p">:])</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">all_equations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of all Equation objects from this object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_r_all_equations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AbstractGroup.get">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.get">[docs]</a>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default_value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attempt to get a key from the EquationGroup, return</span>
+<span class="sd">        default_value if the key could not be retrieved&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">default_value</span></div>
+
+
+<div class="viewcode-block" id="AbstractGroup.keys">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.keys">[docs]</a>
+    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the 1st level of equation group keys, same as dict.keys()&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="AbstractGroup.items">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.items">[docs]</a>
+    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the 1st level of equation (keys, values), same as dict.items().</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group</span><span class="o">.</span><span class="n">items</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="AbstractGroup.values">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.AbstractGroup.html#NRWAL.handlers.groups.AbstractGroup.values">[docs]</a>
+    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the 1st level of equation values, same as dict.values()&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group</span><span class="o">.</span><span class="n">values</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="EquationGroup">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.EquationGroup.html#NRWAL.handlers.groups.EquationGroup">[docs]</a>
+<span class="k">class</span> <span class="nc">EquationGroup</span><span class="p">(</span><span class="n">AbstractGroup</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to handle a single json or yaml file with multiple wind cost</span>
+<span class="sd">    equations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;EquationGroup object with heirarchy:&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;EquationGroup object from &quot;</span><span class="si">{}</span><span class="s1">&quot; with heirarchy:&#39;</span>
+                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span><span class="p">)]</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Equation</span><span class="p">):</span>
+                <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]]</span>
+
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_parse_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse a group of equation strings defined in a yaml or json file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str | dict</span>
+<span class="sd">            String filepath to a yaml or json file containing one or more</span>
+<span class="sd">            equation strings OR a pre-extracted dictionary from a yaml or</span>
+<span class="sd">            json file with equation strings as values.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        group : dict</span>
+<span class="sd">            Loaded dictionary from a yaml or json file with equation strings</span>
+<span class="sd">            or nested equation group dictionaries as values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">group</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_parse_group</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">Equation</span><span class="o">.</span><span class="n">is_num</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;You cannot use numbers as keys in group &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span>
+                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">group</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">Equation</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="bp">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span>
+                <span class="n">group</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+                    <span class="n">v</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">interp_extrap_power</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_interp_extrap_power</span><span class="p">,</span>
+                    <span class="n">use_nearest_power</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_use_nearest_power</span><span class="p">,</span>
+                    <span class="n">interp_extrap_year</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_interp_extrap_year</span><span class="p">,</span>
+                    <span class="n">use_nearest_year</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_use_nearest_year</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Cannot use equation group value that is not a &#39;</span>
+                       <span class="s1">&#39;string, float, int, or dictionary: </span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1">)&#39;</span>
+                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="c1"># if input variables for an equation are found in the same group, just</span>
+        <span class="c1"># insert the equations corresponding to those variables</span>
+        <span class="n">working</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="n">working</span><span class="p">:</span>
+            <span class="n">working</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">group_key</span><span class="p">,</span> <span class="n">eqn</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">eqn</span><span class="p">,</span> <span class="n">Equation</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">eqn</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">group</span><span class="p">]:</span>
+                    <span class="n">repl_str</span> <span class="o">=</span> <span class="s1">&#39;(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">full</span><span class="p">)</span>
+                    <span class="n">new_eqn</span> <span class="o">=</span> <span class="n">eqn</span><span class="o">.</span><span class="n">full</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="n">repl_str</span><span class="p">)</span>
+                    <span class="n">group</span><span class="p">[</span><span class="n">group_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">eqn</span> <span class="o">=</span> <span class="n">eqn</span><span class="o">.</span><span class="n">replace_equation</span><span class="p">(</span><span class="n">new_eqn</span><span class="p">)</span>
+                    <span class="n">working</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">group</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">default_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a dictionary of default variables from a variables.yaml file</span>
+<span class="sd">        accessible to this object</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_variables</span></div>
+
+
+
+<div class="viewcode-block" id="VariableGroup">
+<a class="viewcode-back" href="../../../_autosummary/NRWAL.handlers.groups.VariableGroup.html#NRWAL.handlers.groups.VariableGroup">[docs]</a>
+<span class="k">class</span> <span class="nc">VariableGroup</span><span class="p">(</span><span class="n">AbstractGroup</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to handle a single json or yaml file with multiple numerical</span>
+<span class="sd">    variable definitions from variables.yaml files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;VariableGroup object with variable definitions:&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">var_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a dictionary of the variable namespace where keys are variable</span>
+<span class="sd">        names and values are single numeric variable values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group</span>
+
+    <span class="k">def</span> <span class="nf">_parse_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse a group of numerical variables defined in a yaml or json file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        group : str | dict</span>
+<span class="sd">            String filepath to a yaml or json file containing one or more</span>
+<span class="sd">            numerical variable definitions OR a pre-extracted dictionary</span>
+<span class="sd">            from a yaml or json file with variable definitions.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        group : dict</span>
+<span class="sd">            Loaded dictionary from a yaml or json file with numerical</span>
+<span class="sd">            variable definitions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">group</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_parse_group</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">Equation</span><span class="o">.</span><span class="n">is_num</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;You cannot use numbers as keys in group &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span>
+                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_base_name</span><span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">group</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Cannot use variable group value that is not a &#39;</span>
+                       <span class="s1">&#39;float: </span><span class="si">{}</span><span class="s1"> (</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">group</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Alliance for Sustainable Energy, LLC.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
