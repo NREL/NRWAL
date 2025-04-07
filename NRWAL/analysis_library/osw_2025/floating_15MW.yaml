@@ -1,0 +1,141 @@
+#gcf: cf_profile
+# If it ends in a 10mw, chances are old config/from orca
+# Reeds team had some capex multiplier differences 
+
+capex_multi: 1
+
+# Regional cost multiplier
+transmission_multi: 1
+
+# Intuitive
+num_turbines: 40
+
+# conversion between kw and mw
+turbine_capacity: system_capacity / 1000
+
+# related to power curves(?) -> look this one up
+interp_extrap_power: true
+interp_extrap_year: true
+
+# financing 
+fixed_charge_rate: 0.0767
+
+#financing or soft cost related  this block
+development_factor: 0.04
+proj_mgmt_factor: 0.02
+
+# changed this from 0.0204 to 0.024 to account for tropical storm risk, based on PR
+construction_insurance: 0.024
+project_completion: 0.0115
+decomissioning: 0.1725
+procurement_contingency: 0.0575
+install_contingency: 0.345
+lease_price: 100000000
+
+# Replaced this, this accounts for the 6.5% interest rate during construction
+confin_factor: 1.064
+
+# change to 0.065 from 0.044 based on ATB
+interest_during_construction: 0.065
+tax_rate: 0.26
+
+# Specify the cost tragectory 
+# Develop a learning curve, so one column is the year the other is cost reduction
+cost_reductions: osw_2023::cost_reductions::floating_mid_scenario
+
+#Assumption is $1500 per kw, Rotor nacell assembly = RNA
+turbine: osw_2025::turbine::tower + osw_2025::turbine::rna 
+
+# THese might need updating 
+# https://github.com/NREL/NRWAL/blob/main/NRWAL/analysis_library/osw_2023/turbine_install.yaml 
+turbine_install: osw_2023::turbine_install::semi_10MW
+
+# https://github.com/NREL/NRWAL/blob/main/NRWAL/analysis_library/osw_2023/semi.yaml
+# procurement of the component
+substructure: osw_2025::semi::substructure
+foundation: osw_2025::semi::foundation
+
+# https://github.com/NREL/NRWAL/blob/main/NRWAL/analysis_library/osw_2023/sub_install.yaml
+# No overhead limit, as you have floating platform, gets installed at port and then you tow it out, cant have a bridge
+sub_install: osw_2023::sub_install::semi_install_10MW
+
+# https://github.com/NREL/NRWAL/blob/main/NRWAL/analysis_library/osw_2023/pslt.yaml
+pslt: osw_2023::pslt::semi_10MW
+
+# https://github.com/NREL/NRWAL/blob/main/NRWAL/analysis_library/osw_2023/electrical.yaml
+# Might not have this or it might be one thing, cause of Guam's size
+# Probably no offshore substation but will have onshore substation
+array: osw_2023::electrical::floating_array
+
+# In a copper wire you can lose some energy to heat as resistance function of current in wire
+# In a hvac this occurs, so you want high voltage to make it so the current is low so more electricity
+# Also a function of the length of wire
+# In a hvdc system you dont have that, however, it is more complicated, so for short differences, ac system might not matter
+# but for longer system it might, so which system to use. 
+export: osw_2023::electrical::floating_export
+
+
+install: ./standard_aggregation.yaml::install
+electrical: ./standard_aggregation.yaml::electrical
+
+# Cost to connect, like fees to regulators etc 
+grid_connection: osw_2015::grid::grid_connection
+
+subcomponents: ./standard_aggregation.yaml::subcomponents
+
+# proj management etc, development is in the same bucket 
+# Pg 68 of the paper 6.1.2 Development 
+development: (development_factor * (subcomponents + turbine))
+proj_mgmt: proj_mgmt_factor * (subcomponents + turbine)
+
+# Refer to standard aggregation and how that is calculated 
+bos: lease_price + development + proj_mgmt + subcomponents
+
+
+constr_ins: ./standard_aggregation.yaml::constr_ins
+decomm: ./standard_aggregation.yaml::decomm
+proj_comp: ./standard_aggregation.yaml::proj_comp
+procurement_cont: ./standard_aggregation.yaml::procurement_cont
+install_cont: ./standard_aggregation.yaml::install_cont
+cons_financing: ./standard_aggregation.yaml::cons_financing
+soft: ./standard_aggregation.yaml::soft
+_capex: ./standard_aggregation.yaml::capex_scaled
+
+
+capex: _capex
+
+# Bottom up O&M called WOMBAT, Aubryn ran to obtain the opex
+# Function of distance to port, weather
+# https://github.com/NREL/NRWAL/blob/main/NRWAL/analysis_library/osw_2023/opex.yaml
+opex: osw_2023::opex::floating_opex_15MW
+
+# Losses 
+# https://github.com/NREL/NRWAL/blob/main/NRWAL/analysis_library/osw_2015/losses.yaml
+# read paper (check one note for link)
+wake: osw_2015::losses::wake
+elec: osw_2015::losses::electrical
+
+avail: osw_2015::losses::avail_semi
+
+# Other losses -> do we account for curtailment 
+# Concept of historisis, turbine has a controller that balances selling as much energy as well as maintaining the longevity of the turbine
+# The yah bearing, based off of a 10 min average 
+# Historisis the turning on/off turbine based on wind speed  (either in enviro or tech losses)
+environmental: 0.0159
+technical: osw_2015::losses::technical_floatingx
+
+# Just adding up the losses for the area 
+site_specific: (1 - (1 - wake) * (1 - elec) * (1 - avail))
+
+# total of the losses, as there are efficiencies invovled 
+# You wont get total losses if you add the losses together
+# order might matter, might not, can manually check but just leave 
+total_losses: (1 - (1 - environmental) * (1 - technical) * (1 - site_specific))
+
+gcf: cf_mean_raw
+cf_mean: gcf * (1 - total_losses)
+cf_profile: cf_profile_raw * (1 - total_losses)
+lcoe_fcr: ./standard_aggregation.yaml::lcoe_fcr
+variable_operating_cost: 0
+fixed_operating_cost: opex / num_turbines
+capital_cost: capex / num_turbines

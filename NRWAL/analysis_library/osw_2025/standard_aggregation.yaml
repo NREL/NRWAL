@@ -1,0 +1,48 @@
+#combining the turbine install with substructure with the port staging logitistics and transportation 
+
+#check in with Patrick about this 
+install: turbine_install + sub_install + pslt
+
+#Model has changed over time, ORCA -> installation cost for array/export was included in procurement (from private company), now we get them
+#Directly in model so we can break them out in ORBIT)
+electrical: array + export + grid_connection # Scaling 1 GW to 600MW export cable eqn
+
+#subcomponents - temp holding place, substructure cost (floating infrastructure), foundation = mooring system, monopile more than transition
+# substructure and foundation 
+subcomponents: substructure + foundation + install + electrical
+
+#THis is a multiplier, this builder takes out policy, as a percentage of the bos and turbine 
+constr_ins: construction_insurance * (bos + turbine)
+#End of project life, ie cut monopile and remove etc. invest some money in a bond like finance structure 
+decomm: decomissioning * (install - pslt)
+
+# Project completion, is like commissioning  also multiplier 
+proj_comp: project_completion * (bos + turbine)
+
+#Multiplier, ie a contractor messes up and then costs more money etc , baseed on cost of items to site
+procurement_cont: procurement_contingency * (bos - install + pslt + turbine)
+
+# installation process extra money, cont = contingency 
+install_cont: install_contingency * (install - pslt)
+
+#Finance project you borrow money, debt financed (ie i have this, can we borrow x), 
+# Lead times etc, some years of spending money without profit or building 
+#THis is the cost associated with the time delay and when you can start earning revenue 
+# Overnight capitol cost 
+#confin factor = dependent on intereset rates etc * capex (also accounts for spend schedule)
+cons_financing: (confin_factor - 1) * (constr_ins + decomm + proj_comp + procurement_cont + install_cont + bos + turbine)
+
+#Taking in financials and putting them in a big category/own category
+soft: constr_ins + decomm + proj_comp + procurement_cont + install_cont + cons_financing
+
+# $ per kw, economies of scale factor too 
+#2.82 multiplier to have capex represent 1GW rather than 600MW to account EOS 
+#150/600 multiplier to go from 600MW to 150MW
+capex_scaled: ((bos + soft + turbine) * capex_multi * (150/600) * 2.82) # plant capex
+
+#LCOE adjusted to have AEP of 1000MW farm
+lcoe_fcr: (capex * fixed_charge_rate + opex) / (cf_mean * (1 - total_losses) * 1000 * 8760) #opex is 1GW plant cost, AEP is now 1GW
+
+
+#BOS = balance of system or balance of station (all of the component, procurement and installation costs excluding the turbin (most of capex (soft capex, finance insurance etc that is excluded from BOS)))
+

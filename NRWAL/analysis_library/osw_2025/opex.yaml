@@ -1,0 +1,12 @@
+# OpEx eqs here, this is 1 GW cost
+#in 2022 USD (adjusted from 2015 USD by multiplying by 1.25)
+# multiplying by 1e6 in all since original eqs were $/kw cost and we need $ for 1 GW farm.
+
+#Aubryn will provide a replacement equation here for a 150 mW plant 
+# This is going to be checked from 2022 to 2023 $, but will decide later
+#Editing for 15MW 
+fixed_opex_15MW: 
+  1.25 * 1000000 * (0.005757354477639395 * dist_op_to_s * hs_average + 66.76297972682154)
+
+floating_opex_15MW:
+  1.25 * 1000000 * (0.022447580391412533 * dist_op_to_s * hs_average + 57.83453532955525)
