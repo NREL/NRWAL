@@ -1,0 +1,40 @@
+# Installation costs
+install: turbine_install + sub_install + array_install + export_install # derived for 150 MW
+
+# Electrical system costs (NO OSS)
+electrical: array + export # derived for 150 MW - export includes onshore substation and short spur line
+
+#subcomponents - temp var
+subcomponents: substructure + foundation + install + electrical
+
+# Construction insurance 
+constr_ins: construction_insurance * (bos + turbine)
+
+#End of project life
+decomm: decomissioning * (install)
+
+# Project completion, is like commissioning  also multiplier 
+proj_comp: project_completion * (bos + turbine)
+
+#Multiplier, ie a contractor messes up and then costs more money etc , baseed on cost of items to site
+procurement_cont: procurement_contingency * (bos - install + turbine)
+
+# installation process extra money, cont = contingency 
+install_cont: install_contingency * (install)
+
+#Finance project 
+cons_financing: (confin_factor - 1) * (constr_ins + decomm + proj_comp + procurement_cont + install_cont + bos + turbine)
+
+#Taking in financials and putting them in a big category/own category
+soft: constr_ins + decomm + proj_comp + procurement_cont + install_cont + cons_financing
+
+# $ per kw, economies of scale factor too 
+#2.82 multiplier to account EOS 150 MW vs. 600 MW
+capex_scaled: ((bos + soft + turbine) * capex_multi * 2.82) # plant capex
+
+#LCOE 150 MW
+lcoe_fcr: (capex * fixed_charge_rate + opex) / (cf_mean * (1 - total_losses) * 150 * 8760)
+
+
+#BOS = balance of system or balance of station (all of the component, procurement and installation costs excluding the turbin (most of capex (soft capex, finance insurance etc that is excluded from BOS)))
+

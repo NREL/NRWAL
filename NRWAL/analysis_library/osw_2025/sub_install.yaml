@@ -1,0 +1,25 @@
+# 4/17/2025
+# Substructure installation costs in $2024 derived with ORBIT v1.2.1
+# 150 MW plant in Guam consisting of 15 MW turbines
+
+# Monopile installation modeled with foreign-flag O-Class WTIV
+# up to 5 monopile and transition piece sets (15 MW) per trip
+# 2 trips 3000km away (assume sourcing in Taiwan)
+monopile_install_15MW:
+    14924584
+
+# Mooring systems staged at Apra Harbor
+# Modeled installation with port distance of 60 km
+# No additional shipping costs modeled (assumed part of procurement)
+mooring_system_installtion:
+    8976089
+
+# Assume a heavy load carrier delivers substructures to Guam from 3000km
+# 2 semis per trip and 5 round trips total (see transpo adders tab of NRWAL Approach xlsx)
+# Assume turbines also brought in 2 trips on a heavy load carrier from 3000km
+# Integration and installation from Apra Harbor (assume 60km to site in ORBIT to compute time)
+# Foreign-flag WTIV (7d mobilization fee + install duration [79d]) * dayrate 
+integrated_turbine_and_substructure_platform_install:
+    33177855 + 13889546 + 86*250000
+semi_install_15MW:
+    mooring_system_installation + integrated_turbine_and_substructure_platform_install

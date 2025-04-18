@@ -1,0 +1,79 @@
+#gcf: cf_profile
+capex_multi: 1
+
+# Regional cost multiplier
+transmission_multi: 1
+
+# Intuitive
+num_turbines: 10
+
+# conversion between kw and mw
+turbine_capacity: system_capacity / 1000
+
+# related to power curves(?) -> look this one up
+interp_extrap_power: true
+interp_extrap_year: true
+
+# financing 
+fixed_charge_rate: 0.0845 # nominal FCR to match ATB 2025 assumptions: 6.5% interest rate, 30 yr life, 43.3 debt fraction, and 8.5% return on equity
+
+#financing or soft cost related  this block
+development_factor: 0.04
+proj_mgmt_factor: 0.02
+
+# changed this from 0.0204 to 0.024 to account for tropical storm risk, based on PR
+construction_insurance: 0.024
+project_completion: 0.0115
+decomissioning: 0.1725
+procurement_contingency: 0.0575
+install_contingency: 0.345
+lease_price: 100000000
+
+# Replaced this, this accounts for the 6.5% interest rate during construction
+confin_factor: 1.064
+
+# change to 0.065 from 0.044 based on ATB
+interest_during_construction: 0.065
+tax_rate: 0.26
+
+# Specify the cost tragectory 
+cost_reductions: osw_2023::cost_reductions::floating_mid_scenario
+turbine: osw_2025::turbine::tower + osw_2025::turbine::rna 
+turbine_install: osw_2025::turbine_install::semi_15MW
+substructure: osw_2025::semi::substructure
+foundation: osw_2025::semi::foundation
+sub_install: osw_2025::sub_install::semi_install_15MW
+array: osw_2025::array_system::floating_array_system
+array_install: osw_2025::array_system::floating_array_install
+export: osw_2025::export_system::floating_export_system
+export_install: osw_2025::export_system::floating_export_install
+install: ./standard_aggregation.yaml::install
+electrical: ./standard_aggregation.yaml::electrical
+subcomponents: ./standard_aggregation.yaml::subcomponents
+development: (development_factor * (subcomponents + turbine))
+proj_mgmt: proj_mgmt_factor * (subcomponents + turbine)
+bos: lease_price + development + proj_mgmt + subcomponents
+constr_ins: ./standard_aggregation.yaml::constr_ins
+decomm: ./standard_aggregation.yaml::decomm
+proj_comp: ./standard_aggregation.yaml::proj_comp
+procurement_cont: ./standard_aggregation.yaml::procurement_cont
+install_cont: ./standard_aggregation.yaml::install_cont
+cons_financing: ./standard_aggregation.yaml::cons_financing
+soft: ./standard_aggregation.yaml::soft
+_capex: ./standard_aggregation.yaml::capex_scaled # what does this scaling mean?
+capex: _capex
+opex: osw_2025::opex::Guam_floating_opex_15MW
+wake: osw_2015::losses::wake
+elec: osw_2015::losses::electrical
+avail: osw_2015::losses::avail_semi
+environmental: 0.0159
+technical: osw_2015::losses::technical_floating
+site_specific: (1 - (1 - wake) * (1 - elec) * (1 - avail)) 
+total_losses: (1 - (1 - environmental) * (1 - technical) * (1 - site_specific))
+gcf: cf_mean_raw
+cf_mean: gcf * (1 - total_losses)
+cf_profile: cf_profile_raw * (1 - total_losses)
+lcoe_fcr: ./standard_aggregation.yaml::lcoe_fcr
+variable_operating_cost: 0
+fixed_operating_cost: opex / num_turbines
+capital_cost: capex / num_turbines

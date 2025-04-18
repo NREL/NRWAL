@@ -1,0 +1,36 @@
+
+# 4/16/2025
+# Export cable system procurement costs in $2024 as function of distance to landfall
+# and water depth.
+# Derived with ORBIT v1.2.1 for 150 MW plant in Guam (10 x 15 MW turbines)
+# 132kV cables (dynamic for floating)
+# No offshore substation
+
+# HVAC export system derived for distances up to 200km and 5m-60m depth
+fixed_hvac_system_procurement: 
+    1109.8 * depth + 1109822.7 * dist_s_to_l + 5549113.5
+fixed_export_system:
+    fixed_hvdc_system_procurement + onshore_substation
+
+# HVAC export system derived for distances up to 200km and 60m-1300m depth
+floating_hvdc_system_procurement:
+    1003.8 * depth + 1268368.0 * dist_s_to_l + 6342112.7
+floating_export_system:
+    floating_hvdc_system_procurement + onshore_substation
+    
+# Onshore substation for HVAC system
+# Includes: shunt, switchgear, compensation, and construction
+onshore_substation: 
+    96557083
+
+# Fixed installation costs modeled with ORBIT assuming export cable length of 20 km
+# 1 round trip for export cable install from 3000 km away
+# No OSS
+fixed_export_install: 
+    17668931
+
+# Floating installation costs modeled with ORBIT assuming export cable length of 60 km
+# 1 round trip for export cable install from 3000 km away
+# No OSS
+floating_export_install:
+    64333482

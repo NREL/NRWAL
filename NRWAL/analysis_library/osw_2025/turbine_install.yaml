@@ -1,0 +1,13 @@
+# 4/17/2025
+# Turbine installation costs in $2024 derived with ORBIT v1.2.1 with 20% downtime
+# 150 MW plant in Guam consisting of 15 MW turbines
+
+# Monopile installation modeled with foreign-flag O-Class WTIV
+# up to 7 turbine sets (15 MW) per trip
+# 2 trips 3000km away (assume sourcing in Taiwan)
+monopile_15MW:
+  20412737
+
+# combined with semisubmersible install since they area integrated
+semi_15MW:
+  0

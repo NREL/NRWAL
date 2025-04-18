@@ -1,0 +1,13 @@
+# OpEx 
+# Modified equation based on BOEM National LCOE study (Fuchs et al. 2023)
+# For 150 MW plant in Guam with insurance adder for tropical storm risk
+# Also includes economies of scale cost adder
+# USD 2024 after adjusting from 2022 (1.06)
+# Output is dollars per year not dollars per kW-yr
+
+
+Guam_fixed_opex_15MW: 
+  150000 * (0.02662875 * dist_op_to_s * hs_average + 76.0843836) * 1.06
+ 
+Guam_floating_opex_15MW:
+  150000 * (0.02272818 * dist_op_to_s * hs_average + 68.6602273) * 1.06

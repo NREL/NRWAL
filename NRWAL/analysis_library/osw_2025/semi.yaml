@@ -1,0 +1,12 @@
+# Floating substructure, assuming a 3.3 cm steel wall thickness to match the mass of the 15MW reference semisubmersible platform. 
+# for a 15 MW turbine, the semisub is roughly 1.8e7 USD. For a 20 MW, semisub is roughly 2.2e7 USD.
+# 2024 USD (after applying inflation factor of 1.06 to convert from 2022 USD)
+# costs originally derived for a 600 MW farm, scaled to 150 MW
+
+substructure: 
+  4240000 * turbine_capacity ** 0.608 - 4000000 * 1.06 * (150/600)
+
+
+# 7% adder to account for tropical storm hardening primarily in the anchor and the rope 
+foundation:
+  (6095.315 * depth + 1810405.103) * 1.07 * 1.06 * (150/600)

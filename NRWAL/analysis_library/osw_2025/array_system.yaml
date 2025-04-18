@@ -1,0 +1,29 @@
+# 4/16/2025
+# Array cable system procurement costs in $2024 as function of water depth
+# Derived with ORBIT v1.2.1 for 150 MW plant in Guam (10 x 15 MW turbines)
+# Fixed has 0.05 average_exclusion_percent for microrouting around boulders
+# 132kV cables (dynamic for floating)
+# Floating has a piecewise function implemented with numpy.where because
+# depths over 200m have 60m touchdown_distance and 200m floating_cable_depth
+
+fixed_array_system:
+    10569.7 * depth + 9542585.3
+
+floating_array_shallow:
+    11704.5 * depth + 10555154.6
+floating_array_deep:
+    12913989.3
+floating_array_system:
+    np.where(depth < 200, floating_array_shallow, floating_array_deep)
+
+# Fixed installation costs modeled with ORBIT
+# 1 round trip for array cable install from 3000 km away
+# No OSS
+fixed_array_install:
+    18983201
+
+# Floating installation costs modeled with ORBIT
+# 1 round trip for array cable install from 3000 km away
+# No OSS
+floating_array_install:
+    26017971

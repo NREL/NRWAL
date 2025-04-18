@@ -1,0 +1,10 @@
+# $2024 (after applying inflation factor of 1.06 to convert from 2022 USD)
+# 86% is rna, 14% is tower
+# should be for 150 MW Plant
+
+rna:
+  1500 * turbine_capacity * 1000.0 * 0.86 * num_turbines * 1.06
+
+  # add a multiplier for tropical storms = 1.07, data from manufactors, PR study
+tower:
+  1500 * turbine_capacity * 1000.0 * 0.14 * num_turbines * 1.07 * 1.06
