@@ -11,7 +11,7 @@ monopile_install_15MW:
 # Mooring systems staged at Apra Harbor
 # Modeled installation with port distance of 60 km
 # No additional shipping costs modeled (assumed part of procurement)
-mooring_system_installtion:
+mooring_system_installation:
     8976089
 
 # Assume a heavy load carrier delivers substructures to Guam from 3000km

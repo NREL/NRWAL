@@ -7,7 +7,7 @@
 
 
 Guam_fixed_opex_15MW: 
-  150000 * (0.02662875 * dist_op_to_s * hs_average + 76.0843836) * 1.06
+    150000 * (0.02662875 * dist_op_to_s * hs_average + 76.0843836) * 1.06
  
 Guam_floating_opex_15MW:
-  150000 * (0.02272818 * dist_op_to_s * hs_average + 68.6602273) * 1.06
+    150000 * (0.02272818 * dist_op_to_s * hs_average + 68.6602273) * 1.06

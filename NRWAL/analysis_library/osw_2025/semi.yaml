@@ -4,9 +4,9 @@
 # costs originally derived for a 600 MW farm, scaled to 150 MW
 
 substructure: 
-  4240000 * turbine_capacity ** 0.608 - 4000000 * 1.06 * (150/600)
+    4240000 * turbine_capacity ** 0.608 - 4000000 * 1.06 * (150/600)
 
 
 # 7% adder to account for tropical storm hardening primarily in the anchor and the rope 
 foundation:
-  (6095.315 * depth + 1810405.103) * 1.07 * 1.06 * (150/600)
+    (6095.315 * depth + 1810405.103) * 1.07 * 1.06 * (150/600)

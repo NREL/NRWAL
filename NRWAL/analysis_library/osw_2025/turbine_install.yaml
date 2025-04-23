@@ -6,8 +6,8 @@
 # up to 7 turbine sets (15 MW) per trip
 # 2 trips 3000km away (assume sourcing in Taiwan)
 monopile_15MW:
-  20412737
+    20412737
 
 # combined with semisubmersible install since they area integrated
 semi_15MW:
-  0
+    0

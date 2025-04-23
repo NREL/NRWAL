@@ -29,11 +29,11 @@ cons_financing: (confin_factor - 1) * (constr_ins + decomm + proj_comp + procure
 soft: constr_ins + decomm + proj_comp + procurement_cont + install_cont + cons_financing
 
 # $ per kw, economies of scale factor too 
-#2.82 multiplier to account EOS 150 MW vs. 600 MW
-capex_scaled: ((bos + soft + turbine) * capex_multi * 2.82) # plant capex
+#No 2.82
+capex_scaled: ((bos + soft + turbine) * capex_multi) # plant capex
 
 #LCOE 150 MW
-lcoe_fcr: (capex * fixed_charge_rate + opex) / (cf_mean * (1 - total_losses) * 150 * 8760)
+lcoe_fcr: (capex * fixed_charge_rate + opex) / (cf_mean  * 150 * 8760)
 
 
 #BOS = balance of system or balance of station (all of the component, procurement and installation costs excluding the turbin (most of capex (soft capex, finance insurance etc that is excluded from BOS)))
