@@ -1,0 +1,63 @@
+"output_request": [
+        # Top-level LCOE components
+        "lcoe_fcr",
+        "capex",
+        "capex_per_kW",
+        "fixed_charge_rate",
+        "opex",
+	"opex_per_kW-yr",
+        "cf_mean",
+        # Turbine
+        "turbine",   
+        "turbine_per_kW",
+        # Subcomponents
+	"substructure",
+        "substructure_per_kW",
+        "foundation",
+        "foundation_per_kW",
+        # Install
+        "turbine_install",
+        "turbine_install_per_kW",
+        "sub_install",
+        "sub_intall_per_kW",
+        "array_install",
+        "array_install_per_kW",
+        "export_install",
+        "export_install_per_kW",
+        "install",        
+        "install_per_kW",
+        # Electrical procurement
+        "export",
+        "export_per_kW",
+        "array",
+        "array_per_kW",
+        "electrical",
+        "electrical_per_kW",
+        # Other BOS
+        "lease_price",
+        "development",
+        "proj_mgmt",
+        # Soft costs
+        "constr_ins",
+        "decomm",
+        "proj_comp",
+        "procurement_cont",
+        "install_cont",
+        "cons_financing",
+        "construction_insurance",
+        "soft",
+        "soft_per_kW",
+        # Losses
+        "gcf",
+        "environmental",
+        "technical",
+        "wake",
+        "elec",
+        "avail",
+        "total_losses",
+        # Site conditions
+        "hs_average",
+        "dist_s_to_l",
+        "dist_p_to_s",
+        "depth"
+    ],

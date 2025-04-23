@@ -35,6 +35,25 @@ capex_scaled: ((bos + soft + turbine) * capex_multi) # plant capex
 #LCOE 150 MW
 lcoe_fcr: (capex * fixed_charge_rate + opex) / (cf_mean  * 150 * 8760)
 
+# Per kW calculations
+project_capacity_kW: num_turbines * system_capacity # 150 MW plant
+electrical_per_kW: electrical / project_capacity_kW
+install_per_kW: install / project_capacity_kW
+turbine_per_kW: turbine / project_capacity_kW
+turbine_install_per_kW: turbine_install / project_capacity_kW
+substructure_per_kW: substructure / project_capacity_kW
+foundation_per_kW: foundation / project_capacity_kW
+sub_install_per_kW: sub_install / project_capacity_kW
+array_per_kW: array / project_capacity_kW
+array_install_per_kW: array_install / project_capacity_kW
+export_per_kW: export / project_capacity_kW
+export_install_per_kW: export / project_capacity_kW
+install_per_kW: install / project_capacity_kW
+electrical_per_kW: electrical / project_capacity_kW
+soft_per_kW: soft / project_capacity_kW
+opex_per_kW-yr: opex / project_capacity_kW
+soft_per_kW: soft / project_capacity_kW
+capex_per_kW: capex_scaled / project_capacity_kW
 
 #BOS = balance of system or balance of station (all of the component, procurement and installation costs excluding the turbin (most of capex (soft capex, finance insurance etc that is excluded from BOS)))
 
