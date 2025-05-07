@@ -53,6 +53,19 @@ Here is the important stuff:
  - `The NRWAL Equation Library <https://github.com/NREL/NRWAL/tree/main/NRWAL/analysis_library>`_.
  - `Default NRWAL Configs <https://github.com/NREL/NRWAL/tree/main/NRWAL/default_configs>`_.
 
+
+
+Part of the WETO Stack
+======================
+
+NRWAL is primarily developed with the support of the U.S. Department of Energy and is part of the `WETO Software Stack <https://nrel.github.io/WETOStack>`_. For more information and other integrated modeling software, see:
+
+* `Portfolio Overview <https://nrel.github.io/WETOStack/portfolio_analysis/overview.html>`_
+* `Entry Guide <https://nrel.github.io/WETOStack/_static/entry_guide/index.html>`_
+* `Techno-Economic Modeling Workshop <https://nrel.github.io/WETOStack/workshops/user_workshops_2024.html#tea-and-cost-modeling>`_
+* `Systems Engineering Workshop <https://nrel.github.io/WETOStack/workshops/user_workshops_2024.html#systems-engineering>`_
+
+     
 Installing NRWAL
 ================
 
