@@ -72,5 +72,23 @@ site_specific: (1 - (1 - wake) * (1 - elec) * (1 - avail))
 total_losses: (1 - (1 - environmental) * (1 - technical) * (1 - site_specific))
 gcf: cf_mean_raw
 cf_mean: gcf * (1 - total_losses)
-cf_profile: cf_profile_raw * (1 - total_losses)
+
 lcoe_fcr: ./standard_aggregation.yaml::lcoe_fcr
+project_capacity_kW: num_turbines * system_capacity # 150 MW plant
+electrical_per_kW: electrical / project_capacity_kW
+install_per_kW: install / project_capacity_kW
+turbine_per_kW: turbine / project_capacity_kW
+turbine_install_per_kW: turbine_install / project_capacity_kW
+substructure_per_kW: substructure / project_capacity_kW
+foundation_per_kW: foundation / project_capacity_kW
+sub_install_per_kW: sub_install / project_capacity_kW
+array_per_kW: array / project_capacity_kW
+array_install_per_kW: array_install / project_capacity_kW
+export_per_kW: export / project_capacity_kW
+export_install_per_kW: export / project_capacity_kW
+install_per_kW: install / project_capacity_kW
+electrical_per_kW: electrical / project_capacity_kW
+soft_per_kW: soft / project_capacity_kW
+opex_per_kW-yr: opex / project_capacity_kW
+soft_per_kW: soft / project_capacity_kW
+capex_per_kW: capex_scaled / project_capacity_kW
