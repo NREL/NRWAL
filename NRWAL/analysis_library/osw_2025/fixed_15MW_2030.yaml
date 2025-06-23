@@ -13,7 +13,7 @@ project_completion: 0.0115
 decomissioning: 0.1725
 procurement_contingency: 0.0575
 install_contingency: 0.345
-lease_price: 100000000
+lease_price: 5000000 # revised down from $100M based on the most recent auctions in the Gulfs
 confin_factor: 1.064 #  Replaced this, this accounts for the 6.5% interest rate during construction to match ATB
 interest_during_construction: 0.065 # change to 0.065 based on ATB
 tax_rate: 0.26

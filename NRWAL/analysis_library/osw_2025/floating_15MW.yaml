@@ -27,7 +27,7 @@ project_completion: 0.0115
 decomissioning: 0.1725
 procurement_contingency: 0.0575
 install_contingency: 0.345
-lease_price: 100000000
+lease_price: 5000000 # revised down from $100 M based on recent auctions in the Gulfs
 
 # Replaced this, this accounts for the 6.5% interest rate during construction
 confin_factor: 1.064
