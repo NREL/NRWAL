@@ -11,8 +11,9 @@ monopile_install_15MW:
 # Mooring systems staged at Apra Harbor
 # Modeled installation with port distance of 60 km
 # No additional shipping costs modeled (assumed part of procurement)
+# Depth function stems from West Coast Ultradeep study for BOEM in 2022 USD, so inflated (1.06)
 mooring_system_installation:
-    8976089
+    (4361.55 * depth + 859800) * 1.06
 
 # Assume a heavy load carrier delivers substructures to Guam from 3000km
 # 2 semis per trip and 5 round trips total (see transpo adders tab of NRWAL Approach xlsx)

@@ -19,9 +19,11 @@ floating_export_system:
     floating_hvac_system_procurement + onshore_substation
     
 # Onshore substation for HVAC system
-# Includes: shunt, switchgear, compensation, and construction
+# Construction costs for an onshore 115-kV substation were estimated based on
+# the California ISO's draft 2025 per unit cost guides for participating transmission owners.
+# Included in the number below is a 20% cost increase for project delivery on Guam, consistent with Guam's integrated resource plan.
 onshore_substation: 
-    96557083
+    12000000
 
 # Fixed installation costs modeled with ORBIT assuming export cable length of 20 km
 # 1 round trip for export cable install from 3000 km away

@@ -1,38 +1,39 @@
-#gcf: cf_profile
+# CapEx multiplier
 capex_multi: 1
 
 # Regional cost multiplier
 transmission_multi: 1
 
-# Intuitive
+# Number of turbines
 num_turbines: 10
 
-# conversion between kw and mw
+# Conversion between kw and mw
 turbine_capacity: system_capacity / 1000
 
-# related to power curves(?) -> look this one up
 interp_extrap_power: true
 interp_extrap_year: true
 
-# financing 
+# Fixed Charge Rate 
 fixed_charge_rate: 0.0845 # nominal FCR to match ATB 2025 assumptions: 6.5% interest rate, 30 yr life, 43.3 debt fraction, and 8.5% return on equity
 
-#financing or soft cost related  this block
+# Development and Project Management multipliers
 development_factor: 0.04
 proj_mgmt_factor: 0.02
+lease_price: 5000000 # revised down from $100 M based on recent auctions in the Gulfs
 
-# changed this from 0.0204 to 0.024 to account for tropical storm risk, based on PR
-construction_insurance: 0.024
+# Construction Insurance
+construction_insurance: 0.024 # changed this from 0.0204 to 0.024 to account for tropical storm risk, based on PR
+
+# Other Soft Costs
 project_completion: 0.0115
 decomissioning: 0.1725
 procurement_contingency: 0.0575
 install_contingency: 0.345
-lease_price: 5000000 # revised down from $100 M based on recent auctions in the Gulfs
 
-# Replaced this, this accounts for the 6.5% interest rate during construction
-confin_factor: 1.064
+# Construction Finance Factor
+confin_factor: 1.064 # this value accounts for the 6.5% interest rate during construction
 
-# change to 0.065 from 0.044 based on ATB
+# Finacial terms (aligned with FCR above)
 interest_during_construction: 0.065
 tax_rate: 0.26
 
@@ -78,14 +79,14 @@ project_capacity_kW: num_turbines * system_capacity # 150 MW plant
 electrical_per_kW: electrical / project_capacity_kW
 install_per_kW: install / project_capacity_kW
 turbine_per_kW: turbine / project_capacity_kW
-turbine_install_per_kW: turbine_install / project_capacity_kW
+turbine_install_per_kW: turbine_install / project_capacity_kW # zero for floating since it is integrated onto the substructure first
 substructure_per_kW: substructure / project_capacity_kW
 foundation_per_kW: foundation / project_capacity_kW
 sub_install_per_kW: sub_install / project_capacity_kW
 array_per_kW: array / project_capacity_kW
 array_install_per_kW: array_install / project_capacity_kW
 export_per_kW: export / project_capacity_kW
-export_install_per_kW: export / project_capacity_kW
+export_install_per_kW: export_install / project_capacity_kW
 install_per_kW: install / project_capacity_kW
 electrical_per_kW: electrical / project_capacity_kW
 soft_per_kW: soft / project_capacity_kW
