@@ -65,7 +65,7 @@ capex: ./standard_aggregation.yaml::capex_scaled # what does this scaling mean?
 opex: osw_2025::opex::Guam_floating_opex_15MW
 wake: wake_loss_fraction
 elec: osw_2015::losses::electrical
-avail: osw_2015::losses::avail_semi
+avail: 0.05
 environmental: 0.0159
 technical: osw_2015::losses::technical_floating
 site_specific: (1 - (1 - wake) * (1 - elec) * (1 - avail)) 
