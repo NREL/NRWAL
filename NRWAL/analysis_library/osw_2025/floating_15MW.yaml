@@ -61,10 +61,9 @@ procurement_cont: ./standard_aggregation.yaml::procurement_cont
 install_cont: ./standard_aggregation.yaml::install_cont
 cons_financing: ./standard_aggregation.yaml::cons_financing
 soft: ./standard_aggregation.yaml::soft
-_capex: ./standard_aggregation.yaml::capex_scaled # what does this scaling mean?
-capex: _capex
+capex: ./standard_aggregation.yaml::capex_scaled # what does this scaling mean?
 opex: osw_2025::opex::Guam_floating_opex_15MW
-wake: osw_2015::losses::wake
+wake: wake_loss_fraction
 elec: osw_2015::losses::electrical
 avail: osw_2015::losses::avail_semi
 environmental: 0.0159
@@ -92,4 +91,4 @@ electrical_per_kW: electrical / project_capacity_kW
 soft_per_kW: soft / project_capacity_kW
 opex_per_kW-yr: opex / project_capacity_kW
 soft_per_kW: soft / project_capacity_kW
-capex_per_kW: capex_scaled / project_capacity_kW
+capex_per_kW: capex / project_capacity_kW
